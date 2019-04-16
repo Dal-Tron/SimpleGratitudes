@@ -1,0 +1,85 @@
+import { connect } from 'react-redux';
+
+function Gratitudes() {
+  return (
+    <div className="gratitudes-container">
+      <div htmlFor="gratitude-1" className="gratitude-input-wrapper">
+        <input className="gratitude-input" type="text" id="gratitude-1" placeholder="&nbsp;" />
+        <span className="gratitude-label">Label</span>
+        <span className="gratitude-label-text-border"></span>
+      </div>
+      <style jsx>{`
+        .gratitudes-container {
+          position: absolute;
+          width: 100%;
+        }
+        .gratitude-input-wrapper {
+          position: relative;
+          margin: 20px auto;
+          width: 100%;
+          max-width: 380px;
+        }
+        .gratitude-input-wrapper .gratitude-label{
+          position: absolute;
+          top: 16px;
+          left: 0;
+          font-size: 16px;
+          color: #9098a9;
+          font-weight: 500;
+          transform-origin: 0 0;
+          transition: all 0.2s ease;
+        }
+        .gratitude-input-wrapper .gratitude-label-text-border {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          height: 2px;
+          width: 100%;
+          background: #07f;
+          transform: scaleX(0);
+          transform-origin: 0 0;
+          transition: all 0.15s ease;
+        }
+        .gratitude-input-wrapper .gratitude-input {
+          -webkit-appearance: none;
+          width: 100%;
+          border: 0;
+          font-family: inherit;
+          padding: 12px 0;
+          height: 48px;
+          font-size: 26px;
+          font-weight: 500;
+          border-bottom: 2px solid #c8ccd4;
+          background: none;
+          border-radius: 0;
+          color: #223254;
+          transition: all 0.15s ease;
+        }
+        .gratitude-input-wrapper .gratitude-input:hover {
+          background: rgba(34,50,84,0.03);
+        }
+        .gratitude-input-wrapper .gratitude-input:not(:placeholder-shown) + span {
+          color: #5a667f;
+          transform: translateY(-26px) scale(0.75);
+        }
+        .gratitude-input-wrapper .gratitude-input:focus {
+          background: none;
+          outline: none;
+        }
+        .gratitude-input-wrapper .gratitude-input:focus + span {
+          color: #07f;
+          transform: translateY(-26px) scale(0.75);
+        }
+        .gratitude-input-wrapper .gratitude-input:focus + span + .gratitude-label-text-border {
+          transform: scaleX(1);
+        }
+      `}</style>
+    </div>
+  )
+}
+
+const mapStateToProps = state => {
+  return {}
+}
+
+export default connect(mapStateToProps)(Gratitudes)

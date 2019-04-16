@@ -2,8 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { setClock } from '../store'
 
-import Head from 'next/head';
+import Head from 'next/head'
 import Clock from '../components/clock'
+import Gratitudes from '../components/gratitudes'
+
 
 class Index extends React.Component {
   static getInitialProps({ reduxStore, req }) {
@@ -36,7 +38,9 @@ class Index extends React.Component {
           <Clock />
         </section>
         <section className="buttons" />
-        <section className="gratitudes" />
+        <section className="gratitudes">
+          <Gratitudes />
+        </section>
         <section className="vision" />
         <style jsx global>{`
       @font-face {
@@ -74,6 +78,11 @@ class Index extends React.Component {
         position: relative;
         height: 10rem;
         background: lightblue;
+      }
+      .gratitudes {
+        position: relative;
+        height: 10rem;
+        background: lightgrey;
       }
     `}</style>
       </div>
