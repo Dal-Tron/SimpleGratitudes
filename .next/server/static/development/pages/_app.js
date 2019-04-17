@@ -1447,7 +1447,7 @@ function (_App) {
 /*!******************!*\
   !*** ./store.js ***!
   \******************/
-/*! exports provided: actionTypes, reducer, addGratitude, initializeStore */
+/*! exports provided: actionTypes, reducer, addGratitude, removeGratitude, initializeStore */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1455,6 +1455,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "actionTypes", function() { return actionTypes; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "reducer", function() { return reducer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addGratitude", function() { return addGratitude; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeGratitude", function() { return removeGratitude; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initializeStore", function() { return initializeStore; });
 /* harmony import */ var _babel_runtime_corejs2_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/toConsumableArray */ "./node_modules/@babel/runtime-corejs2/helpers/esm/toConsumableArray.js");
 /* harmony import */ var _babel_runtime_corejs2_core_js_object_assign__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/assign */ "./node_modules/@babel/runtime-corejs2/core-js/object/assign.js");
@@ -1473,7 +1474,8 @@ var initialState = {
   }]
 };
 var actionTypes = {
-  ADD_GRATITUDE: 'ADD_GRATITUDE' // REDUCERS
+  ADD_GRATITUDE: 'ADD_GRATITUDE',
+  REMOVE_GRATITUDE: 'REMOVE_GRATITUDE' // REDUCERS
 
 };
 var reducer = function reducer() {
@@ -1486,6 +1488,13 @@ var reducer = function reducer() {
         gratitudes: [].concat(Object(_babel_runtime_corejs2_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(state.gratitudes), [action.gratitude])
       });
 
+    case actionTypes.REMOVE_GRATITUDE:
+      return _babel_runtime_corejs2_core_js_object_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, state, {
+        gratitudes: state.gratitudes.filter(function (gratitude) {
+          return gratitude != state.gratitudes[action.index];
+        })
+      });
+
     default:
       return state;
   }
@@ -1495,6 +1504,12 @@ var addGratitude = function addGratitude(gratitude) {
   return {
     type: actionTypes.ADD_GRATITUDE,
     gratitude: gratitude
+  };
+};
+var removeGratitude = function removeGratitude(index) {
+  return {
+    type: actionTypes.REMOVE_GRATITUDE,
+    index: index
   };
 };
 function initializeStore() {

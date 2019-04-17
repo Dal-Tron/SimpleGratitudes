@@ -42,7 +42,7 @@ const Gratitude = props => {
           -webkit-appearance: none;
           width: 100%;
           border: 0;
-          padding: 12px .5rem;
+          padding: 1.2rem 2rem 1.2rem .5rem;
           height: 48px;
           font-size: 26px;
           font-weight: 500;

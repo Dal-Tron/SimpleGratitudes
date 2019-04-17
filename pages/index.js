@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { addGratitude } from '../store'
+import { addGratitude, removeGratitude } from '../store'
 
 import Head from 'next/head'
 import Clock from '../components/clock'
@@ -30,15 +30,24 @@ class Index extends Component {
     this.setState({ time: timestring })
   }
 
-  handleAddGratitude() {
-    this.props.addGratitude(this.state.gratitude)
+  handleAddGratitude = () => {
+    this.props.addGratitude({ gratitude: "" })
+  }
+
+  handleRemoveGratitude = index => {
+    this.props.removeGratitude(index)
   }
 
   render() {
     let gratitudes = this.state.gratitudes
     if (this.props.gratitudes) {
       gratitudes = this.props.gratitudes.map((g, i) => {
-        return <Gratitude key={i} index={i} gratitude={g.gratitude} />
+        return <Gratitude
+          key={i}
+          index={i}
+          gratitude={g.gratitude}
+          handleRemoveGratitude={this.handleRemoveGratitude}
+        />
       })
     }
     return (
@@ -56,7 +65,7 @@ class Index extends Component {
         </section>
         <section className="gratitudes">
           {gratitudes}
-          <div className="add-gratitude">+ Gratitude</div>
+          <div onClick={this.handleAddGratitude} className="add-gratitude">+ Gratitude</div>
         </section>
         <section className="vision" />
         <style jsx global>{`
@@ -100,7 +109,6 @@ class Index extends Component {
       }
       .gratitudes {
         position: relative;
-        height: 10rem;
         background: lightgrey;
       }
       .add-gratitude {
@@ -120,6 +128,6 @@ const mapStateToProps = state => {
   const { gratitudes } = state
   return { gratitudes }
 }
-const mapDispatchToProps = { addGratitude }
+const mapDispatchToProps = { addGratitude, removeGratitude }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Index)
