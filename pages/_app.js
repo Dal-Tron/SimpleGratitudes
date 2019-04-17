@@ -2,6 +2,10 @@ import App, { Container } from 'next/app'
 import React from 'react'
 import withReduxStore from '../lib/with-redux-store'
 import { Provider } from 'react-redux'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faTimesCircle)
 
 class MyApp extends App {
   render() {

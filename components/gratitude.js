@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 const Gratitude = props => {
   return (
     <div className="gratitude-container">
@@ -5,6 +7,9 @@ const Gratitude = props => {
         <input className="gratitude-input" type="text" id={`gratitude-` + props.index} placeholder="&nbsp;" defaultValue={props.gratitude} />
         <span className="gratitude-label">Label</span>
         <span className="gratitude-label-text-border"></span>
+        <span className="close-gratitude" onClick={() => props.handleRemoveGratitude(props.index)}>
+          <FontAwesomeIcon icon="times-circle" />
+        </span>
       </div>
       <style jsx>{`
         .gratitude-container {
@@ -42,7 +47,7 @@ const Gratitude = props => {
           -webkit-appearance: none;
           width: 100%;
           border: 0;
-          padding: 12px .5rem;
+          padding: 1.2rem .5rem;
           height: 48px;
           font-size: 26px;
           font-weight: 500;
@@ -69,6 +74,15 @@ const Gratitude = props => {
         }
         .gratitude-input-wrapper .gratitude-input:focus + span + .gratitude-label-text-border {
           transform: scaleX(1);
+        }
+        .close-gratitude {
+          position: absolute;
+          top: 1rem;
+          padding-left: 1rem;
+          color: #adb5bd;
+        }
+        .close-gratitude:hover {
+          color: #ff6b6b;
         }
       `}</style>
     </div>
