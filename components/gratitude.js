@@ -4,11 +4,18 @@ const Gratitude = props => {
   return (
     <div className="gratitude-container">
       <div htmlFor={`gratitude-` + props.index} className="gratitude-input-wrapper">
-        <input className="gratitude-input" type="text" id={`gratitude-` + props.index} placeholder="&nbsp;" defaultValue={props.gratitude} />
+        <input
+          className="gratitude-input"
+          type="text"
+          id={props.id}
+          placeholder="&nbsp;"
+          value={props.gratitude}
+          onChange={props.handleSaveGratitude}
+        />
         <span className="gratitude-label">Label</span>
         <span className="gratitude-label-text-border"></span>
-        <span className="close-gratitude" onClick={() => props.handleRemoveGratitude(props.index)}>
-          <FontAwesomeIcon icon="times-circle" />
+        <span className="close-gratitude" onClick={props.handleRemoveGratitude}>
+          {props.id === 'gratitude-0' ? null : <FontAwesomeIcon icon="times-circle" />}
         </span>
       </div>
       <style jsx>{`

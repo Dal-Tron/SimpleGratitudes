@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { addGratitude, removeGratitude } from '../store'
+import { addGratitude, removeGratitude, updateGratitude } from '../store'
 
 import Head from 'next/head'
 import Clock from '../components/clock'
@@ -9,7 +9,6 @@ import Gratitude from '../components/gratitude'
 class Index extends Component {
   state = {
     time: '',
-    gratitudes: [{ gratitude: "" }]
   }
 
   componentDidMount() {
@@ -31,22 +30,29 @@ class Index extends Component {
   }
 
   handleAddGratitude = () => {
-    this.props.addGratitude({ gratitude: "" })
+    this.props.addGratitude("")
   }
 
-  handleRemoveGratitude = index => {
-    this.props.removeGratitude(index)
+  handleRemoveGratitude = key => {
+    this.props.removeGratitude(key)
+  }
+
+  handleSaveGratitude = e => {
+    let id = e.target.id
+    let gratitudeText = e.target.value
+    this.props.updateGratitude({ id, gratitudeText })
   }
 
   render() {
-    let gratitudes = this.state.gratitudes
+    let gratitudes = { "gratitude-0": "" }
     if (this.props.gratitudes) {
-      gratitudes = this.props.gratitudes.map((g, i) => {
+      gratitudes = Object.keys(this.props.gratitudes).map((key, index) => {
         return <Gratitude
-          key={i}
-          index={i}
-          gratitude={g.gratitude}
-          handleRemoveGratitude={this.handleRemoveGratitude}
+          key={index}
+          id={key}
+          gratitude={this.props.gratitudes[key]}
+          handleRemoveGratitude={() => this.handleRemoveGratitude(key)}
+          handleSaveGratitude={this.handleSaveGratitude}
         />
       })
     }
@@ -128,6 +134,10 @@ const mapStateToProps = state => {
   const { gratitudes } = state
   return { gratitudes }
 }
-const mapDispatchToProps = { addGratitude, removeGratitude }
+const mapDispatchToProps = {
+  addGratitude,
+  removeGratitude,
+  updateGratitude
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Index)
