@@ -1,33 +1,31 @@
-import { connect } from 'react-redux';
-
-function Gratitudes() {
+const Gratitude = props => {
   return (
-    <div className="gratitudes-container">
-      <div htmlFor="gratitude-1" className="gratitude-input-wrapper">
-        <input className="gratitude-input" type="text" id="gratitude-1" placeholder="&nbsp;" />
+    <div className="gratitude-container">
+      <div htmlFor={`gratitude-` + props.index} className="gratitude-input-wrapper">
+        <input className="gratitude-input" type="text" id={`gratitude-` + props.index} placeholder="&nbsp;" />
         <span className="gratitude-label">Label</span>
         <span className="gratitude-label-text-border"></span>
       </div>
       <style jsx>{`
-        .gratitudes-container {
-          position: absolute;
-          width: 100%;
+        .gratitude-container {
+          padding-top: 2rem;
         }
         .gratitude-input-wrapper {
           position: relative;
-          margin: 20px auto;
+          margin: 0 auto;
           width: 100%;
           max-width: 380px;
         }
-        .gratitude-input-wrapper .gratitude-label{
+        .gratitude-input-wrapper .gratitude-label {
           position: absolute;
           top: 16px;
-          left: 0;
+          left: .5rem;
           font-size: 16px;
           color: #9098a9;
           font-weight: 500;
           transform-origin: 0 0;
           transition: all 0.2s ease;
+          font-family: sans-serif;
         }
         .gratitude-input-wrapper .gratitude-label-text-border {
           position: absolute;
@@ -44,8 +42,7 @@ function Gratitudes() {
           -webkit-appearance: none;
           width: 100%;
           border: 0;
-          font-family: inherit;
-          padding: 12px 0;
+          padding: 12px .5rem;
           height: 48px;
           font-size: 26px;
           font-weight: 500;
@@ -78,8 +75,4 @@ function Gratitudes() {
   )
 }
 
-const mapStateToProps = state => {
-  return {}
-}
-
-export default connect(mapStateToProps)(Gratitudes)
+export default Gratitude

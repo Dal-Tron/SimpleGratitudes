@@ -1,45 +1,58 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { setClock } from '../store'
+import React, { Component } from 'react'
 
 import Head from 'next/head'
 import Clock from '../components/clock'
-import Gratitudes from '../components/gratitudes'
+import Gratitude from '../components/gratitude'
 
-
-class Index extends React.Component {
-  static getInitialProps({ reduxStore, req }) {
-    const isServer = !!req
-    // DISPATCH ACTIONS HERE ONLY WITH 'reduxStore.dispatch'
-    reduxStore.dispatch(setClock(isServer))
-
-    return {}
+class Index extends Component {
+  state = {
+    time: '',
+    gratitudes: [{ gratitude: "" }]
   }
 
   componentDidMount() {
-    // DISPATCH ACTIONS HERE FROM 'mapDispatchToProps'
-    this.timer = setInterval(() => this.props.setClock(), 1000)
+    this.handleCreateTimeString()
+    this.timer = setInterval(() => this.handleCreateTimeString(), 1000)
   }
 
   componentWillUnmount() {
     clearInterval(this.timer)
   }
 
+  handleCreateTimeString() {
+    const time = new Date(Date.now()).toTimeString()
+    const H = time.substr(0, 2)
+    const h = H % 12 || 12
+    const ampm = (H < 12 || H === 24) ? " AM" : " PM"
+    const timestring = h + time.substr(2, 3) + ampm
+    this.setState({ time: timestring })
+  }
+
+  handleAddGratitude() {
+    this.props.addGratitude(this.state.gratitude)
+  }
+
   render() {
+    let gratitudes = this.state.gratitudes.map((gratitude, i) => {
+      return <Gratitude key={i} index={i} />
+    })
+
     return (
       <div className="page-wrapper">
         <Head>
           <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         </Head>
         <section className="headspace">
-          <div className="intention">Gratitude Today</div>
+          <div className="intention absCenter">Gratitude Today</div>
         </section>
         <section className="time">
-          <Clock />
+          <Clock time={this.state.time} />
         </section>
-        <section className="buttons" />
+        <section className="buttons">
+        </section>
         <section className="gratitudes">
-          <Gratitudes />
+          {gratitudes}
+          <div className="add-gratitude">+ Gratitude</div>
         </section>
         <section className="vision" />
         <style jsx global>{`
@@ -60,6 +73,12 @@ class Index extends React.Component {
         padding: 0;
         overflow: scroll;
       }
+      .absCenter {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
       .headspace {
         height: 10rem;
         background: lightgrey;
@@ -67,10 +86,6 @@ class Index extends React.Component {
       }
       .intention {
         font-family: ZillaSlab, Arial;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
         font-size: 2rem;
         color: white;
       }
@@ -84,15 +99,17 @@ class Index extends React.Component {
         height: 10rem;
         background: lightgrey;
       }
+      .add-gratitude {
+        text-align: center;
+        margin: 2rem;
+        font-family: CodyStarLight, Arial;
+        color: white;
+        font-size: 1.5rem;
+      }
     `}</style>
       </div>
     )
   }
 }
 
-const mapDispatchToProps = { setClock }
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(Index)
+export default Index

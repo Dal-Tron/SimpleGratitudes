@@ -1,6 +1,4 @@
-import { connect } from 'react-redux';
-
-function Clock({ lastUpdate }) {
+function Clock(props) {
   const date = new Date();
   const weekdays = [
     "Sunday",
@@ -37,7 +35,7 @@ function Clock({ lastUpdate }) {
     <div className="time-container">
       <div className="time-weekday">{weekday}</div>
       <div className="time-month-day-year">{fullDateString}</div>
-      <div className="time-hour">{lastUpdate}</div>
+      <div className="time-hour">{props.time}</div>
       <style jsx>{`
         .time-container {
           font-family: CodyStarLight;
@@ -54,9 +52,4 @@ function Clock({ lastUpdate }) {
   )
 }
 
-const mapStateToProps = state => {
-  const { lastUpdate } = state
-  return { lastUpdate }
-}
-
-export default connect(mapStateToProps)(Clock)
+export default Clock
