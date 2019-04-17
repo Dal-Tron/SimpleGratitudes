@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { addGratitude } from '../store'
 
 import Head from 'next/head'
 import Clock from '../components/clock'
@@ -33,10 +35,12 @@ class Index extends Component {
   }
 
   render() {
-    let gratitudes = this.state.gratitudes.map((gratitude, i) => {
-      return <Gratitude key={i} index={i} />
-    })
-
+    let gratitudes = this.state.gratitudes
+    if (this.props.gratitudes) {
+      gratitudes = this.props.gratitudes.map((g, i) => {
+        return <Gratitude key={i} index={i} gratitude={g.gratitude} />
+      })
+    }
     return (
       <div className="page-wrapper">
         <Head>
@@ -112,4 +116,10 @@ class Index extends Component {
   }
 }
 
-export default Index
+const mapStateToProps = state => {
+  const { gratitudes } = state
+  return { gratitudes }
+}
+const mapDispatchToProps = { addGratitude }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Index)

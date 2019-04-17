@@ -2,7 +2,7 @@ const Gratitude = props => {
   return (
     <div className="gratitude-container">
       <div htmlFor={`gratitude-` + props.index} className="gratitude-input-wrapper">
-        <input className="gratitude-input" type="text" id={`gratitude-` + props.index} placeholder="&nbsp;" />
+        <input className="gratitude-input" type="text" id={`gratitude-` + props.index} placeholder="&nbsp;" defaultValue={props.gratitude} />
         <span className="gratitude-label">Label</span>
         <span className="gratitude-label-text-border"></span>
       </div>
