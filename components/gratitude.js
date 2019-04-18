@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 const Gratitude = props => {
   return (
     <div className="gratitude-container">
-      <div htmlFor={`gratitude-` + props.index} className="gratitude-input-wrapper">
+      <div htmlFor={`gratitude-` + props.id} className="gratitude-input-wrapper">
         <input
           className="gratitude-input"
           type="text"

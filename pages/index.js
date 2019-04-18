@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { addGratitude, removeGratitude, updateGratitude } from '../store'
+import { generateUniqueID } from '../lib/helpers'
 
 import Head from 'next/head'
 import Clock from '../components/clock'
@@ -9,6 +8,9 @@ import Gratitude from '../components/gratitude'
 class Index extends Component {
   state = {
     time: '',
+    gratitudes: {
+      "gratitude-0": ""
+    }
   }
 
   componentDidMount() {
@@ -30,39 +32,54 @@ class Index extends Component {
   }
 
   handleAddGratitude = () => {
-    this.props.addGratitude("")
+    const gratitudeID = `gratitude-${generateUniqueID()}`
+    let gratitude = {}
+    gratitude[gratitudeID] = ""
+    const gratitudes = Object.assign({}, this.state.gratitudes, gratitude)
+    this.setState({
+      gratitudes
+    })
   }
 
   handleRemoveGratitude = key => {
-    this.props.removeGratitude(key)
+    if (key !== "gratitude-0") {
+      const { gratitudes } = this.state
+      delete gratitudes[key]
+      this.setState({
+        gratitudes
+      })
+    }
   }
 
   handleSaveGratitude = e => {
-    let id = e.target.id
-    let gratitudeText = e.target.value
-    this.props.updateGratitude({ id, gratitudeText })
+    const { gratitudes } = this.state
+    const id = e.target.id
+    const gratitudeText = e.target.value
+    gratitudes[id] = gratitudeText
+    this.setState({
+      gratitudes
+    })
   }
 
   render() {
-    let gratitudes = { "gratitude-0": "" }
-    if (this.props.gratitudes) {
-      gratitudes = Object.keys(this.props.gratitudes).map((key, index) => {
-        return <Gratitude
-          key={index}
-          id={key}
-          gratitude={this.props.gratitudes[key]}
-          handleRemoveGratitude={() => this.handleRemoveGratitude(key)}
-          handleSaveGratitude={this.handleSaveGratitude}
-        />
-      })
-    }
+    const gratitudes = Object.keys(this.state.gratitudes).map((key, index) => <Gratitude
+      key={index}
+      id={key}
+      gratitude={this.state.gratitudes[key]}
+      handleRemoveGratitude={() => this.handleRemoveGratitude(key)}
+      handleSaveGratitude={this.handleSaveGratitude}
+    />
+    )
     return (
       <div className="page-wrapper">
         <Head>
           <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         </Head>
         <section className="headspace">
-          <div className="intention absCenter">Gratitude Today</div>
+          <div className="intention absCenter">
+            <div className="grateful">Grateful</div>
+            <div className="vision">Vision</div>
+          </div>
         </section>
         <section className="time">
           <Clock time={this.state.time} />
@@ -82,6 +99,14 @@ class Index extends Component {
       @font-face {
         font-family: CodyStarLight;
         src: url("/static/fonts/CodyStar-Light.ttf") format("truetype");
+      }
+      @font-face {
+        font-family: Righteous;
+        src: url("/static/fonts/Righteous.ttf") format("truetype");
+      }
+      @font-face {
+        font-family: Snippet;
+        src: url("/static/fonts/Snippet.ttf") format("truetype");
       }
       * {
         box-sizing: border-box;
@@ -107,6 +132,13 @@ class Index extends Component {
         font-family: ZillaSlab, Arial;
         font-size: 2rem;
         color: white;
+        text-align: center;
+      }
+      .grateful {
+        font-family: Righteous, Sans-Serif, Arial;
+      }
+      .vision {
+        font-family: Snippet, Sans-Serif, Arial;
       }
       .time {
         position: relative;
@@ -130,14 +162,4 @@ class Index extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  const { gratitudes } = state
-  return { gratitudes }
-}
-const mapDispatchToProps = {
-  addGratitude,
-  removeGratitude,
-  updateGratitude
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Index)
+export default Index
