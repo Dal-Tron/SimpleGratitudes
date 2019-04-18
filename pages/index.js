@@ -2,14 +2,18 @@ import React, { Component } from 'react'
 import { generateUniqueID } from '../lib/helpers'
 
 import Head from 'next/head'
-import Clock from '../components/clock'
-import Gratitude from '../components/gratitude'
+import Clock from '../components/Clock'
+import Text from '../components/Text'
 
 class Index extends Component {
   state = {
     time: '',
+    timestamp: '',
     gratitudes: {
       "gratitude-0": ""
+    },
+    visions: {
+      "vision-0": ""
     }
   }
 
@@ -23,12 +27,15 @@ class Index extends Component {
   }
 
   handleCreateTimeString() {
-    const time = new Date(Date.now()).toTimeString()
-    const H = time.substr(0, 2)
+    const timestamp = new Date(Date.now()).toTimeString()
+    const H = timestamp.substr(0, 2)
     const h = H % 12 || 12
     const ampm = (H < 12 || H === 24) ? " AM" : " PM"
-    const timestring = h + time.substr(2, 3) + ampm
-    this.setState({ time: timestring })
+    const time = h + timestamp.substr(2, 3) + ampm
+    this.setState({
+      time,
+      timestamp
+    })
   }
 
   handleAddGratitude = () => {
@@ -41,12 +48,32 @@ class Index extends Component {
     })
   }
 
+  handleAddVision = () => {
+    const visionID = `vision-${generateUniqueID()}`
+    let vision = {}
+    vision[visionID] = ""
+    const visions = Object.assign({}, this.state.visions, vision)
+    this.setState({
+      visions
+    })
+  }
+
   handleRemoveGratitude = key => {
     if (key !== "gratitude-0") {
       const { gratitudes } = this.state
       delete gratitudes[key]
       this.setState({
         gratitudes
+      })
+    }
+  }
+
+  handleRemoveVision = key => {
+    if (key !== "vision-0") {
+      const { visions } = this.state
+      delete visions[key]
+      this.setState({
+        visions
       })
     }
   }
@@ -61,13 +88,35 @@ class Index extends Component {
     })
   }
 
+  handleSaveVision = e => {
+    const { visions } = this.state
+    const id = e.target.id
+    const visionText = e.target.value
+    visions[id] = visionText
+    this.setState({
+      visions
+    })
+  }
+
   render() {
-    const gratitudes = Object.keys(this.state.gratitudes).map((key, index) => <Gratitude
+    const gratitudes = Object.keys(this.state.gratitudes).map((key, index) => <Text
       key={index}
       id={key}
-      gratitude={this.state.gratitudes[key]}
-      handleRemoveGratitude={() => this.handleRemoveGratitude(key)}
-      handleSaveGratitude={this.handleSaveGratitude}
+      text={this.state.gratitudes[key]}
+      handleRemoveText={() => this.handleRemoveGratitude(key)}
+      handleSaveText={this.handleSaveGratitude}
+      rows="3"
+      label="Gratitude"
+    />
+    )
+    const visions = Object.keys(this.state.visions).map((key, index) => <Text
+      key={index}
+      id={key}
+      text={this.state.visions[key]}
+      handleRemoveText={() => this.handleRemoveVision(key)}
+      handleSaveText={this.handleSaveVision}
+      rows="3"
+      label="Vision"
     />
     )
     return (
@@ -88,9 +137,12 @@ class Index extends Component {
         </section>
         <section className="gratitudes">
           {gratitudes}
-          <div onClick={this.handleAddGratitude} className="add-gratitude">+ Gratitude</div>
+          <div onClick={this.handleAddGratitude} className="add-text">+ Gratitude</div>
         </section>
-        <section className="vision" />
+        <section className="visions">
+          {visions}
+          <div onClick={this.handleAddVision} className="add-text">+ Vision</div>
+        </section>
         <style jsx global>{`
       @font-face {
         font-family: ZillaSlab;
@@ -148,8 +200,16 @@ class Index extends Component {
       .gratitudes {
         position: relative;
         background: lightgrey;
+        width: 50%;
+        float: left;
       }
-      .add-gratitude {
+      .visions {
+        position: relative;
+        background: lightgrey;
+        width: 50%;
+        display: inline-block;
+      }
+      .add-text {
         text-align: center;
         margin: 2rem;
         font-family: CodyStarLight, Arial;
