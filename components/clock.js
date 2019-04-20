@@ -32,13 +32,17 @@ function Clock(props) {
   const fullDateString = `${month} ${intDay}, ${year}`;
 
   return (
-    <div className="time-container">
-      <div className="time-weekday">{weekday}</div>
-      <div className="time-month-day-year">{fullDateString}</div>
-      <div className="time-hour">{props.time}</div>
+    <div className="time-wrapper">
+      <div className="time-container">
+        <div className="inline time">{`${weekday}, ${fullDateString}, ${props.time}`}</div>
+      </div>
       <style jsx>{`
+        .time-wrapper {
+          position: relative;
+          height: 3vh;
+        }
         .time-container {
-          font-family: CodyStarLight;
+          font-family: CodyStarLight, Sans-Serif, Arial;
           text-align: center;
           color: white;
           font-size: 1.5rem;
