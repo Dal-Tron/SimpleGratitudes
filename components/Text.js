@@ -2,25 +2,36 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Text = props => {
   return (
-    <div className="text-container">
-      <div htmlFor={`text-` + props.id} className="text-input-wrapper">
-        <textarea
-          className="text-input grateful"
-          id={props.id}
-          placeholder="&nbsp;"
-          value={props.text}
-          onChange={props.handleSaveText}
-          rows={props.rows}
-        />
-        <span className="text-label">{props.label}</span>
-        <span className="text-label-text-border"></span>
-        <span className="close-text" onClick={props.handleRemoveText}>
-          {props.id === 'gratitude-0' || props.id === 'vision-0' ? null : <FontAwesomeIcon icon="times-circle" />}
-        </span>
+    <div className="text-wrapper">
+      <div className="text-container">
+        <div htmlFor={`text-` + props.id} className="text-input-wrapper">
+          <textarea
+            className="text-input grateful"
+            id={props.id}
+            placeholder="&nbsp;"
+            value={props.text}
+            onChange={props.handleSaveText}
+            rows={props.rows}
+          />
+          <span className="text-label">{props.label}</span>
+          <span className="text-label-text-border"></span>
+          <span className="close-text" onClick={props.handleRemoveText}>
+            {props.id === 'gratitude-0' || props.id === 'vision-0' ? null : <FontAwesomeIcon icon="times-circle" />}
+          </span>
+        </div>
       </div>
       <style jsx>{`
+        .text-wrapper {
+          position: relative;
+          height: 16rem;
+          max-width: 28rem;
+          margin-left: auto;
+          margin-right: auto;
+          padding: 2rem;
+        }
         .text-container {
           padding-top: 2rem;
+          height: 15vh;
         }
         .text-input-wrapper {
           position: relative;

@@ -9,6 +9,10 @@ class Index extends Component {
   state = {
     time: '',
     timestamp: '',
+    quotes: [
+      { "author-1": "This is the first quote." },
+      { "author-2": "This is the second quote." }
+    ],
     gratitudes: {
       "gratitude-0": ""
     },
@@ -133,15 +137,30 @@ class Index extends Component {
         <section className="time">
           <Clock time={this.state.time} />
         </section>
+        <section className="quotes">
+          <div className="quotes-container">
+            <div className="quote-text">
+              This is the text for the quote. And it is very long. And it goes on for a few lines.
+            </div>
+            <div className="quote-author">
+              - Author 1
+            </div>
+          </div>
+        </section>
         <section className="buttons">
         </section>
         <section className="gratitudes">
           {gratitudes}
-          <div onClick={this.handleAddGratitude} className="add-text">+ Gratitude</div>
+          <div onClick={this.handleAddGratitude} className="dotted-text">+ Gratitude</div>
         </section>
         <section className="visions">
           {visions}
-          <div onClick={this.handleAddVision} className="add-text">+ Vision</div>
+          <div onClick={this.handleAddVision} className="dotted-text">+ Vision</div>
+        </section>
+        <section className="footer">
+          <div className="dotted-text">Upload</div>
+          <div className="dotted-text">Download</div>
+          <div className="dotted-text">Donate</div>
         </section>
         <style jsx global>{`
       @font-face {
@@ -168,6 +187,8 @@ class Index extends Component {
         margin: 0;
         padding: 0;
         overflow: scroll;
+        margin-bottom: 6rem;
+        background: lightgrey;
       }
       .absCenter {
         position: absolute;
@@ -175,16 +196,50 @@ class Index extends Component {
         left: 50%;
         transform: translate(-50%, -50%);
       }
+      .inline {
+        display: inline-block;
+      }
+      .dotted-text {
+        text-align: center;
+        padding: 2rem;
+        font-family: CodyStarLight, Sans-Serif, Arial;
+        color: white;
+        font-size: 1.5rem;
+      }
       .headspace {
-        height: 10rem;
+        height: 10vh;
         background: lightgrey;
         position: relative;
       }
       .intention {
-        font-family: ZillaSlab, Arial;
         font-size: 2rem;
         color: white;
         text-align: center;
+      }
+      .quotes {
+        background: lightblue;
+      }
+      .quotes-container {
+        position: relative;
+        color: white;
+        font-family: Righteous, Sans-Serif, Arial;
+        letter-spacing: 1px;
+        font-size: 1.5rem;
+        padding-top: 3rem;
+      }
+      .quote-text {
+        border-left: 5px solid lightgrey;
+        max-width: 26rem;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 1rem 1rem 0rem 1rem;
+      }
+      .quote-author {
+        text-align: right;
+        max-width: 26rem;
+        margin-left: auto;
+        margin-right: auto;
+        font-family: Snippet, Sans-Serif, Arial;
       }
       .grateful {
         font-family: Righteous, Sans-Serif, Arial;
@@ -193,28 +248,20 @@ class Index extends Component {
         font-family: Snippet, Sans-Serif, Arial;
       }
       .time {
-        position: relative;
-        height: 10rem;
-        background: lightblue;
+        background: grey;
       }
       .gratitudes {
-        position: relative;
-        background: lightgrey;
-        width: 50%;
-        float: left;
+        background: lightblue;
       }
       .visions {
-        position: relative;
         background: lightgrey;
-        width: 50%;
-        display: inline-block;
       }
-      .add-text {
-        text-align: center;
-        margin: 2rem;
-        font-family: CodyStarLight, Arial;
-        color: white;
-        font-size: 1.5rem;
+      .footer {
+        background: grey;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 6rem;
       }
     `}</style>
       </div>
