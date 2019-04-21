@@ -1,4 +1,4 @@
-function Clock(props) {
+const Clock = props => {
   const date = new Date();
   const weekdays = [
     "Sunday",
