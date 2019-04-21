@@ -158,7 +158,7 @@ class Index extends Component {
           <div onClick={this.handleAddVision} className="dotted-text">+ Vision</div>
         </section>
         <section className="footer">
-          <div className="dotted-text">Upload</div>
+          <div className="dotted-text">Download</div>
           <div className="dotted-text">Download</div>
           <div className="dotted-text">Donate</div>
         </section>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class Quotes extends Component {
   constructor(props) {
@@ -18,26 +19,45 @@ class Quotes extends Component {
     return idx + 1
   }
 
-  setIndexes(idx) {
+  getPreviousIndex(idx) {
+    if (idx < 1) {
+      return this.props.quotes.length - 1
+    }
+    return idx - 1
+  }
+
+  setNextIndexes(idx) {
     this.setState({
       index: idx,
-      next: this.getNextIndex(idx)
+      next: this.getNextIndex(idx),
+      visible: true
     })
   }
 
-  componentDidMount() {
-    setInterval(() => {
-      this.setState({
-        visible: false
-      })
+  setPreviousIndexes(idx) {
+    this.setState({
+      index: idx,
+      next: this.getPreviousIndex(idx),
+      visible: true
+    })
+  }
 
-      setTimeout(() => {
-        this.setState({
-          visible: true
-        })
-        this.setIndexes(this.getNextIndex(this.state.index))
-      }, 1000)
-    }, 5000)
+  handleNextQuote = () => {
+    this.setState({
+      visible: false
+    })
+    setTimeout(() => {
+      this.setNextIndexes(this.getNextIndex(this.state.index))
+    }, 1000)
+  }
+
+  handlePreviousQuote = () => {
+    this.setState({
+      visible: false
+    })
+    setTimeout(() => {
+      this.setPreviousIndexes(this.getPreviousIndex(this.state.index))
+    }, 1000)
   }
 
   render() {
@@ -51,6 +71,14 @@ class Quotes extends Component {
             - {quote.author}
           </div>
         </div>
+        <div className="quote-button-container absCenter">
+          <div onClick={this.handleNextQuote} className="quote-icon-right">
+            <FontAwesomeIcon icon="chevron-right" />
+          </div>
+          <div onClick={this.handlePreviousQuote} className="quote-icon-left">
+            <FontAwesomeIcon icon="chevron-left" />
+          </div>
+        </div>
         <style jsx>{`
           .quotes-container {
             position: relative;
@@ -62,11 +90,10 @@ class Quotes extends Component {
           }
           .quote-text {
             border-left: 5px solid lightgrey;
-            max-width: 26rem;
+            width: 26rem;
             padding-left: 1rem;
             opacity: 0;
             transition: all .5s ease;
-
           }
           .quote-author {
             text-align: right;
@@ -76,6 +103,19 @@ class Quotes extends Component {
           .visible-quote {
             opacity: 1;
             transition: all .5s ease;
+          }
+          .quote-button-container {
+            width: 26rem;
+          }
+          .quote-icon-left {
+            position: absolute;
+            top: 50%;
+            left: -5rem;
+          }
+          .quote-icon-right {
+            position: absolute;
+            top: 50%;
+            right: -5rem;
           }
         `}</style>
       </div>

@@ -3,9 +3,17 @@ import React from 'react'
 import withReduxStore from '../lib/with-redux-store'
 import { Provider } from 'react-redux'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+import {
+  faTimesCircle,
+  faChevronRight,
+  faChevronLeft
+} from '@fortawesome/free-solid-svg-icons'
 
-library.add(faTimesCircle)
+library.add(
+  faTimesCircle,
+  faChevronRight,
+  faChevronLeft
+)
 
 class MyApp extends App {
   render() {
