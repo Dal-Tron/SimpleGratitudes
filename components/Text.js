@@ -23,11 +23,10 @@ const Text = props => {
       <style jsx>{`
         .text-wrapper {
           position: relative;
-          height: 16rem;
+          height: 12rem;
           max-width: 28rem;
           margin-left: auto;
           margin-right: auto;
-          padding: 2rem;
         }
         .text-container {
           padding-top: 2rem;

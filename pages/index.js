@@ -4,14 +4,21 @@ import { generateUniqueID } from '../lib/helpers'
 import Head from 'next/head'
 import Clock from '../components/Clock'
 import Text from '../components/Text'
+import Quotes from '../components/Quotes';
 
 class Index extends Component {
   state = {
     time: '',
     timestamp: '',
     quotes: [
-      { "author-1": "This is the first quote." },
-      { "author-2": "This is the second quote." }
+      {
+        "text": "First quote. With lost of text almost a whole book at this point.",
+        "author": "First Author"
+      },
+      {
+        "text": "Second quote.",
+        "author": "Second Author"
+      }
     ],
     gratitudes: {
       "gratitude-0": ""
@@ -138,14 +145,7 @@ class Index extends Component {
           <Clock time={this.state.time} />
         </section>
         <section className="quotes">
-          <div className="quotes-container">
-            <div className="quote-text">
-              This is the text for the quote. And it is very long. And it goes on for a few lines.
-            </div>
-            <div className="quote-author">
-              - Author 1
-            </div>
-          </div>
+          <Quotes quotes={this.state.quotes} />
         </section>
         <section className="buttons">
         </section>
@@ -158,7 +158,7 @@ class Index extends Component {
           <div onClick={this.handleAddVision} className="dotted-text">+ Vision</div>
         </section>
         <section className="footer">
-          <div className="dotted-text">Upload</div>
+          <div className="dotted-text">Download</div>
           <div className="dotted-text">Download</div>
           <div className="dotted-text">Donate</div>
         </section>
@@ -218,28 +218,6 @@ class Index extends Component {
       }
       .quotes {
         background: lightblue;
-      }
-      .quotes-container {
-        position: relative;
-        color: white;
-        font-family: Righteous, Sans-Serif, Arial;
-        letter-spacing: 1px;
-        font-size: 1.5rem;
-        padding-top: 3rem;
-      }
-      .quote-text {
-        border-left: 5px solid lightgrey;
-        max-width: 26rem;
-        margin-left: auto;
-        margin-right: auto;
-        padding: 1rem 1rem 0rem 1rem;
-      }
-      .quote-author {
-        text-align: right;
-        max-width: 26rem;
-        margin-left: auto;
-        margin-right: auto;
-        font-family: Snippet, Sans-Serif, Arial;
       }
       .grateful {
         font-family: Righteous, Sans-Serif, Arial;
