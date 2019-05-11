@@ -42,8 +42,8 @@ const Text = props => {
           position: absolute;
           top: 16px;
           left: .5rem;
-          font-size: 16px;
-          color: #9098a9;
+          font-size: 20px;
+          color: white;
           font-weight: 500;
           transform-origin: 0 0;
           transition: all 0.2s ease;
@@ -51,13 +51,13 @@ const Text = props => {
         }
         .text-input-wrapper .text-label-text-border {
           position: absolute;
-          bottom: 0;
+          bottom: 2px;
           left: 0;
           height: 2px;
           width: 100%;
-          background: #07f;
+          background: white;
           transform: scaleX(0);
-          transform-origin: 0 0;
+          transform-origin: 0 -1;
           transition: all 0.15s ease;
         }
         .text-input-wrapper .text-input {
@@ -68,17 +68,18 @@ const Text = props => {
           padding: 1.2rem .5rem 1.2rem .5rem;
           font-size: 26px;
           font-weight: 500;
-          border-bottom: 2px solid #c8ccd4;
+          border-bottom: 1px solid white;
           background: none;
           border-radius: 0;
-          color: #223254;
+          color: white;
           transition: all 0.15s ease;
+          font-family: sans-serif;
         }
         .text-input-wrapper .text-input:hover {
           background: rgba(34,50,84,0.03);
         }
         .text-input-wrapper .text-input:not(:placeholder-shown) + span {
-          color: #5a667f;
+          color: white;
           transform: translateY(-26px) scale(0.75);
         }
         .text-input-wrapper .text-input:focus {
@@ -86,7 +87,7 @@ const Text = props => {
           outline: none;
         }
         .text-input-wrapper .text-input:focus + span {
-          color: #07f;
+          color: white;
           transform: translateY(-26px) scale(0.75);
         }
         .text-input-wrapper .text-input:focus + span + .text-label-text-border {
@@ -96,7 +97,7 @@ const Text = props => {
           position: absolute;
           top: -1rem;
           right: .5rem;
-          color: #adb5bd;
+          color: white;
         }
         .close-text:hover {
           color: #ff6b6b;

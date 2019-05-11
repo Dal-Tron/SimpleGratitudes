@@ -89,7 +89,7 @@ class Quotes extends Component {
             height: 12rem;
           }
           .quote-text {
-            border-left: 5px solid lightgrey;
+            border-left: 5px solid white;
             width: 26rem;
             padding-left: 1rem;
             opacity: 0;

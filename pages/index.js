@@ -113,6 +113,7 @@ class Index extends Component {
 
   handleCreatePDF = () => {
     pdfMake.vfs = pdfFonts
+    // const docWidth = doc.internal.pageSize.getWidth() / 2
 
     pdfMake.fonts = {
       Righteous: {
@@ -125,14 +126,23 @@ class Index extends Component {
 
     const docDefinition = {
       info: {
-        title: 'awesome Document',
-        author: 'john doe',
-        subject: 'subject of document',
-        keywords: 'keywords for document',
+        title: 'Grateful Vision',
+        author: 'Grateful Vision',
+        subject: 'Grateful Vision',
+        keywords: 'Grateful Vision',
       },
-      content: 'This is an sample PDF printed with pdfMake',
-      defaultStyle: {
-        font: 'Righteous'
+      content: [
+        { text: 'Grateful', style: 'header' },
+      ],
+      styles: {
+        // background1: {
+        //   background: 
+        // },
+        header: {
+          fontSize: 22,
+          font: 'Righteous',
+          alignment: 'center',
+        }
       }
     }
 
@@ -146,7 +156,7 @@ class Index extends Component {
       text={this.state.gratitudes[key]}
       handleRemoveText={() => this.handleRemoveGratitude(key)}
       handleSaveText={this.handleSaveGratitude}
-      rows="3"
+      rows="4"
       label="Gratitude"
     />
     )
@@ -156,7 +166,7 @@ class Index extends Component {
       text={this.state.visions[key]}
       handleRemoveText={() => this.handleRemoveVision(key)}
       handleSaveText={this.handleSaveVision}
-      rows="3"
+      rows="4"
       label="Vision"
     />
     )
@@ -216,7 +226,7 @@ class Index extends Component {
         padding: 0;
         overflow: scroll;
         margin-bottom: 6rem;
-        background: lightgrey;
+        background: #b0edc5;
       }
       .absCenter {
         position: absolute;
@@ -236,7 +246,7 @@ class Index extends Component {
       }
       .headspace {
         height: 10vh;
-        background: lightgrey;
+        background: #5190a5;
         position: relative;
       }
       .intention {
@@ -254,16 +264,16 @@ class Index extends Component {
         font-family: Snippet, Sans-Serif, Arial;
       }
       .time {
-        background: grey;
+        background: #7eb8cb;
       }
       .gratitudes {
         background: lightblue;
       }
       .visions {
-        background: lightgrey;
+        background: lightblue;
       }
       .footer {
-        background: grey;
+        background: #59bf7c;
         position: fixed;
         bottom: 0;
         width: 100%;
