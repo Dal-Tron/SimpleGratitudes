@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import pdfMake from 'pdfmake/build/pdfmake'
+import pdfFonts from '../static/js/vfs_fonts'
 import { generateUniqueID } from '../lib/helpers'
 
 import Head from 'next/head'
@@ -109,6 +111,34 @@ class Index extends Component {
     })
   }
 
+  handleCreatePDF = () => {
+    pdfMake.vfs = pdfFonts
+
+    pdfMake.fonts = {
+      Righteous: {
+        normal: 'Righteous.ttf',
+        bold: 'Righteous.ttf',
+        italics: 'Righteous.ttf',
+        bolditalics: 'Righteous.ttf',
+      }
+    };
+
+    const docDefinition = {
+      info: {
+        title: 'awesome Document',
+        author: 'john doe',
+        subject: 'subject of document',
+        keywords: 'keywords for document',
+      },
+      content: 'This is an sample PDF printed with pdfMake',
+      defaultStyle: {
+        font: 'Righteous'
+      }
+    }
+
+    pdfMake.createPdf(docDefinition).open()
+  }
+
   render() {
     const gratitudes = Object.keys(this.state.gratitudes).map((key, index) => <Text
       key={index}
@@ -158,9 +188,7 @@ class Index extends Component {
           <div onClick={this.handleAddVision} className="dotted-text">+ Vision</div>
         </section>
         <section className="footer">
-          <div className="dotted-text">Download</div>
-          <div className="dotted-text">Download</div>
-          <div className="dotted-text">Donate</div>
+          <div className="dotted-text" onClick={this.handleCreatePDF}>Download</div>
         </section>
         <style jsx global>{`
       @font-face {
