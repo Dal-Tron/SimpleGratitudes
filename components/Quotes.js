@@ -72,10 +72,10 @@ class Quotes extends Component {
           </div>
         </div>
         <div className="quote-button-container absCenter">
-          <div onClick={this.handleNextQuote} className="quote-icon-right">
+          <div onClick={this.handleNextQuote} className="quote-icon quote-icon-right">
             <FontAwesomeIcon icon="chevron-right" />
           </div>
-          <div onClick={this.handlePreviousQuote} className="quote-icon-left">
+          <div onClick={this.handlePreviousQuote} className="quote-icon quote-icon-left">
             <FontAwesomeIcon icon="chevron-left" />
           </div>
         </div>
@@ -89,7 +89,7 @@ class Quotes extends Component {
             height: 12rem;
           }
           .quote-text {
-            border-left: 5px solid lightgrey;
+            border-left: 5px solid white;
             width: 26rem;
             padding-left: 1rem;
             opacity: 0;
@@ -107,14 +107,15 @@ class Quotes extends Component {
           .quote-button-container {
             width: 26rem;
           }
-          .quote-icon-left {
+          .quote-icon {
             position: absolute;
             top: 50%;
+            max-width: 14px;
+          }
+          .quote-icon-left {
             left: -5rem;
           }
           .quote-icon-right {
-            position: absolute;
-            top: 50%;
             right: -5rem;
           }
         `}</style>

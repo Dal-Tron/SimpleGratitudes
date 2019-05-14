@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import pdfMake from 'pdfmake/build/pdfmake'
+import pdfFonts from '../static/js/vfs_fonts'
 import { generateUniqueID } from '../lib/helpers'
 
 import Head from 'next/head'
@@ -8,8 +10,7 @@ import Quotes from '../components/Quotes';
 
 class Index extends Component {
   state = {
-    time: '',
-    timestamp: '',
+    timestring: '',
     quotes: [
       {
         "text": "First quote. With lost of text almost a whole book at this point.",
@@ -38,15 +39,44 @@ class Index extends Component {
   }
 
   handleCreateTimeString() {
-    const timestamp = new Date(Date.now()).toTimeString()
+    const date = new Date();
+    const weekdays = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ];
+
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ];
+
+    const weekday = weekdays[date.getDay()];
+    const month = months[date.getMonth()];
+    const intDay = date.getDate();
+    const year = date.getFullYear();
+    const timestamp = date.toTimeString()
     const H = timestamp.substr(0, 2)
     const h = H % 12 || 12
     const ampm = (H < 12 || H === 24) ? " AM" : " PM"
     const time = h + timestamp.substr(2, 3) + ampm
-    this.setState({
-      time,
-      timestamp
-    })
+    const timestring = `${weekday}, ${month} ${intDay}, ${year}, ${time}`;
+
+    this.setState({ timestring })
   }
 
   handleAddGratitude = () => {
@@ -109,27 +139,159 @@ class Index extends Component {
     })
   }
 
+  handleCreatePDF = () => {
+    pdfMake.vfs = pdfFonts
+    const {
+      timestring,
+      gratitudes,
+      visions
+    } = this.state
+
+    pdfMake.fonts = {
+      'Righteous': {
+        normal: 'Righteous.ttf',
+        bold: 'Righteous.ttf',
+        italics: 'Righteous.ttf',
+        bolditalics: 'Righteous.ttf',
+      },
+      'Snippet': {
+        normal: 'Snippet.ttf',
+        bold: 'Snippet.ttf',
+        italics: 'Snippet.ttf',
+        bolditalics: 'Snippet.ttf',
+      },
+      'CodyStar-Light': {
+        normal: 'CodyStar-Light.ttf',
+        bold: 'CodyStar-Light.ttf',
+        italics: 'CodyStar-Light.ttf',
+        bolditalics: 'CodyStar-Light.ttf',
+      },
+      'OpenSans-Regular': {
+        normal: 'OpenSans-Regular.ttf',
+        bold: 'OpenSans-Regular.ttf',
+        italics: 'OpenSans-Regular.ttf',
+        bolditalics: 'OpenSans-Regular.ttf',
+      },
+    };
+
+    const content = [
+      {
+        text: 'Grateful',
+        style: ['header', 'section1'],
+      },
+      {
+        text: 'Vision',
+        style: ['header', 'section2'],
+      },
+      {
+        text: `${timestring}`,
+        style: ['header', 'section3'],
+      },
+      {
+        text: 'Gratitude',
+        style: ['header', 'section4']
+      },
+      {
+        text: 'Vision',
+        style: ['header', 'section4'],
+      }
+    ]
+
+    if (Object.keys(gratitudes).length > 0) {
+      Object.keys(gratitudes).map((key, index) => {
+        let gratitude = {
+          text: gratitudes[key],
+          style: ['section5']
+        }
+        // just start at index 5 as there are several headings (currently 4) inserted first
+        content.splice(index + 4, 0, gratitude)
+      })
+    }
+
+    if (Object.keys(visions).length > 0) {
+      Object.keys(visions).map((key, index) => {
+        let vision = {
+          text: visions[key],
+          style: ['section5']
+        }
+        // visions are currently at the end, so we can just push
+        content.push(vision)
+      })
+    }
+
+    const docDefinition = {
+      info: {
+        title: 'Grateful Vision',
+        author: 'Grateful Vision',
+        subject: 'Grateful Vision',
+        keywords: 'Grateful Vision',
+      },
+      pageMargins: [0, 0, 0, 0],
+      content,
+      styles: {
+        header: {
+          fontSize: 22,
+          alignment: 'center',
+        },
+        section1: {
+          color: '#5190a5',
+          font: 'Righteous',
+          margin: [0, 20, 0, 0]
+        },
+        section2: {
+          color: '#5190a5',
+          font: 'Snippet',
+        },
+        section3: {
+          color: '#5190a5',
+          font: 'CodyStar-Light',
+          margin: [0, 20, 0, 0]
+        },
+        section4: {
+          color: '#5190a5',
+          font: 'CodyStar-Light',
+          margin: [0, 20, 0, 0]
+        },
+        section5: {
+          color: '#5190a5',
+          font: 'OpenSans-Regular',
+          margin: [180, 20, 180, 0],
+          fontSize: 14,
+          alignment: 'center'
+        }
+      }
+    }
+
+    pdfMake.createPdf(docDefinition).open()
+  }
+
   render() {
-    const gratitudes = Object.keys(this.state.gratitudes).map((key, index) => <Text
+    const {
+      timestring,
+      quotes,
+      gratitudes,
+      visions,
+    } = this.state
+    const renderGratitudes = Object.keys(gratitudes).map((key, index) => <Text
       key={index}
       id={key}
-      text={this.state.gratitudes[key]}
+      text={gratitudes[key]}
       handleRemoveText={() => this.handleRemoveGratitude(key)}
       handleSaveText={this.handleSaveGratitude}
-      rows="3"
+      rows="4"
       label="Gratitude"
-    />
-    )
-    const visions = Object.keys(this.state.visions).map((key, index) => <Text
+    />)
+
+    const renderVisions = Object.keys(visions).map((key, index) => <Text
       key={index}
       id={key}
-      text={this.state.visions[key]}
+      text={visions[key]}
       handleRemoveText={() => this.handleRemoveVision(key)}
       handleSaveText={this.handleSaveVision}
-      rows="3"
+      rows="4"
       label="Vision"
-    />
-    )
+    />)
+
     return (
       <div className="page-wrapper">
         <Head>
@@ -142,25 +304,23 @@ class Index extends Component {
           </div>
         </section>
         <section className="time">
-          <Clock time={this.state.time} />
+          <Clock timestring={timestring} />
         </section>
         <section className="quotes">
-          <Quotes quotes={this.state.quotes} />
+          <Quotes quotes={quotes} />
         </section>
         <section className="buttons">
         </section>
         <section className="gratitudes">
-          {gratitudes}
-          <div onClick={this.handleAddGratitude} className="dotted-text">+ Gratitude</div>
+          {renderGratitudes}
+          <div onClick={this.handleAddGratitude} className="section-header">+</div>
         </section>
         <section className="visions">
-          {visions}
-          <div onClick={this.handleAddVision} className="dotted-text">+ Vision</div>
+          {renderVisions}
+          <div onClick={this.handleAddVision} className="section-header">+</div>
         </section>
         <section className="footer">
-          <div className="dotted-text">Download</div>
-          <div className="dotted-text">Download</div>
-          <div className="dotted-text">Donate</div>
+          <div className="footer-text" onClick={this.handleCreatePDF}>Download</div>
         </section>
         <style jsx global>{`
       @font-face {
@@ -188,7 +348,7 @@ class Index extends Component {
         padding: 0;
         overflow: scroll;
         margin-bottom: 6rem;
-        background: lightgrey;
+        background: #b0edc5;
       }
       .absCenter {
         position: absolute;
@@ -199,16 +359,9 @@ class Index extends Component {
       .inline {
         display: inline-block;
       }
-      .dotted-text {
-        text-align: center;
-        padding: 2rem;
-        font-family: CodyStarLight, Sans-Serif, Arial;
-        color: white;
-        font-size: 1.5rem;
-      }
       .headspace {
         height: 10vh;
-        background: lightgrey;
+        background: #5190a5;
         position: relative;
       }
       .intention {
@@ -226,20 +379,34 @@ class Index extends Component {
         font-family: Snippet, Sans-Serif, Arial;
       }
       .time {
-        background: grey;
+        background: #7eb8cb;
+      }
+      .section-header {
+        text-align: center;
+        padding: 2rem;
+        color: white;
+        font-size: 2.5rem;
+        font-family: Sans-Serif, Arial;
       }
       .gratitudes {
         background: lightblue;
       }
       .visions {
-        background: lightgrey;
+        background: lightblue;
       }
       .footer {
-        background: grey;
+        background: #59bf7c;
         position: fixed;
         bottom: 0;
         width: 100%;
         height: 6rem;
+      }
+      .footer-text {
+        text-align: center;
+        padding: 2rem;
+        font-family: Snippet, Sans-Serif, Arial;
+        color: white;
+        font-size: 1.5rem;
       }
     `}</style>
       </div>
