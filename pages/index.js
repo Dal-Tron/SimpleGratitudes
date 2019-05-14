@@ -320,7 +320,7 @@ class Index extends Component {
           <div onClick={this.handleAddVision} className="section-header">+</div>
         </section>
         <section className="footer">
-          <div className="dotted-text" onClick={this.handleCreatePDF}>Download</div>
+          <div className="footer-text" onClick={this.handleCreatePDF}>Download</div>
         </section>
         <style jsx global>{`
       @font-face {
@@ -359,13 +359,6 @@ class Index extends Component {
       .inline {
         display: inline-block;
       }
-      {/* .dotted-text {
-        text-align: center;
-        padding: 2rem;
-        font-family: CodyStarLight, Sans-Serif, Arial;
-        color: white;
-        font-size: 1.5rem;
-      } */}
       .headspace {
         height: 10vh;
         background: #5190a5;
@@ -407,6 +400,13 @@ class Index extends Component {
         bottom: 0;
         width: 100%;
         height: 6rem;
+      }
+      .footer-text {
+        text-align: center;
+        padding: 2rem;
+        font-family: Snippet, Sans-Serif, Arial;
+        color: white;
+        font-size: 1.5rem;
       }
     `}</style>
       </div>
