@@ -313,11 +313,11 @@ class Index extends Component {
         </section>
         <section className="gratitudes">
           {renderGratitudes}
-          <div onClick={this.handleAddGratitude} className="dotted-text">+ Gratitude</div>
+          <div onClick={this.handleAddGratitude} className="section-header">+</div>
         </section>
         <section className="visions">
           {renderVisions}
-          <div onClick={this.handleAddVision} className="dotted-text">+ Vision</div>
+          <div onClick={this.handleAddVision} className="section-header">+</div>
         </section>
         <section className="footer">
           <div className="dotted-text" onClick={this.handleCreatePDF}>Download</div>
@@ -359,13 +359,13 @@ class Index extends Component {
       .inline {
         display: inline-block;
       }
-      .dotted-text {
+      {/* .dotted-text {
         text-align: center;
         padding: 2rem;
         font-family: CodyStarLight, Sans-Serif, Arial;
         color: white;
         font-size: 1.5rem;
-      }
+      } */}
       .headspace {
         height: 10vh;
         background: #5190a5;
@@ -387,6 +387,13 @@ class Index extends Component {
       }
       .time {
         background: #7eb8cb;
+      }
+      .section-header {
+        text-align: center;
+        padding: 2rem;
+        color: white;
+        font-size: 2.5rem;
+        font-family: Sans-Serif, Arial;
       }
       .gratitudes {
         background: lightblue;
