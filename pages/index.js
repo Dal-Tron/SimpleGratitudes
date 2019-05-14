@@ -165,7 +165,13 @@ class Index extends Component {
         bold: 'CodyStar-Light.ttf',
         italics: 'CodyStar-Light.ttf',
         bolditalics: 'CodyStar-Light.ttf',
-      }
+      },
+      'OpenSans-Regular': {
+        normal: 'OpenSans-Regular.ttf',
+        bold: 'OpenSans-Regular.ttf',
+        italics: 'OpenSans-Regular.ttf',
+        bolditalics: 'OpenSans-Regular.ttf',
+      },
     };
 
     const content = [
@@ -237,7 +243,7 @@ class Index extends Component {
           font: 'Snippet',
         },
         section3: {
-          color: '#2a2a2e',
+          color: '#5190a5',
           font: 'CodyStar-Light',
           margin: [0, 20, 0, 0]
         },
@@ -247,9 +253,9 @@ class Index extends Component {
           margin: [0, 20, 0, 0]
         },
         section5: {
-          color: '#2a2a2e',
-          font: 'Snippet',
-          margin: [20, 20, 20, 0],
+          color: '#5190a5',
+          font: 'OpenSans-Regular',
+          margin: [180, 20, 180, 0],
           fontSize: 14,
           alignment: 'center'
         }
