@@ -85,7 +85,7 @@ class Quotes extends Component {
             color: white;
             font-family: Righteous, Sans-Serif, Arial;
             letter-spacing: 1px;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             height: 12rem;
           }
           .quote-text {

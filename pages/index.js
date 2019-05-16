@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import pdfMake from 'pdfmake/build/pdfmake'
+import { loadDB } from '../lib/db'
 import pdfFonts from '../static/js/vfs_fonts'
 import { generateUniqueID } from '../lib/helpers'
 
@@ -13,13 +14,9 @@ class Index extends Component {
     timestring: '',
     quotes: [
       {
-        "text": "First quote. With lost of text almost a whole book at this point.",
-        "author": "First Author"
+        "text": "Gratitude is a powerful catalyst for happiness. It's the spark that lights a fire of joy in your soul.",
+        "author": "Amy Collette"
       },
-      {
-        "text": "Second quote.",
-        "author": "Second Author"
-      }
     ],
     gratitudes: {
       "gratitude-0": ""
@@ -32,6 +29,9 @@ class Index extends Component {
   componentDidMount() {
     this.handleCreateTimeString()
     this.timer = setInterval(() => this.handleCreateTimeString(), 1000)
+    this.props.quotes && this.setState({
+      quotes: [...this.state.quotes, ...this.props.quotes]
+    })
   }
 
   componentWillUnmount() {
@@ -411,6 +411,19 @@ class Index extends Component {
     `}</style>
       </div>
     )
+  }
+}
+
+Index.getInitialProps = async function () {
+  const db = await loadDB()
+  let quotes = []
+  const querySnapshot = await db.firestore().collection('quotes').get()
+  querySnapshot.forEach(doc => {
+    quotes.push(doc.data())
+  })
+
+  return {
+    quotes
   }
 }
 
