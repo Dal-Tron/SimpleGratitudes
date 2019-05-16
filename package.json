@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "next",
-    "build": "next build",
-    "start": "next start"
+    "dev": "NODE_ENV=development next",
+    "build": "NODE_ENV=production next build",
+    "start": "NODE_ENV=production next start",
+    "now-build": "next build"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +17,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.17",
     "@fortawesome/free-solid-svg-icons": "^5.8.1",
     "@fortawesome/react-fontawesome": "^0.1.4",
+    "firebase": "^6.0.2",
     "next": "^8.0.4",
     "pdfmake": "^0.1.56",
     "react": "^16.8.6",
