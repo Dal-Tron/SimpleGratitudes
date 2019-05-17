@@ -216,19 +216,23 @@ class Index extends Component {
         <Footer handleCreatePDF={() => this.handleCreatePDF()} />
         <style jsx global>{`
       @font-face {
-        font-family: ZillaSlab;
-        src: url("/static/fonts/ZillaSlab.ttf") format("truetype");
+        font-family: 'ZillaSlab';
+        font-display: auto;
+        src: local('ZillaSlab'), url("/static/fonts/ZillaSlab.ttf") format("truetype");
       }
       @font-face {
-        font-family: CodyStarLight;
-        src: url("/static/fonts/CodyStar-Light.ttf") format("truetype");
+        font-family: 'CodyStarLight';
+        font-display: auto;
+        src: local('CodyStarLight'), url("/static/fonts/CodyStar-Light.ttf") format("truetype");
       }
       @font-face {
-        font-family: Righteous;
+        font-family: 'Righteous';
+        font-display: auto;
         src: url("/static/fonts/Righteous.ttf") format("truetype");
       }
       @font-face {
-        font-family: Snippet;
+        font-family: 'Snippet';
+        font-display: auto;
         src: url("/static/fonts/Snippet.ttf") format("truetype");
       }
       * {
