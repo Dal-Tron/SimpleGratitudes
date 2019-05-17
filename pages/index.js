@@ -5,9 +5,10 @@ import pdfFonts from '../static/js/vfs_fonts'
 import { generateUniqueID } from '../lib/helpers'
 
 import Head from 'next/head'
-import Clock from '../components/Clock'
+import Brand from '../components/index/Brand'
+import Clock from '../components/index/Clock'
+import Quotes from '../components/index/Quotes'
 import Text from '../components/Text'
-import Quotes from '../components/Quotes';
 
 class Index extends Component {
   state = {
@@ -297,20 +298,9 @@ class Index extends Component {
         <Head>
           <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         </Head>
-        <section className="headspace">
-          <div className="intention absCenter">
-            <div className="grateful">Grateful</div>
-            <div className="vision">Vision</div>
-          </div>
-        </section>
-        <section className="time">
-          <Clock timestring={timestring} />
-        </section>
-        <section className="quotes">
-          <Quotes quotes={quotes} />
-        </section>
-        <section className="buttons">
-        </section>
+        <Brand />
+        <Clock timestring={timestring} />
+        <Quotes quotes={quotes} />
         <section className="gratitudes">
           {renderGratitudes}
           <div onClick={this.handleAddGratitude} className="section-header">+</div>
@@ -359,28 +349,6 @@ class Index extends Component {
       .inline {
         display: inline-block;
       }
-      .headspace {
-        height: 10vh;
-        background: #5190a5;
-        position: relative;
-      }
-      .intention {
-        font-size: 2rem;
-        color: white;
-        text-align: center;
-      }
-      .quotes {
-        background: lightblue;
-      }
-      .grateful {
-        font-family: Righteous, Sans-Serif, Arial;
-      }
-      .vision {
-        font-family: Snippet, Sans-Serif, Arial;
-      }
-      .time {
-        background: #7eb8cb;
-      }
       .section-header {
         text-align: center;
         padding: 2rem;
@@ -398,7 +366,6 @@ class Index extends Component {
         background: #59bf7c;
         position: fixed;
         bottom: 0;
-        width: 100%;
         height: 6rem;
       }
       .footer-text {
