@@ -3,11 +3,15 @@ import pdfMake from 'pdfmake/build/pdfmake'
 import { loadDB } from '../lib/db'
 import pdfFonts from '../static/js/vfs_fonts'
 import { generateUniqueID } from '../lib/helpers'
+import pdfFontConfig from '../components/pdf/pdfFontConfig'
+import docDefinition from '../components/pdf/docDefinition'
 
 import Head from 'next/head'
-import Clock from '../components/Clock'
-import Text from '../components/Text'
-import Quotes from '../components/Quotes';
+import Brand from '../components/index/Brand'
+import Clock from '../components/index/Clock'
+import Quotes from '../components/index/Quotes'
+import Text from '../components/shared/Text'
+import Footer from '../components/shared/Footer'
 
 class Index extends Component {
   state = {
@@ -48,7 +52,7 @@ class Index extends Component {
       "Thursday",
       "Friday",
       "Saturday"
-    ];
+    ]
 
     const months = [
       "January",
@@ -63,18 +67,18 @@ class Index extends Component {
       "October",
       "November",
       "December"
-    ];
+    ]
 
-    const weekday = weekdays[date.getDay()];
-    const month = months[date.getMonth()];
-    const intDay = date.getDate();
-    const year = date.getFullYear();
+    const weekday = weekdays[date.getDay()]
+    const month = months[date.getMonth()]
+    const intDay = date.getDate()
+    const year = date.getFullYear()
     const timestamp = date.toTimeString()
     const H = timestamp.substr(0, 2)
     const h = H % 12 || 12
     const ampm = (H < 12 || H === 24) ? " AM" : " PM"
     const time = h + timestamp.substr(2, 3) + ampm
-    const timestring = `${weekday}, ${month} ${intDay}, ${year}, ${time}`;
+    const timestring = `${weekday}, ${month} ${intDay}, ${year}, ${time}`
 
     this.setState({ timestring })
   }
@@ -140,129 +144,20 @@ class Index extends Component {
   }
 
   handleCreatePDF = () => {
-    pdfMake.vfs = pdfFonts
     const {
       timestring,
       gratitudes,
       visions
     } = this.state
 
-    pdfMake.fonts = {
-      'Righteous': {
-        normal: 'Righteous.ttf',
-        bold: 'Righteous.ttf',
-        italics: 'Righteous.ttf',
-        bolditalics: 'Righteous.ttf',
-      },
-      'Snippet': {
-        normal: 'Snippet.ttf',
-        bold: 'Snippet.ttf',
-        italics: 'Snippet.ttf',
-        bolditalics: 'Snippet.ttf',
-      },
-      'CodyStar-Light': {
-        normal: 'CodyStar-Light.ttf',
-        bold: 'CodyStar-Light.ttf',
-        italics: 'CodyStar-Light.ttf',
-        bolditalics: 'CodyStar-Light.ttf',
-      },
-      'OpenSans-Regular': {
-        normal: 'OpenSans-Regular.ttf',
-        bold: 'OpenSans-Regular.ttf',
-        italics: 'OpenSans-Regular.ttf',
-        bolditalics: 'OpenSans-Regular.ttf',
-      },
-    };
+    pdfMake.vfs = pdfFonts
+    pdfMake.fonts = pdfFontConfig
 
-    const content = [
-      {
-        text: 'Grateful',
-        style: ['header', 'section1'],
-      },
-      {
-        text: 'Vision',
-        style: ['header', 'section2'],
-      },
-      {
-        text: `${timestring}`,
-        style: ['header', 'section3'],
-      },
-      {
-        text: 'Gratitude',
-        style: ['header', 'section4']
-      },
-      {
-        text: 'Vision',
-        style: ['header', 'section4'],
-      }
-    ]
-
-    if (Object.keys(gratitudes).length > 0) {
-      Object.keys(gratitudes).map((key, index) => {
-        let gratitude = {
-          text: gratitudes[key],
-          style: ['section5']
-        }
-        // just start at index 5 as there are several headings (currently 4) inserted first
-        content.splice(index + 4, 0, gratitude)
-      })
-    }
-
-    if (Object.keys(visions).length > 0) {
-      Object.keys(visions).map((key, index) => {
-        let vision = {
-          text: visions[key],
-          style: ['section5']
-        }
-        // visions are currently at the end, so we can just push
-        content.push(vision)
-      })
-    }
-
-    const docDefinition = {
-      info: {
-        title: 'Grateful Vision',
-        author: 'Grateful Vision',
-        subject: 'Grateful Vision',
-        keywords: 'Grateful Vision',
-      },
-      pageMargins: [0, 0, 0, 0],
-      content,
-      styles: {
-        header: {
-          fontSize: 22,
-          alignment: 'center',
-        },
-        section1: {
-          color: '#5190a5',
-          font: 'Righteous',
-          margin: [0, 20, 0, 0]
-        },
-        section2: {
-          color: '#5190a5',
-          font: 'Snippet',
-        },
-        section3: {
-          color: '#5190a5',
-          font: 'CodyStar-Light',
-          margin: [0, 20, 0, 0]
-        },
-        section4: {
-          color: '#5190a5',
-          font: 'CodyStar-Light',
-          margin: [0, 20, 0, 0]
-        },
-        section5: {
-          color: '#5190a5',
-          font: 'OpenSans-Regular',
-          margin: [180, 20, 180, 0],
-          fontSize: 14,
-          alignment: 'center'
-        }
-      }
-    }
-
-    pdfMake.createPdf(docDefinition).open()
+    pdfMake.createPdf(docDefinition({
+      timestring,
+      gratitudes,
+      visions
+    })).open()
   }
 
   render() {
@@ -297,20 +192,9 @@ class Index extends Component {
         <Head>
           <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         </Head>
-        <section className="headspace">
-          <div className="intention absCenter">
-            <div className="grateful">Grateful</div>
-            <div className="vision">Vision</div>
-          </div>
-        </section>
-        <section className="time">
-          <Clock timestring={timestring} />
-        </section>
-        <section className="quotes">
-          <Quotes quotes={quotes} />
-        </section>
-        <section className="buttons">
-        </section>
+        <Brand />
+        <Clock timestring={timestring} />
+        <Quotes quotes={quotes} />
         <section className="gratitudes">
           {renderGratitudes}
           <div onClick={this.handleAddGratitude} className="section-header">+</div>
@@ -319,9 +203,7 @@ class Index extends Component {
           {renderVisions}
           <div onClick={this.handleAddVision} className="section-header">+</div>
         </section>
-        <section className="footer">
-          <div className="footer-text" onClick={this.handleCreatePDF}>Download</div>
-        </section>
+        <Footer handleCreatePDF={() => this.handleCreatePDF()} />
         <style jsx global>{`
       @font-face {
         font-family: ZillaSlab;
@@ -359,28 +241,6 @@ class Index extends Component {
       .inline {
         display: inline-block;
       }
-      .headspace {
-        height: 10vh;
-        background: #5190a5;
-        position: relative;
-      }
-      .intention {
-        font-size: 2rem;
-        color: white;
-        text-align: center;
-      }
-      .quotes {
-        background: lightblue;
-      }
-      .grateful {
-        font-family: Righteous, Sans-Serif, Arial;
-      }
-      .vision {
-        font-family: Snippet, Sans-Serif, Arial;
-      }
-      .time {
-        background: #7eb8cb;
-      }
       .section-header {
         text-align: center;
         padding: 2rem;
@@ -393,20 +253,6 @@ class Index extends Component {
       }
       .visions {
         background: lightblue;
-      }
-      .footer {
-        background: #59bf7c;
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        height: 6rem;
-      }
-      .footer-text {
-        text-align: center;
-        padding: 2rem;
-        font-family: Snippet, Sans-Serif, Arial;
-        color: white;
-        font-size: 1.5rem;
       }
     `}</style>
       </div>
