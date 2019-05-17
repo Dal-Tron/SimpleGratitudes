@@ -77825,7 +77825,7 @@ var Text_Text = function Text(props) {
   }, react_default.a.createElement("div", {
     onClick: props.handleCreatePDF,
     className: "jsx-3331379241" + " " + "footer-text"
-  }, "Download"), react_default.a.createElement(style_default.a, {
+  }, "Download PDF"), react_default.a.createElement(style_default.a, {
     id: "3331379241"
   }, [".footer.jsx-3331379241{background:#59bf7c;position:fixed;bottom:0;height:6rem;width:100%;}", ".footer-text.jsx-3331379241{text-align:center;padding:2rem;font-family:Snippet,Sans-Serif,Arial;color:white;font-size:1.5rem;}"]));
 });
@@ -77967,13 +77967,14 @@ function (_Component) {
           timestring = _this$state.timestring,
           gratitudes = _this$state.gratitudes,
           visions = _this$state.visions;
+      var fileTimestamp = timestring.replace(/[ ,]/g, "_");
       pdfmake_default.a.vfs = vfs_fonts;
       pdfmake_default.a.fonts = pdfFontConfig;
       pdfmake_default.a.createPdf(docDefinition({
         timestring: timestring,
         gratitudes: gratitudes,
         visions: visions
-      })).print();
+      })).download("Grateful_Vision_".concat(fileTimestamp, ".pdf"));
     });
 
     return _this;
@@ -78105,7 +78106,7 @@ function (_Component) {
         Document: _document_default.a,
         buildManifest: build_manifest,
         reactLoadableManifest: react_loadable_manifest,
-        buildId: "UWm274rNrjQrPIZfyIQvz",
+        buildId: "3NO51U2Puuq55aX7RCd0w",
         dynamicBuildId: false,
         assetPrefix: "",
         ampBindInitData: false

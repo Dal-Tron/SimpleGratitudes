@@ -158,6 +158,8 @@ class Index extends Component {
       visions
     } = this.state
 
+    const fileTimestamp = timestring.replace(/[ ,]/g, "_")
+
     pdfMake.vfs = pdfFonts
     pdfMake.fonts = pdfFontConfig
 
@@ -165,7 +167,7 @@ class Index extends Component {
       timestring,
       gratitudes,
       visions
-    })).print()
+    })).download(`Grateful_Vision_${fileTimestamp}.pdf`)
   }
 
   render() {
