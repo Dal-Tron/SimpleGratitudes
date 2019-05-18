@@ -12,7 +12,8 @@ export default (props) => <section className="time">
           position: relative;
         }
         .time-container {
-          font-family: CodyStarLight, Sans-Serif, Arial;
+          font-family: 'Snippet', Sans-Serif;
+          font-weight: 300;
           text-align: center;
           color: white;
           font-size: 1.5rem;

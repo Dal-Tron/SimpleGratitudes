@@ -17,11 +17,6 @@ export default () => <section className="headspace">
       color: white;
       text-align: center;
       padding: 2rem 0;
-    }
-    .grateful {
-      font-family: Righteous, Sans-Serif, Arial;
-    }
-    .vision {
       font-family: Snippet, Sans-Serif, Arial;
     }
   `}</style>
