@@ -1,19 +1,14 @@
 export default (props) => <section className="footer">
-  <div className="footer-text" onClick={props.handleCreatePDF}>Download PDF</div>
+  <div className="action-button absCenter download-button">download</div>
   <style jsx>{`
     .footer {
-      background: #59bf7c;
       position: fixed;
-      bottom: 0;
-      height: 6rem;
+      bottom: 4rem;
       width: 100%;
     }
-    .footer-text {
-      text-align: center;
-      padding: 2rem;
-      font-family: Snippet, Sans-Serif, Arial;
-      color: white;
-      font-size: 1.5rem;
+    .download-button {
+      background: white;
+      color: lightblue;
     }
   `}</style>
 </section>

@@ -153,6 +153,10 @@ class Index extends Component {
   }
 
   showVisions = () => {
+    const body = document.getElementsByTagName('body')[0]
+    setTimeout(() => {
+      window.scrollBy(0, body.clientHeight)
+    }, 0)
     this.setState({
       showVisions: true
     })
@@ -217,8 +221,8 @@ class Index extends Component {
           {renderGratitudes}
           <div onClick={this.handleAddGratitude} className='section-header'>+</div>
         </section>
-        <div className={showVisions ? 'add-vision-button-container hide' : 'add-vision-button-container'}>
-          <div className='add-vision-button absCenter' onClick={this.showVisions}>add vision</div>
+        <div className={showVisions ? 'add-vision hide' : 'add-vision'}>
+          <div className='action-button absCenter' onClick={this.showVisions}>add vision</div>
         </div>
         <section className={showVisions ? 'visions' : 'visions hide'}>
           {renderVisions}
@@ -271,11 +275,11 @@ class Index extends Component {
       .visions {
         background: lightblue;
       }
-      .add-vision-button-container {
+      .add-vision {
         position: relative;
-        height: 10rem;
+        height: 8rem;
       }
-      .add-vision-button {
+      .action-button {
         font-family: Righteous, Sans-serif, Arial;
         color: white;
         font-size: 1.2rem;
