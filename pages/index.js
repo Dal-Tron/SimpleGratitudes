@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import pdfMake from 'pdfmake/build/pdfmake'
-import { loadDB } from '../lib/db'
 import pdfFonts from '../static/js/vfs_fonts'
 import { generateUniqueID } from '../lib/helpers'
 import pdfFontConfig from '../components/pdf/pdfFontConfig'
@@ -21,6 +20,18 @@ class Index extends Component {
         "text": "Gratitude is a powerful catalyst for happiness. It's the spark that lights a fire of joy in your soul.",
         "author": "Amy Collette"
       },
+      {
+        "text": "Joy is the simplest form of gratitude.",
+        "author": "Karl Barth"
+      },
+      {
+        "text": "In ordinary life, we hardly realize that we receive a great deal more than we give, and that it is only with gratitude that life becomes rich.",
+        "author": "Dietrich Bonhoeffer"
+      },
+      {
+        "text": "Gratitude opens the door to the power, the wisdom, the creativity of the universe. You open the door through gratitude.",
+        "author": "Deepak Chopra"
+      }
     ],
     gratitudes: {
       "gratitude-0": ""
@@ -33,9 +44,6 @@ class Index extends Component {
   componentDidMount() {
     this.handleCreateTimeString()
     this.timer = setInterval(() => this.handleCreateTimeString(), 1000)
-    this.props.quotes && this.setState({
-      quotes: [...this.state.quotes, ...this.props.quotes]
-    })
   }
 
   componentWillUnmount() {
@@ -150,6 +158,8 @@ class Index extends Component {
       visions
     } = this.state
 
+    const fileTimestamp = timestring.replace(/[ ,]/g, "_")
+
     pdfMake.vfs = pdfFonts
     pdfMake.fonts = pdfFontConfig
 
@@ -157,7 +167,7 @@ class Index extends Component {
       timestring,
       gratitudes,
       visions
-    })).open()
+    })).download(`Grateful_Vision_${fileTimestamp}.pdf`)
   }
 
   render() {
@@ -206,20 +216,17 @@ class Index extends Component {
         <Footer handleCreatePDF={() => this.handleCreatePDF()} />
         <style jsx global>{`
       @font-face {
-        font-family: ZillaSlab;
-        src: url("/static/fonts/ZillaSlab.ttf") format("truetype");
+        font-family: 'Arapey';
+        src: url('/static/fonts/Arapey.woff') format('woff');
       }
       @font-face {
-        font-family: CodyStarLight;
-        src: url("/static/fonts/CodyStar-Light.ttf") format("truetype");
+        font-family: 'Righteous';
+        font-display: auto;
+        src: url("/static/fonts/Righteous.woff") format("woff");
       }
       @font-face {
-        font-family: Righteous;
-        src: url("/static/fonts/Righteous.ttf") format("truetype");
-      }
-      @font-face {
-        font-family: Snippet;
-        src: url("/static/fonts/Snippet.ttf") format("truetype");
+        font-family: 'Snippet';
+        src: url("/static/fonts/Snippet.woff") format("woff");
       }
       * {
         box-sizing: border-box;
@@ -257,19 +264,6 @@ class Index extends Component {
     `}</style>
       </div>
     )
-  }
-}
-
-Index.getInitialProps = async function () {
-  const db = await loadDB()
-  let quotes = []
-  const querySnapshot = await db.firestore().collection('quotes').get()
-  querySnapshot.forEach(doc => {
-    quotes.push(doc.data())
-  })
-
-  return {
-    quotes
   }
 }
 

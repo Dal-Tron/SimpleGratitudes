@@ -1,5 +1,5 @@
 export default (props) => <section className="footer">
-  <div className="footer-text" onClick={props.handleCreatePDF}>Download</div>
+  <div className="footer-text" onClick={props.handleCreatePDF}>Download PDF</div>
   <style jsx>{`
     .footer {
       background: #59bf7c;

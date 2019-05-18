@@ -1,29 +1,29 @@
 {
   "name": "Gratitude",
   "version": "1.0.0",
-  "description": "",
+  "description": "Place to create a grateful vision.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "NODE_ENV=development next",
-    "build": "NODE_ENV=production next build",
-    "start": "NODE_ENV=production next start",
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
     "now-build": "next build"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "Grateful Vision"
+  ],
+  "author": "Dallas",
   "license": "ISC",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.17",
     "@fortawesome/free-solid-svg-icons": "^5.8.1",
     "@fortawesome/react-fontawesome": "^0.1.4",
-    "firebase": "^6.0.2",
     "next": "^8.0.4",
+    "now": "^15.2.0",
     "pdfmake": "^0.1.56",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-redux": "^7.0.2",
-    "redux": "^4.0.1",
-    "redux-devtools-extension": "^2.13.8"
+    "request": "^2.88.0"
   }
 }
