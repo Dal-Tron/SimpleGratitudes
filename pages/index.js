@@ -17,27 +17,28 @@ class Index extends Component {
     timestring: '',
     quotes: [
       {
-        "text": "Gratitude is a powerful catalyst for happiness. It's the spark that lights a fire of joy in your soul.",
-        "author": "Amy Collette"
+        'text': "Gratitude is a powerful catalyst for happiness. It's the spark that lights a fire of joy in your soul.",
+        'author': 'Amy Collette'
       },
       {
-        "text": "Joy is the simplest form of gratitude.",
-        "author": "Karl Barth"
+        'text': 'Joy is the simplest form of gratitude.',
+        'author': 'Karl Barth'
       },
       {
-        "text": "In ordinary life, we hardly realize that we receive a great deal more than we give, and that it is only with gratitude that life becomes rich.",
-        "author": "Dietrich Bonhoeffer"
+        'text': 'In ordinary life, we hardly realize that we receive a great deal more than we give, and that it is only with gratitude that life becomes rich.',
+        'author': 'Dietrich Bonhoeffer'
       },
       {
-        "text": "Gratitude opens the door to the power, the wisdom, the creativity of the universe. You open the door through gratitude.",
-        "author": "Deepak Chopra"
+        'text': 'Gratitude opens the door to the power, the wisdom, the creativity of the universe. You open the door through gratitude.',
+        'author': 'Deepak Chopra'
       }
     ],
     gratitudes: {
-      "gratitude-0": ""
+      'gratitude-0': ''
     },
+    showVisions: false,
     visions: {
-      "vision-0": ""
+      'vision-0': ''
     }
   }
 
@@ -53,28 +54,28 @@ class Index extends Component {
   handleCreateTimeString() {
     const date = new Date();
     const weekdays = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday"
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday'
     ]
 
     const months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December"
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
     ]
 
     const weekday = weekdays[date.getDay()]
@@ -84,7 +85,7 @@ class Index extends Component {
     const timestamp = date.toTimeString()
     const H = timestamp.substr(0, 2)
     const h = H % 12 || 12
-    const ampm = (H < 12 || H === 24) ? " AM" : " PM"
+    const ampm = (H < 12 || H === 24) ? ' AM' : ' PM'
     const time = h + timestamp.substr(2, 3) + ampm
     const timestring = `${weekday}, ${month} ${intDay}, ${year}, ${time}`
 
@@ -94,7 +95,7 @@ class Index extends Component {
   handleAddGratitude = () => {
     const gratitudeID = `gratitude-${generateUniqueID()}`
     let gratitude = {}
-    gratitude[gratitudeID] = ""
+    gratitude[gratitudeID] = ''
     const gratitudes = Object.assign({}, this.state.gratitudes, gratitude)
     this.setState({
       gratitudes
@@ -104,7 +105,7 @@ class Index extends Component {
   handleAddVision = () => {
     const visionID = `vision-${generateUniqueID()}`
     let vision = {}
-    vision[visionID] = ""
+    vision[visionID] = ''
     const visions = Object.assign({}, this.state.visions, vision)
     this.setState({
       visions
@@ -112,7 +113,7 @@ class Index extends Component {
   }
 
   handleRemoveGratitude = key => {
-    if (key !== "gratitude-0") {
+    if (key !== 'gratitude-0') {
       const { gratitudes } = this.state
       delete gratitudes[key]
       this.setState({
@@ -122,7 +123,7 @@ class Index extends Component {
   }
 
   handleRemoveVision = key => {
-    if (key !== "vision-0") {
+    if (key !== 'vision-0') {
       const { visions } = this.state
       delete visions[key]
       this.setState({
@@ -151,6 +152,12 @@ class Index extends Component {
     })
   }
 
+  showVisions = () => {
+    this.setState({
+      showVisions: true
+    })
+  }
+
   handleCreatePDF = () => {
     const {
       timestring,
@@ -158,7 +165,7 @@ class Index extends Component {
       visions
     } = this.state
 
-    const fileTimestamp = timestring.replace(/[ ,]/g, "_")
+    const fileTimestamp = timestring.replace(/[ ,]/g, '_')
 
     pdfMake.vfs = pdfFonts
     pdfMake.fonts = pdfFontConfig
@@ -176,6 +183,7 @@ class Index extends Component {
       quotes,
       gratitudes,
       visions,
+      showVisions
     } = this.state
     const renderGratitudes = Object.keys(gratitudes).map((key, index) => <Text
       key={index}
@@ -183,8 +191,8 @@ class Index extends Component {
       text={gratitudes[key]}
       handleRemoveText={() => this.handleRemoveGratitude(key)}
       handleSaveText={this.handleSaveGratitude}
-      rows="4"
-      label="Gratitude"
+      rows='4'
+      label='Gratitude'
     />)
 
     const renderVisions = Object.keys(visions).map((key, index) => <Text
@@ -193,40 +201,39 @@ class Index extends Component {
       text={visions[key]}
       handleRemoveText={() => this.handleRemoveVision(key)}
       handleSaveText={this.handleSaveVision}
-      rows="4"
-      label="Vision"
+      rows='4'
+      label='Vision'
     />)
 
     return (
-      <div className="page-wrapper">
+      <div className='page-wrapper'>
         <Head>
-          <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+          <meta name='viewport' content='initial-scale=1.0, width=device-width' />
         </Head>
         <Brand />
         <Clock timestring={timestring} />
         <Quotes quotes={quotes} />
-        <section className="gratitudes">
+        <section className='gratitudes'>
           {renderGratitudes}
-          <div onClick={this.handleAddGratitude} className="section-header">+</div>
+          <div onClick={this.handleAddGratitude} className='section-header'>+</div>
         </section>
-        <section className="visions">
+        <div className={showVisions ? 'add-vision-button-container hide' : 'add-vision-button-container'}>
+          <div className='add-vision-button absCenter' onClick={this.showVisions}>add vision</div>
+        </div>
+        <section className={showVisions ? 'visions' : 'visions hide'}>
           {renderVisions}
-          <div onClick={this.handleAddVision} className="section-header">+</div>
+          <div onClick={this.handleAddVision} className='section-header'>+</div>
         </section>
         <Footer handleCreatePDF={() => this.handleCreatePDF()} />
         <style jsx global>{`
       @font-face {
-        font-family: 'Arapey';
-        src: url('/static/fonts/Arapey.woff') format('woff');
-      }
-      @font-face {
         font-family: 'Righteous';
         font-display: auto;
-        src: url("/static/fonts/Righteous.woff") format("woff");
+        src: url('/static/fonts/Righteous.woff') format('woff');
       }
       @font-face {
         font-family: 'Snippet';
-        src: url("/static/fonts/Snippet.woff") format("woff");
+        src: url('/static/fonts/Snippet.woff') format('woff');
       }
       * {
         box-sizing: border-box;
@@ -237,7 +244,7 @@ class Index extends Component {
         padding: 0;
         overflow: scroll;
         margin-bottom: 6rem;
-        background: #b0edc5;
+        background: lightblue;
       }
       .absCenter {
         position: absolute;
@@ -247,6 +254,9 @@ class Index extends Component {
       }
       .inline {
         display: inline-block;
+      }
+      .hide {
+        display: none;
       }
       .section-header {
         text-align: center;
@@ -260,6 +270,18 @@ class Index extends Component {
       }
       .visions {
         background: lightblue;
+      }
+      .add-vision-button-container {
+        position: relative;
+        height: 10rem;
+      }
+      .add-vision-button {
+        font-family: Righteous, Sans-serif, Arial;
+        color: white;
+        font-size: 1.2rem;
+        border: 2px solid white;
+        padding: .5rem 1rem;
+        border-radius: 2rem;
       }
     `}</style>
       </div>
