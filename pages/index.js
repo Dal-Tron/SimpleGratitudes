@@ -216,8 +216,8 @@ class Index extends Component {
         <Footer handleCreatePDF={() => this.handleCreatePDF()} />
         <style jsx global>{`
       @font-face {
-        font-family: 'CodyStarLight';
-        src: url("/static/fonts/CodyStar-Light.woff") format("woff");
+        font-family: 'Arapey';
+        src: url('/static/fonts/Arapey.woff') format('woff');
       }
       @font-face {
         font-family: 'Righteous';
