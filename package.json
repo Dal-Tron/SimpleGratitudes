@@ -1,6 +1,6 @@
 {
   "name": "Gratitude",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Place to create a grateful vision.",
   "main": "index.js",
   "scripts": {
