@@ -25,24 +25,20 @@ class DesktopQuotes extends Component {
         'author': 'Eileen Caddy'
       },
       {
-        'text': '',
-        'author': ''
+        'text': 'When you are grateful, fear disappears and abundance appears.',
+        'author': 'Anthony Robbins'
       },
       {
-        'text': '',
-        'author': ''
+        'text': 'Cultivate the habit of being grateful for every good thing that comes to you, and to give thanks continuously.',
+        'author': 'Ralph Waldo Emerson'
       },
       {
-        'text': '',
-        'author': ''
+        'text': 'Let us rise up and be thankful, for if we didn’t learn a lot today, at least we learned a little, and if we didn’t learn a little, at least we didn’t get sick, and if we got sick, at least we didn’t die; so, let us all be thankful.',
+        'author': 'Buddha'
       },
       {
-        'text': '',
-        'author': ''
-      },
-      {
-        'text': '',
-        'author': ''
+        'text': 'Opportunities, relationships, even money flowed my way when I learned to be grateful no matter what happened in my life.',
+        'author': 'Oprah Winfrey'
       },
     ]
     this.state = {
@@ -150,7 +146,7 @@ class DesktopQuotes extends Component {
           }
           .quotes {
             background: lightblue;
-            height: 13rem;
+            height: 14rem;
             position: relative;
           }
           .quotes-container {
