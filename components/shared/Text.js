@@ -14,8 +14,8 @@ const Text = props => {
             rows={props.rows}
           />
           <span className="text-label">{props.label}</span>
-          <span className="text-label-text-border"></span>
-          <span className="close-text" onClick={props.handleRemoveText}>
+          <span title="domtoimage-ignore" className="text-label-text-border"></span>
+          <span title="domtoimage-ignore" className="close-text" onClick={props.handleRemoveText}>
             {props.id === 'gratitude-0' || props.id === 'vision-0' ? null : <FontAwesomeIcon icon="times-circle" />}
           </span>
         </div>

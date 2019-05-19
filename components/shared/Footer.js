@@ -1,5 +1,10 @@
-export default (props) => <section className="footer">
-  <div className="action-button absCenter download-button">download</div>
+export default (props) => <section className='footer'>
+  <div
+    title="domtoimage-ignore"
+    id='add-vision'
+    className='action-button absCenter download-button'
+    onClick={props.handleCreate}
+  >download</div>
   <style jsx>{`
     .footer {
       position: fixed;
