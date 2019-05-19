@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
-import pdfMake from 'pdfmake/build/pdfmake'
-import pdfFonts from '../static/js/vfs_fonts'
+import domtoimage from 'dom-to-image'
 import { generateUniqueID } from '../lib/helpers'
-import pdfFontConfig from '../components/pdf/pdfFontConfig'
-import docDefinition from '../components/pdf/docDefinition'
 
 import Head from 'next/head'
 import Brand from '../components/index/Brand'
@@ -153,28 +150,39 @@ class Index extends Component {
   }
 
   showVisions = () => {
+    const body = document.getElementsByTagName('body')[0]
+    setTimeout(() => {
+      window.scrollBy(0, body.clientHeight)
+    }, 0)
     this.setState({
       showVisions: true
     })
   }
 
-  handleCreatePDF = () => {
+  handleCreateImage = () => {
+    const filter = node => {
+      return (node.title !== 'domtoimage-ignore')
+    }
+    domtoimage.toPng(document.body, {
+      filter,
+    }).then(dataUrl => {
+      this.handleDownloadImage(dataUrl)
+    })
+  }
+
+  handleDownloadImage = dataUrl => {
     const {
       timestring,
-      gratitudes,
-      visions
     } = this.state
 
     const fileTimestamp = timestring.replace(/[ ,]/g, '_')
 
-    pdfMake.vfs = pdfFonts
-    pdfMake.fonts = pdfFontConfig
-
-    pdfMake.createPdf(docDefinition({
-      timestring,
-      gratitudes,
-      visions
-    })).download(`Grateful_Vision_${fileTimestamp}.pdf`)
+    const link = document.createElement('a')
+    link.download = `Grateful_Vision_${fileTimestamp}.png`
+    link.href = dataUrl
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
   }
 
   render() {
@@ -185,6 +193,7 @@ class Index extends Component {
       visions,
       showVisions
     } = this.state
+
     const renderGratitudes = Object.keys(gratitudes).map((key, index) => <Text
       key={index}
       id={key}
@@ -206,7 +215,7 @@ class Index extends Component {
     />)
 
     return (
-      <div className='page-wrapper'>
+      <div id='index' className='page-wrapper'>
         <Head>
           <meta name='viewport' content='initial-scale=1.0, width=device-width' />
         </Head>
@@ -215,16 +224,16 @@ class Index extends Component {
         <Quotes quotes={quotes} />
         <section className='gratitudes'>
           {renderGratitudes}
-          <div onClick={this.handleAddGratitude} className='section-header'>+</div>
+          <div title="domtoimage-ignore" onClick={this.handleAddGratitude} className='section-header'>+</div>
         </section>
-        <div className={showVisions ? 'add-vision-button-container hide' : 'add-vision-button-container'}>
-          <div className='add-vision-button absCenter' onClick={this.showVisions}>add vision</div>
+        <div title="domtoimage-ignore" className={showVisions ? 'add-vision hide' : 'add-vision'}>
+          <div className='action-button absCenter' onClick={this.showVisions}>add vision</div>
         </div>
-        <section className={showVisions ? 'visions' : 'visions hide'}>
+        <div className={showVisions ? 'visions' : 'visions hide'}>
           {renderVisions}
-          <div onClick={this.handleAddVision} className='section-header'>+</div>
-        </section>
-        <Footer handleCreatePDF={() => this.handleCreatePDF()} />
+          <div title="domtoimage-ignore" onClick={this.handleAddVision} className='section-header'>+</div>
+        </div>
+        <Footer handleCreate={() => this.handleCreateImage()} />
         <style jsx global>{`
       @font-face {
         font-family: 'Righteous';
@@ -271,11 +280,11 @@ class Index extends Component {
       .visions {
         background: lightblue;
       }
-      .add-vision-button-container {
+      .add-vision {
         position: relative;
-        height: 10rem;
+        height: 8rem;
       }
-      .add-vision-button {
+      .action-button {
         font-family: Righteous, Sans-serif, Arial;
         color: white;
         font-size: 1.2rem;
@@ -284,7 +293,7 @@ class Index extends Component {
         border-radius: 2rem;
       }
     `}</style>
-      </div>
+      </div >
     )
   }
 }
