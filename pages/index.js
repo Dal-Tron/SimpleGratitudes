@@ -165,9 +165,13 @@ class Index extends Component {
     }
     domtoimage.toPng(document.body, {
       filter,
-    }).then(dataUrl => {
-      this.handleDownloadImage(dataUrl)
     })
+      .then(dataUrl => {
+        this.handleDownloadImage(dataUrl)
+      })
+      .catch(err => {
+        alert('Sorry, there was an error with your file.')
+      })
   }
 
   handleDownloadImage = dataUrl => {
