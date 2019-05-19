@@ -3,29 +3,69 @@ import React, { Component } from 'react'
 class DesktopQuotes extends Component {
   constructor(props) {
     super(props)
-    const idxStart = 0
+    this.quotes = [
+      {
+        'text': "Gratitude is a powerful catalyst for happiness. It's the spark that lights a fire of joy in your soul.",
+        'author': 'Amy Collette'
+      },
+      {
+        'text': 'Joy is the simplest form of gratitude.',
+        'author': 'Karl Barth'
+      },
+      {
+        'text': 'In ordinary life, we hardly realize that we receive a great deal more than we give, and that it is only with gratitude that life becomes rich.',
+        'author': 'Dietrich Bonhoeffer'
+      },
+      {
+        'text': 'Gratitude opens the door to the power, the wisdom, the creativity of the universe. You open the door through gratitude.',
+        'author': 'Deepak Chopra'
+      }
+    ]
     this.state = {
-      index: idxStart,
-      next: this.getNextIndex(idxStart),
-      visible: true
+      index: 0,
+      next: 0,
+      visible: false,
     }
   }
 
-  getNextIndex(idx) {
-    if (idx >= this.props.quotes.length - 1) {
+  componentDidMount() {
+    this.setState({
+      index: this.setRandomIndex(this.quotes),
+      visible: true
+    }, this.setInitialNextIndex())
+  }
+
+  setRandomIndex = items => {
+    if (items && items.constructor === Array) {
+      return Math.round(Math.random() * (items.length - 1))
+    }
+  }
+
+  setInitialNextIndex = () => {
+    let next = this.state.index + 1
+    if (next > this.quotes.length - 1) {
+      next = 0
+    }
+    this.setState({
+      next
+    })
+  }
+
+  getNextIndex = idx => {
+    if (idx >= this.quotes.length - 1) {
       return 0
     }
     return idx + 1
   }
 
-  getPreviousIndex(idx) {
+  getPreviousIndex = idx => {
     if (idx < 1) {
-      return this.props.quotes.length - 1
+      return this.quotes.length - 1
     }
     return idx - 1
   }
 
-  setNextIndexes(idx) {
+  setNextIndexes = idx => {
     this.setState({
       index: idx,
       next: this.getNextIndex(idx),
@@ -33,7 +73,7 @@ class DesktopQuotes extends Component {
     })
   }
 
-  setPreviousIndexes(idx) {
+  setPreviousIndexes = idx => {
     this.setState({
       index: idx,
       next: this.getPreviousIndex(idx),
@@ -61,7 +101,7 @@ class DesktopQuotes extends Component {
 
   render() {
     const visibleQuote = this.state.visible ? 'visible-quote' : '';
-    const quote = this.props.quotes[this.state.index]
+    const quote = this.quotes[this.state.index]
     return (
       <section title="domtoimage-ignore" className="quotes">
         <div className="quotes-wrapper quote-width absCenter">
