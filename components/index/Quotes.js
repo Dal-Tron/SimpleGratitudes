@@ -19,7 +19,31 @@ class DesktopQuotes extends Component {
       {
         'text': 'Gratitude opens the door to the power, the wisdom, the creativity of the universe. You open the door through gratitude.',
         'author': 'Deepak Chopra'
-      }
+      },
+      {
+        'text': 'Gratitude helps you to grow and expand; gratitude brings joy and laughter into your life and into the lives of all those around you.',
+        'author': 'Eileen Caddy'
+      },
+      {
+        'text': '',
+        'author': ''
+      },
+      {
+        'text': '',
+        'author': ''
+      },
+      {
+        'text': '',
+        'author': ''
+      },
+      {
+        'text': '',
+        'author': ''
+      },
+      {
+        'text': '',
+        'author': ''
+      },
     ]
     this.state = {
       index: 0,
