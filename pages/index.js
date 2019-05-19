@@ -12,24 +12,6 @@ import Footer from '../components/shared/Footer'
 class Index extends Component {
   state = {
     timestring: '',
-    quotes: [
-      {
-        'text': "Gratitude is a powerful catalyst for happiness. It's the spark that lights a fire of joy in your soul.",
-        'author': 'Amy Collette'
-      },
-      {
-        'text': 'Joy is the simplest form of gratitude.',
-        'author': 'Karl Barth'
-      },
-      {
-        'text': 'In ordinary life, we hardly realize that we receive a great deal more than we give, and that it is only with gratitude that life becomes rich.',
-        'author': 'Dietrich Bonhoeffer'
-      },
-      {
-        'text': 'Gratitude opens the door to the power, the wisdom, the creativity of the universe. You open the door through gratitude.',
-        'author': 'Deepak Chopra'
-      }
-    ],
     gratitudes: {
       'gratitude-0': ''
     },
@@ -192,7 +174,6 @@ class Index extends Component {
   render() {
     const {
       timestring,
-      quotes,
       gratitudes,
       visions,
       showVisions
@@ -225,7 +206,7 @@ class Index extends Component {
         </Head>
         <Brand />
         <Clock timestring={timestring} />
-        <Quotes quotes={quotes} />
+        <Quotes />
         <section className='gratitudes'>
           {renderGratitudes}
           <div title="domtoimage-ignore" onClick={this.handleAddGratitude} className='section-header'>+</div>

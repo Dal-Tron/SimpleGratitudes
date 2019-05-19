@@ -3,29 +3,89 @@ import React, { Component } from 'react'
 class DesktopQuotes extends Component {
   constructor(props) {
     super(props)
-    const idxStart = 0
+    this.quotes = [
+      {
+        'text': "Gratitude is a powerful catalyst for happiness. It's the spark that lights a fire of joy in your soul.",
+        'author': 'Amy Collette'
+      },
+      {
+        'text': 'Joy is the simplest form of gratitude.',
+        'author': 'Karl Barth'
+      },
+      {
+        'text': 'In ordinary life, we hardly realize that we receive a great deal more than we give, and that it is only with gratitude that life becomes rich.',
+        'author': 'Dietrich Bonhoeffer'
+      },
+      {
+        'text': 'Gratitude opens the door to the power, the wisdom, the creativity of the universe. You open the door through gratitude.',
+        'author': 'Deepak Chopra'
+      },
+      {
+        'text': 'Gratitude helps you to grow and expand; gratitude brings joy and laughter into your life and into the lives of all those around you.',
+        'author': 'Eileen Caddy'
+      },
+      {
+        'text': 'When you are grateful, fear disappears and abundance appears.',
+        'author': 'Anthony Robbins'
+      },
+      {
+        'text': 'Cultivate the habit of being grateful for every good thing that comes to you, and to give thanks continuously.',
+        'author': 'Ralph Waldo Emerson'
+      },
+      {
+        'text': 'Let us rise up and be thankful, for if we didn’t learn a lot today, at least we learned a little, and if we didn’t learn a little, at least we didn’t get sick, and if we got sick, at least we didn’t die; so, let us all be thankful.',
+        'author': 'Buddha'
+      },
+      {
+        'text': 'Opportunities, relationships, even money flowed my way when I learned to be grateful no matter what happened in my life.',
+        'author': 'Oprah Winfrey'
+      },
+    ]
     this.state = {
-      index: idxStart,
-      next: this.getNextIndex(idxStart),
-      visible: true
+      index: 0,
+      next: 0,
+      visible: false,
     }
   }
 
-  getNextIndex(idx) {
-    if (idx >= this.props.quotes.length - 1) {
+  componentDidMount() {
+    this.setState({
+      index: this.setRandomIndex(this.quotes),
+      visible: true
+    }, this.setInitialNextIndex())
+  }
+
+  setRandomIndex = items => {
+    if (items && items.constructor === Array) {
+      return Math.round(Math.random() * (items.length - 1))
+    }
+  }
+
+  setInitialNextIndex = () => {
+    let next = this.state.index + 1
+    if (next > this.quotes.length - 1) {
+      next = 0
+    }
+    this.setState({
+      next
+    })
+  }
+
+  getNextIndex = idx => {
+    if (idx >= this.quotes.length - 1) {
       return 0
     }
     return idx + 1
   }
 
-  getPreviousIndex(idx) {
+  getPreviousIndex = idx => {
     if (idx < 1) {
-      return this.props.quotes.length - 1
+      return this.quotes.length - 1
     }
     return idx - 1
   }
 
-  setNextIndexes(idx) {
+  setNextIndexes = idx => {
     this.setState({
       index: idx,
       next: this.getNextIndex(idx),
@@ -33,7 +93,7 @@ class DesktopQuotes extends Component {
     })
   }
 
-  setPreviousIndexes(idx) {
+  setPreviousIndexes = idx => {
     this.setState({
       index: idx,
       next: this.getPreviousIndex(idx),
@@ -61,7 +121,7 @@ class DesktopQuotes extends Component {
 
   render() {
     const visibleQuote = this.state.visible ? 'visible-quote' : '';
-    const quote = this.props.quotes[this.state.index]
+    const quote = this.quotes[this.state.index]
     return (
       <section title="domtoimage-ignore" className="quotes">
         <div className="quotes-wrapper quote-width absCenter">
@@ -86,7 +146,7 @@ class DesktopQuotes extends Component {
           }
           .quotes {
             background: lightblue;
-            height: 13rem;
+            height: 14rem;
             position: relative;
           }
           .quotes-container {

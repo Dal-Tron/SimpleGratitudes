@@ -16,7 +16,7 @@ export default (props) => <section className="time">
           font-weight: 300;
           text-align: center;
           color: white;
-          font-size: 1.5rem;
+          font-size: 1.4rem;
         }
       `}</style>
 </section>
