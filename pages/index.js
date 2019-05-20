@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import domtoimage from 'dom-to-image'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { generateUniqueID } from '../lib/helpers'
 
 import Head from 'next/head'
@@ -209,14 +210,28 @@ class Index extends Component {
         <Quotes />
         <section className='gratitudes'>
           {renderGratitudes}
-          <div title="domtoimage-ignore" onClick={this.handleAddGratitude} className='section-header'>+</div>
+          <div className="icon-container">
+            <div title="domtoimage-ignore" onClick={this.handleAddGratitude} className='icon icon-plus absCenter'>
+              <FontAwesomeIcon icon="plus" />
+            </div>
+            <div onClick={this.handleAddGratitude} className='icon absCenter'>
+              <FontAwesomeIcon icon="leaf" />
+            </div>
+          </div>
         </section>
         <div title="domtoimage-ignore" className={showVisions ? 'add-vision hide' : 'add-vision'}>
           <div className='action-button absCenter' onClick={this.showVisions}>add vision</div>
         </div>
         <div className={showVisions ? 'visions' : 'visions hide'}>
           {renderVisions}
-          <div title="domtoimage-ignore" onClick={this.handleAddVision} className='section-header'>+</div>
+          <div className="icon-container">
+            <div title="domtoimage-ignore" onClick={this.handleAddVision} className='icon icon-plus absCenter'>
+              <FontAwesomeIcon icon="plus" />
+            </div>
+            <div onClick={this.handleAddVision} className='icon absCenter'>
+              <FontAwesomeIcon icon="leaf" />
+            </div>
+          </div>
         </div>
         <Footer handleCreate={() => this.handleCreateImage()} />
         <style jsx global>{`
@@ -252,12 +267,23 @@ class Index extends Component {
       .hide {
         display: none;
       }
-      .section-header {
+      .icon-container {
+        position: relative;
+        height: 10rem;
         text-align: center;
-        padding: 2rem;
+        width: 2rem;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .icon {
+        text-align: center;
         color: white;
-        font-size: 2.5rem;
-        font-family: Sans-Serif, Arial;
+        font-size: 2rem;
+        background: lightblue;
+        padding: 1rem;
+      }
+      .icon-plus {
+        z-index: 1;
       }
       .gratitudes {
         background: lightblue;
