@@ -10,6 +10,7 @@ export default (props) => <section className='footer'>
       position: fixed;
       bottom: 4rem;
       width: 100%;
+      z-index: 2;
     }
     .download-button {
       background: white;

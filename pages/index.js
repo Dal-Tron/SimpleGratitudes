@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import domtoimage from 'dom-to-image'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { generateUniqueID } from '../lib/helpers'
 
 import Head from 'next/head'
@@ -8,6 +7,7 @@ import Brand from '../components/index/Brand'
 import Clock from '../components/index/Clock'
 import Quotes from '../components/index/Quotes'
 import Text from '../components/shared/Text'
+import AddTextIcon from '../components/index/AddTextIcon'
 import Footer from '../components/shared/Footer'
 
 class Index extends Component {
@@ -186,7 +186,6 @@ class Index extends Component {
       text={gratitudes[key]}
       handleRemoveText={() => this.handleRemoveGratitude(key)}
       handleSaveText={this.handleSaveGratitude}
-      rows='4'
       label='Gratitude'
     />)
 
@@ -196,7 +195,6 @@ class Index extends Component {
       text={visions[key]}
       handleRemoveText={() => this.handleRemoveVision(key)}
       handleSaveText={this.handleSaveVision}
-      rows='4'
       label='Vision'
     />)
 
@@ -210,28 +208,14 @@ class Index extends Component {
         <Quotes />
         <section className='gratitudes'>
           {renderGratitudes}
-          <div className="icon-container">
-            <div title="domtoimage-ignore" onClick={this.handleAddGratitude} className='icon icon-plus absCenter'>
-              <FontAwesomeIcon icon="plus" />
-            </div>
-            <div onClick={this.handleAddGratitude} className='icon absCenter'>
-              <FontAwesomeIcon icon="leaf" />
-            </div>
-          </div>
+          <AddTextIcon handleAdd={this.handleAddGratitude} />
         </section>
         <div title="domtoimage-ignore" className={showVisions ? 'add-vision hide' : 'add-vision'}>
           <div className='action-button absCenter' onClick={this.showVisions}>add vision</div>
         </div>
         <div className={showVisions ? 'visions' : 'visions hide'}>
           {renderVisions}
-          <div className="icon-container">
-            <div title="domtoimage-ignore" onClick={this.handleAddVision} className='icon icon-plus absCenter'>
-              <FontAwesomeIcon icon="plus" />
-            </div>
-            <div onClick={this.handleAddVision} className='icon absCenter'>
-              <FontAwesomeIcon icon="leaf" />
-            </div>
-          </div>
+          <AddTextIcon handleAdd={this.handleAddVision} />
         </div>
         <Footer handleCreate={() => this.handleCreateImage()} />
         <style jsx global>{`
@@ -266,24 +250,6 @@ class Index extends Component {
       }
       .hide {
         display: none;
-      }
-      .icon-container {
-        position: relative;
-        height: 10rem;
-        text-align: center;
-        width: 2rem;
-        margin-left: auto;
-        margin-right: auto;
-      }
-      .icon {
-        text-align: center;
-        color: white;
-        font-size: 2rem;
-        background: lightblue;
-        padding: 1rem;
-      }
-      .icon-plus {
-        z-index: 1;
       }
       .gratitudes {
         background: lightblue;
