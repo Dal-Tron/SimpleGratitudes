@@ -1,9 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Text = props => {
-  const handleKeyDown = e => {
+  const handleText = e => {
     e.target.style.height = 'inherit'
     e.target.style.height = `${e.target.scrollHeight}px`
+
+    props.handleSaveText(e)
   }
 
   return (
@@ -15,8 +17,8 @@ const Text = props => {
             id={props.id}
             placeholder="&nbsp;"
             value={props.text}
-            onChange={props.handleSaveText}
-            onKeyDown={handleKeyDown}
+            onChange={handleText}
+            onKeyDown={handleText}
           />
           <span className="text-label">{props.label}</span>
           <span title="domtoimage-ignore" className="text-label-text-border"></span>
