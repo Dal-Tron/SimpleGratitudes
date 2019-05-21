@@ -163,7 +163,6 @@ class Index extends Component {
     } = this.state
 
     const fileTimestamp = timestring.replace(/[ ,]/g, '_')
-
     const link = document.createElement('a')
     link.download = `Grateful_Vision_${fileTimestamp}.png`
     link.href = dataUrl
