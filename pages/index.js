@@ -143,28 +143,47 @@ class Index extends Component {
   }
 
   handleCreateImage = () => {
+    const canvas = document.getElementById('gratitudeCanvas')
     const filter = node => {
       return (node.title !== 'domtoimage-ignore')
     }
-    domtoimage.toPng(document.body, {
-      filter,
-    })
-      .then(dataUrl => {
-        this.handleDownloadImage(dataUrl)
+    var Frame = require('canvas-to-buffer')
+    var frame = new Frame(canvas)
+    var imageType = frame.getImageType()
+
+    if (imageType === 'image/jpeg') {
+      domtoimage.toJpeg(document.body, {
+        filter,
       })
-      .catch(err => {
-        alert('Sorry, there was an error with your file.')
+        .then(dataUrl => {
+          this.handleDownloadImage(dataUrl, 'jpeg')
+        })
+        .catch(err => {
+          alert('Sorry, there was an error with your file.')
+        })
+    }
+
+    if (imageType === 'image/png') {
+      domtoimage.toPng(document.body, {
+        filter,
       })
+        .then(dataUrl => {
+          this.handleDownloadImage(dataUrl, 'png')
+        })
+        .catch(err => {
+          alert('Sorry, there was an error with your file.')
+        })
+    }
   }
 
-  handleDownloadImage = dataUrl => {
+  handleDownloadImage = (dataUrl, type) => {
     const {
       timestring,
     } = this.state
 
     const fileTimestamp = timestring.replace(/[ ,]/g, '_')
     const link = document.createElement('a')
-    link.download = `Grateful_Vision_${fileTimestamp}.png`
+    link.download = `Grateful_Vision_${fileTimestamp}.${type}`
     link.href = dataUrl
     document.body.appendChild(link)
     link.click()
@@ -217,6 +236,7 @@ class Index extends Component {
           <AddTextIcon handleAdd={this.handleAddVision} />
         </div>
         <Footer handleCreate={() => this.handleCreateImage()} />
+        <canvas id="gratitudeCanvas" title="domtoimage-ignore" className="hide"></canvas>
         <style jsx global>{`
       @font-face {
         font-family: 'Righteous';
