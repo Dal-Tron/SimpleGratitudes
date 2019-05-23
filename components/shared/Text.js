@@ -9,20 +9,35 @@ const Text = props => {
   }
 
   return (
-    <div className="text-wrapper" >
+    <div className="text-wrapper">
       <div className="text-container">
         <div htmlFor={`text-` + props.id} className="text-input-wrapper">
           <textarea
-            className="text-input grateful"
+            className="text-input"
             id={props.id}
             placeholder="&nbsp;"
             value={props.text}
             onChange={handleText}
             onKeyDown={handleText}
+            style={{
+              resize: 'vertical',
+              WebkitAppearance: 'none',
+              width: '100%',
+              border: 0,
+              padding: '1.2rem .5rem 1.2rem .5rem',
+              fontSize: '26px',
+              fontWeight: '500',
+              borderBottom: '1px solid white',
+              background: 'none',
+              borderRadius: '0',
+              color: 'white',
+              transition: 'all 0.15s ease',
+              fontFamily: 'sans-serif'
+            }}
           />
-          <span className="text-label">{props.label}</span>
-          <span title="domtoimage-ignore" className="text-label-text-border"></span>
-          <span title="domtoimage-ignore" className="close-text" onClick={props.handleRemoveText}>
+          <span data-html2canvas-ignore className="text-label">{props.label}</span>
+          <span data-html2canvas-ignore className="text-label-text-border"></span>
+          <span data-html2canvas-ignore className="close-text" onClick={props.handleRemoveText}>
             {props.id === 'gratitude-0' || props.id === 'vision-0' ? null : <FontAwesomeIcon icon="times-circle" />}
           </span>
         </div>
@@ -64,21 +79,6 @@ const Text = props => {
             transform: scaleX(0);
             transform-origin: 0 -1;
             transition: all 0.15s ease;
-          }
-          .text-input-wrapper .text-input {
-            resize: vertical;
-            -webkit-appearance: none;
-            width: 100%;
-            border: 0;
-            padding: 1.2rem .5rem 1.2rem .5rem;
-            font-size: 26px;
-            font-weight: 500;
-            border-bottom: 1px solid white;
-            background: none;
-            border-radius: 0;
-            color: white;
-            transition: all 0.15s ease;
-            font-family: sans-serif;
           }
           .text-input-wrapper .text-input:hover {
             background: rgba(34,50,84,0.03);

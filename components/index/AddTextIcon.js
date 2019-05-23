@@ -1,12 +1,13 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import leaf from '../../static/icons/leaf'
 
 const AddTextIcon = props => {
   return <div className="icon-container">
-    <div title="domtoimage-ignore" onClick={props.handleAdd} className='icon icon-plus absCenter'>
+    <div data-html2canvas-ignore onClick={props.handleAdd} className='icon icon-plus absCenter'>
       <FontAwesomeIcon icon="plus" />
     </div>
-    <div onClick={props.handleAdd} className='icon absCenter'>
-      <FontAwesomeIcon icon="leaf" />
+    <div onClick={props.handleAdd} className='icon'>
+      <img src={leaf} alt="leaf" className='absCenter' />
     </div>
     <style jsx>{`
       .icon-container {

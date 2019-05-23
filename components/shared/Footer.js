@@ -1,6 +1,7 @@
 export default (props) => <section className='footer'>
   <div
     title="domtoimage-ignore"
+    data-html2canvas-ignore
     id='add-vision'
     className='action-button absCenter download-button'
     onClick={props.handleCreate}

@@ -1,5 +1,5 @@
 export default () => <section className="headspace">
-  <div className="intentions absCenter">
+  <div className="intentions font-Snippet absCenter">
     <div className="grateful">Grateful</div>
     <div className="vision">Vision</div>
   </div>
@@ -17,7 +17,6 @@ export default () => <section className="headspace">
       color: white;
       text-align: center;
       padding: 2rem 0;
-      font-family: Snippet, Sans-Serif, Arial;
     }
   `}</style>
 </section>

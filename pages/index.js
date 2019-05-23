@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import domtoimage from 'dom-to-image'
+import html2canvas from 'html2canvas'
 import { generateUniqueID } from '../lib/helpers'
 
 import Head from 'next/head'
@@ -143,37 +143,13 @@ class Index extends Component {
   }
 
   handleCreateImage = () => {
-    const canvas = document.getElementById('gratitudeCanvas')
-    const filter = node => {
-      return (node.title !== 'domtoimage-ignore')
-    }
-    var Frame = require('canvas-to-buffer')
-    var frame = new Frame(canvas)
-    var imageType = frame.getImageType()
-
-    if (imageType === 'image/jpeg') {
-      domtoimage.toJpeg(document.body, {
-        filter,
-      })
-        .then(dataUrl => {
-          this.handleDownloadImage(dataUrl, 'jpeg')
-        })
-        .catch(err => {
-          alert('Sorry, there was an error with your file.')
-        })
-    }
-
-    if (imageType === 'image/png') {
-      domtoimage.toPng(document.body, {
-        filter,
-      })
-        .then(dataUrl => {
-          this.handleDownloadImage(dataUrl, 'png')
-        })
-        .catch(err => {
-          alert('Sorry, there was an error with your file.')
-        })
-    }
+    html2canvas(document.getElementById('index'), {
+      backgroundColor: '#add8e6'
+    }).then(canvas => {
+      this.handleDownloadImage(canvas.toDataURL('image/png'), 'png')
+    }).catch(err => {
+      alert('An error has occurred when trying to download on your device.')
+    })
   }
 
   handleDownloadImage = (dataUrl, type) => {
@@ -228,7 +204,7 @@ class Index extends Component {
           {renderGratitudes}
           <AddTextIcon handleAdd={this.handleAddGratitude} />
         </section>
-        <div title="domtoimage-ignore" className={showVisions ? 'add-vision hide' : 'add-vision'}>
+        <div data-html2canvas-ignore className={showVisions ? 'add-vision hide' : 'add-vision'}>
           <div className='action-button absCenter' onClick={this.showVisions}>add vision</div>
         </div>
         <div className={showVisions ? 'visions' : 'visions hide'}>
@@ -236,7 +212,7 @@ class Index extends Component {
           <AddTextIcon handleAdd={this.handleAddVision} />
         </div>
         <Footer handleCreate={() => this.handleCreateImage()} />
-        <canvas id="gratitudeCanvas" title="domtoimage-ignore" className="hide"></canvas>
+        <canvas id="gratitudeCanvas" data-html2canvas-ignore className="hide"></canvas>
         <style jsx global>{`
       @font-face {
         font-family: 'Righteous';
@@ -269,6 +245,15 @@ class Index extends Component {
       }
       .hide {
         display: none;
+      }
+      .font-Snippet {
+        font-family: Snippet, Sans-Serif, Arial;
+      }
+      .font-Righteous {
+        font-family: Righteous, Sans-Serif, Arial;
+      }
+      .page-wrapper {
+        height: 100%;
       }
       .gratitudes {
         background: lightblue;

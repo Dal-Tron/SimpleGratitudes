@@ -123,12 +123,12 @@ class DesktopQuotes extends Component {
     const visibleQuote = this.state.visible ? 'visible-quote' : '';
     const quote = this.quotes[this.state.index]
     return (
-      <section title="domtoimage-ignore" className="quotes">
+      <section data-html2canvas-ignore className="quotes">
         <div className="quotes-wrapper quote-width absCenter">
           <div onClick={this.handlePreviousQuote} className="quote-icon quote-icon-left">
             &lt;
           </div>
-          <div className="quotes-container quote-width absCenter">
+          <div className="quotes-container font-Righteous quote-width absCenter">
             <div className={`quote-text ${visibleQuote}`}>
               {quote.text}
               <div className="quote-author">
@@ -151,7 +151,6 @@ class DesktopQuotes extends Component {
           }
           .quotes-container {
             color: white;
-            font-family: Righteous, Sans-Serif, Arial;
             letter-spacing: 1px;
             font-size: 1.2rem;
           }
