@@ -28,7 +28,7 @@ const Text = props => {
               fontSize: '26px',
               fontWeight: '500',
               borderBottom: '1px solid white',
-              background: 'none',
+              background: '#add8e6',
               borderRadius: '0',
               color: 'white',
               transition: 'all 0.15s ease',

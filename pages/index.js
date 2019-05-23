@@ -240,9 +240,6 @@ class Index extends Component {
         left: 50%;
         transform: translate(-50%, -50%);
       }
-      .inline {
-        display: inline-block;
-      }
       .hide {
         display: none;
       }
