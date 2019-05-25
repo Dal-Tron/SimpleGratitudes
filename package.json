@@ -20,12 +20,9 @@
     "@fortawesome/free-solid-svg-icons": "^5.8.1",
     "@fortawesome/react-fontawesome": "^0.1.4",
     "dom-to-image": "^2.6.0",
-    "file-saver": "^2.0.2",
-    "html2canvas": "^1.0.0-rc.1",
     "next": "^8.0.4",
     "now": "^15.2.0",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "request": "^2.88.0"
+    "react-dom": "^16.8.6"
   }
 }
