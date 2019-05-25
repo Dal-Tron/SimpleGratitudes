@@ -8,7 +8,8 @@ import Clock from '../components/index/Clock'
 import Quotes from '../components/index/Quotes'
 import Text from '../components/shared/Text'
 import AddTextIcon from '../components/index/AddTextIcon'
-import Footer from '../components/shared/Footer'
+import PreviewDownload from '../components/index/PreviewDownload';
+import GratefulImage from '../components/index/GratefulImage';
 
 class Index extends Component {
   state = {
@@ -19,7 +20,10 @@ class Index extends Component {
     showVisions: false,
     visions: {
       'vision-0': ''
-    }
+    },
+    previewVisible: false,
+    fileTimestamp: '',
+    imageURL: ''
   }
 
   componentDidMount() {
@@ -143,27 +147,49 @@ class Index extends Component {
   }
 
   handleCreateImage = () => {
-    html2canvas(document.getElementById('index'), {
-      backgroundColor: '#add8e6'
-    }).then(canvas => {
-      this.handleDownloadImage(canvas.toDataURL('image/png'), 'png')
-    }).catch(err => {
-      alert('An error has occurred when trying to download on your device.')
-    })
+    html2canvas(document.getElementById('index'))
+      .then(canvas => {
+        this.handleDownloadImage(canvas.toDataURL('image/png'))
+      })
   }
 
-  handleDownloadImage = (dataUrl, type) => {
+  handleDownloadImage = url => {
     const {
       timestring,
     } = this.state
-
     const fileTimestamp = timestring.replace(/[ ,]/g, '_')
-    const link = document.createElement('a')
-    link.download = `Grateful_Vision_${fileTimestamp}.${type}`
-    link.href = dataUrl
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
+    const link = document.getElementById('handleDownload')
+    link.setAttribute('href', url)
+    link.setAttribute('download', `Grateful_Vision_${fileTimestamp}.png`)
+  }
+
+  handlePreview = () => {
+    const {
+      timestring,
+    } = this.state
+    const fileTimestamp = timestring.replace(/[ ,]/g, '_')
+
+    html2canvas(document.getElementById('gratefulImageContent'), {
+      scale: 1
+    })
+      .then(canvas => {
+        this.setState({
+          fileTimestamp,
+          previewVisible: true,
+          imageURL: canvas.toDataURL('image/png')
+        })
+      })
+      .catch(err => {
+        alert('We encountered a problem trying to save your file.')
+      })
+  }
+
+  closePreview = () => {
+    this.setState({
+      fileTimestamp: '',
+      previewVisible: false,
+      imageURL: ''
+    })
   }
 
   render() {
@@ -171,7 +197,9 @@ class Index extends Component {
       timestring,
       gratitudes,
       visions,
-      showVisions
+      showVisions,
+      previewVisible,
+      imageURL
     } = this.state
 
     const renderGratitudes = Object.keys(gratitudes).map((key, index) => <Text
@@ -193,26 +221,36 @@ class Index extends Component {
     />)
 
     return (
-      <div id='index' className='page-wrapper'>
+      <div className='page-wrapper'>
         <Head>
           <meta name='viewport' content='initial-scale=1.0, width=device-width' />
+          <script src='/static/js/canvas-toBlob.js' />
         </Head>
-        <Brand />
-        <Clock timestring={timestring} />
-        <Quotes />
-        <section className='gratitudes'>
-          {renderGratitudes}
-          <AddTextIcon handleAdd={this.handleAddGratitude} />
-        </section>
-        <div data-html2canvas-ignore className={showVisions ? 'add-vision hide' : 'add-vision'}>
-          <div className='action-button absCenter' onClick={this.showVisions}>add vision</div>
+        <GratefulImage
+          previewVisible={previewVisible}
+          imageURL={imageURL}
+          closePreview={this.closePreview}
+        />
+        <div id='gratefulImageContent'>
+          <Brand />
+          <Clock timestring={timestring} />
+          <Quotes />
+          <section className='gratitudes'>
+            {renderGratitudes}
+            <AddTextIcon handleAdd={this.handleAddGratitude} />
+          </section>
+          <div data-html2canvas-ignore className={showVisions ? 'add-vision hide' : 'add-vision'}>
+            <div className='action-button absCenter' onClick={this.showVisions}>add vision</div>
+          </div>
+          <div className={showVisions ? 'visions' : 'visions hide'}>
+            {renderVisions}
+            <AddTextIcon handleAdd={this.handleAddVision} />
+          </div>
         </div>
-        <div className={showVisions ? 'visions' : 'visions hide'}>
-          {renderVisions}
-          <AddTextIcon handleAdd={this.handleAddVision} />
-        </div>
-        <Footer handleCreate={() => this.handleCreateImage()} />
-        <canvas id="gratitudeCanvas" data-html2canvas-ignore className="hide"></canvas>
+        <PreviewDownload
+          preview={previewVisible}
+          handlePreview={this.handlePreview}
+        />
         <style jsx global>{`
       @font-face {
         font-family: 'Righteous';
@@ -269,6 +307,17 @@ class Index extends Component {
         border: 2px solid white;
         padding: .5rem 1rem;
         border-radius: 2rem;
+      }
+      .preview-download-container {
+        position: relative;
+        height: 5rem;
+      }
+      .inverted-action-button {
+        background: white;
+        color: lightblue;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
       }
     `}</style>
       </div >

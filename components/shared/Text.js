@@ -58,6 +58,21 @@ const Text = props => {
             width: 100%;
             max-width: 380px;
           }
+          .text-input {
+              resize: 'vertical';
+              -webkit-appearance: none;
+              width: 100%;
+              border: 0;
+              padding: 1.2rem .5rem 1.2rem .5rem;
+              font-size: 26px;
+              font-weight: 500;
+              border-bottom: 1px solid white;
+              background: #add8e6;
+              borderRadius: 0;
+              color: white;
+              transition: all 0.15s ease;
+              font-family: sans-serif;
+          }
           .text-input-wrapper .text-label {
             position: absolute;
             top: 16px;

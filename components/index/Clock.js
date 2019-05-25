@@ -1,25 +1,15 @@
-export default (props) => <section className="time">
-  <div className="time-wrapper">
+export default props => <div
+  style={{
+    background: '#7eb8cb'
+  }}>
+  <div>
     <div style={{
       textAlign: 'center',
-      fontSize: '14px'
-    }} className="time-container">
-      <div style={{
-        display: 'inline-block'
-      }}>{props.timestring}</div>
+      fontSize: '20px',
+      fontFamily: 'Snippet, sans-serif',
+      color: 'white',
+    }}>
+      <div>{props.timestring}</div>
     </div>
   </div>
-  <style jsx>{`
-        .time {
-          background: #7eb8cb;
-        }
-        .time-wrapper {
-          position: relative;
-        }
-        .time-container {
-          font-family: 'Snippet', Sans-Serif;
-          font-weight: 300;
-          color: white;
-        }
-      `}</style>
-</section>
+</div>
