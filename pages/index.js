@@ -199,7 +199,8 @@ class Index extends Component {
       visions,
       showVisions,
       previewVisible,
-      imageURL
+      imageURL,
+      fileTimestamp
     } = this.state
 
     const renderGratitudes = Object.keys(gratitudes).map((key, index) => <Text
@@ -226,30 +227,36 @@ class Index extends Component {
           <meta name='viewport' content='initial-scale=1.0, width=device-width' />
           <script src='/static/js/canvas-toBlob.js' />
         </Head>
-        <GratefulImage
-          previewVisible={previewVisible}
-          imageURL={imageURL}
-          closePreview={this.closePreview}
-        />
-        <div id='gratefulImageContent'>
-          <Brand />
-          <Clock timestring={timestring} />
-          <Quotes />
-          <section className='gratitudes'>
-            {renderGratitudes}
-            <AddTextIcon handleAdd={this.handleAddGratitude} />
-          </section>
-          <div data-html2canvas-ignore className={showVisions ? 'add-vision hide' : 'add-vision'}>
-            <div className='action-button absCenter' onClick={this.showVisions}>add vision</div>
+        {previewVisible
+          ?
+          <GratefulImage
+            previewVisible={previewVisible}
+            imageURL={imageURL}
+            closePreview={this.closePreview}
+          />
+          :
+          <div id='gratefulImageContent'>
+            <Brand />
+            <Clock timestring={timestring} />
+            <Quotes />
+            <section className='gratitudes'>
+              {renderGratitudes}
+              <AddTextIcon handleAdd={this.handleAddGratitude} />
+            </section>
+            <div data-html2canvas-ignore className={showVisions ? 'add-vision hide' : 'add-vision'}>
+              <div className='action-button absCenter' onClick={this.showVisions}>add vision</div>
+            </div>
+            <div className={showVisions ? 'visions' : 'visions hide'}>
+              {renderVisions}
+              <AddTextIcon handleAdd={this.handleAddVision} />
+            </div>
           </div>
-          <div className={showVisions ? 'visions' : 'visions hide'}>
-            {renderVisions}
-            <AddTextIcon handleAdd={this.handleAddVision} />
-          </div>
-        </div>
+        }
         <PreviewDownload
           preview={previewVisible}
           handlePreview={this.handlePreview}
+          fileTimestamp={fileTimestamp}
+          imageURL={imageURL}
         />
         <style jsx global>{`
       @font-face {

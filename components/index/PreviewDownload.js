@@ -3,10 +3,9 @@ export default props => {
   if (props.preview) {
     button = <a
       id="handleDownload"
-      onClick={props.handleDownload}
       className="inverted-action-button action-button absCenter"
       download={`Grateful_Vision_${props.fileTimestamp}.png`}
-      href={props.url}
+      href={props.imageURL}
     >download</a>
   } else {
     button = <div
