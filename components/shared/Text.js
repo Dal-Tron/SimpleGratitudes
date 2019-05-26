@@ -35,9 +35,9 @@ const Text = props => {
               fontFamily: 'sans-serif'
             }}
           />
-          <span data-html2canvas-ignore className="text-label">{props.label}</span>
-          <span data-html2canvas-ignore className="text-label-text-border"></span>
-          <span data-html2canvas-ignore className="close-text" onClick={props.handleRemoveText}>
+          <span data-html2canvas-ignore title="domtoimage-ignore" className="text-label">{props.label}</span>
+          <span data-html2canvas-ignore title="domtoimage-ignore" className="text-label-text-border"></span>
+          <span data-html2canvas-ignore title="domtoimage-ignore" className="close-text" onClick={props.handleRemoveText}>
             {props.id === 'gratitude-0' || props.id === 'vision-0' ? null : <FontAwesomeIcon icon="times-circle" />}
           </span>
         </div>

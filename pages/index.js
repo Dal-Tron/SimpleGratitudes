@@ -146,28 +146,11 @@ class Index extends Component {
     })
   }
 
-  handleCreateImage = () => {
-    html2canvas(document.getElementById('index'))
-      .then(canvas => {
-        this.handleDownloadImage(canvas.toDataURL('image/png'))
-      })
-  }
-
-  handleDownloadImage = url => {
-    const {
-      timestring,
-    } = this.state
-    const fileTimestamp = timestring.replace(/[ ,]/g, '_')
-    const link = document.getElementById('handleDownload')
-    link.setAttribute('href', url)
-    link.setAttribute('download', `Grateful_Vision_${fileTimestamp}.png`)
-  }
-
   handlePreview = () => {
     const {
       timestring,
     } = this.state
-    const fileTimestamp = timestring.replace(/[ ,]/g, '_')
+    const fileTimestamp = timestring.replace(/[ ,:]/g, '_')
 
     html2canvas(document.getElementById('gratefulImageContent'), {
       scale: 1
@@ -225,7 +208,6 @@ class Index extends Component {
       <div className='page-wrapper'>
         <Head>
           <meta name='viewport' content='initial-scale=1.0, width=device-width' />
-          <script src='/static/js/canvas-toBlob.js' />
         </Head>
         {previewVisible
           ?
@@ -243,7 +225,7 @@ class Index extends Component {
               {renderGratitudes}
               <AddTextIcon handleAdd={this.handleAddGratitude} />
             </section>
-            <div data-html2canvas-ignore className={showVisions ? 'add-vision hide' : 'add-vision'}>
+            <div data-html2canvas-ignore title="domtoimage-ignore" className={showVisions ? 'add-vision hide' : 'add-vision'}>
               <div className='action-button absCenter' onClick={this.showVisions}>add vision</div>
             </div>
             <div className={showVisions ? 'visions' : 'visions hide'}>
