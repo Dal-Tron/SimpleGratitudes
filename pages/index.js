@@ -153,7 +153,8 @@ class Index extends Component {
     const fileTimestamp = timestring.replace(/[ ,:]/g, '_')
 
     html2canvas(document.getElementById('gratefulImageContent'), {
-      scale: 1
+      scale: 1,
+      logging: false
     })
       .then(canvas => {
         this.setState({
@@ -161,6 +162,7 @@ class Index extends Component {
           previewVisible: true,
           imageURL: canvas.toDataURL('image/png')
         })
+        this.handleDownload(canvas.toDataURL('image/png'))
       })
       .catch(err => {
         alert('We encountered a problem trying to save your file.')
@@ -173,6 +175,12 @@ class Index extends Component {
       previewVisible: false,
       imageURL: ''
     })
+  }
+
+  handleDownload = url => {
+    const link = document.getElementById('handleDownload')
+    link.setAttribute('href', url)
+    link.setAttribute('download', 'test.png')
   }
 
   render() {
@@ -234,6 +242,7 @@ class Index extends Component {
             </div>
           </div>
         }
+        <a id="handleDownload">download</a>
         <PreviewDownload
           preview={previewVisible}
           handlePreview={this.handlePreview}
