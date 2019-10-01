@@ -123,7 +123,7 @@ class DesktopQuotes extends Component {
     const visibleQuote = this.state.visible ? 'visible-quote' : '';
     const quote = this.quotes[this.state.index]
     return (
-      <section title="domtoimage-ignore" className="quotes">
+      <section className="quotes">
         <div className="quotes-wrapper quote-width absCenter">
           <div onClick={this.handlePreviousQuote} className="quote-icon quote-icon-left">
             &lt;

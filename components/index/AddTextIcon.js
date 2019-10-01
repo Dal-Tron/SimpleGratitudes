@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const AddTextIcon = props => {
   return <div className="icon-container">
-    <div title="domtoimage-ignore" onClick={props.handleAdd} className='icon icon-plus absCenter'>
+    <div onClick={props.handleAdd} className='icon icon-plus absCenter'>
       <FontAwesomeIcon icon="plus" />
     </div>
     <div onClick={props.handleAdd} className='icon absCenter'>

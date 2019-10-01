@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import domtoimage from 'dom-to-image'
 import { generateUniqueID } from '../lib/helpers'
 
 import Head from 'next/head'
@@ -8,7 +7,6 @@ import Clock from '../components/index/Clock'
 import Quotes from '../components/index/Quotes'
 import Text from '../components/shared/Text'
 import AddTextIcon from '../components/index/AddTextIcon'
-import Footer from '../components/shared/Footer'
 
 class Index extends Component {
   state = {
@@ -142,52 +140,13 @@ class Index extends Component {
     })
   }
 
-  handleCreateImage = () => {
-    const canvas = document.getElementById('gratitudeCanvas')
-    const filter = node => {
-      return (node.title !== 'domtoimage-ignore')
-    }
-    var Frame = require('canvas-to-buffer')
-    var frame = new Frame(canvas)
-    var imageType = frame.getImageType()
-
-    if (imageType === 'image/jpeg') {
-      domtoimage.toJpeg(document.body, {
-        filter,
-      })
-        .then(dataUrl => {
-          this.handleDownloadImage(dataUrl, 'jpeg')
-        })
-        .catch(err => {
-          alert('Sorry, there was an error with your file.')
-        })
-    }
-
-    if (imageType === 'image/png') {
-      domtoimage.toPng(document.body, {
-        filter,
-      })
-        .then(dataUrl => {
-          this.handleDownloadImage(dataUrl, 'png')
-        })
-        .catch(err => {
-          alert('Sorry, there was an error with your file.')
-        })
-    }
-  }
-
-  handleDownloadImage = (dataUrl, type) => {
-    const {
-      timestring,
-    } = this.state
-
-    const fileTimestamp = timestring.replace(/[ ,]/g, '_')
-    const link = document.createElement('a')
-    link.download = `Grateful_Vision_${fileTimestamp}.${type}`
-    link.href = dataUrl
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
+  handleSendData = () => {
+    const request = new XMLHttpRequest()
+    request.open('POST', 'http://206.189.211.120/api/create-image')
+    request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8')
+    // request.setRequestHeader('Access-Control-Allow-Origin', '*')
+    // request.setRequestHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, X-Token-Auth, Authorization')
+    request.send(JSON.stringify(this.state))
   }
 
   render() {
@@ -228,15 +187,14 @@ class Index extends Component {
           {renderGratitudes}
           <AddTextIcon handleAdd={this.handleAddGratitude} />
         </section>
-        <div title="domtoimage-ignore" className={showVisions ? 'add-vision hide' : 'add-vision'}>
+        <div className={showVisions ? 'add-vision hide' : 'add-vision'}>
           <div className='action-button absCenter' onClick={this.showVisions}>add vision</div>
         </div>
         <div className={showVisions ? 'visions' : 'visions hide'}>
           {renderVisions}
           <AddTextIcon handleAdd={this.handleAddVision} />
         </div>
-        <Footer handleCreate={() => this.handleCreateImage()} />
-        <canvas id="gratitudeCanvas" title="domtoimage-ignore" className="hide"></canvas>
+        <div onClick={this.handleSendData}>Send</div>
         <style jsx global>{`
       @font-face {
         font-family: 'Righteous';
