@@ -20,7 +20,9 @@ const Text = props => {
             onChange={handleText}
             onKeyDown={handleText}
           />
-          <span className="text-label">{props.label}</span>
+          <span className="text-label" title="domtoimage-ignore">
+            {props.label}
+          </span>
           <span
             title="domtoimage-ignore"
             className="text-label-text-border"
@@ -54,8 +56,10 @@ const Text = props => {
         }
         .text-input-wrapper .text-label {
           position: absolute;
-          top: 16px;
-          left: 0.5rem;
+          width: 100%;
+          text-align: center;
+          top: 50px;
+          left: 0;
           font-size: 20px;
           color: white;
           font-weight: 500;
@@ -95,7 +99,7 @@ const Text = props => {
         }
         .text-input-wrapper .text-input:not(:placeholder-shown) + span {
           color: #7eb8cb;
-          transform: translateY(-26px) scale(0.75);
+          transform: translateY(-55px);
         }
         .text-input-wrapper .text-input:focus {
           background: none;
@@ -103,14 +107,13 @@ const Text = props => {
         }
         .text-input-wrapper .text-input:focus + span {
           color: #7eb8cb;
-          transform: translateY(-26px) scale(0.75);
+          transform: translateY(-55px);
         }
         .text-input-wrapper .text-input:focus + span + .text-label-text-border {
           transform: scaleX(1);
         }
         .close-text {
           position: absolute;
-          top: -1rem;
           right: 0.5rem;
           color: white;
         }

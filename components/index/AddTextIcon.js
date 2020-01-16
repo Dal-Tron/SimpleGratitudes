@@ -7,7 +7,6 @@ const AddTextIcon = props => {
         title="domtoimage-ignore"
         onClick={props.handleAdd}
         className="icon icon-plus"
-        style={{ position: "absolute" }}
       >
         <FontAwesomeIcon icon="plus" />
       </div>
@@ -19,7 +18,7 @@ const AddTextIcon = props => {
           position: relative;
           height: 10rem;
           text-align: center;
-          width: 2rem;
+          width: 100px;
           margin-left: auto;
           margin-right: auto;
         }
@@ -32,6 +31,9 @@ const AddTextIcon = props => {
         }
         .icon-plus {
           z-index: 1;
+          position: absolute;
+          left: 0;
+          right: 0;
         }
       `}</style>
     </div>

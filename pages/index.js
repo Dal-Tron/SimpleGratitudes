@@ -117,7 +117,6 @@ class Index extends Component {
 
   handleDownloadImage = (dataUrl, type) => {
     const { timestring } = this.state;
-
     const fileTimestamp = timestring.replace(/[ ,]/g, "_");
     const link = document.createElement("a");
     link.download = `Simple_Gratitudes_${fileTimestamp}.${type}`;

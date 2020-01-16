@@ -11,7 +11,7 @@ export default () => (
         position: relative;
       }
       .intention {
-        font-size: 2rem;
+        font-size: 1.5rem;
         color: white;
         text-align: center;
         padding: 2rem 0;
