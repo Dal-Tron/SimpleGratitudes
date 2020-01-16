@@ -1,3 +1,3 @@
 module.exports = {
-  target: 'serverless'
-}
+  target: process.env.DEV === "development" ? "server" : "serverless"
+};

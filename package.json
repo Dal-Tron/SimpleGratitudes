@@ -1,7 +1,7 @@
 {
-  "name": "Gratitude",
+  "name": "simple_gratitudes",
   "version": "1.2.0",
-  "description": "Place to create a grateful vision.",
+  "description": "Place to create simple gratitudes.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,7 +11,9 @@
     "now-build": "next build"
   },
   "keywords": [
-    "Grateful Vision"
+    "Grateful Vision",
+    "Simple Gratitudes",
+    "Gratitudes"
   ],
   "author": "Dallas",
   "license": "ISC",
@@ -22,7 +24,7 @@
     "canvas-to-buffer": "^1.0.14",
     "dom-to-image": "^2.6.0",
     "next": "^8.0.4",
-    "now": "^15.2.0",
+    "now": "^15.8.7",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "request": "^2.88.0"
