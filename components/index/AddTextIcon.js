@@ -6,11 +6,12 @@ const AddTextIcon = props => {
       <div
         title="domtoimage-ignore"
         onClick={props.handleAdd}
-        className="icon icon-plus absCenter"
+        className="icon icon-plus"
+        style={{ position: "absolute" }}
       >
         <FontAwesomeIcon icon="plus" />
       </div>
-      <div onClick={props.handleAdd} className="icon absCenter">
+      <div onClick={props.handleAdd} className="icon">
         <FontAwesomeIcon icon="leaf" />
       </div>
       <style jsx>{`
