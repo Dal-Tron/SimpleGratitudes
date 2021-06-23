@@ -3,12 +3,14 @@ import Head from 'next/head'
 import dayjs from 'dayjs'
 import { SmileTwoTone } from '@ant-design/icons'
 import { useRouter } from 'next/router'
+import { useAuth } from 'Context/auth'
 
 export default function Home() {
   const getTime = () => dayjs().format('h:mm A MMMM D, YYYY');
   const [time, setTime] = useState(() => getTime());
   const router = useRouter();
   const { page } = router.query;
+  const { user, signOut } = useAuth();
 
   useEffect(() => {
     const timer = setInterval(() => {

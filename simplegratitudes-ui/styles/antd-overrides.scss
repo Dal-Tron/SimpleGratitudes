@@ -1,5 +1,9 @@
+$colour1: lightblue;
+$colour2: #5190a5;
+$colour3: #73b8cb;
+
 html {
-  --antd-wave-shadow-color: #5190a5;
+  --antd-wave-shadow-color: $colour2;
 }
 
 .ant-modal {
@@ -7,7 +11,7 @@ html {
 }
 
 .ant-modal-content {
-  background-color: lightblue;
+  background-color: $colour1;
   border-radius: 20px;
 }
 
@@ -15,20 +19,20 @@ html {
   color: white;
 
   &.ant-tabs-tab-active .ant-tabs-tab-btn {
-    color: #5190a5;
+    color: $colour2;
   }
 }
 
 .ant-tabs-ink-bar {
-  background: #5190a5;
+  background: $colour2;
 }
 
 .ant-btn-primary {
   &:focus {
-    background: #5190a5;
+    background: $colour2;
   }
-  background: #5190a5;
-  border-color: #5190a5;
+  background: $colour2;
+  border-color: $colour2;
 }
 
 .ant-btn {
@@ -37,7 +41,7 @@ html {
   &:hover, 
   &:focus {
     color: white;
-    border-color: #73b8cb;
+    border-color: $colour3;
   }
 }
 
@@ -47,6 +51,15 @@ html {
 
 .ant-form-item-explain {
   &.ant-form-item-explain-error {
-    color: #5190a5;
+    color: $colour2;
+  }
+}
+
+.ant-notification-notice {
+  background-color: $colour3;
+  border-radius: 20px;
+
+  &-message {
+    color: white;
   }
 }

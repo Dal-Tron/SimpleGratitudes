@@ -1,28 +1,39 @@
 
 import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
+import { useRouter } from 'next/router'
 
 import { useAuth } from 'Context/auth'
-import { supabase } from 'Supabase/client';
 
 const Register = ({ closeModal }) => {
+  const router = useRouter();
   const [form] = Form.useForm();
   const { register, updateUser } = useAuth();
 
   const onFinish = async (values) => {
     const { email, password, username } = values;
-    const { error } = await register({ email, password });
+    const { error, user } = await register({ email, password });
 
     if (error) {
-      alert('Registration error');
+      notification.open({
+        message: error.message,
+        type: 'error',
+        duration: 2,
+      });
     } else {
       const { error } = await updateUser({ username });
 
       if (error) {
-        alert('Username error');
+        notification.open({
+          message: error.message,
+          type: 'error',
+          duration: 2,
+        });
       } else {
         form.resetFields();
         closeModal();
+
+        router.push(`/${user.user_metadata.username}`);
       }
     }
   };

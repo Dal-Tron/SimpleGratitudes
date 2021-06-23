@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
 import dayjs from 'dayjs'
-import { SmileTwoTone } from '@ant-design/icons'
-import { Modal, Tabs } from 'antd'
+import { SmileTwoTone, PoweroffOutlined } from '@ant-design/icons'
+import { Modal, Tabs, notification } from 'antd'
 
 import SignIn from 'Components/SignIn'
 import Register from 'Components/Register'
@@ -25,6 +25,22 @@ export default function Home() {
 
     return () => clearInterval(timer);
   });
+
+  const handleSignOut = () => {
+    notification.open({
+      type: 'warning',
+      message: 'Click to sign out',
+      onClick: () => {
+        signOut();
+        notification.open({
+          type: 'success',
+          message: 'Signed Out!',
+          duration: 2,
+        })
+      },
+      duration: 2,
+    })
+  }
 
   const openModal = () => {
     setModalVisible(true);
@@ -54,8 +70,9 @@ export default function Home() {
           <div>Gratitudes</div>
         </div>
         <div className='avatar'>
-          <div onClick={openModal}>
-            <SmileTwoTone twoToneColor='#73b8cb' />
+          <div>
+            <span onClick={openModal}><SmileTwoTone twoToneColor='#73b8cb' /></span>
+            {user && <span onClick={handleSignOut} style={{ marginLeft: 10 }}><PoweroffOutlined /></span>}
           </div>
         </div>
       </section>

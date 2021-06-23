@@ -1,22 +1,30 @@
-import { Form, Input, Button } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { Form, Input, Button, notification } from 'antd';
+import { LockOutlined, MailOutlined } from '@ant-design/icons';
+import { useRouter } from 'next/router';
 
 import { useAuth } from 'Context/auth';
 
-const SignIn = () => {
+const SignIn = ({ closeModal }) => {
+  const router = useRouter();
   const [form] = Form.useForm();
   const { signIn } = useAuth();
 
   const onFinish = async (values) => {
     const { email, password } = values;
 
-    const { error } = await signIn({ email, password });
+    const { error, user } = await signIn({ email, password });
 
     if (error) {
-      alert('Error signing in.');
+      notification.open({
+        message: error.message,
+        type: 'error',
+        duration: 2,
+      });
     } else {
       form.resetFields();
       closeModal();
+
+      router.push(`/${user.user_metadata.username}`);
     }
   };
 
@@ -27,15 +35,15 @@ const SignIn = () => {
       form={form}
     >
       <Form.Item
-        name="username"
+        name="email"
         rules={[
           {
             required: true,
-            message: 'Please input your Username!',
+            message: 'Please input your Email!',
           },
         ]}
       >
-        <Input prefix={<UserOutlined />} placeholder="Username" />
+        <Input prefix={<MailOutlined />} placeholder="Email" />
       </Form.Item>
       <Form.Item
         name="password"
