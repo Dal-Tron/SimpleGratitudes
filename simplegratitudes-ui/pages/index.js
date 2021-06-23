@@ -2,10 +2,21 @@ import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
 import dayjs from 'dayjs'
 import { SmileTwoTone } from '@ant-design/icons'
+import { Modal, Tabs } from 'antd'
+
+import SignIn from 'Components/SignIn'
+import Register from 'Components/Register'
+import { useAuth } from 'Context/auth'
+
+const { TabPane } = Tabs;
 
 export default function Home() {
   const getTime = () => dayjs().format('h:mm A MMMM D, YYYY');
   const [time, setTime] = useState(() => getTime());
+  const [modalVisible, setModalVisible] = useState(false);
+  const { user, signOut } = useAuth();
+
+  console.log('user: ', user);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -14,6 +25,18 @@ export default function Home() {
 
     return () => clearInterval(timer);
   });
+
+  const openModal = () => {
+    setModalVisible(true);
+  }
+
+  const handleOkModal = () => {
+    setModalVisible(false);
+  }
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
+  }
 
   return (
     <div className='wrapper'>
@@ -25,13 +48,15 @@ export default function Home() {
           content="initial-scale=1.0, width=device-width"
         />
       </Head>
-      <section className="headspace">
+      <section className='headspace'>
         <div className='intention'>
           <div>Simple</div>
           <div>Gratitudes</div>
         </div>
         <div className='avatar'>
-          <SmileTwoTone twoToneColor='#73b8cb' />
+          <div onClick={openModal}>
+            <SmileTwoTone twoToneColor='#73b8cb' />
+          </div>
         </div>
       </section>
       <section className="time">
@@ -40,6 +65,16 @@ export default function Home() {
       <section className="container">
         Hello
       </section>
-    </div >
+      <Modal visible={modalVisible} onCancel={handleCloseModal} footer={null}>
+        <Tabs animated={true}>
+          <TabPane tab="Sign In" key="1">
+            <SignIn closeModal={handleCloseModal} />
+          </TabPane>
+          <TabPane tab="Register" key="2">
+            <Register closeModal={handleCloseModal} />
+          </TabPane>
+        </Tabs>
+      </Modal>
+    </div>
   )
 }

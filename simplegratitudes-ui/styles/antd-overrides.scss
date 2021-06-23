@@ -1,0 +1,52 @@
+html {
+  --antd-wave-shadow-color: #5190a5;
+}
+
+.ant-modal {
+  width: 400px;
+}
+
+.ant-modal-content {
+  background-color: lightblue;
+  border-radius: 20px;
+}
+
+.ant-tabs-tab {
+  color: white;
+
+  &.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: #5190a5;
+  }
+}
+
+.ant-tabs-ink-bar {
+  background: #5190a5;
+}
+
+.ant-btn-primary {
+  &:focus {
+    background: #5190a5;
+  }
+  background: #5190a5;
+  border-color: #5190a5;
+}
+
+.ant-btn {
+  border-radius: 7px;
+
+  &:hover, 
+  &:focus {
+    color: white;
+    border-color: #73b8cb;
+  }
+}
+
+.ant-modal-footer {
+  border-top: none;
+}
+
+.ant-form-item-explain {
+  &.ant-form-item-explain-error {
+    color: #5190a5;
+  }
+}

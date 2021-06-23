@@ -51,7 +51,8 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    "components/Register.js"
   ],
   "exclude": [
     "node_modules"

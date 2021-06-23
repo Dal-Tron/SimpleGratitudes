@@ -1,8 +1,14 @@
 import '../styles/index.scss'
 import 'antd/dist/antd.css'
+import '../styles/antd-overrides.scss'
+import { AuthProvider } from 'Context/auth'
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+function App({ Component, pageProps }) {
+  return (
+    <AuthProvider>
+      <Component {...pageProps} />
+    </AuthProvider>
+  );
 }
 
-export default MyApp
+export default App
