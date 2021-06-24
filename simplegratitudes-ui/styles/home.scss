@@ -233,3 +233,20 @@
   }
 }
 
+.loader {
+  text-align: center;
+  width: 100%;
+}
+
+.empty-data {
+  width: 100%;
+
+  &-image {
+    font-size: 60px;
+  }
+
+  &-text {
+    color: $colour1;
+  }
+}
+

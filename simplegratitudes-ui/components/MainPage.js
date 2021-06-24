@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, Tabs, notification, Button, Switch, Input } from 'antd'
+import { Modal, Tabs, notification, Button, Switch, Input, Spin, Empty } from 'antd'
 import Head from 'next/head'
 import dayjs from 'dayjs'
 import { HomeOutlined, SmileTwoTone, PoweroffOutlined, PlusCircleOutlined, UserOutlined } from '@ant-design/icons'
@@ -12,7 +12,6 @@ import SignIn from 'Components/SignIn'
 import Register from 'Components/Register'
 import Gratitude from 'Components/Gratitude'
 
-
 const { TabPane } = Tabs;
 const { TextArea } = Input;
 
@@ -21,6 +20,7 @@ export default function MainPage({ gratitudes = [], pageType = 'main' }) {
   const [time, setTime] = useState(() => getTime());
   const [animateGratitudeButton, setAnimateGratitudeButton] = useState(false);
   const [addGratitudeModalVisible, setAddGratitudeModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [newGratitudeText, setNewGratitudeText] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [newGratitudePublic, setNewGratitudePublic] = useState(false);
@@ -33,11 +33,15 @@ export default function MainPage({ gratitudes = [], pageType = 'main' }) {
   useEffect(() => {
     if (pageType === 'user') {
       const fetchData = async () => {
+        setLoading(true);
+
         const { data = [], error } = await supabase.from('gratitudes').select('*').eq('username', page);
 
         if (error) {
           console.log('fetching gratitudes error: ', error.message);
         }
+
+        setLoading(false);
 
         setUserGratitudes(data);
       }
@@ -53,6 +57,15 @@ export default function MainPage({ gratitudes = [], pageType = 'main' }) {
 
     return () => clearInterval(timer);
   });
+
+  useEffect(() => {
+    if (pageType === 'main') {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
+    }
+  }, []);
 
   const handleSignOut = () => {
     notification.open({
@@ -217,6 +230,18 @@ export default function MainPage({ gratitudes = [], pageType = 'main' }) {
       return dayjs(b.inserted_at) - dayjs(a.inserted_at);
     });
 
+    if (displayGratitudes.length < 1) {
+      return <div className='empty-data'>
+        <Empty description={
+          <span className='empty-data-text'>
+            More gratitudes needed...
+          </span>
+        }
+          image={<span className='empty-data-image'><SmileTwoTone twoToneColor='#73b8cb' /></span>}
+        />
+      </div>;
+    }
+
     return displayGratitudes.map(({ id, gratitude, username, inserted_at }) => (
       <Gratitude
         key={id}
@@ -251,7 +276,7 @@ export default function MainPage({ gratitudes = [], pageType = 'main' }) {
       </section>
       <section className="container">
         {renderAddGratitudeButton()}
-        {renderGratitudes()}
+        {!loading ? renderGratitudes() : <div className='loader'><Spin size='large' twoToneColor='#73b8cb' /></div>}
       </section>
       <Modal className="user-modal" visible={modalVisible} onCancel={handleCloseModal} footer={null}>
         {renderSignInTabs()}
