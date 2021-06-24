@@ -7,5 +7,8 @@ module.exports = {
   env: {
     SUPABASE_URL: process.env.SUPABASE_URL,
     SUPABASE_SERVICE_KEY: process.env.SUPABASE_SERVICE_KEY,
+  },
+  images: {
+    domains: ['hedciaofaszacfhqwvky.supabase.co']
   }
 }

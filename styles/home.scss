@@ -250,3 +250,31 @@
   }
 }
 
+.main-footer {
+  // height: 40px;
+  background-color: $colour3;
+  display: flex;
+  flex-direction: column;
+
+  &-copyright-container {
+    text-align: center;
+    color: white;
+    font-size: 20px;
+  }
+
+  &-copyright-text {
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    height: 50px;
+  }
+}
+
+.donate-button {
+  display: flex;
+  margin-left: 10px;
+}
+

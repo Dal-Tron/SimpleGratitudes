@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { Modal, Tabs, notification, Button, Switch, Input, Spin, Empty } from 'antd'
 import Head from 'next/head'
 import dayjs from 'dayjs'
-import { HomeOutlined, SmileTwoTone, PoweroffOutlined, PlusCircleOutlined, UserOutlined } from '@ant-design/icons'
+import { HomeOutlined, SmileTwoTone, PoweroffOutlined, PlusCircleOutlined, UserOutlined, CopyrightOutlined } from '@ant-design/icons'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
 
 import { supabase } from 'Supabase/client'
 import { useAuth } from 'Context/auth'
@@ -140,6 +141,13 @@ export default function MainPage({ pageType = 'main' }) {
           message: 'Successfully saved gratitude!'
         });
 
+        if (newGratitudePublic) {
+          notification.open({
+            type: 'success',
+            message: 'Also submitted for public approval!'
+          });
+        }
+
         setAddGratitudeModalVisible(false);
         setNewGratitudeText('');
       }
@@ -217,81 +225,106 @@ export default function MainPage({ pageType = 'main' }) {
   }
 
   const renderGratitudes = () => {
-    gratitudes.sort((a, b) => {
-      return dayjs(b.inserted_at) - dayjs(a.inserted_at);
-    });
+    if (gratitudes && gratitudes.length > 0) {
+      gratitudes.sort((a, b) => {
+        return dayjs(b.inserted_at) - dayjs(a.inserted_at);
+      });
 
-    if (gratitudes.length < 1 && !loading) {
-      return <div className='empty-data'>
-        <Empty description={
-          <span className='empty-data-text'>
-            More gratitudes needed...
-          </span>
-        }
-          image={<span className='empty-data-image'><SmileTwoTone twoToneColor='#73b8cb' /></span>}
+      return gratitudes.map(({ id, gratitude, username, inserted_at }) => (
+        <Gratitude
+          key={id}
+          gratitude={gratitude}
+          username={username}
+          date={inserted_at}
         />
-      </div>;
+      ));
+    } else {
+      return (
+        <div className='empty-data'>
+          <Empty description={
+            <span className='empty-data-text'>
+              More gratitudes needed...
+          </span>
+          }
+            image={<span className='empty-data-image'><SmileTwoTone twoToneColor='#73b8cb' /></span>}
+          />
+        </div>
+      )
     }
-
-    return gratitudes.map(({ id, gratitude, username, inserted_at }) => (
-      <Gratitude
-        key={id}
-        gratitude={gratitude}
-        username={username}
-        date={inserted_at}
-      />
-    ))
   }
 
   return (
-    <div className='wrapper'>
-      <Head>
-        <title>Simple Gratitudes</title>
-        <link rel="icon" href="/favicon.ico" />
-        <meta
-          name="viewport"
-          content="initial-scale=1.0, width=device-width"
-        />
-      </Head>
-      <section className='headspace'>
-        <div onClick={() => router.push('/')} className='intention'>
-          <div>{pageType === 'main' ? 'Simple' : `${page}'s`}</div>
-          <div>{pageType === 'main' ? 'Gratitudes' : 'gratitudes'}</div>
-        </div>
-        <div className='avatar'>
-          {renderAvatarButtons()}
-        </div>
-      </section>
-      <section className="time">
-        {time}
-      </section>
-      <section className="container">
-        {renderAddGratitudeButton()}
-        {!loading ? renderGratitudes() : <div className='loader'><Spin size='large' /></div>}
-      </section>
-      <Modal className="user-modal" visible={modalVisible} onCancel={handleCloseModal} footer={null}>
-        {renderSignInTabs()}
-      </Modal>
-      <Modal className="add-gratitude-modal"
-        visible={addGratitudeModalVisible}
-        destroyOnClose={true}
-        onCancel={handleCloseAddGratitudeModal}
-        footer={renderAddGratitudeModalFooter()}
-      >
-        <div className='new-gratitude'>
-          <TextArea
-            maxLength={255}
-            onChange={handleNewGratitudeText}
-            value={newGratitudeText}
-            className='new-gratitude-textarea'
-            placeholder='My simple gratitude is...'
-            onKeyPress={handleTextAreaKeyPress}
-            autoSize={true}
+    <>
+      <div className='wrapper'>
+        <Head>
+          <title>Simple Gratitudes</title>
+          <link rel="icon" href="/favicon.ico" />
+          <meta
+            name="viewport"
+            content="initial-scale=1.0, width=device-width"
           />
-          <span className='new-gratitude-from'>Shared by {user?.user_metadata?.username}</span>
-          <span className='new-gratitude-date'>{dayjs().format('MMMM D, YYYY')}</span>
+        </Head>
+        <section className='headspace'>
+          <div onClick={() => router.push('/')} className='intention'>
+            <div>{pageType === 'main' ? 'Simple' : `${page}'s`}</div>
+            <div>{pageType === 'main' ? 'Gratitudes' : 'gratitudes'}</div>
+          </div>
+          <div className='avatar'>
+            {renderAvatarButtons()}
+          </div>
+        </section>
+        <section className="time">
+          {time}
+        </section>
+        <section className="container">
+          {renderAddGratitudeButton()}
+          {!loading ? renderGratitudes() : <div className='loader'><Spin size='large' /></div>}
+        </section>
+        <Modal className="user-modal" visible={modalVisible} onCancel={handleCloseModal} footer={null}>
+          {renderSignInTabs()}
+        </Modal>
+        <Modal className="add-gratitude-modal"
+          visible={addGratitudeModalVisible}
+          destroyOnClose={true}
+          onCancel={handleCloseAddGratitudeModal}
+          footer={renderAddGratitudeModalFooter()}
+        >
+          <div className='new-gratitude'>
+            <TextArea
+              maxLength={255}
+              onChange={handleNewGratitudeText}
+              value={newGratitudeText}
+              className='new-gratitude-textarea'
+              placeholder='My simple gratitude is...'
+              onKeyPress={handleTextAreaKeyPress}
+              autoSize={true}
+            />
+            <span className='new-gratitude-from'>Shared by {user?.user_metadata?.username}</span>
+            <span className='new-gratitude-date'>{dayjs().format('MMMM D, YYYY')}</span>
+          </div>
+        </Modal>
+      </div>
+      <div className='main-footer'>
+        <div className='main-footer-copyright-container'>
+          <div className='main-footer-copyright-text'>
+            <Image
+              src='https://hedciaofaszacfhqwvky.supabase.co/storage/v1/object/public/simplegratitudes/Logo-white.png'
+              alt='Herman & Dob Inc'
+              width={122}
+              height={30}
+            />
+            <CopyrightOutlined />
+            <div>{dayjs().format('YYYY')}</div>
+            <div className='donate-button-container'>
+              <form className='donate-button' action="https://www.paypal.com/donate" method="post" target="_top">
+                <input type="hidden" name="hosted_button_id" value="CC69U2F87CN72" />
+                <input type="image" src="https://hedciaofaszacfhqwvky.supabase.co/storage/v1/object/public/simplegratitudes/support-1.png" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+                <img alt="" border="0" src="https://www.paypal.com/en_CA/i/scr/pixel.gif" width="1" height="1" />
+              </form>
+            </div>
+          </div>
         </div>
-      </Modal>
-    </div>
+      </div>
+    </>
   )
 }
