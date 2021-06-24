@@ -111,7 +111,7 @@ export default function MainPage({ pageType = 'main' }) {
   }
 
   const handleTextAreaKeyPress = (e) => {
-    const re = /[0-9A-Za-z\! \.]+/g;
+    const re = /[0-9A-Za-z\! \.\'\,]+/g;
     if (!re.test(e.key)) {
       e.preventDefault();
     }
