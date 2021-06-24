@@ -131,7 +131,7 @@ export default function MainPage({ gratitudes = [], pageType = 'main' }) {
   }
 
   const handleSubmitGratitude = async () => {
-    if (user && user.user_metadata) {
+    if (user && user.user_metadata && user.user_metadata.username) {
       const { data, error } = await supabase.from('gratitudes').insert([
         { gratitude: newGratitudeText, user_id: user.id, username: user.user_metadata.username, public: newGratitudePublic }
       ]);
@@ -149,6 +149,9 @@ export default function MainPage({ gratitudes = [], pageType = 'main' }) {
           type: 'success',
           message: 'Successfully saved gratitude!'
         });
+
+        setAddGratitudeModalVisible(false);
+        setNewGratitudeText('');
       }
     }
   }
