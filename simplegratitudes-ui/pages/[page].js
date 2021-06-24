@@ -3,11 +3,16 @@ import Head from 'next/head'
 import dayjs from 'dayjs'
 import { SmileTwoTone } from '@ant-design/icons'
 import { useRouter } from 'next/router'
+
+import { supabase } from 'Supabase/client'
 import { useAuth } from 'Context/auth'
 
-export default function Home() {
+import Gratitude from 'Components/Gratitude'
+
+export default function Page() {
   const getTime = () => dayjs().format('h:mm A MMMM D, YYYY');
   const [time, setTime] = useState(() => getTime());
+  const [gratitudes, setGratitudes] = useState([]);
   const router = useRouter();
   const { page } = router.query;
   const { user, signOut } = useAuth();
@@ -19,6 +24,20 @@ export default function Home() {
 
     return () => clearInterval(timer);
   });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data = [], error } = await supabase.from('gratitudes').select('*').eq('username', page);
+
+      if (error) {
+        console.log('fetching gratitudes error: ', error.message);
+      }
+
+      setGratitudes(data);
+    }
+
+    fetchData();
+  }, [page]);
 
   return (
     <div className='wrapper'>
@@ -32,7 +51,7 @@ export default function Home() {
       </Head>
       <section className="headspace">
         <div className='intention'>
-          <div>{page}</div>
+          <div>{page}'s</div>
           <div>gratitudes</div>
         </div>
         <div className='avatar'>
@@ -43,7 +62,14 @@ export default function Home() {
         {time}
       </section>
       <section className="container">
-        Hello
+        {gratitudes.map(({ id, gratitude, username, inserted_at }) => (
+          <Gratitude
+            key={id}
+            gratitude={gratitude}
+            username={username}
+            date={inserted_at}
+          />
+        ))}
       </section>
     </div >
   )

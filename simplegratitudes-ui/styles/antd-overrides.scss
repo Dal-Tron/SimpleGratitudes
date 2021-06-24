@@ -1,6 +1,4 @@
-$colour1: lightblue;
-$colour2: #5190a5;
-$colour3: #73b8cb;
+@import './colours.scss';
 
 html {
   --antd-wave-shadow-color: $colour2;
@@ -13,6 +11,7 @@ html {
 .ant-modal-content {
   background-color: $colour1;
   border-radius: 20px;
+  box-shadow: none !important;
 }
 
 .ant-tabs-tab {
