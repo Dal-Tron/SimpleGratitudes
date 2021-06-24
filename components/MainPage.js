@@ -15,7 +15,7 @@ import Gratitude from 'Components/Gratitude'
 const { TabPane } = Tabs;
 const { TextArea } = Input;
 
-export default function MainPage({ gratitudes = [], pageType = 'main' }) {
+export default function MainPage({ pageType = 'main' }) {
   const getTime = () => dayjs().format('h:mm A MMMM D, YYYY');
   const [time, setTime] = useState(() => getTime());
   const [animateGratitudeButton, setAnimateGratitudeButton] = useState(false);
@@ -27,27 +27,26 @@ export default function MainPage({ gratitudes = [], pageType = 'main' }) {
   const { user, signOut } = useAuth();
   const router = useRouter();
 
-  const [userGratitudes, setUserGratitudes] = useState([]);
+  const [gratitudes, setGratitudes] = useState([]);
   const { page } = router.query;
 
   useEffect(() => {
-    if (pageType === 'user') {
-      const fetchData = async () => {
-        setLoading(true);
+    const fetchData = async () => {
+      setLoading(true);
+      const equateKey = pageType === 'main' ? 'approved' : 'username';
+      const equateValue = pageType === 'main' ? true : page;
+      const { data, error } = await supabase.from('gratitudes').select('*').eq(equateKey, equateValue);
 
-        const { data = [], error } = await supabase.from('gratitudes').select('*').eq('username', page);
-
-        if (error) {
-          console.log('fetching gratitudes error: ', error.message);
-        }
-
-        setLoading(false);
-
-        setUserGratitudes(data);
+      if (error) {
+        console.log('fetching gratitudes error: ', error.message);
       }
 
-      fetchData();
+      setLoading(false);
+
+      setGratitudes(data);
     }
+
+    fetchData();
   }, [page]);
 
   useEffect(() => {
@@ -57,15 +56,6 @@ export default function MainPage({ gratitudes = [], pageType = 'main' }) {
 
     return () => clearInterval(timer);
   });
-
-  useEffect(() => {
-    if (pageType === 'main') {
-      setLoading(true);
-      setTimeout(() => {
-        setLoading(false);
-      }, 2000);
-    }
-  }, []);
 
   const handleSignOut = () => {
     notification.open({
@@ -227,13 +217,11 @@ export default function MainPage({ gratitudes = [], pageType = 'main' }) {
   }
 
   const renderGratitudes = () => {
-    const displayGratitudes = pageType === 'main' ? gratitudes : userGratitudes;
-
-    displayGratitudes.sort((a, b) => {
+    gratitudes.sort((a, b) => {
       return dayjs(b.inserted_at) - dayjs(a.inserted_at);
     });
 
-    if (displayGratitudes.length < 1) {
+    if (gratitudes.length < 1 && !loading) {
       return <div className='empty-data'>
         <Empty description={
           <span className='empty-data-text'>
@@ -245,7 +233,7 @@ export default function MainPage({ gratitudes = [], pageType = 'main' }) {
       </div>;
     }
 
-    return displayGratitudes.map(({ id, gratitude, username, inserted_at }) => (
+    return gratitudes.map(({ id, gratitude, username, inserted_at }) => (
       <Gratitude
         key={id}
         gratitude={gratitude}
@@ -279,7 +267,7 @@ export default function MainPage({ gratitudes = [], pageType = 'main' }) {
       </section>
       <section className="container">
         {renderAddGratitudeButton()}
-        {!loading ? renderGratitudes() : <div className='loader'><Spin size='large' twoToneColor='#73b8cb' /></div>}
+        {!loading ? renderGratitudes() : <div className='loader'><Spin size='large' /></div>}
       </section>
       <Modal className="user-modal" visible={modalVisible} onCancel={handleCloseModal} footer={null}>
         {renderSignInTabs()}
