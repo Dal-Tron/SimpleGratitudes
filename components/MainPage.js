@@ -131,7 +131,7 @@ export default function MainPage({ gratitudes = [], pageType = 'main' }) {
   }
 
   const handleSubmitGratitude = async () => {
-    if (user) {
+    if (user && user.user_metadata) {
       const { data, error } = await supabase.from('gratitudes').insert([
         { gratitude: newGratitudeText, user_id: user.id, username: user.user_metadata.username, public: newGratitudePublic }
       ]);
@@ -185,7 +185,7 @@ export default function MainPage({ gratitudes = [], pageType = 'main' }) {
       return (
         <div>
           {!user && <span onClick={openModal}><UserOutlined /></span>}
-          {user && <span onClick={() => router.push(`/${user.user_metadata.username}`)}><SmileTwoTone twoToneColor='#73b8cb' /></span>}
+          {user && <span onClick={() => router.push(`/${user?.user_metadata?.username}`)}><SmileTwoTone twoToneColor='#73b8cb' /></span>}
           {user && <span onClick={handleSignOut} style={{ marginLeft: 10 }}><PoweroffOutlined /></span>}
         </div>
       )
@@ -215,7 +215,7 @@ export default function MainPage({ gratitudes = [], pageType = 'main' }) {
     if (pageType === 'main') {
       return addButton;
     } else {
-      if (page === user?.user_metadata.username) {
+      if (page === user?.user_metadata?.username) {
         return addButton;
       }
     }
@@ -297,7 +297,7 @@ export default function MainPage({ gratitudes = [], pageType = 'main' }) {
             onKeyPress={handleTextAreaKeyPress}
             autoSize={true}
           />
-          <span className='new-gratitude-from'>Shared by {user?.user_metadata.username}</span>
+          <span className='new-gratitude-from'>Shared by {user?.user_metadata?.username}</span>
           <span className='new-gratitude-date'>{dayjs().format('MMMM D, YYYY')}</span>
         </div>
       </Modal>

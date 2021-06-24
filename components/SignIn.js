@@ -24,7 +24,7 @@ const SignIn = ({ closeModal }) => {
       form.resetFields();
       closeModal();
 
-      router.push(`/${user.user_metadata.username}`);
+      router.push(`/${user?.user_metadata?.username}`);
     }
   };
 
