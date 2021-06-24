@@ -70,6 +70,7 @@
 
   &-text {
     color: white;
+    text-align: center;
   }
 
   &-from {
@@ -94,6 +95,63 @@
       -moz-box-shadow: 0px 0px 0px 0px rgba(115,184,203,1) !important;
       box-shadow: 0px 0px 0px 0px rgba(115,184,203,1) !important;
     }
+  }
+}
+
+.new-gratitude {
+  display: flex;
+  flex-direction: column;
+
+  &-textarea {
+    background: inherit !important;
+    border: none !important;
+    font-size: 1.5rem !important;
+    text-align: center !important;
+    color: white !important;
+    font-family: Snippet, Sans-Serif, Arial !important; 
+    margin-top: 20px !important;
+
+    &::placeholder {
+      color: white !important;
+      font-size: 1.5rem !important;
+      text-align: center !important;
+      font-family: Snippet, Sans-Serif, Arial !important; 
+      opacity: 50% !important;
+    }
+  }
+
+  &-from {
+    text-align: right;
+    color: $colour3;
+    font-size: 20px;
+  }
+
+  &-date {
+    text-align: right;
+    color: $colour2;
+    font-size: 20px;
+  }
+
+  &-action-buttons {
+    text-align: right;
+  }
+
+  &-switch-option {
+    color: white;
+    opacity: 50%;
+    font-size: 16px;
+  }
+
+  &-switch {
+    padding: 0 10px;
+  }
+
+  &-switch-option-active {
+    opacity: 100%;
+  }
+
+  &-button {
+    margin-left: 10px;
   }
 }
 

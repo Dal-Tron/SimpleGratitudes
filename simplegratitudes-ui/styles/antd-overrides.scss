@@ -6,6 +6,7 @@ html {
 
 .ant-modal {
   width: 400px;
+  padding-bottom: 0px !important;
 }
 
 .ant-modal-content {
@@ -61,4 +62,8 @@ html {
   &-message {
     color: white;
   }
+}
+
+.ant-switch-checked {
+  background-color: $colour2;
 }
