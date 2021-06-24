@@ -211,27 +211,20 @@ export default function MainPage({ gratitudes = [], pageType = 'main' }) {
   }
 
   const renderGratitudes = () => {
-    if (pageType === 'main') {
-      return gratitudes.map(({ id, gratitude, username, inserted_at }) => (
-        <Gratitude
-          key={id}
-          gratitude={gratitude}
-          username={username}
-          date={inserted_at}
-        />
-      ))
-    }
+    const displayGratitudes = pageType === 'main' ? gratitudes : userGratitudes;
 
-    if (pageType === 'user') {
-      return userGratitudes.map(({ id, gratitude, username, inserted_at }) => (
-        <Gratitude
-          key={id}
-          gratitude={gratitude}
-          username={username}
-          date={inserted_at}
-        />
-      ))
-    }
+    displayGratitudes.sort((a, b) => {
+      return dayjs(b.inserted_at) - dayjs(a.inserted_at);
+    });
+
+    return displayGratitudes.map(({ id, gratitude, username, inserted_at }) => (
+      <Gratitude
+        key={id}
+        gratitude={gratitude}
+        username={username}
+        date={inserted_at}
+      />
+    ))
   }
 
   return (

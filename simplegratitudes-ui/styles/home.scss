@@ -5,6 +5,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  background-color: $colour2;
 }
 
 .headspace {
@@ -36,7 +37,7 @@
 
 .time {
   flex: 0 1 auto;
-  background-color: #73b8cb;
+  background-color: $colour3;
   font-family: "Snippet", Sans-Serif;
   font-weight: 300;
   text-align: center;
@@ -46,14 +47,16 @@
 
 .container {
   height: 100%;
-  flex: 1 1 auto;
   background: #5190a5;
   display: flex;
+  flex-direction: row;
+  flex-basis: 21%;
+  flex-wrap: wrap;
 }
 
 .gratitude {
-  max-width: 25%;
   padding: 2rem;
+  max-width: 350px;
 
   &-container {
     background-color: $colour1;
@@ -223,8 +226,10 @@
   }
 
   .container {
-    flex-direction: column;
+    flex-direction: column !important;
     overflow-y: scroll;
+    flex-basis: inherit !important;
+    flex-wrap: unset !important;
   }
 }
 
