@@ -123,6 +123,27 @@
     }
   }
 
+  &-tags {
+    float: left;
+  }
+
+  &-tag {
+    background: inherit !important;
+    border: none !important;
+    font-size: 16px;
+    text-align: center !important;
+    color: white !important;
+    font-family: Snippet, Sans-Serif, Arial !important; 
+    width: 150px !important;
+
+    &::placeholder {
+      color: white !important;
+      font-size: 16px !important;
+      text-align: center !important;
+      font-family: Snippet, Sans-Serif, Arial !important; 
+    }
+  }
+
   &-from {
     text-align: right;
     color: $colour3;

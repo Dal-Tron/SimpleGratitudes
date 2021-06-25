@@ -21,6 +21,7 @@ export default function MainPage({ pageType = 'main' }) {
   const [time, setTime] = useState(() => getTime());
   const [animateGratitudeButton, setAnimateGratitudeButton] = useState(false);
   const [addGratitudeModalVisible, setAddGratitudeModalVisible] = useState(false);
+  const [tag, setTag] = useState('');
   const [loading, setLoading] = useState(false);
   const [newGratitudeText, setNewGratitudeText] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
@@ -32,6 +33,8 @@ export default function MainPage({ pageType = 'main' }) {
   const { page } = router.query;
 
   useEffect(() => {
+    setTag(page);
+
     const fetchData = async () => {
       setLoading(true);
       const equateKey = pageType === 'main' ? 'approved' : 'username';
@@ -111,7 +114,7 @@ export default function MainPage({ pageType = 'main' }) {
   }
 
   const handleTextAreaKeyPress = (e) => {
-    const re = /[0-9A-Za-z\! \.\'\,]+/g;
+    const re = /[0-9A-Za-z\! \.\'\,\:]+/g;
     if (!re.test(e.key)) {
       e.preventDefault();
     }
@@ -124,7 +127,13 @@ export default function MainPage({ pageType = 'main' }) {
   const handleSubmitGratitude = async () => {
     if (user && user.user_metadata && user.user_metadata.username) {
       const { data, error } = await supabase.from('gratitudes').insert([
-        { gratitude: newGratitudeText, user_id: user.id, username: user.user_metadata.username, public: newGratitudePublic }
+        {
+          gratitude: newGratitudeText,
+          user_id: user.id,
+          username: user.user_metadata.username,
+          public: newGratitudePublic,
+          tags: tag || ''
+        }
       ]);
 
       if (error) {
@@ -154,6 +163,18 @@ export default function MainPage({ pageType = 'main' }) {
     }
   }
 
+  const handleTagChange = (e) => {
+    e.preventDefault();
+    setTag(e.currentTarget.value);
+  }
+
+  const handleTagInputPress = (e) => {
+    const re = /[0-9A-Za-z\! \.\'\,\:]+/g;
+    if (!re.test(e.key)) {
+      e.preventDefault();
+    }
+  }
+
   const renderSignInTabs = () => {
     return (
       <Tabs animated={true}>
@@ -171,6 +192,9 @@ export default function MainPage({ pageType = 'main' }) {
     return (
       <div className='new-gratitude-action-buttons'>
         <span className='new-gratitude-switch-container'>
+          <span className='new-gratitude-tags'>
+            <Input value={tag} className='new-gratitude-tag' placeholder='Add Tag' onChange={handleTagChange} onKeyPress={handleTagInputPress} />
+          </span>
           <span className={`new-gratitude-switch-option ${!newGratitudePublic && 'new-gratitude-switch-option-active'}`}>Private</span>
           <span className='new-gratitude-switch'>
             <Switch checked={newGratitudePublic} onChange={handleNewGratitudeSwitchChange} /></span>
@@ -179,6 +203,28 @@ export default function MainPage({ pageType = 'main' }) {
         <span className='new-gratitude-button'><Button onClick={handleSubmitGratitude} type='primary'>Submit</Button></span>
       </div>
     )
+  }
+
+  const renderAddGratitudeButton = () => {
+    const addButton = (
+      <div className='gratitude gratitude-button' onClick={() => handleAddGratitude()}>
+        <div className={`gratitude-container ${animateGratitudeButton && 'gratitude-button-pressed'}`}>
+          <span className='gratitude-text'>
+            <PlusCircleOutlined style={{ fontSize: 40 }} />
+          </span>
+        </div>
+      </div>
+    );
+
+    if (pageType === 'main' || page === 'fairycreek') {
+      return addButton;
+    } else {
+      if (page === user?.user_metadata?.username) {
+        return addButton;
+      }
+    }
+
+    return null;
   }
 
   const renderAvatarButtons = () => {
@@ -200,28 +246,6 @@ export default function MainPage({ pageType = 'main' }) {
         </div>
       )
     }
-  }
-
-  const renderAddGratitudeButton = () => {
-    const addButton = (
-      <div className='gratitude gratitude-button' onClick={() => handleAddGratitude()}>
-        <div className={`gratitude-container ${animateGratitudeButton && 'gratitude-button-pressed'}`}>
-          <span className='gratitude-text'>
-            <PlusCircleOutlined style={{ fontSize: 40 }} />
-          </span>
-        </div>
-      </div>
-    );
-
-    if (pageType === 'main') {
-      return addButton;
-    } else {
-      if (page === user?.user_metadata?.username) {
-        return addButton;
-      }
-    }
-
-    return null;
   }
 
   const renderGratitudes = () => {
@@ -313,7 +337,7 @@ export default function MainPage({ pageType = 'main' }) {
               width={122}
               height={30}
             />
-            <CopyrightOutlined />
+            <span style={{ marginLeft: 7, marginRight: 4 }}><CopyrightOutlined /></span>
             <div>{dayjs().format('YYYY')}</div>
             <div className='donate-button-container'>
               <form className='donate-button' action="https://www.paypal.com/donate" method="post" target="_blank">
