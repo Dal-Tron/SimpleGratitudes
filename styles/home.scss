@@ -303,6 +303,11 @@
     max-width: 100% !important;
     width: 100%;
     text-align: center;
+
+    &-button {
+      position: absolute;
+      bottom: 0;
+    }
   }
 
   .container {
