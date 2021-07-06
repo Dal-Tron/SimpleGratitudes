@@ -131,7 +131,7 @@
     background: inherit !important;
     border: none !important;
     font-size: 16px;
-    text-align: center !important;
+    text-align: left !important;
     color: white !important;
     font-family: Snippet, Sans-Serif, Arial !important; 
     width: 150px !important;
@@ -139,7 +139,7 @@
     &::placeholder {
       color: white !important;
       font-size: 16px !important;
-      text-align: center !important;
+      text-align: left !important;
       font-family: Snippet, Sans-Serif, Arial !important; 
     }
   }
@@ -156,8 +156,17 @@
     font-size: 20px;
   }
 
+  &-switch-container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
   &-action-buttons {
     text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
   }
 
   &-switch-option {
@@ -176,6 +185,12 @@
 
   &-button {
     margin-left: 10px;
+  }
+
+  &-button-mobile {
+    color: white;
+    margin-left: 20px;
+    font-size: 30px;
   }
 }
 
@@ -239,21 +254,6 @@
   21px 21px 0px $colour3;
 }
 
-@include respond-below(sm) {
-  .gratitude {
-    max-width: 100% !important;
-    width: 100%;
-    text-align: center;
-  }
-
-  .container {
-    flex-direction: column !important;
-    overflow-y: scroll;
-    flex-basis: inherit !important;
-    flex-wrap: unset !important;
-  }
-}
-
 .loader {
   text-align: center;
   width: 100%;
@@ -272,7 +272,6 @@
 }
 
 .main-footer {
-  // height: 40px;
   background-color: $colour3;
   display: flex;
   flex-direction: column;
@@ -297,5 +296,26 @@
 .donate-button {
   display: flex;
   margin-left: 10px;
+}
+
+@include respond-below(sm) {
+  .gratitude {
+    max-width: 100% !important;
+    width: 100%;
+    text-align: center;
+  }
+
+  .container {
+    flex-direction: column !important;
+    overflow-y: scroll;
+    flex-basis: inherit !important;
+    flex-wrap: unset !important;
+  }
+
+  .new-gratitude {
+    &-tag {
+      width: 80px !important;
+    }
+  }
 }
 

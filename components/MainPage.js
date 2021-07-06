@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Modal, Tabs, notification, Button, Switch, Input, Spin, Empty } from 'antd'
 import Head from 'next/head'
 import dayjs from 'dayjs'
-import { HomeOutlined, SmileTwoTone, PoweroffOutlined, PlusCircleOutlined, UserOutlined, CopyrightOutlined } from '@ant-design/icons'
+import { HomeOutlined, SmileTwoTone, PoweroffOutlined, PlusCircleOutlined, UserOutlined, CopyrightOutlined, CheckCircleFilled } from '@ant-design/icons'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 
@@ -28,6 +28,7 @@ export default function MainPage({ pageType = 'main' }) {
   const [newGratitudePublic, setNewGratitudePublic] = useState(false);
   const { user, signOut } = useAuth();
   const router = useRouter();
+  const windowWidth = window.innerWidth;
 
   const [gratitudes, setGratitudes] = useState([]);
   const { page } = router.query;
@@ -46,7 +47,6 @@ export default function MainPage({ pageType = 'main' }) {
       }
 
       setLoading(false);
-
       setGratitudes(data);
     }
 
@@ -159,6 +159,7 @@ export default function MainPage({ pageType = 'main' }) {
 
         setAddGratitudeModalVisible(false);
         setNewGratitudeText('');
+        router.reload();
       }
     }
   }
@@ -188,19 +189,33 @@ export default function MainPage({ pageType = 'main' }) {
     )
   }
 
+  const renderSubmitButton = () => {
+    if (windowWidth > 500) {
+      return (
+        <span className='new-gratitude-button'>
+          <Button onClick={handleSubmitGratitude} type='primary'>
+            Submit
+        </Button>
+        </span>
+      )
+    }
+
+    return <span className='new-gratitude-button-mobile' onClick={handleSubmitGratitude}><CheckCircleFilled /></span>;
+  }
+
   const renderAddGratitudeModalFooter = () => {
     return (
       <div className='new-gratitude-action-buttons'>
         <span className='new-gratitude-switch-container'>
           <span className='new-gratitude-tags'>
-            <Input value={tag} className='new-gratitude-tag' placeholder='Add Tag' onChange={handleTagChange} onKeyPress={handleTagInputPress} />
+            <Input value={tag} className='new-gratitude-tag' placeholder='Tag' onChange={handleTagChange} onKeyPress={handleTagInputPress} />
           </span>
           <span className={`new-gratitude-switch-option ${!newGratitudePublic && 'new-gratitude-switch-option-active'}`}>Private</span>
           <span className='new-gratitude-switch'>
             <Switch checked={newGratitudePublic} onChange={handleNewGratitudeSwitchChange} /></span>
           <span className={`new-gratitude-switch-option ${newGratitudePublic && 'new-gratitude-switch-option-active'}`}>Public</span>
         </span>
-        <span className='new-gratitude-button'><Button onClick={handleSubmitGratitude} type='primary'>Submit</Button></span>
+        {renderSubmitButton()}
       </div>
     )
   }
