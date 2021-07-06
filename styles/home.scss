@@ -194,6 +194,17 @@
   }
 }
 
+.gratitude-button-mobile {
+  position: absolute;
+  top: 0;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin-left: 2rem;
+  font-size: 2rem;
+  color: white;
+}
+
 .home-modal {
   background-color: lightblue;
 }
@@ -304,9 +315,8 @@
     width: 100%;
     text-align: center;
 
-    &-button {
-      position: absolute;
-      bottom: 0;
+    &-container {
+      min-width: 60px !important;
     }
   }
 

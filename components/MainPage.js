@@ -221,15 +221,35 @@ export default function MainPage({ pageType = 'main' }) {
   }
 
   const renderAddGratitudeButton = () => {
-    const addButton = (
+    const addButton = windowWidth > 500 ? (
       <div className='gratitude gratitude-button' onClick={() => handleAddGratitude()}>
-        <div className={`gratitude-container ${animateGratitudeButton && 'gratitude-button-pressed'}`}>
+        <div className={`gratitude-container ${animateGratitudeButton ? 'gratitude-button-pressed' : ''}`}>
           <span className='gratitude-text'>
             <PlusCircleOutlined style={{ fontSize: 40 }} />
           </span>
         </div>
       </div>
-    );
+    ) : null;
+
+    if (pageType === 'main' || page === 'fairycreek') {
+      return addButton;
+    } else {
+      if (page === user?.user_metadata?.username) {
+        return addButton;
+      }
+    }
+
+    return null;
+  }
+
+  const renderAddGratitudeButtonMobile = () => {
+    const addButton = windowWidth < 500 ? (
+      <div className='gratitude-button-mobile' onClick={() => handleAddGratitude()}>
+        <div className={`gratitude-container-mobile ${animateGratitudeButton ? 'gratitude-button-pressed-mobile' : ''}`}>
+          <PlusCircleOutlined style={{ fontSize: 40 }} />
+        </div>
+      </div>
+    ) : null;
 
     if (pageType === 'main' || page === 'fairycreek') {
       return addButton;
@@ -304,6 +324,7 @@ export default function MainPage({ pageType = 'main' }) {
           />
         </Head>
         <section className='headspace'>
+          {renderAddGratitudeButtonMobile()}
           <div onClick={() => router.push('/')} className='intention'>
             <div>{pageType === 'main' ? 'Simple' : `${page}'s`}</div>
             <div>{pageType === 'main' ? 'Gratitudes' : 'gratitudes'}</div>
