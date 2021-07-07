@@ -65,9 +65,6 @@ const SignIn = ({ closeModal }) => {
           <Button type="primary" htmlType="submit">
             Sign In
         </Button>
-          <a href="">
-            Forgot password
-        </a>
         </div>
       </Form.Item>
     </Form>
