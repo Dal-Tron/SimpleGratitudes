@@ -12,6 +12,7 @@ import { useAuth } from 'Context/auth'
 import SignIn from 'Components/SignIn'
 import Register from 'Components/Register'
 import Gratitude from 'Components/Gratitude'
+import Title from 'Components/Title'
 
 const { TabPane } = Tabs;
 const { TextArea } = Input;
@@ -19,6 +20,7 @@ const { TextArea } = Input;
 export default function MainPage({ pageType = 'main' }) {
   const getTime = () => dayjs().format('h:mm A MMMM D, YYYY');
   const [time, setTime] = useState(() => getTime());
+
   const [animateGratitudeButton, setAnimateGratitudeButton] = useState(false);
   const [addGratitudeModalVisible, setAddGratitudeModalVisible] = useState(false);
   const [tag, setTag] = useState('');
@@ -26,6 +28,8 @@ export default function MainPage({ pageType = 'main' }) {
   const [newGratitudeText, setNewGratitudeText] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [newGratitudePublic, setNewGratitudePublic] = useState(false);
+  const [JWTExpired, setJWTExpired] = useState(false);
+
   const { user, signOut } = useAuth();
   const router = useRouter();
   const windowWidth = window.innerWidth;
@@ -44,13 +48,36 @@ export default function MainPage({ pageType = 'main' }) {
 
       if (error) {
         console.log('fetching gratitudes error: ', error.message);
+        if (error.message === 'JWT expired') {
+          setJWTExpired(true);
+          notification.open({
+            type: 'info',
+            message: 'Your secure session has expired. Please enter password to start a new secure session.',
+            duration: 0,
+          });
+        }
       }
 
       setLoading(false);
       setGratitudes(data);
     }
 
+    const subscribe = async () => {
+      const gratitudes = await supabase.from('gratitudes').on('UPDATE', payload => {
+        console.log('Change received!', payload)
+      }).subscribe();
+    }
+
+    const unsubscribe = () => {
+
+    }
+
+    subscribe();
     fetchData();
+
+    return () => {
+      unsubscribe();
+    }
   }, [page]);
 
   useEffect(() => {
@@ -159,7 +186,6 @@ export default function MainPage({ pageType = 'main' }) {
 
         setAddGratitudeModalVisible(false);
         setNewGratitudeText('');
-        router.reload();
       }
     }
   }
@@ -325,10 +351,7 @@ export default function MainPage({ pageType = 'main' }) {
         </Head>
         <section className='headspace'>
           {renderAddGratitudeButtonMobile()}
-          <div onClick={() => router.push('/')} className='intention'>
-            <div>{pageType === 'main' ? 'Simple' : `${page}'s`}</div>
-            <div>{pageType === 'main' ? 'Gratitudes' : 'gratitudes'}</div>
-          </div>
+          <Title pageType={pageType} page={page} />
           <div className='avatar'>
             {renderAvatarButtons()}
           </div>
