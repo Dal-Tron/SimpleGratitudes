@@ -12,18 +12,6 @@
   background: lightblue;
   position: relative;
   flex: 0 1 auto;
-
-  .avatar {
-    position: absolute;
-    top: 0;
-    right: 0;
-    display: flex;
-    align-items: center;
-    height: 100%;
-    margin-right: 2rem;
-    font-size: 2rem;
-    color: white;
-  }
 }
 
 .intention {
@@ -33,6 +21,7 @@
   font-family: Snippet, Sans-Serif, Arial;
   line-height: 0.9;
   padding: 1.5rem 0;
+  cursor: pointer;
 }
 
 .time {
@@ -45,7 +34,7 @@
   font-size: 1.2rem;
 }
 
-.container {
+.main-container {
   height: 100%;
   background: #5190a5;
   display: flex;

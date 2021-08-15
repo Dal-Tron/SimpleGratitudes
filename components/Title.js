@@ -1,13 +1,14 @@
 import React from 'react';
 import { useRouter } from 'next/router'
 
-const Title = ({ pageType = 'main', page = 'user' }) => {
+const Title = () => {
   const router = useRouter();
+  const { page } = router.query;
 
   return (
     <div onClick={() => router.push('/')} className='intention'>
-      <div>{pageType === 'main' ? 'Simple' : `${page}'s`}</div>
-      <div>{pageType === 'main' ? 'Gratitudes' : 'gratitudes'}</div>
+      <div>{!page ? 'Simple' : `${page}'s`}</div>
+      <div>{!page ? 'Gratitudes' : 'gratitudes'}</div>
     </div>
   )
 }

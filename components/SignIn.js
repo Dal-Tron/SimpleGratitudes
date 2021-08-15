@@ -1,18 +1,16 @@
 import { Form, Input, Button, notification } from 'antd';
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
-import { useRouter } from 'next/router';
 
 import { useAuth } from 'Context/auth';
 
 const SignIn = ({ closeModal }) => {
-  const router = useRouter();
   const [form] = Form.useForm();
   const { signIn } = useAuth();
 
   const onFinish = async (values) => {
     const { email, password } = values;
 
-    const { error, user } = await signIn({ email, password });
+    const { error } = await signIn({ email, password });
 
     if (error) {
       notification.open({
@@ -21,10 +19,13 @@ const SignIn = ({ closeModal }) => {
         duration: 2,
       });
     } else {
+      notification.open({
+        message: 'Signed In!',
+        type: 'success',
+        duration: 2,
+      });
       form.resetFields();
       closeModal();
-
-      router.push(`/${user?.user_metadata?.username}`);
     }
   };
 

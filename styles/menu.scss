@@ -1,0 +1,77 @@
+@import 'colours.scss';
+
+.sg-menu {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  margin-right: 2rem;
+  font-size: 2rem;
+  color: white;
+}
+
+.menu-drawer {
+  .sg-menu-item-container {
+    padding-top: 50px;
+    transform: translateX(500px);
+
+    webkit-transition: -webkit-transform 0.3s cubic-bezier(0.7, 0.3, 0.1, 1), -webkit-box-shadow 0.3s cubic-bezier(0.7, 0.3, 0.1, 1);
+    transition: -webkit-transform 0.3s cubic-bezier(0.7, 0.3, 0.1, 1), -webkit-box-shadow 0.3s cubic-bezier(0.7, 0.3, 0.1, 1);
+    transition: transform 0.3s cubic-bezier(0.7, 0.3, 0.1, 1), box-shadow 0.3s cubic-bezier(0.7, 0.3, 0.1, 1);
+    transition: transform 0.3s cubic-bezier(0.7, 0.3, 0.1, 1), box-shadow 0.3s cubic-bezier(0.7, 0.3, 0.1, 1), -webkit-transform 0.3s cubic-bezier(0.7, 0.3, 0.1, 1), -webkit-box-shadow 0.3s cubic-bezier(0.7, 0.3, 0.1, 1);
+
+    &-open {
+      transform: translateX(0px);
+    }
+  }
+
+  .sg-menu-item {
+    display: flex;
+    height: 60px;
+    align-items: center;
+    cursor: pointer;
+
+    &-text {
+      min-width: 150px;
+      text-align: right;
+      padding-right: 20px;
+    }
+
+    &-icon {
+      display: flex;
+      width: 50px;
+      justify-content: center;
+    }
+  }
+
+  .ant-drawer-content-wrapper {
+    width: 50px !important;
+  }
+
+  .ant-drawer-mask {
+    background-color: rgba(0, 0, 0, 0.7) !important;
+  }
+
+  .ant-drawer-body {
+    display: flex;
+    justify-content: center;
+    font-size: 20px;
+    overflow: visible;
+    justify-content: flex-end;
+    padding: 0px !important;
+  }
+
+  .ant-drawer-content {
+    background: $colour1 !important;
+    color: white;
+    width: 50px !important;
+    float: right;
+    overflow: visible !important;
+  }
+
+  .anticon-close {
+    color: white;
+  }
+}

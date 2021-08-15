@@ -27,7 +27,6 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
-  // Will be passed down to Signup, Login and Dashboard components
   const value = {
     register: (data) => supabase.auth.signUp(data),
     signIn: (data) => supabase.auth.signIn(data),
@@ -36,6 +35,7 @@ export function AuthProvider({ children }) {
       data
     }),
     user,
+    username: user?.user_metadata?.username
   };
 
   return (
