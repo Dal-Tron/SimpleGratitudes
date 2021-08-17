@@ -89,7 +89,9 @@ export default function Layout({ children }) {
               <MainMenu
                 visible={menuVisible}
                 username={username}
-                signOut={handleSignOut} />
+                signOut={handleSignOut}
+                closeMenu={() => setMenuVisible(false)}
+              />
             </Drawer>
           </div>
         </section>

@@ -5,17 +5,20 @@ import '../styles/index.scss'
 import Layout from 'Components/Layout'
 import { AuthProvider } from 'Context/auth'
 import { SignModalProvider, AddGratitudeModalProvider } from 'Context/modal'
+import { DataProvider } from 'Context/data'
 
 function App({ Component, pageProps }) {
   return (
     <AuthProvider>
-      <SignModalProvider>
-        <AddGratitudeModalProvider>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </AddGratitudeModalProvider>
-      </SignModalProvider>
+      <DataProvider>
+        <SignModalProvider>
+          <AddGratitudeModalProvider>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </AddGratitudeModalProvider>
+        </SignModalProvider>
+      </DataProvider>
     </AuthProvider>
   );
 }

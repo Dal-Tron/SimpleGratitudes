@@ -6,12 +6,13 @@ import AddGratitude from 'Components/AddGratitude'
 
 import { useAuth } from 'Context/auth'
 import { useSignModal } from 'Context/modal'
+import { useData } from 'Context/data'
 
 import { supabase } from 'Supabase/client'
 
 const AddGratitudeModal = ({
   visible = false,
-  onCancel = () => { }
+  onCancel = () => { },
 }) => {
   const [tag, setTag] = useState('');
   const [publicGratitude, setPublic] = useState(false);
@@ -19,6 +20,7 @@ const AddGratitudeModal = ({
 
   const { user } = useAuth();
   const { updateSignModal } = useSignModal();
+  const { updateDataRef } = useData();
 
   const handleGratitudeText = (e) => {
     setGratitude(e.currentTarget.value);
@@ -67,6 +69,7 @@ const AddGratitudeModal = ({
         });
 
         resetGratitude();
+        updateDataRef();
       }
     }
   }
