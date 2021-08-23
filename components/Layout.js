@@ -20,10 +20,10 @@ export default function Layout({ children }) {
   const router = useRouter();
   const { page } = router.query;
 
+  const [menuVisible, setMenuVisible] = useState(false);
   const { user, signOut } = useAuth();
   const { showSignModal, updateSignModal } = useSignModal();
   const { showAddGratitudeModal, updateAddGratitudeModal } = useAddGratitudeModal();
-  const [menuVisible, setMenuVisible] = useState(false);
 
   const username = user?.user_metadata?.username;
 
@@ -46,9 +46,12 @@ export default function Layout({ children }) {
     notification.open({
       type: 'warning',
       message: 'Click me to sign out',
+      duration: 2,
+      key: 'sign-out-notification',
       onClick: () => {
         signOut();
         setMenuVisible(false);
+        notification.close('sign-out-notification');
         notification.open({
           type: 'success',
           message: 'Signed Out!',
@@ -56,7 +59,6 @@ export default function Layout({ children }) {
         });
         router.push('/');
       },
-      duration: 2,
     });
   }
 

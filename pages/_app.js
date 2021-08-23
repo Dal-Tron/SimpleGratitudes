@@ -7,7 +7,7 @@ import { AuthProvider } from 'Context/auth'
 import { SignModalProvider, AddGratitudeModalProvider } from 'Context/modal'
 import { DataProvider } from 'Context/data'
 
-function App({ Component, pageProps }) {
+function SimpleGratitudes({ Component, pageProps }) {
   return (
     <AuthProvider>
       <DataProvider>
@@ -23,4 +23,4 @@ function App({ Component, pageProps }) {
   );
 }
 
-export default App
+export default SimpleGratitudes

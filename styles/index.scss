@@ -1,8 +1,10 @@
 @import 'home.scss';
 @import 'menu.scss';
+@import 'settings.scss';
 
 html,
 body {
+  position: relative;
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
@@ -10,6 +12,7 @@ body {
 
   #__next {
     height: 100%;
+    padding: 0;
   }
 }
 

@@ -13,18 +13,34 @@ import { useAuth } from 'Context/auth'
 import { useData } from 'Context/data'
 import { useAddGratitudeModal } from 'Context/modal'
 
+import { validJWT } from 'Helpers/validation'
+
+const queryString = require('query-string');
+
 export default function MainPage() {
   const [loading, setLoading] = useState(true);
   const [gratitudes, setGratitudes] = useState([]);
 
   const router = useRouter();
   const { page } = router.query;
-  const { pathname } = router;
+  const { pathname, asPath } = router;
 
   const { user, username } = useAuth();
   const { updateSignModal } = useSignModal();
   const { dataRef } = useData();
   const { updateAddGratitudeModal } = useAddGratitudeModal();
+
+  // for password reset
+  if (asPath.indexOf('type=recovery') !== -1) {
+    const queryStr = asPath.split('#');
+    const { access_token } = queryString.parse(queryStr[1]);
+    if (validJWT(access_token)) {
+      router.push({
+        pathname: '/settings',
+        query: { access_token },
+      });
+    }
+  }
 
   useEffect(() => {
     setLoading(true);

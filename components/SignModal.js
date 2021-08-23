@@ -2,6 +2,7 @@ import { Tabs, Modal } from 'antd'
 
 import SignIn from 'Components/SignIn'
 import Register from 'Components/Register'
+import ForgotPassword from 'Components/ForgotPassword'
 
 const { TabPane } = Tabs;
 
@@ -21,6 +22,9 @@ const SignModal = ({
         </TabPane>
         <TabPane tab="Register" key="2">
           <Register closeModal={onCancel} />
+        </TabPane>
+        <TabPane tab="Forgot Password" key="3">
+          <ForgotPassword closeModal={onCancel} />
         </TabPane>
       </Tabs>
     </Modal>
