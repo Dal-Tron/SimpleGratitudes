@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { PlusCircleOutlined } from '@ant-design/icons'
+import { PlusCircleOutlined, SmileTwoTone } from '@ant-design/icons'
 
 import { useAuth } from 'Context/auth'
 import { useSignModal } from 'Context/modal'
@@ -34,7 +34,7 @@ const AddGratitudeButton = ({ onClick = () => { } }) => {
       <div className='gratitude gratitude-button' onClick={() => handleAddGratitude()}>
         <div className={`gratitude-container ${animateGratitudeButton ? 'gratitude-button-pressed' : ''}`}>
           <span className='gratitude-text'>
-            <PlusCircleOutlined style={{ fontSize: 40 }} />
+            <SmileTwoTone style={{ fontSize: 40 }} twoToneColor='#73b8cb' />
           </span>
         </div>
       </div>
