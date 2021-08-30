@@ -1,7 +1,9 @@
 import { Form, Input, Button, notification } from 'antd';
-import { LockOutlined, MailOutlined } from '@ant-design/icons';
+import { MailOutlined } from '@ant-design/icons';
 
 import { useAuth } from 'Context/auth';
+
+import PasswordInput from 'Components/PasswordInput'
 
 const SignIn = ({ closeModal }) => {
   const [form] = Form.useForm();
@@ -29,6 +31,12 @@ const SignIn = ({ closeModal }) => {
     }
   };
 
+  const handlePassword = (password) => {
+    form.setFieldsValue({
+      password
+    });
+  }
+
   return (
     <Form
       name="sign_in"
@@ -55,11 +63,7 @@ const SignIn = ({ closeModal }) => {
           },
         ]}
       >
-        <Input
-          prefix={<LockOutlined />}
-          type="password"
-          placeholder="Password"
-        />
+        <PasswordInput handlePassword={handlePassword} />
       </Form.Item>
       <Form.Item>
         <div style={{ display: 'flex', flexDirection: 'column' }}>

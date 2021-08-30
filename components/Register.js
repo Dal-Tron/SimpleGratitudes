@@ -1,14 +1,21 @@
-import React from 'react'
 import { Form, Input, Button, notification } from 'antd';
-import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
+import { UserOutlined, MailOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router'
 
 import { useAuth } from 'Context/auth'
+
+import PasswordInput from 'Components/PasswordInput'
 
 const Register = ({ closeModal }) => {
   const router = useRouter();
   const [form] = Form.useForm();
   const { register, updateUser } = useAuth();
+
+  const handlePassword = (password) => {
+    form.setFieldsValue({
+      password
+    });
+  }
 
   const onFinish = async (values) => {
     const { email, password, username } = values;
@@ -30,10 +37,16 @@ const Register = ({ closeModal }) => {
           duration: 2,
         });
       } else {
+        notification.open({
+          message: 'Registration successful!',
+          type: 'success',
+          duration: 2,
+        });
+
         form.resetFields();
         closeModal();
 
-        router.push(`/${user?.user_metadata?.username}`);
+        return router.push(`/`);
       }
     }
   };
@@ -75,11 +88,7 @@ const Register = ({ closeModal }) => {
           },
         ]}
       >
-        <Input
-          prefix={<LockOutlined />}
-          type="password"
-          placeholder="Password"
-        />
+        <PasswordInput handlePassword={handlePassword} />
       </Form.Item>
       <Form.Item>
         <div style={{ display: 'flex', flexDirection: 'column' }}>

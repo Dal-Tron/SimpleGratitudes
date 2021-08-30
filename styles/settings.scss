@@ -47,10 +47,10 @@
     justify-content: space-between;
     margin-bottom: .3rem;
     padding-right: 10px;
+    width: 100%;
   }
 
   &-new-password {
-    position: relative;
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -59,9 +59,11 @@
       background-color: rgba(0, 0, 0, 0);
       border: none;
       padding: 0 !important;
+      margin-right: 1rem !important;
       padding-right: 1rem !important;
       outline: 0 !important;
       border-color: rgba(0, 0, 0, 0) !important;
+      max-width: 200px;
     }
 
     input {
@@ -75,6 +77,39 @@
         opacity: .7;
       }
     }
+  }
+
+  &-delete-input {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    .ant-input-lg {
+      background-color: rgba(0, 0, 0, 0);
+      border: none;
+      padding: 0 !important;
+      margin-right: 1rem !important;
+      padding-right: 1rem !important;
+      outline: 0 !important;
+      border-color: rgba(0, 0, 0, 0) !important;
+      max-width: 200px;
+    }
+
+    input {
+      background-color: rgba(0, 0, 0, 0);
+      color: white;
+    
+      &::placeholder {
+        color: white !important;
+        font-size: 1rem !important;
+        font-family: Snippet, Sans-Serif, Arial !important; 
+        opacity: .7;
+      }
+    }
+  }
+
+  &-password-not-valid {
+    opacity: .5;
   }
 
   &-password-submit {

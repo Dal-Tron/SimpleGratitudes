@@ -67,3 +67,15 @@ html {
 .ant-switch-checked {
   background-color: $colour2;
 }
+
+.ant-tooltip {
+  .ant-tooltip-arrow {
+    .ant-tooltip-arrow-content {
+      background: $colour2 !important;
+    }
+  }
+
+  .ant-tooltip-inner {
+    background-color: $colour2;
+  }
+}

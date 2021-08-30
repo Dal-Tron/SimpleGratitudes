@@ -1,22 +1,37 @@
-import { useState, useRef } from 'react'
-import { Input, Spin } from 'antd'
-import { CheckOutlined, EyeTwoTone, EyeInvisibleOutlined, SmileTwoTone, DeleteOutlined } from '@ant-design/icons'
+import { useRef, useState } from 'react'
+import { Spin, notification } from 'antd'
+import {
+  CheckOutlined,
+  SmileTwoTone,
+  DeleteOutlined
+} from '@ant-design/icons'
 import { useRouter } from 'next/router'
+import { supabase } from 'Supabase/client'
 
 import { useAuth } from 'Context/auth'
 
-const { Password } = Input;
+import { validPassword } from 'Helpers/validation'
+
+import PasswordInput from 'Components/PasswordInput'
+import DeleteAccountInput from '../components/DeleteAccountInput'
 
 const SettingsPage = () => {
   const updatePasswordInputRef = useRef();
   const router = useRouter();
-  const { username } = useAuth();
+  const {
+    accessToken,
+    deleteGratitudes,
+    deleteUser,
+    signOut,
+    username,
+  } = useAuth();
+
   const { query: { access_token } } = router;
-  const [updatePasswordSelected, setUpdatePasswordSelected] = useState(false);
+  const [password, setPassword] = useState('');
+  const [confirmDeleteAccount, setConfirmDeleteAccount] = useState(false);
 
   if (access_token) {
-    setUpdatePasswordSelected(true);
-    handleFocusPasswordInput();
+    updatePasswordInputRef.current.focus();
   }
 
   if (!username) {
@@ -28,33 +43,55 @@ const SettingsPage = () => {
     )
   }
 
-  const handlePasswordUpdateSwitchChange = (checked) => {
-    setUpdatePasswordSelected(checked);
-    handleFocusPasswordInput();
-  }
-
-  const handleFocusPasswordInput = () => {
-    updatePasswordInputRef.current.focus();
-  }
-
-  const marks = {
-    0: 'Daily',
-    50: 'Weekly',
-    100: 'Monthly',
-    // 100: {
-    //   style: {
-    //     color: '#f50',
-    //   },
-    //   label: <strong>100°C</strong>,
-    // },
-  };
-
-  const renderHidePasswordIcons = (visible) => {
-    if (visible) {
-      return <EyeTwoTone />;
+  const handleUpdatePassword = async () => {
+    if (accessToken) {
+      if (validPassword(password)) {
+        const { error } = await supabase.auth.api.updateUser(accessToken, { password });
+        if (!error) {
+          updatePasswordInputRef.current.input.value = '';
+          updatePasswordInputRef.current.state.value = '';
+          setPassword('');
+          return notification.open({
+            type: 'success',
+            message: 'Successfully updated password!',
+            duration: 2,
+          });
+        } else {
+          return notification.open({
+            type: 'error',
+            message: error.message,
+            duration: 2,
+          });
+        }
+      }
     }
 
-    return <EyeInvisibleOutlined />;
+    return router.push('/');
+  }
+
+  const handleConfirmDeleteAccount = (confirm = false) => {
+    return setConfirmDeleteAccount(confirm);
+  }
+
+  const handleDeleteAccount = async () => {
+    const { error: deleteGratitudesError } = await deleteGratitudes();
+    const { error: deleteUserError } = await deleteUser();
+    const { error: signOutError } = await signOut();
+
+    if (!deleteUserError && !deleteGratitudesError) {
+      notification.open({
+        type: 'success',
+        message: 'Successfully deleted user!',
+        duration: 2,
+      });
+      return router.push('/');
+    }
+
+    return notification.open({
+      type: 'error',
+      message: 'Error deleting user',
+      duration: 2,
+    });
   }
 
   return (
@@ -62,34 +99,31 @@ const SettingsPage = () => {
       <div className='settings'>
         <div className='settings-title'>Settings</div>
         <div className='settings-content'>
-          <div className='settings-header'>Account</div>
+          <div className='settings-header'>Change Password</div>
           <div className='settings-body'>
             <div className='settings-option'>
               <div className='settings-new-password'>
-                {/* <div
-              className={`settings-new-password-label ${updatePasswordSelected ? 'settings-new-password-active' : ''}`}
-              htmlFor='update-password-input'>
-              new password
-              </div> */}
-                <Password
-                  id='update-password-input'
-                  className='settings-new-password-input'
-                  size="large"
-                  iconRender={renderHidePasswordIcons}
-                  ref={updatePasswordInputRef}
-                  placeholder='Enter new password'
+                <PasswordInput
+                  passwordRef={updatePasswordInputRef}
+                  handlePassword={(pass) => setPassword(pass)}
+                  showPrefix={false}
                 />
-                <div>
-                  <div className='settings-account-button'>
-                    <CheckOutlined />
-                  </div>
+                <div onClick={handleUpdatePassword}
+                  className={`settings-account-button ${validPassword(password) ? '' : 'settings-password-not-valid'}`}>
+                  <CheckOutlined />
                 </div>
               </div>
             </div>
+          </div>
+          <div className='settings-header'>Delete Account</div>
+          <div className='settings-body'>
             <div className='settings-option'>
-              <div className='settings-label'>Delete account</div>
-              <div className='settings-account-button'>
-                <DeleteOutlined />
+              <div className='settings-delete-input'>
+                <DeleteAccountInput handleConfirmDeleteAccount={handleConfirmDeleteAccount} />
+                <div onClick={handleDeleteAccount}
+                  className={`settings-account-button ${confirmDeleteAccount ? '' : 'settings-password-not-valid'}`}>
+                  <DeleteOutlined />
+                </div>
               </div>
             </div>
           </div>
