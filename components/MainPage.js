@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 import { supabase } from 'Supabase/client'
 
 import Gratitude from 'Components/Gratitude'
-import AddGratitudeButton from 'Components/AddGratitudeButton'
+import AddGratitudeButton from 'Components/GratitudeModal/AddGratitudeButton'
 import { useSignModal } from 'Context/modal'
 import { useAuth } from 'Context/auth'
 import { useData } from 'Context/data'

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Modal, notification } from 'antd'
 
-import AddGratitudeFooter from 'Components/AddGratitudeFooter'
-import AddGratitude from 'Components/AddGratitude'
+import AddGratitudeFooter from 'Components/GratitudeModal/AddGratitudeFooter'
+import AddGratitude from 'Components/GratitudeModal/AddGratitude'
 
 import { useAuth } from 'Context/auth'
 import { useSignModal, useAddGratitudeModal } from 'Context/modal'
