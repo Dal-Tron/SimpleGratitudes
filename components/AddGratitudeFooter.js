@@ -8,13 +8,6 @@ const AddGratitudeFooter = ({
 }) => {
   const windowWidth = window.innerWidth;
 
-  const handleTagInputPress = (e) => {
-    const re = /[0-9A-Za-z\! \.\'\,\:]+/g;
-    if (!re.test(e.key)) {
-      e.preventDefault();
-    }
-  }
-
   const renderSubmitButton = () => {
     if (windowWidth > 500) {
       return (
