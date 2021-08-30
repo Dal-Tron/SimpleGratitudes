@@ -108,13 +108,14 @@ export default function MainPage() {
         return dayjs(b.inserted_at) - dayjs(a.inserted_at);
       });
 
-      return gratitudes.map(({ id, gratitude, username, inserted_at }) => (
+      return gratitudes.map(({ id, gratitude, username, inserted_at, public: publicGratitude }) => (
         <Gratitude
           date={inserted_at}
           gratitude={gratitude}
           id={id}
           key={id}
           username={username}
+          publicGratitude={publicGratitude}
         />
       ));
     } else {

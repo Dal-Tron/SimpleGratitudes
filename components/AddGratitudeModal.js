@@ -26,6 +26,7 @@ const AddGratitudeModal = ({
     if (editableGratitude.gratitude) handleUpdateGratitude('gratitude', editableGratitude.gratitude);
     if (editableGratitude.date) handleUpdateGratitude('date', editableGratitude.date);
     if (editableGratitude.id) handleUpdateGratitude('id', editableGratitude.id);
+    if (editableGratitude.public) handleUpdateGratitude('public', editableGratitude.public);
   }, [editableGratitude]);
 
   const handleUpdateGratitude = (name, value) => {
@@ -68,6 +69,7 @@ const AddGratitudeModal = ({
   const submitGratitudeUpdate = async () => {
     const { error: editingGratitudeError } = await supabase.from('gratitudes').update({
       gratitude: gratitude.gratitude,
+      public: gratitude.public,
     }).match({ id: editableGratitude.id });
 
     if (!editingGratitudeError) {

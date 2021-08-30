@@ -10,6 +10,7 @@ const Gratitude = ({
   date,
   showShare = true,
   id,
+  publicGratitude,
 }) => {
   const [pressed, setPressed] = useState(false);
 
@@ -32,6 +33,7 @@ const Gratitude = ({
         gratitude,
         date,
         id,
+        public: publicGratitude,
       });
     }
   }
