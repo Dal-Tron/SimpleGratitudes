@@ -1,11 +1,9 @@
-import { Input, Switch, Button } from 'antd'
+import { Switch, Button } from 'antd'
 import { CheckCircleFilled } from '@ant-design/icons'
 
 const AddGratitudeFooter = ({
-  onTagChange = () => { },
   onPublicSwitchChange = () => { },
   publicGratitude = false,
-  tag = '',
   handleSubmitGratitude = () => { },
 }) => {
   const windowWidth = window.innerWidth;
@@ -34,15 +32,9 @@ const AddGratitudeFooter = ({
   return (
     <div className='new-gratitude-action-buttons'>
       <span className='new-gratitude-switch-container'>
-        {/* <span className='new-gratitude-tags'>
-          <Input value={tag} className='new-gratitude-tag' placeholder='Tag' onChange={onTagChange} onKeyPress={handleTagInputPress} />
-        </span> */}
         <span className={`new-gratitude-switch-option ${!publicGratitude && 'new-gratitude-switch-option-active'}`}>Private</span>
         <span className='new-gratitude-switch'><Switch checked={publicGratitude} onChange={onPublicSwitchChange} /></span>
         <span className={`new-gratitude-switch-option ${publicGratitude && 'new-gratitude-switch-option-active'}`}>Public</span>
-        <span className='new-gratitude-switch'><Switch checked={publicGratitude} onChange={onPublicSwitchChange} /></span>
-        <span className={`new-gratitude-switch-option ${publicGratitude && 'new-gratitude-switch-option-active'}`}>Front Page</span>
-
       </span>
       {renderSubmitButton()}
     </div>
