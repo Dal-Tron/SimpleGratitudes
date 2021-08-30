@@ -5,9 +5,14 @@ const { TextArea } = Input;
 
 const AddGratitude = ({
   user,
-  gratitudeText = '',
+  gratitude = {},
   handleGratitudeText = () => { }
 }) => {
+
+  const gratitudeText = gratitude.gratitude || '';
+  const gratitudeDate = gratitude.date
+    ? dayjs(gratitude.date).format('MMMM D, YYYY')
+    : dayjs().format('MMMM D, YYYY');
 
   const handleTextAreaKeyPress = (e) => {
     const re = /[0-9A-Za-z\! \.\'\,\:]+/g;
@@ -28,7 +33,7 @@ const AddGratitude = ({
         autoSize={true}
       />
       <span className='new-gratitude-from'>Shared by {user?.user_metadata?.username}</span>
-      <span className='new-gratitude-date'>{dayjs().format('MMMM D, YYYY')}</span>
+      <span className='new-gratitude-date'>{gratitudeDate}</span>
     </div>
   )
 }

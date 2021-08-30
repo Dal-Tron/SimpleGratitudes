@@ -1,11 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Modal, notification } from 'antd'
 
 import AddGratitudeFooter from 'Components/AddGratitudeFooter'
 import AddGratitude from 'Components/AddGratitude'
 
 import { useAuth } from 'Context/auth'
-import { useSignModal } from 'Context/modal'
+import { useSignModal, useAddGratitudeModal } from 'Context/modal'
 import { useData } from 'Context/data'
 
 import { supabase } from 'Supabase/client'
@@ -13,63 +13,102 @@ import { supabase } from 'Supabase/client'
 const AddGratitudeModal = ({
   visible = false,
   onCancel = () => { },
+  editableGratitude = {},
 }) => {
-  const [tag, setTag] = useState('');
-  const [publicGratitude, setPublic] = useState(false);
-  const [gratitude, setGratitude] = useState('');
+  const [gratitude, setGratitude] = useState({});
 
   const { user } = useAuth();
   const { updateSignModal } = useSignModal();
   const { updateDataRef } = useData();
+  const { setEditableGratitude } = useAddGratitudeModal();
+
+  useEffect(() => {
+    if (editableGratitude.gratitude) handleUpdateGratitude('gratitude', editableGratitude.gratitude);
+    if (editableGratitude.date) handleUpdateGratitude('date', editableGratitude.date);
+    if (editableGratitude.id) handleUpdateGratitude('id', editableGratitude.id);
+  }, [editableGratitude]);
+
+  const handleUpdateGratitude = (name, value) => {
+    return setGratitude((currentGratitudeState) => ({
+      ...currentGratitudeState,
+      [name]: value
+    }));
+  }
 
   const handleGratitudeText = (e) => {
-    setGratitude(e.currentTarget.value);
+    return handleUpdateGratitude('gratitude', e.target.value);
   }
 
   const handleTagChange = (e) => {
     e.preventDefault();
-    setTag(e.currentTarget.value);
+    return handleUpdateGratitude('tags', e.target.value);
   }
 
   const handlePublicSwitchChange = (checked) => {
-    setPublic(checked);
+    return handleUpdateGratitude('public', checked);
   }
 
   const resetGratitude = () => {
-    setTag('');
-    setPublic(false);
-    setGratitude('');
+    setGratitude({});
+    setEditableGratitude({});
     onCancel();
+    updateDataRef();
   }
 
-  const handleSubmitGratitude = async () => {
+  const handleError = (error) => {
+    if (error.message === 'JWT expired') {
+      return updateSignModal(true);
+    }
+    notification.open({
+      type: 'error',
+      message: 'Error: Failed to save gratitude.'
+    });
+  }
+
+  const submitGratitudeUpdate = async () => {
+    const { error: editingGratitudeError } = await supabase.from('gratitudes').update({
+      gratitude: gratitude.gratitude,
+    }).match({ id: editableGratitude.id });
+
+    if (!editingGratitudeError) {
+      notification.open({
+        type: 'success',
+        message: 'Successfully edited gratitude!'
+      });
+
+      return resetGratitude();
+    }
+
+    return handleError(editingGratitudeError);
+  }
+
+  const submitGratitudeInsert = async () => {
+    const { error: insertGratitudeError } = await supabase.from('gratitudes').insert([
+      {
+        ...gratitude,
+        user_id: user.id,
+        username: user.user_metadata.username,
+      }
+    ]);
+
+    if (!insertGratitudeError) {
+      notification.open({
+        type: 'success',
+        message: 'Successfully saved gratitude!'
+      });
+
+      return resetGratitude();
+    }
+
+    return handleError(insertGratitudeError);
+  }
+
+  const handleSubmitGratitude = () => {
     if (user && user.user_metadata && user.user_metadata.username) {
-      const { data, error } = await supabase.from('gratitudes').insert([
-        {
-          gratitude,
-          user_id: user.id,
-          username: user.user_metadata.username,
-          public: publicGratitude,
-          tags: tag,
-        }
-      ]);
-
-      if (error) {
-        if (error.message === 'JWT expired') {
-          return updateSignModal(true);
-        }
-        notification.open({
-          type: 'error',
-          message: 'Error: Failed to save gratitude.'
-        });
+      if (editableGratitude?.id) {
+        return submitGratitudeUpdate();
       } else {
-        notification.open({
-          type: 'success',
-          message: 'Successfully saved gratitude!'
-        });
-
-        resetGratitude();
-        updateDataRef();
+        return submitGratitudeInsert();
       }
     }
   }
@@ -82,13 +121,13 @@ const AddGratitudeModal = ({
       footer={<AddGratitudeFooter
         onTagChange={handleTagChange}
         onPublicSwitchChange={handlePublicSwitchChange}
-        publicGratitude={publicGratitude}
-        tag={tag}
+        publicGratitude={gratitude.public}
+        tag={gratitude.tags}
         handleSubmitGratitude={handleSubmitGratitude}
       />}
     >
       <AddGratitude
-        gratitudeText={gratitude}
+        gratitude={gratitude}
         handleGratitudeText={handleGratitudeText}
         user={user}
       />

@@ -110,10 +110,11 @@ export default function MainPage() {
 
       return gratitudes.map(({ id, gratitude, username, inserted_at }) => (
         <Gratitude
-          key={id}
-          gratitude={gratitude}
-          username={username}
           date={inserted_at}
+          gratitude={gratitude}
+          id={id}
+          key={id}
+          username={username}
         />
       ));
     } else {

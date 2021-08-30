@@ -31,10 +31,13 @@ export function SignModalProvider({ children }) {
 
 export function AddGratitudeModalProvider({ children }) {
   const [showAddGratitudeModal, setShowAddGratitudeModal] = useState(false);
+  const [editableGratitude, setEditableGratitude] = useState({});
 
   const value = {
     showAddGratitudeModal,
     updateAddGratitudeModal: (show) => setShowAddGratitudeModal(show),
+    editableGratitude,
+    setEditableGratitude: (gratitude) => setEditableGratitude(gratitude),
   }
 
   return (

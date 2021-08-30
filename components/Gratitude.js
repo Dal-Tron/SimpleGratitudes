@@ -1,13 +1,20 @@
 import { useState } from 'react';
 import dayjs from 'dayjs';
 
+import { useAddGratitudeModal } from 'Context/modal';
+import { useAuth } from 'Context/auth';
+
 const Gratitude = ({
   gratitude,
   username,
   date,
-  showShare = true
+  showShare = true,
+  id,
 }) => {
   const [pressed, setPressed] = useState(false);
+
+  const { updateAddGratitudeModal, setEditableGratitude } = useAddGratitudeModal();
+  const { username: signedInUsername } = useAuth();
 
   const animateGratitude = () => {
     setPressed(true);
@@ -17,8 +24,20 @@ const Gratitude = ({
     }, 200);
   }
 
+  const handleEditGratitude = () => {
+    if (username === signedInUsername) {
+      animateGratitude();
+      updateAddGratitudeModal(true);
+      setEditableGratitude({
+        gratitude,
+        date,
+        id,
+      });
+    }
+  }
+
   return (
-    <span onClick={animateGratitude} className='gratitude'>
+    <span onClick={handleEditGratitude} className='gratitude'>
       <div className={`gratitude-container ${pressed ? 'gratitude-pressed' : ''}`}>
         <span className='gratitude-text'>{gratitude}</span>
         {showShare && <span className='gratitude-from'>Shared by {username}</span>}

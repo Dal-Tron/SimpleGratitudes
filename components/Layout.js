@@ -23,7 +23,7 @@ export default function Layout({ children }) {
   const [menuVisible, setMenuVisible] = useState(false);
   const { user, signOut } = useAuth();
   const { showSignModal, updateSignModal } = useSignModal();
-  const { showAddGratitudeModal, updateAddGratitudeModal } = useAddGratitudeModal();
+  const { showAddGratitudeModal, updateAddGratitudeModal, editableGratitude } = useAddGratitudeModal();
 
   const username = user?.user_metadata?.username;
 
@@ -102,7 +102,11 @@ export default function Layout({ children }) {
       </div>
       <Footer />
       <SignModal visible={showSignModal} onCancel={handleCloseSignModal} />
-      <AddGratitudeModal visible={showAddGratitudeModal} onCancel={handleCloseAddGratitudeModal} />
+      <AddGratitudeModal
+        visible={showAddGratitudeModal}
+        onCancel={handleCloseAddGratitudeModal}
+        editableGratitude={editableGratitude}
+      />
     </>
   )
 }
