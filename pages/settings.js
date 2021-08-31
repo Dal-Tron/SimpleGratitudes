@@ -78,7 +78,10 @@ const SettingsPage = () => {
     const { error: deleteUserError } = await deleteUser();
     const { error: signOutError } = await signOut();
 
-    if (!deleteUserError && !deleteGratitudesError) {
+    if (
+      !deleteUserError
+      && !deleteGratitudesError
+      && confirmDeleteAccount) {
       notification.open({
         type: 'success',
         message: 'Successfully deleted user!',
