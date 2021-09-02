@@ -10,7 +10,7 @@ import { supabase } from 'Supabase/client'
 
 import { useAuth } from 'Context/auth'
 
-import { validPassword } from 'Helpers/validation'
+import { validPassword, validJWT } from 'Helpers/validation'
 
 import PasswordInput from 'Components/PasswordInput'
 import DeleteAccountInput from '../components/DeleteAccountInput'
@@ -36,13 +36,18 @@ const SettingsPage = () => {
     }
   }
 
-  if (!username) {
+  if (!username && !accessToken && !access_token) {
     router.push('/');
     return (
       <div className='loader'>
         <Spin size='large' indicator={<SmileTwoTone twoToneColor='#73b8cb' spin={true} />} />
       </div>
     )
+  }
+
+  if (validJWT(access_token)) {
+    updatePasswordInputRef?.current?.focus();
+
   }
 
   const handleUpdatePassword = async () => {
