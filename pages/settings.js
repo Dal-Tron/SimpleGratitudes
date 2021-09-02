@@ -31,7 +31,9 @@ const SettingsPage = () => {
   const [confirmDeleteAccount, setConfirmDeleteAccount] = useState(false);
 
   if (access_token) {
-    updatePasswordInputRef.current.focus();
+    if (updatePasswordInputRef && updatePasswordInputRef.current) {
+      updatePasswordInputRef.current.focus();
+    }
   }
 
   if (!username) {
