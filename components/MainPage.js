@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { notification, Spin, Empty } from 'antd'
+import { notification, Empty } from 'antd'
 import dayjs from 'dayjs'
 import { SmileTwoTone } from '@ant-design/icons'
 import { useRouter } from 'next/router'
@@ -13,6 +13,8 @@ import { useAuth } from 'Context/auth'
 import { useData } from 'Context/data'
 import { useAddGratitudeModal } from 'Context/modal'
 
+import Loading from 'Components/Loading'
+
 import { validJWT } from 'Helpers/validation'
 
 const queryString = require('query-string');
@@ -25,7 +27,7 @@ export default function MainPage() {
   const { page } = router.query;
   const { pathname, asPath } = router;
 
-  const { user, username } = useAuth();
+  const { user, username, accessToken } = useAuth();
   const { updateSignModal } = useSignModal();
   const { dataRef } = useData();
   const { updateAddGratitudeModal } = useAddGratitudeModal();
@@ -46,7 +48,7 @@ export default function MainPage() {
     setLoading(true);
     const fetchData = async () => {
       if (pathname !== '/') {
-        if (username && username === page) {
+        if (validJWT(accessToken) && username && username === page) {
           // All user's gratitudes
           const { data: privatePageData, error: privatePageError } = await supabase.from('gratitudes').select('*').eq('username', page);
 
@@ -121,9 +123,7 @@ export default function MainPage() {
     } else {
       if (loading) {
         return (
-          <div className='loader'>
-            <Spin size='large' indicator={<SmileTwoTone twoToneColor='#73b8cb' spin={true} />} />
-          </div>
+          <Loading />
         )
       }
 

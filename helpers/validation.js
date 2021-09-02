@@ -19,8 +19,17 @@ export const validPassword = (password = '') => {
 
 export const validUsername = (username = '') => {
   if (username) {
-    const regex = RegExp("^[a-zA-Z0-9.!$&*#@]{3,40}");
+    const regex = RegExp("^(?=.{3,40}$)[A-Za-z0-9.!$&*#@]+(?:[A-Za-z0-9.!$&*#@]+)*$");
     return regex.test(username);
+  }
+
+  return false;
+}
+
+export const validEmail = (email) => {
+  if (email) {
+    const regex = RegExp("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$");
+    return regex.test(email);
   }
 
   return false;

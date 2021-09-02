@@ -47,7 +47,6 @@ const SettingsPage = () => {
 
   if (validJWT(access_token)) {
     updatePasswordInputRef?.current?.focus();
-
   }
 
   const handleUpdatePassword = async () => {

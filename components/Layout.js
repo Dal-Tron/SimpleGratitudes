@@ -16,12 +16,14 @@ import { useAuth } from 'Context/auth'
 import { useSignModal } from 'Context/modal'
 import { useAddGratitudeModal } from 'Context/modal'
 
+import { validJWT } from 'Helpers/validation'
+
 export default function Layout({ children }) {
   const router = useRouter();
   const { page } = router.query;
 
   const [menuVisible, setMenuVisible] = useState(false);
-  const { user, signOut } = useAuth();
+  const { user, signOut, accessToken } = useAuth();
   const { showSignModal, updateSignModal } = useSignModal();
   const { showAddGratitudeModal, updateAddGratitudeModal, editableGratitude } = useAddGratitudeModal();
 
@@ -31,7 +33,7 @@ export default function Layout({ children }) {
   const handleCloseAddGratitudeModal = () => updateAddGratitudeModal(false);
 
   const handleShowMenu = () => {
-    if (user) {
+    if (validJWT(accessToken)) {
       return setMenuVisible(true);
     }
 
