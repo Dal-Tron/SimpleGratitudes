@@ -1,69 +1,86 @@
-import { Form, Input, Button, notification } from 'antd';
+import { useState } from 'react'
+import { Form, Button, notification } from 'antd';
 import { MailOutlined } from '@ant-design/icons';
+import { useRouter } from 'next/router'
 
-import { useAuth } from 'Context/auth';
+import { useAuth } from 'Context/auth'
+import { useSignModal } from 'Context/modal'
 
 import PasswordInput from 'Components/PasswordInput'
+import FormInput from 'Components/FormInput'
+
+import { validEmail, validPassword } from 'Helpers/validation'
 
 const SignIn = ({ closeModal }) => {
-  const [form] = Form.useForm();
   const { signIn } = useAuth();
+  const { showSignModal } = useSignModal();
+  const router = useRouter();
 
-  const onFinish = async (values) => {
-    const { email, password } = values;
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [triggerValidation, setTriggerValidation] = useState(false);
 
-    const { error } = await signIn({ email, password });
-
-    if (error) {
-      notification.open({
-        message: error.message,
-        type: 'error',
-        duration: 2,
-      });
-    } else {
-      notification.open({
-        message: 'Signed In!',
-        type: 'success',
-        duration: 2,
-      });
-      form.resetFields();
-      closeModal();
-    }
-  };
-
-  const handlePassword = (password) => {
-    form.setFieldsValue({
-      password
-    });
+  const resetFields = () => {
+    setEmail('');
+    setPassword('');
+    setTriggerValidation(false);
   }
+
+  const onFinish = async () => {
+    setTriggerValidation(true);
+
+    if (
+      validEmail(email)
+      && validPassword(password)
+    ) {
+      const { error, data: { user } } = await signIn({ email, password });
+
+      if (error) {
+        notification.open({
+          message: error.message,
+          type: 'error',
+          duration: 2,
+        });
+      } else {
+        notification.open({
+          message: 'Signed In!',
+          type: 'success',
+          duration: 2,
+        });
+        resetFields();
+        closeModal();
+
+        return router.push(`/${user?.user_metadata?.username || ''}`)
+      }
+    }
+
+    return null;
+  };
 
   return (
     <Form
       name="sign_in"
       onFinish={onFinish}
-      form={form}
     >
-      <Form.Item
-        name="email"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your Email!',
-          },
-        ]}
-      >
-        <Input prefix={<MailOutlined />} placeholder="Email" />
+      <Form.Item name="email">
+        <FormInput
+          inputValue={email}
+          onChange={setEmail}
+          placeholder='Email'
+          prefix={<MailOutlined />}
+          required={true}
+          title='Email'
+          tooltipVisible={showSignModal}
+          triggerValidation={triggerValidation}
+          validator={validEmail}
+        />
       </Form.Item>
-      <Form.Item
-        name="password"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your Password!',
-          },
-        ]}
-      >
-        <PasswordInput handlePassword={handlePassword} />
+      <Form.Item name="password">
+        <PasswordInput
+          onChange={setPassword}
+          triggerValidation={triggerValidation}
+          inputValue={password}
+        />
       </Form.Item>
       <Form.Item>
         <div style={{ display: 'flex', flexDirection: 'column' }}>

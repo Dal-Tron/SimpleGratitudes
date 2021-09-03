@@ -32,7 +32,7 @@ const DeleteAccountInput = ({
       }
 
       setShowDeleteNotice(true);
-      setTooltipTitle('Username needs to be minimum of 3 characters');
+      setTooltipTitle('Invalid Username');
     }
   }
 

@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { Form, Input, Button, notification, Tooltip } from 'antd'
+import { useState } from 'react'
+import { Form, Button, notification } from 'antd'
 import { UserOutlined, MailOutlined } from '@ant-design/icons'
 import { useRouter } from 'next/router'
 
@@ -7,75 +7,29 @@ import { useAuth } from 'Context/auth'
 import { useSignModal } from 'Context/modal'
 
 import PasswordInput from 'Components/PasswordInput'
+import FormInput from 'Components/FormInput'
+
 import { validEmail, validPassword, validUsername } from 'Helpers/validation'
 
 const Register = ({ closeModal }) => {
   const router = useRouter();
-  const [form] = Form.useForm();
   const { register, updateUser } = useAuth();
   const { showSignModal } = useSignModal();
 
+  const [triggerValidation, setTriggerValidation] = useState(false);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const [showUserInputTooltip, setShowUserInputTooltip] = useState(false);
-  const [userInputTooltipTitle, setUserInputTooltipTitle] = useState('Invalid username');
-
-  const [showEmailInputTooltip, setShowEmailInputTooltip] = useState(false);
-  const [emailInputTooltipTitle, setEmailInputTooltipTitle] = useState('Invalid email');
-
-  const handlePassword = (password) => {
-    form.setFieldsValue({
-      password
-    });
+  const resetFields = () => {
+    setUsername('');
+    setEmail('');
+    setPassword('');
+    setTriggerValidation(false);
   }
 
-  useEffect(() => {
-    // close all tooltips if modal closes
-    if (!showSignModal) {
-      setShowUserInputTooltip(false);
-      setShowEmailInputTooltip(false);
-    }
-  }, [showSignModal])
-
-  const handleUsername = (event) => {
-    const username = event.target.value;
-
-    if (!validUsername(username)) {
-      setShowUserInputTooltip(true);
-
-      return setUsername(username);
-    }
-
-    setShowUserInputTooltip(false);
-
-    return setUsername(username);
-  }
-
-  const handleEmail = (event) => {
-    const email = event.target.value;
-
-    if (!validEmail(email)) {
-      setShowEmailInputTooltip(true);
-
-      return setEmail(email);
-    }
-
-    setShowEmailInputTooltip(false);
-
-    return setEmail(email);
-  }
-
-  const onFinish = async (values) => {
-    const { password } = values;
-
-    if (!email) {
-      setShowEmailInputTooltip(true);
-    }
-
-    if (!username) {
-      setShowUserInputTooltip(true);
-    }
+  const onFinish = async () => {
+    setTriggerValidation(true);
 
     if (
       validEmail(email)
@@ -90,7 +44,7 @@ const Register = ({ closeModal }) => {
           duration: 2,
         });
       } else {
-        const { error, data: user } = await updateUser({ username });
+        const { error, data: { user } } = await updateUser({ username });
 
         if (error) {
           notification.open({
@@ -105,54 +59,55 @@ const Register = ({ closeModal }) => {
             duration: 2,
           });
 
-          form.resetFields();
+          resetFields();
           closeModal();
 
-          return router.push(`/`);
+          return router.push(`/${user?.user_metadata?.username || ''}`)
         }
       }
     }
 
-    // not valid email, or password, or username
-    return "";
+    return null;
   };
 
   return (
     <Form
       name="register"
       onFinish={onFinish}
-      form={form}
     >
       <Form.Item name="username">
-        <Tooltip
-          title={userInputTooltipTitle}
-          placement='bottom'
-          visible={showUserInputTooltip && showSignModal}
-        >
-          <Input
-            prefix={<UserOutlined />}
-            placeholder="Username"
-            value={username}
-            onChange={handleUsername}
-          />
-        </Tooltip>
+        <FormInput
+          inputValue={username}
+          onChange={setUsername}
+          placeholder='Username'
+          prefix={<UserOutlined />}
+          required={true}
+          title='Username'
+          tooltipVisible={showSignModal}
+          triggerValidation={triggerValidation}
+          validator={validUsername}
+        />
       </Form.Item>
       <Form.Item name="email">
-        <Tooltip
-          title={emailInputTooltipTitle}
-          placement='bottom'
-          visible={showEmailInputTooltip && showSignModal}
-        >
-          <Input
-            prefix={<MailOutlined />}
-            placeholder="Email"
-            value={email}
-            onChange={handleEmail}
-          />
-        </Tooltip>
+        <FormInput
+          title='Email'
+          tooltipVisible={showSignModal}
+          prefix={<MailOutlined />}
+          placeholder='Email'
+          inputValue={email}
+          onChange={setEmail}
+          validator={validEmail}
+          triggerValidation={triggerValidation}
+          required={true}
+        />
       </Form.Item>
       <Form.Item name="password">
-        <PasswordInput handlePassword={handlePassword} />
+        <PasswordInput
+          onChange={setPassword}
+          inputValue={password}
+          required={true}
+          triggerValidation={triggerValidation}
+        />
       </Form.Item>
       <Form.Item>
         <div style={{ display: 'flex', flexDirection: 'column' }}>

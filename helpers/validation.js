@@ -10,7 +10,7 @@ export const validJWT = (jwt = '') => {
 
 export const validPassword = (password = '') => {
   if (password) {
-    const regex = RegExp("^[a-zA-Z0-9.!#$%^&*@]{8,40}");
+    const regex = RegExp("^(?=.{8,40}$)[A-Za-z0-9.!$&*#@]+(?:[A-Za-z0-9.!$&*#@]+)*$");
     return regex.test(password);
   }
 

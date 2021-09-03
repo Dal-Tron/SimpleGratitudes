@@ -1,8 +1,7 @@
 import { useRef, useState } from 'react'
-import { Spin, notification } from 'antd'
+import { notification } from 'antd'
 import {
   CheckOutlined,
-  SmileTwoTone,
   DeleteOutlined
 } from '@ant-design/icons'
 import { useRouter } from 'next/router'
@@ -14,6 +13,7 @@ import { validPassword, validJWT } from 'Helpers/validation'
 
 import PasswordInput from 'Components/PasswordInput'
 import DeleteAccountInput from '../components/DeleteAccountInput'
+import Loading from 'Components/Loading'
 
 const SettingsPage = () => {
   const updatePasswordInputRef = useRef();
@@ -29,6 +29,7 @@ const SettingsPage = () => {
   const { query: { access_token } } = router;
   const [password, setPassword] = useState('');
   const [confirmDeleteAccount, setConfirmDeleteAccount] = useState(false);
+  const [triggerValidation, setTriggerValidation] = useState(false);
 
   if (access_token) {
     if (updatePasswordInputRef && updatePasswordInputRef.current) {
@@ -39,9 +40,7 @@ const SettingsPage = () => {
   if (!username && !accessToken && !access_token) {
     router.push('/');
     return (
-      <div className='loader'>
-        <Spin size='large' indicator={<SmileTwoTone twoToneColor='#73b8cb' spin={true} />} />
-      </div>
+      <Loading />
     )
   }
 
@@ -50,12 +49,12 @@ const SettingsPage = () => {
   }
 
   const handleUpdatePassword = async () => {
-    if (accessToken) {
-      if (validPassword(password)) {
+    setTriggerValidation(true);
+
+    if (validPassword(password)) {
+      if (accessToken) {
         const { error } = await supabase.auth.api.updateUser(accessToken, { password });
         if (!error) {
-          updatePasswordInputRef.current.input.value = '';
-          updatePasswordInputRef.current.state.value = '';
           setPassword('');
           return notification.open({
             type: 'success',
@@ -71,8 +70,6 @@ const SettingsPage = () => {
         }
       }
     }
-
-    return router.push('/');
   }
 
   const handleConfirmDeleteAccount = (confirm = false) => {
@@ -80,27 +77,29 @@ const SettingsPage = () => {
   }
 
   const handleDeleteAccount = async () => {
-    const { error: deleteGratitudesError } = await deleteGratitudes();
-    const { error: deleteUserError } = await deleteUser();
-    const { error: signOutError } = await signOut();
+    if (confirmDeleteAccount) {
+      const { error: deleteGratitudesError } = await deleteGratitudes();
+      const { error: deleteUserError } = await deleteUser();
+      const { error: signOutError } = await signOut();
 
-    if (
-      !deleteUserError
-      && !deleteGratitudesError
-      && confirmDeleteAccount) {
-      notification.open({
-        type: 'success',
-        message: 'Successfully deleted user!',
+      if (
+        !deleteUserError
+        && !deleteGratitudesError
+      ) {
+        notification.open({
+          type: 'success',
+          message: 'Successfully deleted user!',
+          duration: 2,
+        });
+        return router.push('/');
+      }
+
+      return notification.open({
+        type: 'error',
+        message: 'Error deleting user',
         duration: 2,
       });
-      return router.push('/');
     }
-
-    return notification.open({
-      type: 'error',
-      message: 'Error deleting user',
-      duration: 2,
-    });
   }
 
   return (
@@ -113,9 +112,11 @@ const SettingsPage = () => {
             <div className='settings-option'>
               <div className='settings-new-password'>
                 <PasswordInput
+                  inputValue={password}
+                  onChange={setPassword}
                   passwordRef={updatePasswordInputRef}
-                  handlePassword={(pass) => setPassword(pass)}
                   showPrefix={false}
+                  triggerValidation={triggerValidation}
                 />
                 <div onClick={handleUpdatePassword}
                   className={`settings-account-button ${validPassword(password) ? '' : 'settings-password-not-valid'}`}>

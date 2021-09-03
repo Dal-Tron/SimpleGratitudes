@@ -19,7 +19,7 @@ import { validJWT } from 'Helpers/validation'
 
 const queryString = require('query-string');
 
-export default function MainPage() {
+export default function MainPage({ starred = true }) {
   const [loading, setLoading] = useState(true);
   const [gratitudes, setGratitudes] = useState([]);
 
@@ -118,6 +118,7 @@ export default function MainPage() {
           key={id}
           username={username}
           publicGratitude={publicGratitude}
+          starred={starred}
         />
       ));
     } else {

@@ -1,0 +1,18 @@
+.input-required {
+  .ant-input {
+    &::placeholder {
+      color: red !important;
+
+      transition: color .3s ease-in;
+    }
+
+    &:-ms-input-placeholder,
+    &::-moz-placeholder,
+    &:-moz-placeholder,
+    &::-webkit-input-placeholder {
+      color: red !important;
+
+      transition: color .3s ease-in;
+    }
+  }
+}
