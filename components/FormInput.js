@@ -23,6 +23,7 @@ const FormInput = ({
   }, [tooltipVisible]);
 
   useEffect(() => {
+    // used to flash class when trigger value changes
     if (triggerValidation && required) {
       if (inputValue.length < 1) {
         setInputRequired(true);
@@ -55,11 +56,11 @@ const FormInput = ({
       visible={showInputTooltip}
     >
       <Input
-        prefix={prefix}
-        placeholder={placeholder}
-        value={inputValue}
-        onChange={handleChange}
         className={`${inputRequired ? 'input-required' : ''}`}
+        onChange={handleChange}
+        placeholder={placeholder}
+        prefix={prefix}
+        value={inputValue}
       />
     </Tooltip>
   )
