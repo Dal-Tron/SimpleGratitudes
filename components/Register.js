@@ -37,6 +37,7 @@ const Register = ({ closeModal }) => {
       && validUsername(username)
     ) {
       const { error } = await register({ email, password });
+
       if (error) {
         notification.open({
           message: error.message,
@@ -44,7 +45,8 @@ const Register = ({ closeModal }) => {
           duration: 2,
         });
       } else {
-        const { error, data: { user } } = await updateUser({ username });
+        const { error, data } = await updateUser({ username });
+        const username = data?.user?.user_metadata?.username ?? '';
 
         if (error) {
           notification.open({
@@ -62,7 +64,7 @@ const Register = ({ closeModal }) => {
           resetFields();
           closeModal();
 
-          return router.push(`/${user?.user_metadata?.username || ''}`)
+          return router.push(`/${username}`)
         }
       }
     }

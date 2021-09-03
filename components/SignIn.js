@@ -33,7 +33,8 @@ const SignIn = ({ closeModal }) => {
       validEmail(email)
       && validPassword(password)
     ) {
-      const { error, data: { user } } = await signIn({ email, password });
+      const { error, data } = await signIn({ email, password });
+      const username = data?.user?.user_metadata?.username ?? '';
 
       if (error) {
         notification.open({
@@ -50,7 +51,7 @@ const SignIn = ({ closeModal }) => {
         resetFields();
         closeModal();
 
-        return router.push(`/${user?.user_metadata?.username || ''}`)
+        return router.push(`/${username}`)
       }
     }
 
