@@ -45,8 +45,7 @@ const Register = ({ closeModal }) => {
           duration: 2,
         });
       } else {
-        const { error, data } = await updateUser({ username });
-        const username = data?.user?.user_metadata?.username ?? '';
+        const { error } = await updateUser({ username });
 
         if (error) {
           notification.open({
@@ -64,7 +63,7 @@ const Register = ({ closeModal }) => {
           resetFields();
           closeModal();
 
-          return router.push(`/${username}`)
+          return router.push(`/${username ?? ''}`)
         }
       }
     }

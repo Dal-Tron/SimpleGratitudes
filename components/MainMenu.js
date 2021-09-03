@@ -1,11 +1,12 @@
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { UserOutlined, SettingOutlined, PoweroffOutlined, HomeOutlined } from '@ant-design/icons'
 
 const MainMenu = ({
+  closeMenu = () => { },
+  signOut = () => { },
   visible = false,
   username = '',
-  signOut = () => { },
-  closeMenu = () => { },
 }) => {
   const router = useRouter();
 
