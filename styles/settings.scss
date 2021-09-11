@@ -50,25 +50,20 @@
     width: 100%;
   }
 
-  &-new-password {
+  &-new-username {
     display: flex;
     justify-content: space-between;
     width: 100%;
 
-    .ant-input-affix-wrapper-lg {
+    input {
       background-color: rgba(0, 0, 0, 0);
+      color: white;
       border: none;
       padding: 0 !important;
       margin-right: 1rem !important;
       padding-right: 1rem !important;
       outline: 0 !important;
-      border-color: rgba(0, 0, 0, 0) !important;
       max-width: 200px;
-    }
-
-    input {
-      background-color: rgba(0, 0, 0, 0);
-      color: white;
     
       &::placeholder {
         color: white !important;
@@ -109,6 +104,10 @@
   }
 
   &-password-not-valid {
+    opacity: .5;
+  }
+
+  &-username-not-valid {
     opacity: .5;
   }
 

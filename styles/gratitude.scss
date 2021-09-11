@@ -1,8 +1,10 @@
-@import './colours.scss';
+@import 'colours.scss';
+@import 'media-queries.scss';
 
 .gratitude {
   padding: 2rem;
   max-width: 350px;
+  transition: box-shadow transform 0.3s ease-in-out;
 
   &-pressed {
       transform: translate(7px, 7px);
@@ -51,6 +53,18 @@
       -webkit-box-shadow: 0px 0px 0px 0px rgba(115,184,203,1) !important;
       -moz-box-shadow: 0px 0px 0px 0px rgba(115,184,203,1) !important;
       box-shadow: 0px 0px 0px 0px rgba(115,184,203,1) !important;
+    }
+  }
+}
+
+@include respond-below(sm) {
+  .gratitude {
+    max-width: 100% !important;
+    width: 100%;
+    text-align: center;
+
+    &-container {
+      min-width: 60px !important;
     }
   }
 }

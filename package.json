@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
+    "dev": "react-env -e APP_ENV -- next dev",
+    "build": "react-env -e APP_ENV -- next build",
+    "start": "react-env -e APP_ENV -- next start"
   },
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
+    "@beam-australia/react-env": "3.1.1",
     "@supabase/supabase-js": "^1.15.1",
     "antd": "^4.16.3",
     "dayjs": "^1.10.5",

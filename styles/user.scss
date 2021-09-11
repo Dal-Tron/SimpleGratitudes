@@ -1,0 +1,77 @@
+@import 'colours.scss';
+
+.user {
+  &-signin-form {
+    .ant-form-item {
+      margin-bottom: 16px !important;
+    }
+  }
+
+  &-modal {
+  border-radius: 20px;
+  min-height: 50px;
+  background-color: lightblue;
+  max-width: 400px;
+
+  .ant-tabs-nav {
+    margin-bottom: 25px !important;
+  }
+
+  .ant-modal-body {
+    padding-bottom: 0px !important;
+  }
+
+  &-no-account-wrapper {
+    display: flex;
+    flex-direction: row;
+    color: white;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+    line-height: 1.5px;
+  }
+
+  &-no-account-question {
+    margin-right: 5px;
+    font-size: 13px;
+    color: $colour2;
+  }
+
+  &-no-account-register {
+    font-size: 14px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+
+  &-cancel-button {
+    background-color: inherit;
+    color: white;
+    border: 1px solid white;
+
+    &:hover {
+      background-color: inherit;
+    }
+  }
+
+  box-shadow: 1px 1px 0px $colour3,
+  2px 2px 0px $colour3,
+  3px 3px 0px $colour3,
+  4px 4px 0px $colour3,
+  5px 5px 0px $colour3,
+  6px 6px 0px $colour3,
+  7px 7px 0px $colour3,
+  8px 8px 0px $colour3,
+  9px 9px 0px $colour3,
+  10px 10px 0px $colour3,
+  11px 11px 0px $colour3,
+  12px 12px 0px $colour3,
+  13px 13px 0px $colour3,
+  14px 14px 0px $colour3,
+  15px 15px 0px $colour3,
+  16px 16px 0px $colour3,
+  17px 17px 0px $colour3,
+  18px 18px 0px $colour3,
+  19px 19px 0px $colour3,
+  20px 20px 0px $colour3,
+  21px 21px 0px $colour3; 
+  }
+}

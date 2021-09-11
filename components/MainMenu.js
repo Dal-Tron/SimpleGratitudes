@@ -1,19 +1,20 @@
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
 import { UserOutlined, SettingOutlined, PoweroffOutlined, HomeOutlined } from '@ant-design/icons'
+import { useRouter } from 'next/router'
+
+import { useProfile } from 'Context/profile'
 
 const MainMenu = ({
   closeMenu = () => { },
   signOut = () => { },
   visible = false,
-  username = '',
 }) => {
+  const { username } = useProfile();
   const router = useRouter();
 
   const handleClick = (link) => {
     switch (link) {
       case 'home': router.push('/'); break;
-      case 'username': router.push(`/${username ?? ''}`); break;
+      case 'username': router.push(`/${username || ''}`); break;
       case 'settings': router.push('/settings'); break;
       case 'signout': signOut(); break;
       default: break;

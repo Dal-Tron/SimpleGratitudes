@@ -1,15 +1,15 @@
 import React, { useState, useContext } from 'react'
 
 // Context
-export const DataContext = React.createContext();
+export const DataRenderContext = React.createContext();
 
 // Hooks
-export function useData() {
-  return useContext(DataContext);
+export function useDataRender() {
+  return useContext(DataRenderContext);
 }
 
 // Provider
-export function DataProvider({ children }) {
+export function DataRenderProvider({ children }) {
   const [dataRef, updateDataRef] = useState(0);
 
   const value = {
@@ -18,9 +18,9 @@ export function DataProvider({ children }) {
   }
 
   return (
-    <DataContext.Provider value={value}>
+    <DataRenderContext.Provider value={value}>
       {children}
-    </DataContext.Provider>
+    </DataRenderContext.Provider>
   )
 }
 

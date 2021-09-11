@@ -1,16 +1,24 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, createRef } from 'react'
 import { Tooltip, Input } from 'antd'
+import { EyeTwoTone, EyeInvisibleOutlined } from '@ant-design/icons'
+
+const { Password } = Input;
+const defaultRef = createRef();
 
 const FormInput = ({
+  className = '',
+  inputRef = defaultRef,
   inputValue = '',
   onChange = () => { },
+  passwordInput = false,
   placeholder = '',
   prefix = <></>,
+  required = false,
+  size = 'large',
   title = '',
   tooltipVisible = false,
-  validator = () => { },
   triggerValidation = false,
-  required = false,
+  validator = () => { },
 }) => {
   const [showInputTooltip, setShowInputTooltip] = useState(false);
   const [tooltipTitle, setToolTipTitle] = useState(`Invalid ${title}`);
@@ -49,19 +57,51 @@ const FormInput = ({
     return onChange(inputValue);
   }
 
+  const renderHidePasswordIcons = (visible) => {
+    if (visible) {
+      return <EyeTwoTone />;
+    }
+
+    return <EyeInvisibleOutlined />;
+  }
+
+  const renderInput = () => {
+    if (passwordInput) {
+      return (
+        <Password
+          className={`input ${className ? className : ''} ${inputRequired ? 'input-required' : ''}`}
+          iconRender={renderHidePasswordIcons}
+          id='update-password-input'
+          onChange={handleChange}
+          placeholder={placeholder}
+          prefix={prefix}
+          ref={inputRef}
+          size={size}
+          value={inputValue}
+        />
+      );
+    }
+
+    return (
+      <Input
+        className={`input ${className ? className : ''} ${inputRequired ? 'input-required' : ''}`}
+        onChange={handleChange}
+        placeholder={placeholder}
+        prefix={prefix}
+        ref={inputRef}
+        size={size}
+        value={inputValue}
+      />
+    )
+  }
+
   return (
     <Tooltip
       title={tooltipTitle}
       placement='bottom'
       visible={showInputTooltip}
     >
-      <Input
-        className={`${inputRequired ? 'input-required' : ''}`}
-        onChange={handleChange}
-        placeholder={placeholder}
-        prefix={prefix}
-        value={inputValue}
-      />
+      {renderInput()}
     </Tooltip>
   )
 }

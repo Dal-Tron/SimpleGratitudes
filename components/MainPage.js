@@ -8,10 +8,10 @@ import { supabase } from 'Supabase/client'
 
 import Gratitude from 'Components/Gratitude'
 import AddGratitudeButton from 'Components/GratitudeModal/AddGratitudeButton'
-import { useSignModal } from 'Context/modal'
+import { useSignModal, useAddGratitudeModal } from 'Context/modal'
 import { useAuth } from 'Context/auth'
-import { useData } from 'Context/data'
-import { useAddGratitudeModal } from 'Context/modal'
+import { useDataRender } from 'Context/data'
+import { useProfile } from 'Context/profile'
 
 import Loading from 'Components/Loading'
 
@@ -27,10 +27,11 @@ export default function MainPage({ starred = true }) {
   const { page } = router.query;
   const { pathname, asPath } = router;
 
-  const { user, username, accessToken } = useAuth();
+  const { user, accessToken } = useAuth();
   const { updateSignModal } = useSignModal();
-  const { dataRef } = useData();
+  const { dataRef } = useDataRender();
   const { updateAddGratitudeModal } = useAddGratitudeModal();
+  const { username } = useProfile();
 
   // for password reset
   if (asPath.indexOf('type=recovery') !== -1) {
@@ -110,13 +111,13 @@ export default function MainPage({ starred = true }) {
         return dayjs(b.inserted_at) - dayjs(a.inserted_at);
       });
 
-      return gratitudes.map(({ id, gratitude, username, inserted_at, public: publicGratitude }) => (
+      return gratitudes.map(({ id, gratitude, username: gratitudeUsername, inserted_at, public: publicGratitude }) => (
         <Gratitude
           date={inserted_at}
           gratitude={gratitude}
           id={id}
           key={id}
-          username={username}
+          username={gratitudeUsername}
           publicGratitude={publicGratitude}
           starred={starred}
         />

@@ -61,12 +61,12 @@ const PasswordInput = ({
       visible={showPasswordNotice}
     >
       <Password
-        className={`settings-new-password-input ${inputRequired ? 'input-required' : ''}`}
+        className={`password-input ${inputRequired ? 'input-required' : ''}`}
         iconRender={renderHidePasswordIcons}
         id='update-password-input'
         onChange={handleChange}
-        placeholder='Enter password'
-        prefix={showPrefix ? <LockOutlined /> : null}
+        placeholder='Enter new password'
+        prefix={showPrefix ? <LockOutlined className='password-prefix' /> : null}
         ref={passwordRef}
         size="large"
         value={inputValue}

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import dayjs from 'dayjs';
 
 import { useAddGratitudeModal } from 'Context/modal';
-import { useAuth } from 'Context/auth';
+import { useProfile } from 'Context/profile';
 
 const Gratitude = ({
   gratitude,
@@ -14,9 +14,9 @@ const Gratitude = ({
   starred = false,
 }) => {
   const [pressed, setPressed] = useState(false);
+  const { username: profileUsername } = useProfile();
 
   const { updateAddGratitudeModal, setEditableGratitude } = useAddGratitudeModal();
-  const { username: signedInUsername } = useAuth();
 
   const animateGratitude = () => {
     setPressed(true);
@@ -27,7 +27,7 @@ const Gratitude = ({
   }
 
   const handleEditGratitude = () => {
-    if (username === signedInUsername) {
+    if (username === profileUsername) {
       animateGratitude();
       updateAddGratitudeModal(true);
       setEditableGratitude({

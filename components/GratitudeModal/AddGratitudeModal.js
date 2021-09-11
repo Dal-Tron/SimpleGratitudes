@@ -6,7 +6,8 @@ import AddGratitude from 'Components/GratitudeModal/AddGratitude'
 
 import { useAuth } from 'Context/auth'
 import { useSignModal, useAddGratitudeModal } from 'Context/modal'
-import { useData } from 'Context/data'
+import { useDataRender } from 'Context/data'
+import { useProfile } from 'Context/profile'
 
 import { supabase } from 'Supabase/client'
 
@@ -19,8 +20,9 @@ const AddGratitudeModal = ({
 
   const { user } = useAuth();
   const { updateSignModal } = useSignModal();
-  const { updateDataRef } = useData();
+  const { updateDataRef } = useDataRender();
   const { setEditableGratitude } = useAddGratitudeModal();
+  const { username } = useProfile();
 
   useEffect(() => {
     if (editableGratitude.gratitude) handleUpdateGratitude('gratitude', editableGratitude.gratitude);
@@ -89,7 +91,7 @@ const AddGratitudeModal = ({
       {
         ...gratitude,
         user_id: user.id,
-        username: user.user_metadata.username,
+        username,
       }
     ]);
 
@@ -106,7 +108,7 @@ const AddGratitudeModal = ({
   }
 
   const handleSubmitGratitude = () => {
-    if (user && user.user_metadata && user.user_metadata.username) {
+    if (username) {
       if (editableGratitude?.id) {
         return submitGratitudeUpdate();
       } else {

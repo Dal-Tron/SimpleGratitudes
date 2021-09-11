@@ -1,0 +1,90 @@
+@import 'colours.scss';
+
+.username {
+  &-confirm-modal {
+    border-radius: 20px;
+    min-height: 200px;
+    background-color: lightblue;
+  
+    box-shadow: 1px 1px 0px $colour3,
+    2px 2px 0px $colour3,
+    3px 3px 0px $colour3,
+    4px 4px 0px $colour3,
+    5px 5px 0px $colour3,
+    6px 6px 0px $colour3,
+    7px 7px 0px $colour3,
+    8px 8px 0px $colour3,
+    9px 9px 0px $colour3,
+    10px 10px 0px $colour3,
+    11px 11px 0px $colour3,
+    12px 12px 0px $colour3,
+    13px 13px 0px $colour3,
+    14px 14px 0px $colour3,
+    15px 15px 0px $colour3,
+    16px 16px 0px $colour3,
+    17px 17px 0px $colour3,
+    18px 18px 0px $colour3,
+    19px 19px 0px $colour3,
+    20px 20px 0px $colour3,
+    21px 21px 0px $colour3;
+  }
+}
+
+.username-confirm {
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+
+  &-title {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    font-size: 20px;
+    margin-top: 2rem;
+    flex-direction: column;
+
+    &-icon {
+      font-size: 40px !important; 
+      margin-bottom: 1rem; 
+      margin-right: 0px !important;
+    }
+  }
+
+  &-subtitle {
+    color: white;
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 14px;
+  }
+
+  &-input-wrapper {
+    margin: 1rem;
+  }
+
+  &-input {
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid white;
+    color: white;
+    font-size: 20px;
+    border-radius: 20px;
+    
+    .ant-input {
+      background-color: $colour1;
+      padding: .5rem !important;
+      margin-right: 1rem !important;
+      padding-right: 1rem !important;
+      outline: 0 !important;
+      color: white;
+      font-size: 20px;
+      border: 2px solid $colour1 !important;
+      border-radius: 10px;
+    
+      &::placeholder {
+        color: white !important;
+        font-family: Snippet, Sans-Serif, Arial !important; 
+        opacity: .7;
+      }
+    }
+  }
+}

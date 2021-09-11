@@ -1,0 +1,89 @@
+@import 'media-queries.scss';
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: $colour2;
+  overflow: hidden;
+}
+
+.headspace {
+  background: lightblue;
+  position: relative;
+  flex: 0 1 auto;
+}
+
+.intention {
+  font-size: 1.5rem;
+  color: white;
+  text-align: center;
+  font-family: Snippet, Sans-Serif, Arial;
+  line-height: 0.9;
+  padding: 1.5rem 0;
+  cursor: pointer;
+  max-width: 200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.time {
+  flex: 0 1 auto;
+  background-color: $colour3;
+  font-family: "Snippet", Sans-Serif;
+  font-weight: 300;
+  text-align: center;
+  color: white;
+  font-size: 1.2rem;
+}
+
+.main {
+  height: 100%;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+
+  &-container {
+    background: #5190a5;
+    display: flex;
+    flex-direction: row;
+    flex-basis: 21%;
+    flex-wrap: wrap;
+  }
+}
+
+.main-footer {
+  background-color: $colour3;
+  display: flex;
+  flex-direction: column;
+
+  &-copyright-container {
+    text-align: center;
+    color: white;
+    font-size: 20px;
+  }
+
+  &-copyright-text {
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    height: 50px;
+  }
+}
+
+.donate-button {
+  display: flex;
+  margin-left: 10px;
+}
+
+@include respond-below(sm) {
+  .container {
+    flex-direction: column !important;
+    overflow-y: scroll;
+    flex-basis: inherit !important;
+    flex-wrap: unset !important;
+  }
+}
+

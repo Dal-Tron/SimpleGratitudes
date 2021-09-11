@@ -1,13 +1,15 @@
 import { Input } from 'antd'
 import dayjs from 'dayjs'
 
+import { useProfile } from 'Context/profile'
+
 const { TextArea } = Input;
 
 const AddGratitude = ({
-  user,
   gratitude = {},
   handleGratitudeText = () => { }
 }) => {
+  const { username } = useProfile();
 
   const gratitudeText = gratitude.gratitude || '';
   const gratitudeDate = gratitude.date
@@ -22,18 +24,18 @@ const AddGratitude = ({
   }
 
   return (
-    <div className='new-gratitude'>
+    <div className='add-gratitude'>
       <TextArea
         maxLength={255}
         onChange={handleGratitudeText}
         value={gratitudeText}
-        className='new-gratitude-textarea'
+        className='add-gratitude-textarea'
         placeholder='My simple gratitude is...'
         onKeyPress={handleTextAreaKeyPress}
         autoSize={true}
       />
-      <span className='new-gratitude-from'>Shared by {user?.user_metadata?.username}</span>
-      <span className='new-gratitude-date'>{gratitudeDate}</span>
+      <span className='add-gratitude-from'>Shared by {username}</span>
+      <span className='add-gratitude-date'>{gratitudeDate}</span>
     </div>
   )
 }
