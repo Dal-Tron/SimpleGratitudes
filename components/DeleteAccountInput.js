@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import { Input, Tooltip } from 'antd'
 
-import { useProfile } from 'Context/profile'
+import { useAuth } from 'Context/auth'
 
 import { validUsername } from 'Helpers/validation'
 
 const DeleteAccountInput = ({
   handleConfirmDeleteAccount = () => { },
 }) => {
-  const { username } = useProfile();
+  const { username } = useAuth();
 
   const [showDeleteNotice, setShowDeleteNotice] = useState(false);
   const [stateUsername, setStateUsername] = useState('');

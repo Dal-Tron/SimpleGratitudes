@@ -1,20 +1,25 @@
-import { UserOutlined, SettingOutlined, PoweroffOutlined, HomeOutlined } from '@ant-design/icons'
+import {
+  HomeOutlined,
+  PoweroffOutlined,
+  SettingOutlined,
+  UserOutlined,
+} from '@ant-design/icons'
 import { useRouter } from 'next/router'
 
-import { useProfile } from 'Context/profile'
+import { useAuth } from 'Context/auth'
 
 const MainMenu = ({
   closeMenu = () => { },
   signOut = () => { },
   visible = false,
 }) => {
-  const { username } = useProfile();
   const router = useRouter();
+  const { username } = useAuth();
 
   const handleClick = (link) => {
     switch (link) {
       case 'home': router.push('/'); break;
-      case 'username': router.push(`/${username || ''}`); break;
+      case 'username': router.push(`/${username}`); break;
       case 'settings': router.push('/settings'); break;
       case 'signout': signOut(); break;
       default: break;
@@ -30,7 +35,7 @@ const MainMenu = ({
         <div className='sg-menu-item-icon'><HomeOutlined /></div>
       </span>
       <span onClick={() => handleClick('username')} className='sg-menu-item'>
-        <div className='sg-menu-item-text'>{username ?? 'Gratitudes'}</div>
+        <div className='sg-menu-item-text'>{username || 'Gratitudes'}</div>
         <div className='sg-menu-item-icon'><UserOutlined /></div>
       </span>
       <span onClick={() => handleClick('settings')} className='sg-menu-item'>

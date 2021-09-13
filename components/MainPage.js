@@ -11,7 +11,6 @@ import AddGratitudeButton from 'Components/GratitudeModal/AddGratitudeButton'
 import { useSignModal, useAddGratitudeModal } from 'Context/modal'
 import { useAuth } from 'Context/auth'
 import { useDataRender } from 'Context/data'
-import { useProfile } from 'Context/profile'
 
 import Loading from 'Components/Loading'
 
@@ -25,13 +24,12 @@ export default function MainPage({ starred = true }) {
 
   const router = useRouter();
   const { page } = router.query;
-  const { pathname, asPath } = router;
+  const { asPath } = router;
 
-  const { user, accessToken } = useAuth();
+  const { user, session, username } = useAuth();
   const { updateSignModal } = useSignModal();
   const { dataRef } = useDataRender();
   const { updateAddGratitudeModal } = useAddGratitudeModal();
-  const { username } = useProfile();
 
   // for password reset
   if (asPath.indexOf('type=recovery') !== -1) {
@@ -45,47 +43,7 @@ export default function MainPage({ starred = true }) {
     }
   }
 
-  useEffect(() => {
-    setLoading(true);
-    const fetchData = async () => {
-      if (pathname !== '/') {
-        if (validJWT(accessToken) && username && username === page) {
-          // All user's gratitudes
-          const { data: privatePageData, error: privatePageError } = await supabase.from('gratitudes').select('*').eq('username', page);
-
-          if (privatePageError) {
-            return handleError(privatePageError);
-          }
-
-          setLoading(false);
-          return setGratitudes(privatePageData || []);
-        } else {
-          // Only public user's gratitudes
-          const { data: publicPageData, error: publicPageError } = await supabase.from('gratitudes').select('*').eq('username', page).filter('public', 'eq', true);
-
-          if (publicPageError) {
-            return handleError(publicPageError);
-          }
-
-          setLoading(false);
-          return setGratitudes(publicPageData || []);
-        }
-      } else {
-        // All frontpage gratitudes
-        const { data: frontPageData, error: frontpageError } = await supabase.from('gratitudes').select('*').eq('frontpage', true);
-
-        if (frontpageError) {
-          return handleError(frontpageError);
-        }
-
-        setLoading(false);
-        return setGratitudes(frontPageData || []);
-      }
-    }
-
-    return fetchData();
-  }, [page, dataRef]);
-
+  // handle error
   const handleError = (error) => {
     if (error.message === 'JWT expired') {
       notification.open({
@@ -96,6 +54,57 @@ export default function MainPage({ starred = true }) {
       });
     }
   }
+
+  useEffect(() => {
+    const fetchPrivateData = async () => {
+      // All user's gratitudes
+      const { data: privatePageData, error: privatePageError } = await supabase.from('gratitudes').select('*').eq('username', page);
+
+      if (privatePageError) {
+        return handleError(privatePageError);
+      }
+
+      setLoading(false);
+      return setGratitudes(privatePageData || []);
+    }
+
+    const fetchPublicUserData = async () => {
+      // Only public user's gratitudes
+      const { data: publicPageData, error: publicPageError } = await supabase.from('gratitudes').select('*').eq('username', page).filter('public', 'eq', true);
+
+      if (publicPageError) {
+        return handleError(publicPageError);
+      }
+
+      setLoading(false);
+      return setGratitudes(publicPageData || []);
+    }
+
+    const fetchStarredGratitudes = async () => {
+      // All frontpage gratitudes
+      const { data: frontPageData, error: frontpageError } = await supabase.from('gratitudes').select('*').eq('frontpage', true);
+
+      if (frontpageError) {
+        return handleError(frontpageError);
+      }
+
+      setLoading(false);
+      return setGratitudes(frontPageData || []);
+    }
+
+    if (validJWT(session.access_token) && username && username === page) {
+      return fetchPrivateData();
+    }
+
+    if (page) {
+      return fetchPublicUserData();
+    }
+
+    if (asPath === '/') {
+      return fetchStarredGratitudes();
+    }
+
+  }, [session.access_token, username, dataRef, page]);
 
   const handleAddGratitude = () => {
     if (!user) {

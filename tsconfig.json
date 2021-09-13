@@ -40,6 +40,9 @@
       "Helpers/*": [
         "./helpers/*"
       ],
+      "Services/*": [
+        "./services/*"
+      ],
       "Supabase/*": [
         "./supabase/*"
       ],

@@ -1,52 +1,44 @@
 import React, { useContext, useState, useEffect } from 'react'
+
 import { supabase } from 'Supabase/client'
 
-const AuthContext = React.createContext();
+export const AuthContext = React.createContext();
 
 export function AuthProvider({ children }) {
+  const session = supabase.auth.session();
   const [user, setUser] = useState();
-  const [loading, setLoading] = useState(true);
-  const [session, setSession] = useState(null);
+  const [stateSession, setSession] = useState(undefined);
+  const [stateUsername, setUsername] = useState('');
 
   useEffect(() => {
-    // Check active sessions and sets the user
-    const session = supabase.auth.session();
+    if (session && session.user && !stateSession) {
+      setSession(session);
+      setUser(session.user);
 
-    setUser(session?.user ?? null);
-    setLoading(false);
-    setSession(session);
-
-    // Listen for changes on auth state (logged in, signed out, etc.)
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        setUser(session?.user ?? null);
-        setSession(session);
-        setLoading(false);
+      if (!stateUsername) {
+        supabase
+          .from('profiles')
+          .select('username')
+          .eq('id', session.user.id).then((res) => {
+            if (res.data.length > 0) {
+              const username = res.data[0].username;
+              setUsername(username);
+            }
+          });
       }
-    );
-
-    return () => {
-      listener?.unsubscribe();
     }
-  }, []);
-
-  const username = user?.user_metadata?.username || '';
+  }, [session]);
 
   const value = {
-    accessToken: session?.access_token,
-    deleteGratitudes: () => supabase.from('gratitudes').delete().eq('username', username),
-    deleteUser: () => supabase.rpc('delete_user'),
-    register: (data) => supabase.auth.signUp(data),
-    signIn: (data) => supabase.auth.signIn(data),
-    signOut: () => supabase.auth.signOut(),
-    updateUser: (data) => supabase.auth.update({ data }),
+    updateUsername: (username) => setUsername(username),
     user,
-    username,
+    session: stateSession || {},
+    username: stateUsername || '',
   };
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {children}
     </AuthContext.Provider>
   );
 }

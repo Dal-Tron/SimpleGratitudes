@@ -18,12 +18,14 @@ import { useAddGratitudeModal } from 'Context/modal'
 
 import { validJWT } from 'Helpers/validation'
 
+import AuthService from 'Services/auth'
+
 export default function Layout({ children }) {
   const router = useRouter();
   const { page } = router.query;
 
   const [menuVisible, setMenuVisible] = useState(false);
-  const { user, signOut, accessToken } = useAuth();
+  const { session } = useAuth();
   const { showSignModal, updateSignModal } = useSignModal();
   const { showAddGratitudeModal, updateAddGratitudeModal, editableGratitude } = useAddGratitudeModal();
 
@@ -31,7 +33,7 @@ export default function Layout({ children }) {
   const handleCloseAddGratitudeModal = () => updateAddGratitudeModal(false);
 
   const handleShowMenu = () => {
-    if (validJWT(accessToken)) {
+    if (validJWT(session.access_token)) {
       return setMenuVisible(true);
     }
 
@@ -49,7 +51,7 @@ export default function Layout({ children }) {
       duration: 2,
       key: 'sign-out-notification',
       onClick: () => {
-        signOut();
+        AuthService.signOut();
         setMenuVisible(false);
         notification.close('sign-out-notification');
         notification.open({
@@ -58,6 +60,7 @@ export default function Layout({ children }) {
           duration: 2,
         });
         router.push('/');
+        window.location.reload();
       },
     });
   }
