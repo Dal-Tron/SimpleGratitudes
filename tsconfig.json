@@ -40,6 +40,9 @@
       "Helpers/*": [
         "./helpers/*"
       ],
+      "HOC/*": [
+        "./hoc/*"
+      ],
       "Services/*": [
         "./services/*"
       ],

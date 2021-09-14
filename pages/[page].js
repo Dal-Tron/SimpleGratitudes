@@ -3,5 +3,5 @@ import React from 'react'
 import MainPage from 'Components/MainPage'
 
 export default function Page() {
-  return <MainPage starred={false} />
+  return <MainPage frontPage={false} />
 }

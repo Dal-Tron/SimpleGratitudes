@@ -30,6 +30,7 @@ export function AuthProvider({ children }) {
   }, [session]);
 
   const value = {
+    updateSession: (session) => setSession(session),
     updateUsername: (username) => setUsername(username),
     user,
     session: stateSession || {},

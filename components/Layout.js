@@ -25,7 +25,7 @@ export default function Layout({ children }) {
   const { page } = router.query;
 
   const [menuVisible, setMenuVisible] = useState(false);
-  const { session } = useAuth();
+  const { session, updateSession } = useAuth();
   const { showSignModal, updateSignModal } = useSignModal();
   const { showAddGratitudeModal, updateAddGratitudeModal, editableGratitude } = useAddGratitudeModal();
 
@@ -59,8 +59,8 @@ export default function Layout({ children }) {
           message: 'Signed Out!',
           duration: 2,
         });
-        router.push('/');
-        window.location.reload();
+        updateSession({});
+        return router.push('/');
       },
     });
   }

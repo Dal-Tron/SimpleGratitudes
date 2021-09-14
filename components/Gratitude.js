@@ -11,7 +11,7 @@ const Gratitude = ({
   showShare = true,
   id,
   publicGratitude,
-  starred = false,
+  frontPage = false,
 }) => {
   const [pressed, setPressed] = useState(false);
   const { username: profileUsername } = useAuth();
@@ -44,7 +44,7 @@ const Gratitude = ({
       <div className={`gratitude-container ${pressed ? 'gratitude-pressed' : ''}`}>
         <span className='gratitude-text'>{gratitude}</span>
         {showShare && <span className='gratitude-from'>Shared by {username}</span>}
-        {!starred && (
+        {!frontPage && (
           <span className='gratitude-date'>{dayjs(date).format('MMMM D, YYYY')}</span>
         )}
       </div>

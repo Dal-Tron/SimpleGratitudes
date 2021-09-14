@@ -18,7 +18,7 @@ import { validJWT } from 'Helpers/validation'
 
 const queryString = require('query-string');
 
-export default function MainPage({ starred = true }) {
+export default function MainPage({ frontPage = true, triggerSignIn = false }) {
   const [loading, setLoading] = useState(true);
   const [gratitudes, setGratitudes] = useState([]);
 
@@ -54,6 +54,12 @@ export default function MainPage({ starred = true }) {
       });
     }
   }
+
+  useEffect(() => {
+    if (triggerSignIn) {
+      return updateSignModal(true);
+    }
+  }, [triggerSignIn]);
 
   useEffect(() => {
     const fetchPrivateData = async () => {
@@ -128,7 +134,7 @@ export default function MainPage({ starred = true }) {
           key={id}
           username={gratitudeUsername}
           publicGratitude={publicGratitude}
-          starred={starred}
+          frontPage={frontPage}
         />
       ));
     } else {
