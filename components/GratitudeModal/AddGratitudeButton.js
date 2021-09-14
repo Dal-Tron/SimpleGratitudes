@@ -1,11 +1,10 @@
 import { useState } from 'react'
-import { PlusCircleOutlined, SmileTwoTone } from '@ant-design/icons'
+import { SmileTwoTone } from '@ant-design/icons'
 
 import { useAuth } from 'Context/auth'
 import { useSignModal } from 'Context/modal'
 
 const AddGratitudeButton = ({ onClick = () => { } }) => {
-  const windowWidth = window.innerWidth;
   const [animateGratitudeButton, setAnimateGratitudeButton] = useState(false);
 
   const { user } = useAuth();
@@ -29,19 +28,15 @@ const AddGratitudeButton = ({ onClick = () => { } }) => {
     return onClick();
   }
 
-  if (windowWidth > 500) {
-    return (
-      <div className='gratitude gratitude-button' onClick={() => handleAddGratitude()}>
-        <div className={`gratitude-container ${animateGratitudeButton ? 'gratitude-button-pressed' : ''}`}>
-          <span className='gratitude-text'>
-            <SmileTwoTone style={{ fontSize: 40 }} twoToneColor='#73b8cb' />
-          </span>
-        </div>
+  return (
+    <div className='hide-on-mobile gratitude gratitude-button' onClick={() => handleAddGratitude()}>
+      <div className={`gratitude-container ${animateGratitudeButton ? 'gratitude-button-pressed' : ''}`}>
+        <span className='gratitude-text'>
+          <SmileTwoTone style={{ fontSize: 40 }} twoToneColor='#73b8cb' />
+        </span>
       </div>
-    )
-  }
-
-  return null;
+    </div>
+  );
 }
 
 export default AddGratitudeButton;

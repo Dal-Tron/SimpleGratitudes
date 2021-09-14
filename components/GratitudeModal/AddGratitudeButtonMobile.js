@@ -4,12 +4,8 @@ import { useAuth } from 'Context/auth'
 import { useSignModal } from 'Context/modal'
 
 const AddGratitudeButtonMobile = ({ onClick = () => { } }) => {
-  const windowWidth = window.innerWidth;
-
   const { user } = useAuth();
   const { updateSignModal } = useSignModal();
-
-  if (windowWidth > 500) return null;
 
   const handleClick = () => {
     if (!user) {
@@ -20,7 +16,7 @@ const AddGratitudeButtonMobile = ({ onClick = () => { } }) => {
   }
 
   return (
-    <div className='gratitude-button-mobile' onClick={handleClick}>
+    <div className='hide-on-desktop gratitude-button-mobile' onClick={handleClick}>
       <div className='gratitude-container-mobile'>
         <PlusCircleOutlined style={{ fontSize: 40 }} />
       </div>

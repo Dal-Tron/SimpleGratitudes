@@ -29,5 +29,15 @@
       min-width: 60px !important;
     }
   }
+
+  .hide-on-mobile {
+    display: none;
+  }
+}
+
+@include respond-above(sm) {
+  .hide-on-desktop {
+    display: none !important;
+  }
 }
 
