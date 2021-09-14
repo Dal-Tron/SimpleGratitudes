@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import { useAuth, AuthContext } from 'Context/auth'
@@ -9,14 +9,27 @@ const withAuth = Component => {
   const Auth = (props) => {
     const router = useRouter();
     const { session } = useAuth();
+    const [sessionChecked, setSessionChecked] = useState(false);
 
-    const checkToken = () => {
-      if (!session.access_token) {
-        router.push({ pathname: '/', query: { access_restricted: true } });
+    useEffect(() => {
+      if (!session.access_token && sessionChecked) {
+        return router.push({ pathname: '/', query: { access_restricted: true } });
       }
-    }
+    }, [session.access_token, sessionChecked])
 
-    useEffect(() => setTimeout(() => checkToken(), 1000), [session.access_token]);
+    useEffect(() => {
+      var observerInterval = setInterval(() => {
+        if (session.access_token) {
+          clearInterval(observerInterval);
+          return setSessionChecked(false);
+        }
+
+        setSessionChecked(true);
+      }, 1000);
+      return () => {
+        clearInterval(observerInterval);
+      }
+    }, [session.access_token]);
 
     // If user is logged in, return original component
     return (

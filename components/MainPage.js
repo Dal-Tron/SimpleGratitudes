@@ -24,7 +24,7 @@ export default function MainPage({ frontPage = true, triggerSignIn = false }) {
 
   const router = useRouter();
   const { page } = router.query;
-  const { asPath } = router;
+  const { asPath, route } = router;
 
   const { user, session, username } = useAuth();
   const { updateSignModal } = useSignModal();
@@ -61,43 +61,43 @@ export default function MainPage({ frontPage = true, triggerSignIn = false }) {
     }
   }, [triggerSignIn]);
 
+  const fetchPrivateData = async () => {
+    // All user's gratitudes
+    const { data: privatePageData, error: privatePageError } = await supabase.from('gratitudes').select('*').eq('username', page);
+
+    if (privatePageError) {
+      return handleError(privatePageError);
+    }
+
+    setLoading(false);
+    return setGratitudes(privatePageData || []);
+  }
+
+  const fetchPublicUserData = async () => {
+    // Only public user's gratitudes
+    const { data: publicPageData, error: publicPageError } = await supabase.from('gratitudes').select('*').eq('username', page).filter('public', 'eq', true);
+
+    if (publicPageError) {
+      return handleError(publicPageError);
+    }
+
+    setLoading(false);
+    return setGratitudes(publicPageData || []);
+  }
+
+  const fetchStarredGratitudes = async () => {
+    // All frontpage gratitudes
+    const { data: frontPageData, error: frontpageError } = await supabase.from('gratitudes').select('*').eq('frontpage', true);
+
+    if (frontpageError) {
+      return handleError(frontpageError);
+    }
+
+    setLoading(false);
+    return setGratitudes(frontPageData || []);
+  }
+
   useEffect(() => {
-    const fetchPrivateData = async () => {
-      // All user's gratitudes
-      const { data: privatePageData, error: privatePageError } = await supabase.from('gratitudes').select('*').eq('username', page);
-
-      if (privatePageError) {
-        return handleError(privatePageError);
-      }
-
-      setLoading(false);
-      return setGratitudes(privatePageData || []);
-    }
-
-    const fetchPublicUserData = async () => {
-      // Only public user's gratitudes
-      const { data: publicPageData, error: publicPageError } = await supabase.from('gratitudes').select('*').eq('username', page).filter('public', 'eq', true);
-
-      if (publicPageError) {
-        return handleError(publicPageError);
-      }
-
-      setLoading(false);
-      return setGratitudes(publicPageData || []);
-    }
-
-    const fetchStarredGratitudes = async () => {
-      // All frontpage gratitudes
-      const { data: frontPageData, error: frontpageError } = await supabase.from('gratitudes').select('*').eq('frontpage', true);
-
-      if (frontpageError) {
-        return handleError(frontpageError);
-      }
-
-      setLoading(false);
-      return setGratitudes(frontPageData || []);
-    }
-
     if (validJWT(session.access_token) && username && username === page) {
       return fetchPrivateData();
     }
@@ -106,7 +106,7 @@ export default function MainPage({ frontPage = true, triggerSignIn = false }) {
       return fetchPublicUserData();
     }
 
-    if (asPath === '/') {
+    if (route === '/') {
       return fetchStarredGratitudes();
     }
 
