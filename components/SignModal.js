@@ -22,7 +22,7 @@ const SignModal = ({
   const [password, setPassword] = useState('');
   const [triggerValidation, setTriggerValidation] = useState(false);
 
-  const { resetEmail, updateUsername } = useAuth();
+  const { resetEmail, updateUsername, updateSession } = useAuth();
   const router = useRouter();
 
   const handleTabChange = (tab) => {
@@ -76,10 +76,14 @@ const SignModal = ({
   }
 
   const handleSubmitSignIn = async (email, password) => {
-    const { error } = await AuthService.signIn({ email, password });
+    const { session, error } = await AuthService.signIn({ email, password });
 
     if (error) {
       return handleError(error);
+    }
+
+    if (session) {
+      updateSession(session);
     }
 
     resetFields();
