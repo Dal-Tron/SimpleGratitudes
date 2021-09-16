@@ -62,15 +62,14 @@ export default function MainPage({ frontPage = true, triggerSignIn = false }) {
   }, [triggerSignIn]);
 
   const fetchPrivateData = async () => {
-    // All user's gratitudes
-    const { data: privatePageData, error: privatePageError } = await supabase.from('gratitudes').select('*').eq('username', page);
+    if (user.id) {
+      const { data: privatePageData, error: privatePageError } = await supabase.from('gratitudes').select('*').eq('user_id', user.id);
 
-    if (privatePageError) {
-      return handleError(privatePageError);
+      if (privatePageError) return handleError(privatePageError);
+
+      return setGratitudes(privatePageData || []);
     }
-
     setLoading(false);
-    return setGratitudes(privatePageData || []);
   }
 
   const fetchPublicUserData = async () => {

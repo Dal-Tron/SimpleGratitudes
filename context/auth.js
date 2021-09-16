@@ -8,21 +8,21 @@ export function AuthProvider({ children }) {
   const session = supabase.auth.session();
   const [user, setUser] = useState();
   const [stateSession, setSession] = useState(undefined);
-  const [stateUsername, setUsername] = useState('');
+  const [stateUsernameData, setUsernameData] = useState({});
 
   useEffect(() => {
     if (session && session.user && !stateSession) {
       setSession(session);
       setUser(session.user);
 
-      if (!stateUsername) {
+      if (!stateUsernameData.username) {
         supabase
           .from('profiles')
-          .select('username')
+          .select('*')
           .eq('id', session.user.id).then((res) => {
             if (res.data.length > 0) {
-              const username = res.data[0].username;
-              setUsername(username);
+              const usernameData = res.data[0];
+              setUsernameData(usernameData);
             }
           });
       }
@@ -31,10 +31,18 @@ export function AuthProvider({ children }) {
 
   const value = {
     updateSession: (session) => setSession(session),
-    updateUsername: (username) => setUsername(username),
+    updateUsername: (username) => setUsernameData(prevState => ({
+      ...prevState,
+      username,
+    })),
+    updateUsernameUpdated: () => setUsernameData(prevState => ({
+      ...prevState,
+      updated_username: true,
+    })),
     user,
     session: stateSession || {},
-    username: stateUsername || '',
+    username: stateUsernameData.username || '',
+    updated_username: stateUsernameData.updated_username || false,
   };
 
   return (

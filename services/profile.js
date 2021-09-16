@@ -18,7 +18,7 @@ export default {
     if (res) return res;
   },
   updateProfileUsername: async (id, username) => {
-    const res = await supabase.from('profiles').update({ username }).eq('id', id);
+    const res = await supabase.from('profiles').update({ username, updated_username: true }).eq('id', id);
     if (res) return res;
   }
 }

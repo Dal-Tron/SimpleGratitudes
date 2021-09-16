@@ -72,6 +72,11 @@
         opacity: .7;
       }
     }
+
+    .ant-input[disabled] {
+      background-color: inherit !important;
+      color: white;
+    }
   }
 
   &-new-password {
@@ -140,6 +145,10 @@
     opacity: .5;
   }
 
+  &-username-updated {
+    opacity: .5;
+  }
+
   &-password-submit {
     color: white;
     text-align: center;
@@ -186,5 +195,17 @@
     19px 19px 0px $colour3,
     20px 20px 0px $colour3,
     21px 21px 0px $colour3;
+  }
+}
+
+.username-confirm {
+  &-domain {
+    margin-bottom: -3px;
+  }
+
+  &-input {
+    input {
+      font-weight: 600;
+    }
   }
 }

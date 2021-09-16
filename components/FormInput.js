@@ -7,6 +7,7 @@ const defaultRef = createRef();
 
 const FormInput = ({
   className = '',
+  disabled = false,
   inputRef = defaultRef,
   inputValue = '',
   onChange = () => { },
@@ -70,6 +71,7 @@ const FormInput = ({
       return (
         <Password
           className={`input ${className ? className : ''} ${inputRequired ? 'input-required' : ''}`}
+          disabled={disabled}
           iconRender={renderHidePasswordIcons}
           id='update-password-input'
           onChange={handleChange}
@@ -85,6 +87,7 @@ const FormInput = ({
     return (
       <Input
         className={`input ${className ? className : ''} ${inputRequired ? 'input-required' : ''}`}
+        disabled={disabled}
         onChange={handleChange}
         placeholder={placeholder}
         prefix={prefix}
