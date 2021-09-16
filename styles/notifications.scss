@@ -1,0 +1,9 @@
+@import 'colours.scss';
+
+.sign-out {
+  &-notice-click {
+    .ant-notification-notice-icon-warning {
+      color: $colour1;
+    }
+  }
+}

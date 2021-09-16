@@ -67,9 +67,9 @@ export default function MainPage({ frontPage = true, triggerSignIn = false }) {
 
       if (privatePageError) return handleError(privatePageError);
 
-      return setGratitudes(privatePageData || []);
+      setGratitudes(privatePageData || []);
     }
-    setLoading(false);
+    return setLoading(false);
   }
 
   const fetchPublicUserData = async () => {

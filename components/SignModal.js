@@ -24,6 +24,7 @@ const SignModal = ({
 
   const { resetEmail, updateUsername, updateSession } = useAuth();
   const router = useRouter();
+  const uniqueEmailId = `${Math.floor(Math.random() * 100000000)}`;
 
   const handleTabChange = (tab) => {
     setActiveKey(tab);
@@ -93,7 +94,7 @@ const SignModal = ({
   }
 
   const handleSubmitRegistration = async (email, password) => {
-    const username = email.split('@')[0];
+    const username = `${email.split('@')[0]}_${uniqueEmailId}`;
     const { error, data } = await AuthService.register({ email, password });
 
     if (error) {

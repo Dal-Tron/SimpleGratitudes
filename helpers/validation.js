@@ -19,7 +19,7 @@ export const validPassword = (password = '') => {
 
 export const validUsername = (username = '') => {
   if (username) {
-    const regex = RegExp("^(?=.{3,40}$)[A-Za-z0-9.!$&*#@]+(?:[A-Za-z0-9.!$&*#@]+)*$");
+    const regex = RegExp("^(?=.{3,40}$)[A-Za-z0-9.!$&*#@_]+(?:[A-Za-z0-9.!$&*#@_]+)*$");
     return regex.test(username);
   }
 

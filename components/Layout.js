@@ -46,6 +46,7 @@ export default function Layout({ children }) {
 
   const handleSignOut = () => {
     notification.open({
+      className: 'sign-out-notice-click',
       type: 'warning',
       message: 'Click me to sign out',
       duration: 2,
