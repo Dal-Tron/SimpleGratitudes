@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { SmileTwoTone } from '@ant-design/icons'
 
-import { useAuth } from 'Context/auth'
+import { useAuthState } from 'Context/auth'
 import { useSignModal } from 'Context/modal'
 
 const AddGratitudeButton = ({ onClick = () => { } }) => {
   const [animateGratitudeButton, setAnimateGratitudeButton] = useState(false);
 
-  const { session } = useAuth();
+  const { session } = useAuthState();
   const { updateSignModal } = useSignModal();
 
   const animateButton = () => {

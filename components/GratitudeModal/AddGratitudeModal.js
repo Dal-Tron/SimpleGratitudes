@@ -4,7 +4,7 @@ import { Modal, notification } from 'antd'
 import AddGratitudeFooter from 'Components/GratitudeModal/AddGratitudeFooter'
 import AddGratitude from 'Components/GratitudeModal/AddGratitude'
 
-import { useAuth } from 'Context/auth'
+import { useAuthState } from 'Context/auth'
 import { useSignModal, useAddGratitudeModal } from 'Context/modal'
 import { useDataRender } from 'Context/data'
 
@@ -17,11 +17,10 @@ const AddGratitudeModal = ({
 }) => {
   const [gratitude, setGratitude] = useState({});
 
-  const { user } = useAuth();
   const { updateSignModal } = useSignModal();
   const { updateDataRef } = useDataRender();
   const { setEditableGratitude } = useAddGratitudeModal();
-  const { username } = useAuth();
+  const { user, profile: { username } } = useAuthState();
 
   useEffect(() => {
     if (editableGratitude.gratitude) handleUpdateGratitude('gratitude', editableGratitude.gratitude);

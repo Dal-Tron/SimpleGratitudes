@@ -12,7 +12,7 @@ import SignModal from 'Components/SignModal'
 import AddGratitudeButtonMobile from 'Components/GratitudeModal/AddGratitudeButtonMobile'
 import AddGratitudeModal from 'Components/GratitudeModal/AddGratitudeModal'
 
-import { useAuth } from 'Context/auth'
+import { useAuthState, useAuthDispatch } from 'Context/auth'
 import { useSignModal } from 'Context/modal'
 import { useAddGratitudeModal } from 'Context/modal'
 
@@ -25,7 +25,8 @@ export default function Layout({ children }) {
   const { page } = router.query;
 
   const [menuVisible, setMenuVisible] = useState(false);
-  const { session, updateSession } = useAuth();
+  const { session } = useAuthState();
+  const authDispatch = useAuthDispatch();
   const { showSignModal, updateSignModal } = useSignModal();
   const { showAddGratitudeModal, updateAddGratitudeModal, editableGratitude } = useAddGratitudeModal();
 
@@ -60,7 +61,10 @@ export default function Layout({ children }) {
           message: 'Signed Out!',
           duration: 2,
         });
-        updateSession({});
+        authDispatch({
+          type: 'set-session',
+          session: {},
+        });
         return router.push('/');
       },
     });

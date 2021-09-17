@@ -1,14 +1,14 @@
 import { PlusCircleOutlined } from '@ant-design/icons'
 
-import { useAuth } from 'Context/auth'
+import { useAuthState } from 'Context/auth'
 import { useSignModal } from 'Context/modal'
 
 const AddGratitudeButtonMobile = ({ onClick = () => { } }) => {
-  const { user } = useAuth();
+  const { session } = useAuthState();
   const { updateSignModal } = useSignModal();
 
   const handleClick = () => {
-    if (!user) {
+    if (!session.access_token) {
       return updateSignModal(true);
     }
 

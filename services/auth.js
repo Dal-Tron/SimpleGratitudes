@@ -20,5 +20,9 @@ export default {
   updateUser: async (token, data) => {
     const res = await supabase.auth.api.updateUser(token, data);
     if (res) return res;
+  },
+  resetEmail: async (email) => {
+    const res = await supabase.auth.api.resetPasswordForEmail(email);
+    if (res) return res;
   }
 }

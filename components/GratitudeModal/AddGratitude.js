@@ -1,7 +1,7 @@
 import { Input } from 'antd'
 import dayjs from 'dayjs'
 
-import { useAuth } from 'Context/auth'
+import { useAuthState } from 'Context/auth'
 
 const { TextArea } = Input;
 
@@ -9,7 +9,7 @@ const AddGratitude = ({
   gratitude = {},
   handleGratitudeText = () => { }
 }) => {
-  const { username } = useAuth();
+  const { profile: { username } } = useAuthState();
 
   const gratitudeText = gratitude.gratitude || '';
   const gratitudeDate = gratitude.date

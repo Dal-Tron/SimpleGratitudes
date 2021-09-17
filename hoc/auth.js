@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
-import { useAuth, AuthContext } from 'Context/auth'
+import { useAuthState, AuthStateContext } from 'Context/auth'
 
 import Loading from 'Components/Loading'
 
 const withAuth = Component => {
   const Auth = (props) => {
     const router = useRouter();
-    const { session } = useAuth();
+    const { session } = useAuthState();
     const [sessionChecked, setSessionChecked] = useState(false);
 
     useEffect(() => {
@@ -33,9 +33,9 @@ const withAuth = Component => {
 
     // If user is logged in, return original component
     return (
-      <AuthContext.Consumer>
+      <AuthStateContext.Consumer>
         {({ session }) => session.access_token ? <Component {...props} /> : <Loading />}
-      </AuthContext.Consumer>
+      </AuthStateContext.Consumer>
     );
   };
 

@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 
 import SignIn from 'Components/SignIn'
 
-import { useAuth } from 'Context/auth'
+import { useAuthDispatch } from 'Context/auth'
 
 import { validEmail, validPassword } from 'Helpers/validation'
 
@@ -22,7 +22,7 @@ const SignModal = ({
   const [password, setPassword] = useState('');
   const [triggerValidation, setTriggerValidation] = useState(false);
 
-  const { resetEmail, updateUsername, updateSession } = useAuth();
+  const authDispatch = useAuthDispatch();
   const router = useRouter();
   const uniqueEmailId = `${Math.floor(Math.random() * 100000000)}`;
 
@@ -84,7 +84,10 @@ const SignModal = ({
     }
 
     if (session) {
-      updateSession(session);
+      authDispatch({
+        type: 'set-session',
+        session,
+      })
     }
 
     resetFields();
@@ -108,7 +111,10 @@ const SignModal = ({
       return handleError(profileError);
     }
 
-    updateUsername(username);
+    authDispatch({
+      type: 'set-username',
+      username,
+    })
     openSuccessMessage();
     resetFields();
     onCancel();
@@ -116,7 +122,7 @@ const SignModal = ({
   }
 
   const handleForgotPassword = async (email) => {
-    const { error } = await resetEmail(email);
+    const { error } = await AuthService.resetEmail(email);
 
     if (error) {
       return handleError(error);

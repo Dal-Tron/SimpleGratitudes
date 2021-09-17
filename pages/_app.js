@@ -3,7 +3,7 @@ import '../styles/antd-overrides.scss'
 import '../styles/index.scss'
 
 import Layout from 'Components/Layout'
-import { AuthProvider } from 'Context/auth'
+import AuthProvider from 'Context/auth'
 import { SignModalProvider, AddGratitudeModalProvider } from 'Context/modal'
 import { DataRenderProvider } from 'Context/data'
 

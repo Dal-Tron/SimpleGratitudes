@@ -6,7 +6,7 @@ import {
 } from '@ant-design/icons'
 import { useRouter } from 'next/router'
 
-import { useAuth } from 'Context/auth'
+import { useAuthState } from 'Context/auth'
 
 const MainMenu = ({
   closeMenu = () => { },
@@ -14,7 +14,7 @@ const MainMenu = ({
   visible = false,
 }) => {
   const router = useRouter();
-  const { username } = useAuth();
+  const { profile: { username } } = useAuthState();
 
   const handleClick = (link) => {
     switch (link) {

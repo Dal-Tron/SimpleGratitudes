@@ -6,7 +6,7 @@ import {
 } from '@ant-design/icons'
 import { useRouter } from 'next/router'
 
-import { useAuth } from 'Context/auth'
+import { useAuthState, useAuthDispatch } from 'Context/auth'
 
 import { validPassword, validJWT, validUsername } from 'Helpers/validation'
 
@@ -26,12 +26,10 @@ const SettingsPage = () => {
   const router = useRouter();
   const {
     session,
-    username,
-    updated_username,
-    updateUsername,
-    updateUsernameUpdated,
+    profile: { username, updated_username },
     user,
-  } = useAuth();
+  } = useAuthState();
+  const authDispatch = useAuthDispatch();
 
   const { query: { access_token } } = router;
   const [password, setPassword] = useState('');
@@ -65,9 +63,15 @@ const SettingsPage = () => {
         duration: 2,
       });
 
-      updateUsername(stateUsername);
+      authDispatch({
+        type: 'set-username',
+        username: stateUsername,
+      });
       setShowConfirmUsername(false);
-      return updateUsernameUpdated();
+      return authDispatch({
+        type: 'set-updated-username',
+        updated_username: true,
+      });
     }
   }
 

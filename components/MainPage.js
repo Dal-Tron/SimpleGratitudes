@@ -9,7 +9,7 @@ import { supabase } from 'Supabase/client'
 import Gratitude from 'Components/Gratitude'
 import AddGratitudeButton from 'Components/GratitudeModal/AddGratitudeButton'
 import { useSignModal, useAddGratitudeModal } from 'Context/modal'
-import { useAuth } from 'Context/auth'
+import { useAuthState } from 'Context/auth'
 import { useDataRender } from 'Context/data'
 
 import Loading from 'Components/Loading'
@@ -26,7 +26,7 @@ export default function MainPage({ frontPage = true, triggerSignIn = false }) {
   const { page } = router.query;
   const { asPath, route } = router;
 
-  const { user, session, username } = useAuth();
+  const { user, session, profile: { username } } = useAuthState();
   const { updateSignModal } = useSignModal();
   const { dataRef } = useDataRender();
   const { updateAddGratitudeModal } = useAddGratitudeModal();

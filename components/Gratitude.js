@@ -2,7 +2,7 @@ import { useState } from 'react';
 import dayjs from 'dayjs';
 
 import { useAddGratitudeModal } from 'Context/modal';
-import { useAuth } from 'Context/auth';
+import { useAuthState } from 'Context/auth';
 
 const Gratitude = ({
   gratitude,
@@ -14,7 +14,7 @@ const Gratitude = ({
   frontPage = false,
 }) => {
   const [pressed, setPressed] = useState(false);
-  const { username: profileUsername } = useAuth();
+  const { profile: { username: profileUsername } } = useAuthState();
 
   const { updateAddGratitudeModal, setEditableGratitude } = useAddGratitudeModal();
 
