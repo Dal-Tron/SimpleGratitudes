@@ -50,7 +50,6 @@ const AddGratitudeModal = ({
   }
 
   const resetGratitude = () => {
-    setGratitude({});
     setEditableGratitude({});
     onCancel();
     updateDataRef();
