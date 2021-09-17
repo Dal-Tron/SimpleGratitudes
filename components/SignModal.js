@@ -76,6 +76,11 @@ const SignModal = ({
     });
   }
 
+  const handleCancel = () => {
+    setActiveKey('1');
+    return onCancel();
+  }
+
   const handleSubmitSignIn = async (email, password) => {
     const { session, error } = await AuthService.signIn({ email, password });
 
@@ -91,7 +96,7 @@ const SignModal = ({
     }
 
     resetFields();
-    onCancel();
+    handleCancel();
     openSuccessMessage();
     return router.push('/');
   }
@@ -118,7 +123,7 @@ const SignModal = ({
       })
       openSuccessMessage();
       resetFields();
-      onCancel();
+      handleCancel();
       return router.push('/');
     }
   }
@@ -131,7 +136,7 @@ const SignModal = ({
     }
 
     resetFields();
-    onCancel();
+    handleCancel();
     return openSuccessMessage();
   }
 
@@ -162,7 +167,7 @@ const SignModal = ({
     <Modal
       className="user-modal"
       visible={visible}
-      onCancel={onCancel}
+      onCancel={handleCancel}
       onOk={handleSubmit}
       okText={getOkText(activeKey)}
       cancelButtonProps={{
@@ -172,7 +177,7 @@ const SignModal = ({
       <Tabs animated={true} activeKey={activeKey} onChange={handleTabChange}>
         <TabPane tab="Sign In" key="1">
           <SignIn
-            closeModal={onCancel}
+            closeModal={handleCancel}
             email={email}
             password={password}
             setEmail={setEmail}
@@ -186,7 +191,7 @@ const SignModal = ({
         </TabPane>
         <TabPane tab="Register" key="2">
           <SignIn
-            closeModal={onCancel}
+            closeModal={handleCancel}
             email={email}
             password={password}
             setEmail={setEmail}
@@ -196,7 +201,7 @@ const SignModal = ({
         </TabPane>
         <TabPane tab="Forgot Password" key="3">
           <SignIn
-            closeModal={onCancel}
+            closeModal={handleCancel}
             showForgotPassword={true}
             email={email}
             password={password}
