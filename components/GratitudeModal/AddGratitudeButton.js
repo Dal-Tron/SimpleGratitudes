@@ -7,7 +7,7 @@ import { useSignModal } from 'Context/modal'
 const AddGratitudeButton = ({ onClick = () => { } }) => {
   const [animateGratitudeButton, setAnimateGratitudeButton] = useState(false);
 
-  const { user } = useAuth();
+  const { session } = useAuth();
   const { updateSignModal } = useSignModal();
 
   const animateButton = () => {
@@ -21,9 +21,7 @@ const AddGratitudeButton = ({ onClick = () => { } }) => {
   const handleAddGratitude = () => {
     animateButton();
 
-    if (!user) {
-      return updateSignModal(true);
-    }
+    if (!session.access_token) return updateSignModal(true);
 
     return onClick();
   }

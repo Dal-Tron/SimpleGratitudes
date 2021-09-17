@@ -30,8 +30,8 @@ const SettingsPage = () => {
     updated_username,
     updateUsername,
     updateUsernameUpdated,
+    user,
   } = useAuth();
-  const { user } = useAuth();
 
   const { query: { access_token } } = router;
   const [password, setPassword] = useState('');
