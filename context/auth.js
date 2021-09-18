@@ -8,6 +8,7 @@ export const initialState = {
   user: {},
   profile: {
     username: '',
+    updated_username: false,
   },
 }
 
@@ -69,7 +70,7 @@ export const authReducer = (
         ...state,
         profile: {
           ...state.profile,
-          updated_username: action.updated_username
+          updated_username: true
         }
       }
     }

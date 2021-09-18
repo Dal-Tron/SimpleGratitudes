@@ -53,11 +53,17 @@ const SettingsPage = () => {
     setUsername(usernameValue);
   }
 
-  const handleConfirmUsername = () => {
+  const handleConfirmUsername = async () => {
     if (user.id && validUsername(stateUsername) && !updated_username) {
-      const { error: updateUsernameError } = ProfileService.updateProfileUsername(user.id, stateUsername);
+      const { error: updateUsernameError } = await ProfileService.updateProfileUsername(user.id, stateUsername);
 
-      if (updateUsernameError) return handleError(updateUsernameError);
+      if (updateUsernameError) {
+        if (updateUsernameError.message?.indexOf('duplicate') >= 0) {
+          return handleError({ message: 'Username taken.' });
+        }
+
+        return handleError(updateUsernameError);
+      }
 
       notification.open({
         type: 'success',
@@ -72,7 +78,6 @@ const SettingsPage = () => {
       setShowConfirmUsername(false);
       return authDispatch({
         type: 'set-updated-username',
-        updated_username: true,
       });
     }
   }
