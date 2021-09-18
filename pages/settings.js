@@ -14,6 +14,7 @@ import DeleteAccountInput from 'Components/DeleteAccountInput'
 import FormInput from 'Components/FormInput'
 import PasswordInput from 'Components/PasswordInput'
 import UsernameNotice from 'Components/UsernameNotice'
+import Loading from 'Components/Loading'
 
 import withAuth from 'HOC/auth'
 
@@ -36,6 +37,7 @@ const SettingsPage = () => {
   const [stateUsername, setUsername] = useState('');
   const [confirmDeleteAccount, setConfirmDeleteAccount] = useState(false);
   const [showConfirmUsername, setShowConfirmUsername] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (username && !stateUsername) {
@@ -124,31 +126,22 @@ const SettingsPage = () => {
   }
 
   const handleDeleteAccount = async () => {
+    setLoading(true);
     //TODO: handle signout error on server-side
     if (confirmDeleteAccount && user && user.id) {
       const { error: deleteProfileError } = await ProfileService.deleteProfile(user.id);
-
-      if (deleteProfileError) {
-        return handleError(deleteProfileError);
-      }
+      if (deleteProfileError) handleError(deleteProfileError);
 
       const { error: deleteGratitudesError } = await GratitudesService.deleteGratitudes(user.id);
-
-      if (deleteGratitudesError) {
-        return handleError(deleteGratitudesError);
-      }
+      if (deleteGratitudesError) return handleError(deleteGratitudesError);
 
       const { error: deleteUserError } = await AuthService.deleteUser();
-
-      if (deleteUserError) {
-        return handleError(deleteUserError);
-      }
+      if (deleteUserError) return handleError(deleteUserError);
 
       const { error: signOutError } = await AuthService.signOut();
-
       if (signOutError) {
-        return handleError(signOutError);
-      }
+        if (signOutError.message !== 'Invalid user') { handleError(signOutError); }
+      };
 
       if (
         !deleteUserError
@@ -159,81 +152,84 @@ const SettingsPage = () => {
           message: 'Successfully deleted user!',
           duration: 2,
         });
-        router.push('/');
         return window.location.href = '/';
+      } else {
+        return notification.open({
+          type: 'error',
+          message: 'Error deleting user',
+          duration: 2,
+        });
       }
-
-      return notification.open({
-        type: 'error',
-        message: 'Error deleting user',
-        duration: 2,
-      });
     }
   }
   return (
     <>
-      <div className='settings-wrapper settings-box-shadow'>
-        <div className='settings'>
-          <div className='settings-title'>Settings</div>
-          <div className='settings-content'>
-            <div className='settings-header'>Change Username</div>
-            <div className='settings-body'>
-              <div className='settings-option'>
-                <div className='settings-new-username'>
-                  <FormInput
-                    disabled={updated_username}
-                    inputValue={stateUsername}
-                    onChange={handleUsernameChange}
-                    placeholder='Enter new username'
-                    prefix={null}
-                    required={false}
-                    title='Username'
-                    tooltipVisible={false}
-                    triggerValidation={false}
-                    validator={validUsername}
-                  />
-                  <div onClick={handleUpdateUsername}
-                    className={`settings-account-button 
-                      ${validUsername(username) ? '' : 'settings-username-not-valid'}
-                      ${updated_username ? 'settings-username-updated' : ''}
-                      `}>
-                    <CheckOutlined />
+      {loading ? (
+        <Loading />
+      ) : (
+          <div className='settings-wrapper settings-box-shadow'>
+            <div className='settings'>
+              <div className='settings-title'>Settings</div>
+              <div className='settings-content'>
+                <div className='settings-header'>Change Username</div>
+                <div className='settings-body'>
+                  <div className='settings-option'>
+                    <div className='settings-new-username'>
+                      <FormInput
+                        disabled={updated_username}
+                        inputValue={stateUsername}
+                        onChange={handleUsernameChange}
+                        placeholder='Enter new username'
+                        prefix={null}
+                        required={false}
+                        title='Username'
+                        tooltipVisible={false}
+                        triggerValidation={false}
+                        validator={validUsername}
+                      />
+                      <div onClick={handleUpdateUsername}
+                        className={`settings-account-button 
+               ${validUsername(username) ? '' : 'settings-username-not-valid'}
+               ${updated_username ? 'settings-username-updated' : ''}
+               `}>
+                        <CheckOutlined />
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div className='settings-header'>Change Password</div>
-            <div className='settings-body'>
-              <div className='settings-option'>
-                <div className='settings-new-password'>
-                  <PasswordInput
-                    inputValue={password}
-                    onChange={setPassword}
-                    passwordRef={updatePasswordInputRef}
-                    showPrefix={false}
-                  />
-                  <div onClick={handleUpdatePassword}
-                    className={`settings-account-button ${validPassword(password) ? '' : 'settings-password-not-valid'}`}>
-                    <CheckOutlined />
+                <div className='settings-header'>Change Password</div>
+                <div className='settings-body'>
+                  <div className='settings-option'>
+                    <div className='settings-new-password'>
+                      <PasswordInput
+                        inputValue={password}
+                        onChange={setPassword}
+                        passwordRef={updatePasswordInputRef}
+                        showPrefix={false}
+                      />
+                      <div onClick={handleUpdatePassword}
+                        className={`settings-account-button ${validPassword(password) ? '' : 'settings-password-not-valid'}`}>
+                        <CheckOutlined />
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div className='settings-header'>Delete Account</div>
-            <div className='settings-body'>
-              <div className='settings-option'>
-                <div className='settings-delete-input'>
-                  <DeleteAccountInput handleConfirmDeleteAccount={handleConfirmDeleteAccount} />
-                  <div onClick={handleDeleteAccount}
-                    className={`settings-account-button ${confirmDeleteAccount ? '' : 'settings-password-not-valid'}`}>
-                    <DeleteOutlined />
+                <div className='settings-header'>Delete Account</div>
+                <div className='settings-body'>
+                  <div className='settings-option'>
+                    <div className='settings-delete-input'>
+                      <DeleteAccountInput handleConfirmDeleteAccount={handleConfirmDeleteAccount} />
+                      <div onClick={handleDeleteAccount}
+                        className={`settings-account-button ${confirmDeleteAccount ? '' : 'settings-password-not-valid'}`}>
+                        <DeleteOutlined />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        )}
       <Modal
         className='username-confirm-modal'
         visible={showConfirmUsername}
