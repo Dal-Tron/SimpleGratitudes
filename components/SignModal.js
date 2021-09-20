@@ -107,7 +107,11 @@ const SignModal = ({
       const { error, data } = await AuthService.register({ email, password });
 
       if (error) {
-        return handleError(error);
+        if (error.message?.indexOf('For') >= 0) {
+          handleError({ message: 'Please confirm your email. ' });
+        } else {
+          handleError(error);
+        }
       }
 
       const id = data.user.id;
