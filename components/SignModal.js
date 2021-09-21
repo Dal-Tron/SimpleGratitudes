@@ -104,7 +104,7 @@ const SignModal = ({
   const handleSubmitRegistration = async (email, password) => {
     if (validEmail(email)) {
       const username = `${email.split('@')[0]}_${uniqueEmailId}`;
-      const { error, data } = await AuthService.register({ email, password });
+      const { user, error } = await AuthService.register({ email, password });
 
       if (error) {
         if (error.message?.indexOf('For') >= 0) {
@@ -114,21 +114,22 @@ const SignModal = ({
         }
       }
 
-      const id = data.user.id;
-      const { error: profileError } = await ProfileService.insertProfile(id, username);
+      if (user && user.id) {
+        const id = user.id;
+        const { error: profileError } = await ProfileService.insertProfile(id, username);
 
-      if (profileError) {
-        return handleError(profileError);
+        if (profileError) {
+          handleError(profileError);
+        }
+
+        authDispatch({
+          type: 'set-username',
+          username,
+        });
+        openSuccessMessage();
+        resetFields();
+        handleCancel();
       }
-
-      authDispatch({
-        type: 'set-username',
-        username,
-      })
-      openSuccessMessage();
-      resetFields();
-      handleCancel();
-      return router.push('/');
     }
   }
 

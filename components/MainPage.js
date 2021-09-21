@@ -62,7 +62,7 @@ export default function MainPage({ frontPage = true, triggerSignIn = false }) {
   }, [triggerSignIn]);
 
   const fetchPrivateData = async () => {
-    if (user.id) {
+    if (user?.id) {
       const { data: privatePageData, error: privatePageError } = await supabase.from('gratitudes').select('*').eq('user_id', user.id);
 
       if (privatePageError) return handleError(privatePageError);
