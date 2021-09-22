@@ -23,7 +23,7 @@ export const authReducer = (
     case 'set-session': {
       return {
         ...state,
-        session: action.session,
+        session: action.session || {},
       }
     }
     case 'set-user': {
@@ -80,41 +80,51 @@ export const authReducer = (
 
 const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
-  const session = supabase.auth.session();
 
   useEffect(() => {
-    if (session && session.user && !state.session.access_token) {
+    dispatch({
+      type: 'set-session',
+      session: supabase.auth.session(),
+    });
+
+    supabase.auth.onAuthStateChange((_event, session) => {
       dispatch({
         type: 'set-session',
         session,
       });
+    })
+  }, []);
 
+  useEffect(() => {
+    if (state.session && state.session.user) {
       dispatch({
         type: 'set-user',
-        user: session.user
+        user: state.session.user
       });
 
-      if (!state.profile.username) updateProfile();
+      return updateProfile(state.session.user.id);
     }
-  }, [session]);
+  }, [state.session]);
 
-  const updateProfile = async () => {
-    const { data, error } = await supabase.from('profiles').select('*').eq('id', session.user.id);
+  const updateProfile = async (id) => {
+    if (id) {
+      const { data: profile, error } = await supabase.from('profiles').select('username, updated_username').eq('id', id).single();
 
-    if (error) {
-      //TODO: handle error api side
-      return notification.open({
-        type: 'error',
-        duration: 2,
-        message: 'Unable to retrieve username.',
-      });
-    }
+      if (error) {
+        //TODO: handle error api side
+        return notification.open({
+          type: 'error',
+          duration: 2,
+          message: 'Unable to retrieve username.',
+        });
+      }
 
-    if (data.length > 0) {
-      dispatch({
-        type: 'set-profile',
-        profile: data[0],
-      });
+      if (profile) {
+        dispatch({
+          type: 'set-profile',
+          profile,
+        });
+      }
     }
   }
 

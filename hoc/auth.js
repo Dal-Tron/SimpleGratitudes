@@ -10,9 +10,10 @@ const withAuth = Component => {
     const router = useRouter();
     const { session } = useAuthState();
     const [sessionChecked, setSessionChecked] = useState(false);
+    const { query: { access_token } } = router;
 
     useEffect(() => {
-      if (!session.access_token && sessionChecked) {
+      if (!session.access_token && sessionChecked && !access_token) {
         return router.push({ pathname: '/', query: { access_restricted: true } });
       }
     }, [session.access_token, sessionChecked])
