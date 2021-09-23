@@ -1,20 +1,25 @@
-import { useState } from 'react';
-import dayjs from 'dayjs';
+import { useState } from 'react'
+import dayjs from 'dayjs'
 
-import { useAddGratitudeModal } from 'Context/modal';
-import { useAuthState } from 'Context/auth';
+import StarIcon from 'Components/Icons/StarIcon'
+
+import { useAddGratitudeModal } from 'Context/modal'
+import { useAuthState } from 'Context/auth'
 
 const Gratitude = ({
-  gratitude,
-  username,
+  approved = false,
   date,
-  showShare = true,
-  id,
-  publicGratitude,
   frontPage = false,
+  gratitude,
+  id,
+  mainPage = false,
+  publicGratitude,
+  showShare = true,
+  userId = '',
+  username,
 }) => {
   const [pressed, setPressed] = useState(false);
-  const { profile: { username: profileUsername } } = useAuthState();
+  const { user } = useAuthState();
 
   const { updateAddGratitudeModal, setEditableGratitude } = useAddGratitudeModal();
 
@@ -27,7 +32,7 @@ const Gratitude = ({
   }
 
   const handleEditGratitude = () => {
-    if (username === profileUsername) {
+    if (user.id === userId) {
       animateGratitude();
       updateAddGratitudeModal(true);
       setEditableGratitude({
@@ -35,6 +40,7 @@ const Gratitude = ({
         date,
         id,
         public: publicGratitude,
+        frontpage: frontPage,
       });
     }
   }
@@ -42,9 +48,10 @@ const Gratitude = ({
   return (
     <span onClick={handleEditGratitude} className='gratitude'>
       <div className={`gratitude-container ${pressed ? 'gratitude-pressed' : ''}`}>
+        {frontPage && approved && <div className='gratitude-star-container'><div className='gratitude-star'><StarIcon /></div></div>}
         <span className='gratitude-text'>{gratitude}</span>
         {showShare && <span className='gratitude-from'>Shared by {username}</span>}
-        {!frontPage && (
+        {!mainPage && (
           <span className='gratitude-date'>{dayjs(date).format('MMMM D, YYYY')}</span>
         )}
       </div>

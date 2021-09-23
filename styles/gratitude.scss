@@ -27,9 +27,19 @@
     box-shadow: 7px 7px 0px 0px rgba(115,184,203,1);
   }
 
+  &-star-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -10px;
+    margin-right: -10px;
+    font-size: 10px;
+    color: $colour4;
+  }
+
   &-text {
     color: white;
     text-align: center;
+    margin-top: -5px;
   }
 
   &-from {

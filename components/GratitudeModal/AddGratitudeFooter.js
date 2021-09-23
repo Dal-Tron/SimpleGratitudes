@@ -2,9 +2,10 @@ import { Switch, Button } from 'antd'
 import { CheckCircleFilled } from '@ant-design/icons'
 
 const AddGratitudeFooter = ({
+  handleCancel = () => { },
+  handleSubmitGratitude = () => { },
   onPublicSwitchChange = () => { },
   publicGratitude = false,
-  handleSubmitGratitude = () => { },
 }) => {
   const windowWidth = window.innerWidth;
 
@@ -12,6 +13,9 @@ const AddGratitudeFooter = ({
     if (windowWidth > 500) {
       return (
         <span className='add-gratitude-button'>
+          <Button className='user-modal-cancel-button' onClick={handleCancel} type='secondary'>
+            Cancel
+          </Button>
           <Button onClick={handleSubmitGratitude} type='primary'>
             Submit
           </Button>

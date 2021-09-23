@@ -1,16 +1,17 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import { Drawer, notification } from 'antd'
 import { MenuOutlined } from '@ant-design/icons'
 
-import Title from 'Components/Title'
-import Footer from 'Components/Footer'
-import Time from 'Components/Time'
-import MainMenu from 'Components/MainMenu'
-import SignModal from 'Components/SignModal'
 import AddGratitudeButtonMobile from 'Components/GratitudeModal/AddGratitudeButtonMobile'
 import AddGratitudeModal from 'Components/GratitudeModal/AddGratitudeModal'
+import Loading from 'Components/Loading'
+import Footer from 'Components/Footer'
+import MainMenu from 'Components/MainMenu'
+import SignModal from 'Components/SignModal'
+import Time from 'Components/Time'
+import Title from 'Components/Title'
 
 import { useAuthState, useAuthDispatch } from 'Context/auth'
 import { useSignModal } from 'Context/modal'
@@ -29,20 +30,33 @@ export default function Layout({ children }) {
   const authDispatch = useAuthDispatch();
   const { showSignModal, updateSignModal } = useSignModal();
   const { showAddGratitudeModal, updateAddGratitudeModal, editableGratitude } = useAddGratitudeModal();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const handleStart = () => setLoading(true);
+    const handleStop = () => setLoading(false);
+
+    router.events.on('routeChangeStart', handleStart)
+    router.events.on('routeChangeComplete', handleStop)
+    router.events.on('routeChangeError', handleStop)
+
+    return () => {
+      router.events.off('routeChangeStart', handleStart)
+      router.events.off('routeChangeComplete', handleStop)
+      router.events.off('routeChangeError', handleStop)
+    }
+  }, [router])
 
   const handleCloseSignModal = () => updateSignModal(false);
+
   const handleCloseAddGratitudeModal = () => updateAddGratitudeModal(false);
 
+  const handleCloseMenu = () => setMenuVisible(false);
+
   const handleShowMenu = () => {
-    if (validJWT(session.access_token)) {
-      return setMenuVisible(true);
-    }
+    if (validJWT(session.access_token)) return setMenuVisible(true);
 
     return updateSignModal(true);
-  }
-
-  const handleCloseMenu = () => {
-    return setMenuVisible(false);
   }
 
   const handleSignOut = () => {
@@ -105,7 +119,9 @@ export default function Layout({ children }) {
           </div>
         </section>
         <Time />
-        <section className="main">{children}</section>
+        <section className="main">
+          {loading ? <Loading /> : children}
+        </section>
       </div>
       <Footer />
       <SignModal visible={showSignModal} onCancel={handleCloseSignModal} />

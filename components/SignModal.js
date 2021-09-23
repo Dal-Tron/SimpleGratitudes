@@ -21,6 +21,7 @@ const SignModal = ({
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [triggerValidation, setTriggerValidation] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const authDispatch = useAuthDispatch();
   const router = useRouter();
@@ -39,11 +40,11 @@ const SignModal = ({
   const getOkText = (key) => {
     switch (key) {
       case '1':
-        return 'Sign In';
+        return loading ? 'Signing In...' : 'Sign In';
       case '2':
-        return 'Register';
+        return loading ? 'Registering...' : 'Register';
       case '3':
-        return 'Send Reset Link';
+        return loading ? 'Sending Reset Link...' : 'Send Reset Link';
       default: 'Sign In';
     }
   }
@@ -69,8 +70,17 @@ const SignModal = ({
   }
 
   const handleError = (error) => {
+    const finalError = {
+      ...error,
+      message: error.message || 'Error'
+    }
+
+    if (finalError.message?.indexOf('For') >= 0) {
+      finalError.message = 'Please confirm your email.';
+    }
+
     return notification.open({
-      message: error.message,
+      message: finalError.message,
       type: 'error',
       duration: 2,
     });
@@ -82,67 +92,67 @@ const SignModal = ({
   }
 
   const handleSubmitSignIn = async (email, password) => {
-    const { session, error } = await AuthService.signIn({ email, password });
+    setLoading(true);
+    try {
+      const { session, error } = await AuthService.signIn({ email, password });
 
-    if (error) {
-      return handleError(error);
+      if (error) throw error;
+
+      if (session) authDispatch({ type: 'set-session', session });
+
+      handleCancel();
+      resetFields();
+      openSuccessMessage();
+      router.push('/');
+    } catch (err) {
+      handleError(err);
+    } finally {
+      setLoading(false);
     }
-
-    if (session) {
-      authDispatch({
-        type: 'set-session',
-        session,
-      })
-    }
-
-    resetFields();
-    handleCancel();
-    openSuccessMessage();
-    return router.push('/');
   }
 
   const handleSubmitRegistration = async (email, password) => {
-    if (validEmail(email)) {
-      const username = `${email.split('@')[0]}_${uniqueEmailId}`;
+    setLoading(true);
+    const username = `${email.split('@')[0]}_${uniqueEmailId}`;
+
+    try {
       const { user, error } = await AuthService.register({ email, password });
 
-      if (error) {
-        if (error.message?.indexOf('For') >= 0) {
-          handleError({ message: 'Please confirm your email. ' });
-        } else {
-          handleError(error);
-        }
-      }
+      if (error) throw error;
 
       if (user && user.id) {
         const id = user.id;
         const { error: profileError } = await ProfileService.insertProfile(id, username);
 
-        if (profileError) {
-          handleError(profileError);
-        }
+        if (profileError) throw profileError;
 
-        authDispatch({
-          type: 'set-username',
-          username,
-        });
+        authDispatch({ type: 'set-username', username });
+        handleCancel();
         openSuccessMessage();
         resetFields();
-        handleCancel();
       }
+    } catch (err) {
+      handleError(err);
+    } finally {
+      setLoading(false);
     }
   }
 
   const handleForgotPassword = async (email) => {
-    const { error } = await AuthService.resetEmail(email);
+    setLoading(true);
+    try {
+      const { error } = await AuthService.resetEmail(email);
 
-    if (error) {
-      return handleError(error);
+      if (error) throw error;
+
+      handleCancel();
+      openSuccessMessage();
+      resetFields();
+    } catch (err) {
+      handleError(error);
+    } finally {
+      setLoading(false);
     }
-
-    resetFields();
-    handleCancel();
-    return openSuccessMessage();
   }
 
   const handleSubmit = () => {
@@ -151,6 +161,7 @@ const SignModal = ({
     if (
       validEmail(email)
       && validPassword(password)
+      && !loading
     ) {
       if (activeKey === '1') {
         return handleSubmitSignIn(email, password);
@@ -176,13 +187,17 @@ const SignModal = ({
       onOk={handleSubmit}
       okText={getOkText(activeKey)}
       cancelButtonProps={{
-        className: 'user-modal-cancel-button'
+        className: 'user-modal-cancel-button',
+      }}
+      okButtonProps={{
+        className: `user-modal-submit-button ${loading ? 'user-modal-submit-button-disabled' : ''}`
       }}
     >
       <Tabs animated={true} activeKey={activeKey} onChange={handleTabChange}>
         <TabPane tab="Sign In" key="1">
           <SignIn
             closeModal={handleCancel}
+            disabled={loading}
             email={email}
             password={password}
             setEmail={setEmail}
@@ -197,6 +212,7 @@ const SignModal = ({
         <TabPane tab="Register" key="2">
           <SignIn
             closeModal={handleCancel}
+            disabled={loading}
             email={email}
             password={password}
             setEmail={setEmail}
@@ -207,11 +223,12 @@ const SignModal = ({
         <TabPane tab="Forgot Password" key="3">
           <SignIn
             closeModal={handleCancel}
-            showForgotPassword={true}
+            disabled={loading}
             email={email}
             password={password}
             setEmail={setEmail}
             setPassword={setPassword}
+            showForgotPassword={true}
             triggerValidation={triggerValidation}
           />
         </TabPane>

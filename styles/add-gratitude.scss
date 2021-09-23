@@ -1,4 +1,6 @@
-@import './media-queries.scss';
+@import 'media-queries.scss';
+@import 'animations.scss';
+@import 'colours.scss';
 
 .add-gratitude {
   display: flex;
@@ -65,7 +67,7 @@
     text-align: right;
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
   }
 
   &-switch-option {
@@ -95,7 +97,7 @@
   &-modal {
     border-radius: 20px;
     min-height: 200px;
-    background-color: lightblue;
+    background-color: $colour1;
   
     box-shadow: 1px 1px 0px $colour3,
     2px 2px 0px $colour3,
@@ -119,6 +121,24 @@
     20px 20px 0px $colour3,
     21px 21px 0px $colour3;
   }
+
+  &-star-icon {
+    margin-top: 5px;
+    color: $colour3;
+
+    &:hover {
+      animation: $bounce;
+      -webkit-animation: $bounce; //webkit browsers
+      -moz-animation: $bounce; //firefox
+      -o-animation: $bounce; //opera
+    }
+
+    &-starred {
+      margin-top: 5px;
+      color: $colour4;
+      font-size: 19px;
+    }
+  }
 }
 
 .gratitude-button-mobile {
@@ -139,3 +159,4 @@
     }
   }
 }
+

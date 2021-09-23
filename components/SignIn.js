@@ -8,12 +8,13 @@ import FormInput from 'Components/FormInput'
 import { validEmail, validPassword } from 'Helpers/validation'
 
 const SignIn = ({
-  showForgotPassword = false,
+  disabled = false,
   email = '',
   password = '',
   setEmail = () => { },
   setPassword = () => { },
-  triggerValidation = false
+  showForgotPassword = false,
+  triggerValidation = false,
 }) => {
   const { showSignModal } = useSignModal();
 
@@ -25,6 +26,7 @@ const SignIn = ({
       <Form.Item name="email">
         <div className='input-signin'>
           <FormInput
+            disabled={disabled}
             inputValue={email}
             onChange={setEmail}
             placeholder='Email'
@@ -41,6 +43,7 @@ const SignIn = ({
         <Form.Item name="password">
           <div className='input-signin'>
             <FormInput
+              disabled={disabled}
               inputValue={password}
               onChange={setPassword}
               passwordInput={true}

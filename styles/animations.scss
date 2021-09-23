@@ -1,0 +1,39 @@
+$bounce: bounce .5s ease-out infinite;
+
+//CSS3 Bounce Animation
+@-webkit-keyframes bounce {
+  0%,  
+  100% {
+     -webkit-transform: translateY(0);
+  } 
+  50% {
+      -webkit-transform: translateY(-6px);
+  }
+}
+@-moz-keyframes bounce {
+  0%, 
+  100% {
+     -moz-transform: translateY(0);
+  }
+  50% {
+     -moz-transform: translateY(-6px);
+  }
+}
+@-o-keyframes bounce {
+  0%,
+  100% {
+     -o-transform: translateY(0);
+  }
+  50% {
+     -o-transform: translateY(-6px);
+  }
+}
+@keyframes bounce {
+  0%,  
+  100% {
+      transform: translateY(0);
+  }
+  50% {
+      transform: translateY(-6px);
+  }
+}

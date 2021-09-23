@@ -18,7 +18,7 @@ import { validJWT } from 'Helpers/validation'
 
 const queryString = require('query-string');
 
-export default function MainPage({ frontPage = true, triggerSignIn = false }) {
+export default function MainPage({ mainPage = true, triggerSignIn = false }) {
   const [loading, setLoading] = useState(true);
   const [gratitudes, setGratitudes] = useState([]);
 
@@ -86,7 +86,7 @@ export default function MainPage({ frontPage = true, triggerSignIn = false }) {
 
   const fetchStarredGratitudes = async () => {
     // All frontpage gratitudes
-    const { data: frontPageData, error: frontpageError } = await supabase.from('gratitudes').select('*').eq('frontpage', true);
+    const { data: frontPageData, error: frontpageError } = await supabase.from('gratitudes').select('*').eq('frontpage', true).eq('approved', true);
 
     if (frontpageError) {
       return handleError(frontpageError);
@@ -125,17 +125,29 @@ export default function MainPage({ frontPage = true, triggerSignIn = false }) {
         return dayjs(b.inserted_at) - dayjs(a.inserted_at);
       });
 
-      return gratitudes.map(({ id, gratitude, username: gratitudeUsername, inserted_at, public: publicGratitude }) => (
-        <Gratitude
-          date={inserted_at}
-          gratitude={gratitude}
-          id={id}
-          key={id}
-          username={gratitudeUsername}
-          publicGratitude={publicGratitude}
-          frontPage={frontPage}
-        />
-      ));
+      return gratitudes.map(({
+        frontpage,
+        gratitude,
+        id,
+        inserted_at,
+        public: publicGratitude,
+        user_id,
+        username: gratitudeUsername,
+        approved,
+      }) => (
+          <Gratitude
+            date={inserted_at}
+            frontPage={frontpage}
+            gratitude={gratitude}
+            id={id}
+            key={id}
+            mainPage={mainPage}
+            publicGratitude={publicGratitude}
+            userId={user_id}
+            username={gratitudeUsername}
+            approved={approved}
+          />
+        ));
     } else {
       if (loading) {
         return (

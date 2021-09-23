@@ -3,6 +3,7 @@ import { Modal, notification } from 'antd'
 
 import AddGratitudeFooter from 'Components/GratitudeModal/AddGratitudeFooter'
 import AddGratitude from 'Components/GratitudeModal/AddGratitude'
+import StarIcon from 'Components/Icons/StarIcon'
 
 import { useAuthState } from 'Context/auth'
 import { useSignModal, useAddGratitudeModal } from 'Context/modal'
@@ -27,6 +28,7 @@ const AddGratitudeModal = ({
     if (editableGratitude.date) handleUpdateGratitude('date', editableGratitude.date);
     if (editableGratitude.id) handleUpdateGratitude('id', editableGratitude.id);
     if (editableGratitude.public) handleUpdateGratitude('public', editableGratitude.public);
+    if (editableGratitude.frontpage) handleUpdateGratitude('frontpage', editableGratitude.frontpage);
   }, [editableGratitude]);
 
   const handleUpdateGratitude = (name, value) => {
@@ -49,9 +51,18 @@ const AddGratitudeModal = ({
     return handleUpdateGratitude('public', checked);
   }
 
+  const handleStarChange = () => {
+    if (gratitude.frontpage) {
+      return handleUpdateGratitude('frontpage', false);
+    }
+
+    return handleUpdateGratitude('frontpage', true);
+  }
+
   const resetGratitude = () => {
-    setEditableGratitude({});
     onCancel();
+    setGratitude({});
+    setEditableGratitude({});
     updateDataRef();
   }
 
@@ -69,6 +80,8 @@ const AddGratitudeModal = ({
     const { error: editingGratitudeError } = await supabase.from('gratitudes').update({
       gratitude: gratitude.gratitude,
       public: gratitude.public,
+      frontpage: gratitude.frontpage,
+      approved: false,
     }).match({ id: editableGratitude.id });
 
     if (!editingGratitudeError) {
@@ -118,13 +131,17 @@ const AddGratitudeModal = ({
     <Modal className="add-gratitude-modal"
       visible={visible}
       destroyOnClose={true}
-      onCancel={resetGratitude}
+      closeIcon={<StarIcon
+        onClick={handleStarChange}
+        className={`${gratitude.frontpage ? 'add-gratitude-star-icon-starred' : 'add-gratitude-star-icon'}`}
+      />}
       footer={<AddGratitudeFooter
-        onTagChange={handleTagChange}
+        handleCancel={resetGratitude}
+        handleSubmitGratitude={handleSubmitGratitude}
         onPublicSwitchChange={handlePublicSwitchChange}
+        onTagChange={handleTagChange}
         publicGratitude={gratitude.public}
         tag={gratitude.tags}
-        handleSubmitGratitude={handleSubmitGratitude}
       />}
     >
       <AddGratitude
