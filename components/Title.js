@@ -8,7 +8,7 @@ const Title = () => {
   return (
     <div onClick={() => router.push('/')} className='intention'>
       <div>{!page ? 'Simple' : `${page}'s`}</div>
-      <div>{!page ? 'Gratitudes' : 'gratitudes'}</div>
+      <div>Gratitudes</div>
     </div>
   )
 }

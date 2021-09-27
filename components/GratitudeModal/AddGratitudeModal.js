@@ -77,44 +77,48 @@ const AddGratitudeModal = ({
   }
 
   const submitGratitudeUpdate = async () => {
-    const { error: editingGratitudeError } = await supabase.from('gratitudes').update({
-      gratitude: gratitude.gratitude,
-      public: gratitude.public,
-      frontpage: gratitude.frontpage,
-      approved: false,
-    }).match({ id: editableGratitude.id });
+    if (gratitude.gratitude) {
+      const { error: editingGratitudeError } = await supabase.from('gratitudes').update({
+        gratitude: gratitude.gratitude,
+        public: gratitude.public,
+        frontpage: gratitude.frontpage,
+        approved: false,
+      }).match({ id: editableGratitude.id });
 
-    if (!editingGratitudeError) {
-      notification.open({
-        type: 'success',
-        message: 'Successfully edited gratitude!'
-      });
+      if (!editingGratitudeError) {
+        notification.open({
+          type: 'success',
+          message: 'Successfully edited gratitude!'
+        });
 
-      return resetGratitude();
+        return resetGratitude();
+      }
+
+      return handleError(editingGratitudeError);
     }
-
-    return handleError(editingGratitudeError);
   }
 
   const submitGratitudeInsert = async () => {
-    const { error: insertGratitudeError } = await supabase.from('gratitudes').insert([
-      {
-        ...gratitude,
-        user_id: user.id,
-        username,
+    if (gratitude.gratitude) {
+      const { error: insertGratitudeError } = await supabase.from('gratitudes').insert([
+        {
+          ...gratitude,
+          user_id: user.id,
+          username,
+        }
+      ]);
+
+      if (!insertGratitudeError) {
+        notification.open({
+          type: 'success',
+          message: 'Successfully saved gratitude!'
+        });
+
+        return resetGratitude();
       }
-    ]);
 
-    if (!insertGratitudeError) {
-      notification.open({
-        type: 'success',
-        message: 'Successfully saved gratitude!'
-      });
-
-      return resetGratitude();
+      return handleError(insertGratitudeError);
     }
-
-    return handleError(insertGratitudeError);
   }
 
   const handleSubmitGratitude = () => {
