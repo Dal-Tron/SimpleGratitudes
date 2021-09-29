@@ -89,3 +89,11 @@ html {
     color: $colour1 !important;
   }
 }
+
+.ant-tabs-nav-wrap {
+  &::before,
+  &::after {
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+  }
+}
