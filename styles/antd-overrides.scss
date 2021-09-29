@@ -83,3 +83,9 @@ html {
 .ant-message {
   top: 0px !important;
 }
+
+.anticon {
+  &-info-circle {
+    color: $colour1 !important;
+  }
+}

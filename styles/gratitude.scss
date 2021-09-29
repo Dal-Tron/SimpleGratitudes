@@ -29,7 +29,7 @@
 
   &-star-container {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     margin-top: -10px;
     margin-right: -10px;
     font-size: 10px;
@@ -40,6 +40,7 @@
     color: white;
     text-align: center;
     margin-top: -5px;
+    padding: 10px;
   }
 
   &-from {
@@ -72,9 +73,15 @@
     max-width: 100% !important;
     width: 100%;
     text-align: center;
+    padding-bottom: 1rem !important;
+    padding-top: 1rem !important;
 
     &-container {
       min-width: 60px !important;
+    }
+
+    &-icons-container {
+      text-align: left;
     }
   }
 }

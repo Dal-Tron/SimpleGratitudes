@@ -50,6 +50,13 @@
     width: 100%;
   }
 
+  &-new-cool-username {
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: text;
+  }
+
   &-new-username {
     display: flex;
     justify-content: space-between;

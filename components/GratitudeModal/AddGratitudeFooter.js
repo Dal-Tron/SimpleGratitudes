@@ -1,5 +1,5 @@
 import { Switch, Button } from 'antd'
-import { CheckCircleFilled } from '@ant-design/icons'
+import { CheckCircleFilled, CloseCircleOutlined } from '@ant-design/icons'
 
 const AddGratitudeFooter = ({
   handleCancel = () => { },
@@ -23,7 +23,20 @@ const AddGratitudeFooter = ({
       )
     }
 
-    return <span className='add-gratitude-button-mobile' onClick={handleSubmitGratitude}><CheckCircleFilled /></span>;
+    return (
+      <>
+        <span
+          className='add-gratitude-button-mobile add-gratitude-button-mobile-close'
+          onClick={handleCancel}>
+          <CloseCircleOutlined />
+        </span>
+        <span
+          className='add-gratitude-button-mobile'
+          onClick={handleSubmitGratitude}>
+          <CheckCircleFilled />
+        </span>
+      </>
+    );
   }
 
   return (

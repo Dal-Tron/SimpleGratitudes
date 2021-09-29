@@ -86,7 +86,12 @@ export default function MainPage({ mainPage = true, triggerSignIn = false }) {
 
   const fetchStarredGratitudes = async () => {
     // All frontpage gratitudes
-    const { data: frontPageData, error: frontpageError } = await supabase.from('gratitudes').select('*').eq('frontpage', true).eq('approved', true);
+    const { data: frontPageData, error: frontpageError } = await supabase
+      .from('gratitudes')
+      .select('*')
+      .eq('frontpage', true)
+      .eq('approved', true)
+      .eq('public', true);
 
     if (frontpageError) {
       return handleError(frontpageError);
@@ -146,6 +151,7 @@ export default function MainPage({ mainPage = true, triggerSignIn = false }) {
             userId={user_id}
             username={gratitudeUsername}
             approved={approved}
+            showPublic={!mainPage}
           />
         ));
     } else {
@@ -172,7 +178,7 @@ export default function MainPage({ mainPage = true, triggerSignIn = false }) {
 
   return (
     <section className="main-container">
-      <AddGratitudeButton onClick={handleAddGratitude} />
+      {!mainPage && <AddGratitudeButton onClick={handleAddGratitude} />}
       {renderGratitudes()}
     </section>
   )

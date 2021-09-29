@@ -1,15 +1,12 @@
 import { useState } from 'react'
 import dayjs from 'dayjs'
-
-import StarIcon from 'Components/Icons/StarIcon'
+import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons'
 
 import { useAddGratitudeModal } from 'Context/modal'
 import { useAuthState } from 'Context/auth'
 
 const Gratitude = ({
-  approved = false,
   date,
-  frontPage = false,
   gratitude,
   id,
   mainPage = false,
@@ -17,6 +14,7 @@ const Gratitude = ({
   showShare = true,
   userId = '',
   username,
+  showPublic = true,
 }) => {
   const [pressed, setPressed] = useState(false);
   const { user } = useAuthState();
@@ -40,20 +38,30 @@ const Gratitude = ({
         date,
         id,
         public: publicGratitude,
-        frontpage: frontPage,
       });
     }
+  }
+
+  const renderShare = () => {
+    if (!mainPage) return <span className='gratitude-from'>{publicGratitude ? 'Public' : 'Private'} {publicGratitude ? <EyeOutlined /> : <EyeInvisibleOutlined />}</span>;
+
+    if (showShare) return <span className='gratitude-from'>Shared by {username}</span>;
+
+    return null;
+  }
+
+  const renderDate = () => {
+    if (!mainPage) return <span className='gratitude-date'>{dayjs(date).format('MMMM D, YYYY')}</span>;
+
+    return null;
   }
 
   return (
     <span onClick={handleEditGratitude} className='gratitude'>
       <div className={`gratitude-container ${pressed ? 'gratitude-pressed' : ''}`}>
-        {frontPage && approved && <div className='gratitude-star-container'><div className='gratitude-star'><StarIcon /></div></div>}
         <span className='gratitude-text'>{gratitude}</span>
-        {showShare && <span className='gratitude-from'>Shared by {username}</span>}
-        {!mainPage && (
-          <span className='gratitude-date'>{dayjs(date).format('MMMM D, YYYY')}</span>
-        )}
+        {renderShare()}
+        {renderDate()}
       </div>
     </span>
   )

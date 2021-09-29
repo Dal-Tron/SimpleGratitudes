@@ -176,29 +176,35 @@ const SettingsPage = () => {
             <div className='settings'>
               <div className='settings-title'>Settings</div>
               <div className='settings-content'>
-                <div className='settings-header'>Change Username</div>
+                <div className='settings-header'>{updated_username ? 'Username' : 'Change Username'}</div>
                 <div className='settings-body'>
                   <div className='settings-option'>
                     <div className='settings-new-username'>
-                      <FormInput
-                        disabled={updated_username}
-                        inputValue={stateUsername}
-                        onChange={handleUsernameChange}
-                        placeholder='Enter new username'
-                        prefix={null}
-                        required={false}
-                        title='Username'
-                        tooltipVisible={false}
-                        triggerValidation={false}
-                        validator={validUsername}
-                      />
-                      <div onClick={handleUpdateUsername}
-                        className={`settings-account-button 
+                      {updated_username ? (
+                        <div className='settings-new-cool-username'>{stateUsername}</div>
+                      ) : (
+                          <FormInput
+                            disabled={updated_username}
+                            inputValue={stateUsername}
+                            onChange={handleUsernameChange}
+                            placeholder='Enter new username'
+                            prefix={null}
+                            required={false}
+                            title='Username'
+                            tooltipVisible={false}
+                            triggerValidation={false}
+                            validator={validUsername}
+                          />
+                        )}
+                      {updated_username ? null : (
+                        <div onClick={handleUpdateUsername}
+                          className={`settings-account-button 
                ${validUsername(username) ? '' : 'settings-username-not-valid'}
                ${updated_username ? 'settings-username-updated' : ''}
                `}>
-                        <CheckOutlined />
-                      </div>
+                          <CheckOutlined />
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
