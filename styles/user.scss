@@ -1,4 +1,5 @@
 @import 'colours.scss';
+@import 'media-queries.scss';
 
 .user {
   &-signin-form {
@@ -81,5 +82,16 @@
   19px 19px 0px $colour3,
   20px 20px 0px $colour3,
   21px 21px 0px $colour3; 
+  }
+}
+
+@include respond-below(sm) {
+  .user-modal {
+    max-width: 300px;
+
+    .ant-modal-body {
+      padding: 16px !important;
+      padding-bottom: 0px !important;
+    }
   }
 }

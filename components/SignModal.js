@@ -186,6 +186,7 @@ const SignModal = ({
       onCancel={handleCancel}
       onOk={handleSubmit}
       okText={getOkText(activeKey)}
+      closable={false}
       cancelButtonProps={{
         className: 'user-modal-cancel-button',
       }}
