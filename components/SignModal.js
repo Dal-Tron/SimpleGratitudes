@@ -160,22 +160,21 @@ const SignModal = ({
 
     if (
       validEmail(email)
-      && validPassword(password)
       && !loading
     ) {
-      if (activeKey === '1') {
-        return handleSubmitSignIn(email, password);
-      }
+      if (validPassword(password)) {
+        if (activeKey === '1') {
+          return handleSubmitSignIn(email, password);
+        }
 
-      if (activeKey === '2') {
-        return handleSubmitRegistration(email, password);
+        if (activeKey === '2') {
+          return handleSubmitRegistration(email, password);
+        }
       }
 
       if (activeKey === '3') {
         return handleForgotPassword(email);
       }
-
-      return;
     }
   };
 
