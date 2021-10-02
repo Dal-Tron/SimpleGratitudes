@@ -1,7 +1,9 @@
 import React, { useContext, useReducer, useEffect, createContext } from 'react'
-import { notification } from 'antd';
+import { notification } from 'antd'
 
 import { supabase } from 'Supabase/client'
+
+import { useLoaderDispatch, loaderKey } from 'Context/loader'
 
 export const initialState = {
   session: {},
@@ -80,6 +82,7 @@ export const authReducer = (
 
 const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
+  const loaderDispatch = useLoaderDispatch();
 
   useEffect(() => {
     dispatch({
@@ -92,7 +95,7 @@ const AuthProvider = ({ children }) => {
         type: 'set-session',
         session,
       });
-    })
+    });
   }, []);
 
   useEffect(() => {
@@ -107,24 +110,34 @@ const AuthProvider = ({ children }) => {
   }, [state.session]);
 
   const updateProfile = async (id) => {
-    if (id) {
-      const { data: profile, error } = await supabase.from('profiles').select('username, updated_username').eq('id', id).single();
+    loaderDispatch({
+      type: 'add-loader',
+      loader: loaderKey.profile,
+    });
+    try {
+      if (id) {
+        const { data: profile, error } = await supabase.from('profiles').select('username, updated_username').eq('id', id).single();
 
-      if (error) {
-        //TODO: handle error api side
-        return notification.open({
-          type: 'error',
-          duration: 2,
-          message: 'Unable to retrieve username.',
-        });
-      }
+        if (error) throw error;
 
-      if (profile) {
-        dispatch({
-          type: 'set-profile',
-          profile,
-        });
+        if (profile) {
+          dispatch({
+            type: 'set-profile',
+            profile,
+          });
+        }
       }
+    } catch (err) {
+      notification.open({
+        type: 'error',
+        duration: 2,
+        message: 'Unable to retrieve username.',
+      });
+    } finally {
+      loaderDispatch({
+        type: 'remove-loader',
+        loader: loaderKey.profile,
+      });
     }
   }
 

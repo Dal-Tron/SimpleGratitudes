@@ -3,6 +3,10 @@
 .settings {
   width: 100%;
 
+  &-content-username-loading {
+    color: white;
+  }
+
   &-wrapper {
     display: flex;
     justify-content: center;

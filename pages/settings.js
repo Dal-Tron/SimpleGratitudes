@@ -3,10 +3,12 @@ import { notification, Modal } from 'antd'
 import {
   CheckOutlined,
   DeleteOutlined,
+  LoadingOutlined,
 } from '@ant-design/icons'
 import { useRouter } from 'next/router'
 
 import { useAuthState, useAuthDispatch } from 'Context/auth'
+import { useLoaderState, loaderKey } from 'Context/loader'
 
 import { validPassword, validJWT, validUsername } from 'Helpers/validation'
 
@@ -31,6 +33,7 @@ const SettingsPage = () => {
     user,
   } = useAuthState();
   const authDispatch = useAuthDispatch();
+  const { loaders } = useLoaderState();
 
   const { query: { access_token } } = router;
   const [password, setPassword] = useState('');
@@ -176,38 +179,44 @@ const SettingsPage = () => {
             <div className='settings'>
               <div className='settings-title'>Settings</div>
               <div className='settings-content'>
-                <div className='settings-header'>{updated_username ? 'Username' : 'Change Username'}</div>
-                <div className='settings-body'>
-                  <div className='settings-option'>
-                    <div className='settings-new-username'>
-                      {updated_username ? (
-                        <div className='settings-new-cool-username'>{stateUsername}</div>
-                      ) : (
-                          <FormInput
-                            disabled={updated_username}
-                            inputValue={stateUsername}
-                            onChange={handleUsernameChange}
-                            placeholder='Enter new username'
-                            prefix={null}
-                            required={false}
-                            title='Username'
-                            tooltipVisible={false}
-                            triggerValidation={false}
-                            validator={validUsername}
-                          />
-                        )}
-                      {updated_username ? null : (
-                        <div onClick={handleUpdateUsername}
-                          className={`settings-account-button 
-               ${validUsername(username) ? '' : 'settings-username-not-valid'}
-               ${updated_username ? 'settings-username-updated' : ''}
-               `}>
-                          <CheckOutlined />
+                {
+                  loaders.includes(loaderKey.profile) ? <Loading indicator={<LoadingOutlined className='settings-content-username-loading' spin={true} />} /> : (
+                    <>
+                      <div className='settings-header'>{updated_username ? 'Username' : 'Change Username'}</div>
+                      <div className='settings-body'>
+                        <div className='settings-option'>
+                          <div className='settings-new-username'>
+                            {updated_username ? (
+                              <div className='settings-new-cool-username'>{stateUsername}</div>
+                            ) : (
+                                <FormInput
+                                  disabled={updated_username}
+                                  inputValue={stateUsername}
+                                  onChange={handleUsernameChange}
+                                  placeholder='Enter new username'
+                                  prefix={null}
+                                  required={false}
+                                  title='Username'
+                                  tooltipVisible={false}
+                                  triggerValidation={false}
+                                  validator={validUsername}
+                                />
+                              )}
+                            {updated_username ? null : (
+                              <div onClick={handleUpdateUsername}
+                                className={`settings-account-button 
+                            ${validUsername(username) ? '' : 'settings-username-not-valid'}
+                            ${updated_username ? 'settings-username-updated' : ''}
+                          `}>
+                                <CheckOutlined />
+                              </div>
+                            )}
+                          </div>
                         </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
+                      </div>
+                    </>
+                  )
+                }
                 <div className='settings-header'>Change Password</div>
                 <div className='settings-body'>
                   <div className='settings-option'>
