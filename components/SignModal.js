@@ -25,7 +25,7 @@ const SignModal = ({
 
   const authDispatch = useAuthDispatch();
   const router = useRouter();
-  const uniqueEmailId = `${Math.floor(Math.random() * 100000000)}`;
+  const uniqueEmailId = `${Math.floor(Math.random() * 10)}`;
 
   const handleTabChange = (tab) => {
     setActiveKey(tab);
