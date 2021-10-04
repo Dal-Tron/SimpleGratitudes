@@ -134,44 +134,44 @@ const SettingsPage = () => {
   }
 
   const handleDeleteAccount = async () => {
-    if (stateUsername) {
+    //TODO: handle signout error on server-side
+    if (confirmDeleteAccount && user && user.id) {
       setLoading(true);
-      //TODO: handle signout error on server-side
-      if (confirmDeleteAccount && user && user.id) {
-        const { error: deleteProfileError } = await ProfileService.deleteProfile(user.id);
-        if (deleteProfileError) handleError(deleteProfileError);
 
-        const { error: deleteGratitudesError } = await GratitudesService.deleteGratitudes(user.id);
-        if (deleteGratitudesError) return handleError(deleteGratitudesError);
+      const { error: deleteProfileError } = await ProfileService.deleteProfile(user.id);
+      if (deleteProfileError) handleError(deleteProfileError);
 
-        const { error: deleteUserError } = await AuthService.deleteUser();
-        if (deleteUserError) return handleError(deleteUserError);
+      const { error: deleteGratitudesError } = await GratitudesService.deleteGratitudes(user.id);
+      if (deleteGratitudesError) return handleError(deleteGratitudesError);
 
-        const { error: signOutError } = await AuthService.signOut();
-        if (signOutError) {
-          if (signOutError.message !== 'Invalid user') { handleError(signOutError); }
-        };
+      const { error: deleteUserError } = await AuthService.deleteUser();
+      if (deleteUserError) return handleError(deleteUserError);
 
-        if (
-          !deleteUserError
-          && !deleteGratitudesError
-        ) {
-          notification.open({
-            type: 'success',
-            message: 'Successfully deleted user!',
-            duration: 2,
-          });
-          return window.location.href = '/';
-        } else {
-          return notification.open({
-            type: 'error',
-            message: 'Error deleting user',
-            duration: 2,
-          });
-        }
+      const { error: signOutError } = await AuthService.signOut();
+      if (signOutError) {
+        if (signOutError.message !== 'Invalid user') { handleError(signOutError); }
+      };
+
+      if (
+        !deleteUserError
+        && !deleteGratitudesError
+      ) {
+        notification.open({
+          type: 'success',
+          message: 'Successfully deleted user!',
+          duration: 2,
+        });
+        return window.location.href = '/';
+      } else {
+        return notification.open({
+          type: 'error',
+          message: 'Error deleting user',
+          duration: 2,
+        });
       }
     }
   }
+
   return (
     <>
       {loading ? (
