@@ -86,6 +86,7 @@ const FormInput = ({
 
     return (
       <Input
+        onBlur={handleChange}
         className={`input ${className ? className : ''} ${inputRequired ? 'input-required' : ''}`}
         disabled={disabled}
         onChange={handleChange}
