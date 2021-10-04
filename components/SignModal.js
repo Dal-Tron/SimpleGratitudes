@@ -91,7 +91,7 @@ const SignModal = ({
     return onCancel();
   }
 
-  const handleSubmitSignIn = async (email, password) => {
+  const handleSubmitSignIn = async () => {
     setLoading(true);
     try {
       const { session, error } = await AuthService.signIn({ email, password });
@@ -111,7 +111,7 @@ const SignModal = ({
     }
   }
 
-  const handleSubmitRegistration = async (email, password) => {
+  const handleSubmitRegistration = async () => {
     setLoading(true);
     const username = `${email.split('@')[0]}_${uniqueEmailId}`;
 
@@ -138,7 +138,7 @@ const SignModal = ({
     }
   }
 
-  const handleForgotPassword = async (email) => {
+  const handleForgotPassword = async () => {
     setLoading(true);
     try {
       const { error } = await AuthService.resetEmail(email);
@@ -164,16 +164,16 @@ const SignModal = ({
     ) {
       if (validPassword(password)) {
         if (activeKey === '1') {
-          return handleSubmitSignIn(email, password);
+          return handleSubmitSignIn();
         }
 
         if (activeKey === '2') {
-          return handleSubmitRegistration(email, password);
+          return handleSubmitRegistration();
         }
       }
 
       if (activeKey === '3') {
-        return handleForgotPassword(email);
+        return handleForgotPassword();
       }
     }
   };
