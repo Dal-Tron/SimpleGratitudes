@@ -89,7 +89,6 @@ export default function MainPage({ mainPage = true, triggerSignIn = false }) {
     const { data: frontPageData, error: frontpageError } = await supabase
       .from('gratitudes')
       .select('*')
-      .eq('frontpage', true)
       .eq('approved', true)
       .eq('public', true);
 
@@ -131,7 +130,6 @@ export default function MainPage({ mainPage = true, triggerSignIn = false }) {
       });
 
       return gratitudes.map(({
-        frontpage,
         gratitude,
         id,
         inserted_at,
@@ -142,7 +140,6 @@ export default function MainPage({ mainPage = true, triggerSignIn = false }) {
       }) => (
           <Gratitude
             date={inserted_at}
-            frontPage={frontpage}
             gratitude={gratitude}
             id={id}
             key={id}
