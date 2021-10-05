@@ -15,7 +15,6 @@ const Gratitude = ({
   showShare = true,
   userId = '',
   username,
-  showPublic = true,
 }) => {
   const [pressed, setPressed] = useState(false);
   const { user } = useAuthState();
@@ -46,16 +45,14 @@ const Gratitude = ({
 
   const renderShare = () => {
     if (!mainPage) {
-      if (id === user.id) {
+      if (userId === user.id) {
         return <span className='gratitude-from'>{publicGratitude ? 'Public' : 'Private'} {publicGratitude ? <EyeOutlined /> : <EyeInvisibleOutlined />}</span>;
       } else {
         return null;
       }
     }
 
-    if (showShare) return <span onClick={() => router.push(`/${username}`)} className='gratitude-from'>Shared by {username}</span>;
-
-    return null;
+    return <span onClick={() => router.push(`/${username}`)} className='gratitude-from'>Shared by {username}</span>;
   }
 
   const renderDate = () => {
