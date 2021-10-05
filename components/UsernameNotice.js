@@ -28,6 +28,9 @@ const UsernameNotice = ({
           </div>
           }
         />
+        <div className='username-confirm-only-once-container'>
+          <span className='username-confirm-only-once'>* Username can only be changed once</span>
+        </div>
       </div>
     </div>
   )

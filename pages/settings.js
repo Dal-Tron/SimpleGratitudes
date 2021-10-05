@@ -257,6 +257,9 @@ const SettingsPage = () => {
         visible={showConfirmUsername}
         onCancel={handleCancelUpdateUsername}
         onOk={handleConfirmUsername}
+        cancelButtonProps={{
+          className: 'username-confirm-cancel-button'
+        }}
       >
         <UsernameNotice username={stateUsername} setUsername={setUsername} />
       </Modal>

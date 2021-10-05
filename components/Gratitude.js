@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import dayjs from 'dayjs'
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons'
+import { useRouter } from 'next/router'
 
 import { useAddGratitudeModal } from 'Context/modal'
 import { useAuthState } from 'Context/auth'
@@ -18,6 +19,7 @@ const Gratitude = ({
 }) => {
   const [pressed, setPressed] = useState(false);
   const { user } = useAuthState();
+  const router = useRouter();
 
   const { updateAddGratitudeModal, setEditableGratitude } = useAddGratitudeModal();
 
@@ -43,9 +45,15 @@ const Gratitude = ({
   }
 
   const renderShare = () => {
-    if (!mainPage) return <span className='gratitude-from'>{publicGratitude ? 'Public' : 'Private'} {publicGratitude ? <EyeOutlined /> : <EyeInvisibleOutlined />}</span>;
+    if (!mainPage) {
+      if (id === user.id) {
+        return <span className='gratitude-from'>{publicGratitude ? 'Public' : 'Private'} {publicGratitude ? <EyeOutlined /> : <EyeInvisibleOutlined />}</span>;
+      } else {
+        return null;
+      }
+    }
 
-    if (showShare) return <span className='gratitude-from'>Shared by {username}</span>;
+    if (showShare) return <span onClick={() => router.push(`/${username}`)} className='gratitude-from'>Shared by {username}</span>;
 
     return null;
   }

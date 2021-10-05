@@ -1,4 +1,5 @@
 @import 'colours.scss';
+@import 'media-queries.scss';
 
 .username {
   &-confirm-modal {
@@ -59,7 +60,7 @@
   }
 
   &-input-wrapper {
-    margin: 1rem;
+    margin: 2rem 1rem 1rem 1rem;
   }
 
   &-input {
@@ -84,6 +85,43 @@
         color: white !important;
         font-family: Snippet, Sans-Serif, Arial !important; 
         opacity: .7;
+      }
+    }
+  }
+
+  &-only-once-container {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &-only-once {
+    color: white;
+    margin-right: 1rem;
+    font-style: italic;
+  }
+
+  &-cancel-button {
+    background-color: inherit;
+    color: white;
+    border: 1px solid white;
+
+    &:hover {
+      background-color: inherit;
+    }
+  }
+}
+
+@include respond-below(sm) {
+  .username-confirm {
+    &-input {
+      .ant-input {
+        &-prefix {
+          position: absolute;
+          z-index: 1;
+          top: -20px;
+          padding: 5px;
+          background-color: $colour1;
+        }
       }
     }
   }

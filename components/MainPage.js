@@ -59,6 +59,8 @@ export default function MainPage({ mainPage = true, triggerSignIn = false }) {
     if (triggerSignIn) {
       return updateSignModal(true);
     }
+
+    return updateSignModal(false);
   }, [triggerSignIn]);
 
   const fetchPrivateData = async () => {
@@ -175,7 +177,7 @@ export default function MainPage({ mainPage = true, triggerSignIn = false }) {
 
   return (
     <section className="main-container">
-      {!mainPage && <AddGratitudeButton onClick={handleAddGratitude} />}
+      {!mainPage && username === page && <AddGratitudeButton onClick={handleAddGratitude} />}
       {renderGratitudes()}
     </section>
   )

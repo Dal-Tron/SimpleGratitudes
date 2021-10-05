@@ -27,9 +27,7 @@ const withAuth = Component => {
 
         setSessionChecked(true);
       }, 1000);
-      return () => {
-        clearInterval(observerInterval);
-      }
+      return clearInterval(observerInterval);
     }, [session.access_token]);
 
     // If user is logged in, return original component

@@ -98,17 +98,6 @@ const AuthProvider = ({ children }) => {
     });
   }, []);
 
-  useEffect(() => {
-    if (state.session && state.session.user) {
-      dispatch({
-        type: 'set-user',
-        user: state.session.user
-      });
-
-      return updateProfile(state.session.user.id);
-    }
-  }, [state.session]);
-
   const updateProfile = async (id) => {
     loaderDispatch({
       type: 'add-loader',
@@ -128,11 +117,14 @@ const AuthProvider = ({ children }) => {
         }
       }
     } catch (err) {
-      notification.open({
-        type: 'error',
-        duration: 2,
-        message: 'Unable to retrieve username.',
-      });
+
+      if (err.message?.indexOf('or no') >= 0) { } else {
+        notification.open({
+          type: 'error',
+          duration: 2,
+          message: 'Unable to retrieve username.',
+        });
+      }
     } finally {
       loaderDispatch({
         type: 'remove-loader',
@@ -140,6 +132,17 @@ const AuthProvider = ({ children }) => {
       });
     }
   }
+
+  useEffect(() => {
+    if (state.session && state.session.user) {
+      dispatch({
+        type: 'set-user',
+        user: state.session.user
+      });
+
+      return updateProfile(state.session.user.id);
+    }
+  }, [state.session]);
 
   return (
     <AuthStateContext.Provider value={state}>
