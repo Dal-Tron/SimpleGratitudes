@@ -24,7 +24,7 @@ const Header = ({
       <div className='headspace-content'>
         <AddGratitudeButtonMobile onClick={() => updateAddGratitudeModal(true)} />
         {sticky ? (
-          <div className='smiley-header'>
+          <div className='smiley-header' onClick={() => router.push('/')}>
             <SmileTwoTone twoToneColor='#73b8cb' />
           </div>
         ) : <Title page={page} />}

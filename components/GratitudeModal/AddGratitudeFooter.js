@@ -6,6 +6,7 @@ const AddGratitudeFooter = ({
   handleSubmitGratitude = () => { },
   onPublicSwitchChange = () => { },
   publicGratitude = false,
+  submitting = false,
 }) => {
   const windowWidth = window.innerWidth;
 
@@ -17,7 +18,7 @@ const AddGratitudeFooter = ({
             Cancel
           </Button>
           <Button onClick={handleSubmitGratitude} type='primary'>
-            Submit
+            {submitting ? 'Sharing...' : 'Share'}
           </Button>
         </span>
       )
@@ -31,7 +32,7 @@ const AddGratitudeFooter = ({
           <CloseCircleOutlined />
         </span>
         <span
-          className='add-gratitude-button-mobile'
+          className={`add-gratitude-button-mobile ${submitting ? 'add-gratitude-button-mobile-submitting' : ''}`}
           onClick={handleSubmitGratitude}>
           <CheckCircleFilled />
         </span>

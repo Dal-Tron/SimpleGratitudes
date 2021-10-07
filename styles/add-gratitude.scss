@@ -92,6 +92,10 @@
     color: white;
     margin-left: 20px;
     font-size: 30px;
+
+    &-submitting {
+      opacity: .5;
+    }
   }
 
   &-modal {

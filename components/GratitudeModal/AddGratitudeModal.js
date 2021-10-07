@@ -16,6 +16,7 @@ const AddGratitudeModal = ({
   editableGratitude = {},
 }) => {
   const [gratitude, setGratitude] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const { updateSignModal } = useSignModal();
   const { updateDataRef } = useDataRender();
@@ -67,46 +68,60 @@ const AddGratitudeModal = ({
   }
 
   const submitGratitudeUpdate = async () => {
-    if (gratitude.gratitude) {
-      const { error: editingGratitudeError } = await supabase.from('gratitudes').update({
-        gratitude: gratitude.gratitude,
-        public: gratitude.public,
-        approved: false,
-      }).match({ id: editableGratitude.id });
+    if (gratitude.gratitude && !loading) {
+      setLoading(true);
+      try {
+        const { error: editingGratitudeError } = await supabase.from('gratitudes').update({
+          gratitude: gratitude.gratitude,
+          public: gratitude.public,
+          approved: false,
+        }).match({ id: editableGratitude.id });
 
-      if (!editingGratitudeError) {
-        notification.open({
-          type: 'success',
-          message: 'Successfully edited gratitude!'
-        });
+        if (!editingGratitudeError) {
+          notification.open({
+            type: 'success',
+            message: 'Successfully edited gratitude!'
+          });
 
-        return resetGratitude();
+          return resetGratitude();
+        } else {
+          throw editingGratitudeError;
+        }
+      } catch (err) {
+        handleError(err);
+      } finally {
+        setLoading(false);
       }
-
-      return handleError(editingGratitudeError);
     }
   }
 
   const submitGratitudeInsert = async () => {
-    if (gratitude.gratitude) {
-      const { error: insertGratitudeError } = await supabase.from('gratitudes').insert([
-        {
-          ...gratitude,
-          user_id: user.id,
-          username,
+    if (gratitude.gratitude && !loading) {
+      setLoading(true);
+      try {
+        const { error: insertGratitudeError } = await supabase.from('gratitudes').insert([
+          {
+            ...gratitude,
+            user_id: user.id,
+            username,
+          }
+        ]);
+
+        if (!insertGratitudeError) {
+          notification.open({
+            type: 'success',
+            message: 'Successfully saved gratitude!'
+          });
+
+          return resetGratitude();
+        } else {
+          throw insertGratitudeError;
         }
-      ]);
-
-      if (!insertGratitudeError) {
-        notification.open({
-          type: 'success',
-          message: 'Successfully saved gratitude!'
-        });
-
-        return resetGratitude();
+      } catch (err) {
+        handleError(err);
+      } finally {
+        setLoading(false);
       }
-
-      return handleError(insertGratitudeError);
     }
   }
 
@@ -132,6 +147,7 @@ const AddGratitudeModal = ({
         onTagChange={handleTagChange}
         publicGratitude={gratitude.public}
         tag={gratitude.tags}
+        submitting={loading}
       />}
     >
       <AddGratitude
