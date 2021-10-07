@@ -1,17 +1,14 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
-import { Drawer, notification } from 'antd'
-import { MenuOutlined } from '@ant-design/icons'
+import { notification } from 'antd'
 
-import AddGratitudeButtonMobile from 'Components/GratitudeModal/AddGratitudeButtonMobile'
 import AddGratitudeModal from 'Components/GratitudeModal/AddGratitudeModal'
 import Loading from 'Components/Loading'
 import Footer from 'Components/Footer'
-import MainMenu from 'Components/MainMenu'
+import Header from 'Components/Header'
 import SignModal from 'Components/SignModal'
 import Time from 'Components/Time'
-import Title from 'Components/Title'
 
 import { useAuthState, useAuthDispatch } from 'Context/auth'
 import { useSignModal } from 'Context/modal'
@@ -19,18 +16,19 @@ import { useAddGratitudeModal } from 'Context/modal'
 
 import { validJWT } from 'Helpers/validation'
 
+import useScrolling from 'Hooks/scroll'
+
 import AuthService from 'Services/auth'
 
 export default function Layout({ children }) {
   const router = useRouter();
-  const { page } = router.query;
-
   const [menuVisible, setMenuVisible] = useState(false);
   const { session } = useAuthState();
   const authDispatch = useAuthDispatch();
   const { showSignModal, updateSignModal } = useSignModal();
   const { showAddGratitudeModal, updateAddGratitudeModal, editableGratitude } = useAddGratitudeModal();
   const [loading, setLoading] = useState(false);
+  const isScrolling = useScrolling();
 
   useEffect(() => {
     const handleStart = () => setLoading(true);
@@ -95,29 +93,22 @@ export default function Layout({ children }) {
             content="initial-scale=1.0, width=device-width"
           />
         </Head>
-        <section className='headspace'>
-          <AddGratitudeButtonMobile onClick={() => updateAddGratitudeModal(true)} />
-          <Title page={page} />
-          <div className='sg-menu'>
-            <span onClick={handleShowMenu}>
-              <MenuOutlined className='menu-btn' />
-            </span>
-            <Drawer
-              className="menu-drawer"
-              title=""
-              placement="right"
-              closable={false}
-              onClose={handleCloseMenu}
-              visible={menuVisible}
-            >
-              <MainMenu
-                visible={menuVisible}
-                signOut={handleSignOut}
-                closeMenu={() => setMenuVisible(false)}
-              />
-            </Drawer>
-          </div>
-        </section>
+        <Header
+          handleCloseMenu={handleCloseMenu}
+          handleShowMenu={handleShowMenu}
+          handleSignOut={handleSignOut}
+          isScrolling={isScrolling}
+          menuVisible={menuVisible}
+          sticky={true}
+        />
+        <Header
+          handleCloseMenu={handleCloseMenu}
+          handleShowMenu={handleShowMenu}
+          handleSignOut={handleSignOut}
+          isScrolling={isScrolling}
+          menuVisible={menuVisible}
+          sticky={false}
+        />
         <Time />
         <section className="main">
           {loading ? <Loading /> : children}

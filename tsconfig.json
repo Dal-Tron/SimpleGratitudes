@@ -43,6 +43,9 @@
       "HOC/*": [
         "./hoc/*"
       ],
+      "Hooks/*": [
+        "./hooks/*"
+      ],
       "Services/*": [
         "./services/*"
       ],
@@ -51,7 +54,10 @@
       ],
       "Types/*": [
         "./types/*"
-      ]
+      ],
+      "Utils/*": [
+        "./utils/*"
+      ],
     }
   },
   "include": [

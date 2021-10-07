@@ -3,15 +3,44 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  height: 100%;
   background-color: $colour2;
-  overflow: hidden;
 }
 
 .headspace {
   background: $colour1;
-  position: relative;
   flex: 0 1 auto;
+
+  &-wrapper {
+    position: fixed;
+    background: $colour1;
+    flex: 0 1 auto;
+    z-index: 10;
+    transform: translateY(-100%);
+    transition: 0.2s transform cubic-bezier(.3,.73,.3,.74);
+    width: 100%;
+  }
+
+  &-content {
+    position: relative !important;
+  }
+}
+
+.stickyHeader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  transform: translateY(0);
+}
+
+.smiley-header {
+  text-align: center;
+  cursor: pointer;
+  max-width: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 40px;
 }
 
 .intention {
@@ -38,9 +67,10 @@
 }
 
 .main {
-  height: 100%;
-  overflow-y: scroll;
   scroll-behavior: smooth;
+  padding-bottom: 50px;
+  padding-top: 10px;
+  min-height: 100vh;
 
   &-container {
     background: #5190a5;
@@ -73,15 +103,9 @@
   }
 }
 
-.donate-button {
-  display: flex;
-  margin-left: 10px;
-}
-
 @include respond-below(sm) {
   .container {
     flex-direction: column !important;
-    overflow-y: scroll;
     flex-basis: inherit !important;
     flex-wrap: unset !important;
   }
