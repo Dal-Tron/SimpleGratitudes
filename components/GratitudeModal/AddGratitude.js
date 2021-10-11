@@ -16,13 +16,6 @@ const AddGratitude = ({
     ? dayjs(gratitude.date).format('MMMM D, YYYY')
     : dayjs().format('MMMM D, YYYY');
 
-  const handleTextAreaKeyPress = (e) => {
-    const re = /[0-9A-Za-z\! \.\'\,\:]+/g;
-    if (!re.test(e.key)) {
-      e.preventDefault();
-    }
-  }
-
   return (
     <div className='add-gratitude'>
       <TextArea
@@ -31,7 +24,6 @@ const AddGratitude = ({
         value={gratitudeText}
         className='add-gratitude-textarea'
         placeholder='My simple gratitude is...'
-        onKeyPress={handleTextAreaKeyPress}
         autoSize={true}
       />
       <span className='add-gratitude-from'>Shared by {username}</span>

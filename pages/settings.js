@@ -134,40 +134,39 @@ const SettingsPage = () => {
   }
 
   const handleDeleteAccount = async () => {
-    //TODO: handle signout error on server-side
     if (confirmDeleteAccount && user && user.id) {
       setLoading(true);
 
-      const { error: deleteProfileError } = await ProfileService.deleteProfile(user.id);
-      if (deleteProfileError) handleError(deleteProfileError);
+      try {
+        const { error: deleteProfileError } = await ProfileService.deleteProfile(user.id);
+        if (deleteProfileError) throw deleteProfileError;
 
-      const { error: deleteGratitudesError } = await GratitudesService.deleteGratitudes(user.id);
-      if (deleteGratitudesError) return handleError(deleteGratitudesError);
+        const { error: deleteGratitudesError } = await GratitudesService.deleteGratitudes(user.id);
+        if (deleteGratitudesError) throw deleteGratitudesError;
 
-      const { error: deleteUserError } = await AuthService.deleteUser();
-      if (deleteUserError) return handleError(deleteUserError);
+        const { error: deleteUserError } = await AuthService.deleteUser();
+        if (deleteUserError) throw deleteUserError;
 
-      const { error: signOutError } = await AuthService.signOut();
-      if (signOutError) {
-        if (signOutError.message !== 'Invalid user') { handleError(signOutError); }
-      };
+        const { error: signOutError } = await AuthService.signOut();
+        if (signOutError) {
+          if (signOutError.message !== 'Invalid user') { handleError(signOutError); }
+        };
 
-      if (
-        !deleteUserError
-        && !deleteGratitudesError
-      ) {
-        notification.open({
-          type: 'success',
-          message: 'Successfully deleted user!',
-          duration: 2,
-        });
-        return window.location.href = '/';
-      } else {
-        return notification.open({
-          type: 'error',
-          message: 'Error deleting user',
-          duration: 2,
-        });
+        if (
+          !deleteUserError
+          && !deleteGratitudesError
+        ) {
+          notification.open({
+            type: 'success',
+            message: 'Successfully deleted user!',
+            duration: 2,
+          });
+          return window.location.href = '/';
+        }
+      } catch (err) {
+        handleError(err);
+      } finally {
+        setLoading(false);
       }
     }
   }
