@@ -76,7 +76,7 @@ const SignModal = ({
     }
 
     if (finalError.message?.indexOf('For') >= 0) {
-      finalError.message = 'Please confirm your email.';
+      finalError.message = 'Please check for email confirmation.';
     }
 
     return notification.open({
