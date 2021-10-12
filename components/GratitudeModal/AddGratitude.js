@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { Input } from 'antd'
 import dayjs from 'dayjs'
 
@@ -12,9 +13,13 @@ const AddGratitude = ({
   const { profile: { username } } = useAuthState();
 
   const gratitudeText = gratitude.gratitude || '';
-  const gratitudeDate = gratitude.date
-    ? dayjs(gratitude.date).format('MMMM D, YYYY')
-    : dayjs().format('MMMM D, YYYY');
+
+  const gratitudeDate = useMemo(() => {
+    if (gratitude.date) {
+      return dayjs(gratitude.date).format('MMMM D, YYYY');
+    }
+    return dayjs().format('MMMM D, YYYY');
+  }, [gratitude.date]);
 
   return (
     <div className='add-gratitude'>

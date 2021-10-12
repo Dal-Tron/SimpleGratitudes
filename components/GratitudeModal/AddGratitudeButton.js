@@ -27,7 +27,7 @@ const AddGratitudeButton = ({ onClick = () => { } }) => {
   }
 
   return (
-    <div className='hide-on-mobile gratitude gratitude-button' onClick={() => handleAddGratitude()}>
+    <div className='hide-on-mobile gratitude gratitude-button' onClick={handleAddGratitude}>
       <div className={`gratitude-container ${animateGratitudeButton ? 'gratitude-button-pressed' : ''}`}>
         <span className='gratitude-text'>
           <SmileTwoTone style={{ fontSize: 40 }} twoToneColor='#73b8cb' />

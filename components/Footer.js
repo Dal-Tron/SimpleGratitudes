@@ -1,8 +1,13 @@
+import { useMemo } from 'react'
 import { CopyrightOutlined } from '@ant-design/icons'
 import Image from 'next/image'
 import dayjs from 'dayjs'
 
 const Footer = () => {
+  const date = useMemo(() => {
+    return dayjs().format('YYYY');
+  }, []);
+
   return (
     <div className='main-footer'>
       <div className='main-footer-copyright-container'>
@@ -14,7 +19,7 @@ const Footer = () => {
             height={30}
           />
           <span style={{ marginLeft: 7, marginRight: 4 }}><CopyrightOutlined /></span>
-          <div>{dayjs().format('YYYY')}</div>
+          <div>{date}</div>
         </div>
       </div>
     </div>

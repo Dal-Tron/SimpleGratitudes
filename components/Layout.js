@@ -43,7 +43,7 @@ export default function Layout({ children }) {
       router.events.off('routeChangeComplete', handleStop)
       router.events.off('routeChangeError', handleStop)
     }
-  }, [router])
+  }, [router]);
 
   const handleCloseSignModal = () => updateSignModal(false);
 

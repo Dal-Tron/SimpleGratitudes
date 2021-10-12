@@ -38,7 +38,7 @@ const AddGratitudeFooter = ({
         </span>
       </>
     );
-  }
+  };
 
   return (
     <div className='add-gratitude-action-buttons'>
