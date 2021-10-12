@@ -45,6 +45,10 @@
       width: 50px;
       justify-content: center;
     }
+
+    &-icon-selected {
+      color: $colour2;
+    }
   }
 
   .ant-drawer-content-wrapper {
