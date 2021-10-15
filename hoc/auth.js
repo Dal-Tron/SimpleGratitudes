@@ -16,10 +16,10 @@ const withAuth = Component => {
       if (!session.access_token && sessionChecked && !access_token) {
         return router.push({ pathname: '/', query: { access_restricted: true } });
       }
-    }, [session.access_token, sessionChecked])
+    }, [session.access_token, sessionChecked]);
 
     useEffect(() => {
-      var observerInterval = setInterval(() => {
+      const observerInterval = setInterval(() => {
         if (session.access_token) {
           clearInterval(observerInterval);
           return setSessionChecked(false);
@@ -27,7 +27,9 @@ const withAuth = Component => {
 
         setSessionChecked(true);
       }, 1000);
-      return clearInterval(observerInterval);
+      return () => {
+        clearInterval(observerInterval);
+      }
     }, [session.access_token]);
 
     // If user is logged in, return original component

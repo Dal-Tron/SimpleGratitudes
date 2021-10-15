@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { notification, Empty } from 'antd'
 import dayjs from 'dayjs'
 import { SmileTwoTone } from '@ant-design/icons'
@@ -18,12 +18,12 @@ import { validJWT } from 'Helpers/validation'
 
 const queryString = require('query-string');
 
-export default function MainPage({ mainPage = true, triggerSignIn = false }) {
+export default function MainPage({ mainPage = true }) {
   const [loading, setLoading] = useState(true);
   const [gratitudes, setGratitudes] = useState([]);
 
   const router = useRouter();
-  const { page } = router.query;
+  const { page, access_restricted } = router.query;
   const { asPath, route } = router;
 
   const { user, session, profile: { username } } = useAuthState();
@@ -56,12 +56,12 @@ export default function MainPage({ mainPage = true, triggerSignIn = false }) {
   }
 
   useEffect(() => {
-    if (triggerSignIn) {
+    if (access_restricted) {
+      // clear out the restricted_access query
+      if (window) window.history.replaceState(null, '', '/');
       return updateSignModal(true);
     }
-
-    return updateSignModal(false);
-  }, [triggerSignIn]);
+  }, []);
 
   const fetchPrivateData = async () => {
     if (user?.id) {
@@ -86,7 +86,7 @@ export default function MainPage({ mainPage = true, triggerSignIn = false }) {
     return setGratitudes(publicPageData || []);
   }
 
-  const fetchStarredGratitudes = async () => {
+  const fetchFeaturedGratitudes = async () => {
     // All frontpage gratitudes
     const { data: frontPageData, error: frontpageError } = await supabase
       .from('gratitudes')
@@ -112,7 +112,7 @@ export default function MainPage({ mainPage = true, triggerSignIn = false }) {
     }
 
     if (route === '/') {
-      return fetchStarredGratitudes();
+      return fetchFeaturedGratitudes();
     }
 
   }, [session.access_token, username, dataRef, page]);
