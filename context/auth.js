@@ -105,6 +105,7 @@ const AuthProvider = ({ children }) => {
     });
     try {
       if (id) {
+        // TODO move into serivice
         const { data: profile, error } = await supabase.from('profiles').select('username, updated_username').eq('id', id).single();
 
         if (error) throw error;

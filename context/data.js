@@ -5,7 +5,13 @@ export const DataRenderContext = React.createContext();
 
 // Hooks
 export function useDataRender() {
-  return useContext(DataRenderContext);
+  const context = useContext(DataRenderContext);
+
+  if (context === undefined) {
+    throw new Error('useDataRender must be used within a DataRenderProvider');
+  }
+
+  return context;
 }
 
 // Provider
