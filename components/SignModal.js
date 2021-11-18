@@ -121,10 +121,10 @@ const SignModal = ({
       if (error) throw error;
 
       if (user && user.id) {
-        const id = user.id;
-        const { error: profileError } = await ProfileService.insertProfile(id, username);
+        const { error: profileError } = await ProfileService.insertProfile(user.id, username);
 
-        if (profileError) throw profileError;
+        // TODO: Handle this error on the api side
+        if (profileError) throw new Error('Unable to register.');
 
         authDispatch({ type: 'set-username', username });
         handleCancel();
