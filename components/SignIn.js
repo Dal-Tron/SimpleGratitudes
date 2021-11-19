@@ -29,6 +29,7 @@ const SignIn = ({
             disabled={disabled}
             inputValue={email}
             onChange={setEmail}
+            name='email'
             placeholder='Email'
             prefix={<MailOutlined className='signin-icon' />}
             required={true}
@@ -46,6 +47,7 @@ const SignIn = ({
               disabled={disabled}
               inputValue={password}
               onChange={setPassword}
+              name='password'
               passwordInput={true}
               placeholder='Password'
               prefix={<LockOutlined />}

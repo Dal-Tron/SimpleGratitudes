@@ -11,6 +11,7 @@ const FormInput = ({
   inputRef = defaultRef,
   inputValue = '',
   onChange = () => { },
+  name = '',
   passwordInput = false,
   placeholder = '',
   prefix = <></>,
@@ -30,6 +31,16 @@ const FormInput = ({
       setShowInputTooltip(false);
     }
   }, [tooltipVisible]);
+
+  useEffect(() => {
+    const checkEmailInputId = setInterval(() => {
+      // there is a current bug that doesn't catch autofill 
+      // https://github.com/formium/formik/issues/3165
+      if (document && document.querySelector('input[name="email"]')?.value && name === 'email') inputValue = document.querySelector('input[name="email"]')?.value;
+    }, 2000);
+
+    return () => clearInterval(checkEmailInputId);
+  }, []);
 
   useEffect(() => {
     // used to flash class when trigger value changes
@@ -75,6 +86,7 @@ const FormInput = ({
           iconRender={renderHidePasswordIcons}
           id='update-password-input'
           onChange={handleChange}
+          name={name}
           placeholder={placeholder}
           prefix={prefix}
           ref={inputRef}
@@ -91,6 +103,7 @@ const FormInput = ({
         disabled={disabled}
         onBlur={handleChange}
         onChange={handleChange}
+        name={name}
         placeholder={placeholder}
         prefix={prefix}
         ref={inputRef}
