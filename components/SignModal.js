@@ -137,7 +137,7 @@ const SignModal = ({
         const { error: profileError } = await ProfileService.insertProfile(user.id, username);
 
         // TODO: Handle this error on the api side
-        if (profileError.message?.indexOf('insert or update') >= 0) throw new Error('Already registered.');
+        if (profileError && profileError.message?.indexOf('insert or update') >= 0) throw new Error('Already registered.');
         if (profileError) throw new Error('Unable to register.');
 
         authDispatch({ type: 'set-username', username });
