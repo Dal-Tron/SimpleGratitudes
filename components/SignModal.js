@@ -33,7 +33,7 @@ const SignModal = ({
       // https://github.com/formium/formik/issues/3165
       if (document && document.querySelector('input[name="email"]')?.value) {
         const inputValue = document.querySelector('input[name="email"]')?.value;
-        setEmail(inputValue);
+        if (inputValue) setEmail(inputValue);
       }
     }, 2000);
 
