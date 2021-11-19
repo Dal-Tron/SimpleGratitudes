@@ -33,16 +33,6 @@ const FormInput = ({
   }, [tooltipVisible]);
 
   useEffect(() => {
-    const checkEmailInputId = setInterval(() => {
-      // there is a current bug that doesn't catch autofill 
-      // https://github.com/formium/formik/issues/3165
-      if (document && document.querySelector('input[name="email"]')?.value && name === 'email') inputValue = document.querySelector('input[name="email"]')?.value;
-    }, 2000);
-
-    return () => clearInterval(checkEmailInputId);
-  }, []);
-
-  useEffect(() => {
     // used to flash class when trigger value changes
     if (triggerValidation && required) {
       if (inputValue.length < 1) {

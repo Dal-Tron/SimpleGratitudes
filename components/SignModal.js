@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Tabs, Modal, notification } from 'antd'
 import { useRouter } from 'next/router'
 
@@ -26,6 +26,19 @@ const SignModal = ({
   const authDispatch = useAuthDispatch();
   const router = useRouter();
   const uniqueEmailId = `${Math.floor(Math.random() * 10)}`;
+
+  useEffect(() => {
+    const checkEmailInputId = setInterval(() => {
+      // there is a current bug that doesn't catch autofill 
+      // https://github.com/formium/formik/issues/3165
+      if (document && document.querySelector('input[name="email"]')?.value) {
+        const inputValue = document.querySelector('input[name="email"]')?.value;
+        setEmail(inputValue);
+      }
+    }, 2000);
+
+    return () => clearInterval(checkEmailInputId);
+  }, []);
 
   const handleTabChange = (tab) => {
     setActiveKey(tab);
@@ -197,6 +210,7 @@ const SignModal = ({
       <Tabs animated={true} activeKey={activeKey} onChange={handleTabChange}>
         <TabPane tab="Sign In" key="1">
           <SignIn
+            key='password-signin'
             closeModal={handleCancel}
             disabled={loading}
             email={email}
@@ -212,6 +226,7 @@ const SignModal = ({
         </TabPane>
         <TabPane tab="Register" key="2">
           <SignIn
+            key='register-signin'
             closeModal={handleCancel}
             disabled={loading}
             email={email}
@@ -223,6 +238,7 @@ const SignModal = ({
         </TabPane>
         <TabPane tab="Forgot Password" key="3">
           <SignIn
+            key='forgot-password-signin'
             closeModal={handleCancel}
             disabled={loading}
             email={email}
