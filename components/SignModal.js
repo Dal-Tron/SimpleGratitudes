@@ -25,7 +25,7 @@ const SignModal = ({
 
   const authDispatch = useAuthDispatch();
   const router = useRouter();
-  const uniqueEmailId = `${Math.floor(Math.random() * 10)}`;
+  const uniqueEmailId = `${Math.floor(Math.random() * 10000000)}`;
 
   useEffect(() => {
     const checkEmailInputId = setInterval(() => {
@@ -126,7 +126,10 @@ const SignModal = ({
 
   const handleSubmitRegistration = async () => {
     setLoading(true);
-    const username = `${email.split('@')[0]}_${uniqueEmailId}`;
+
+    const emailUsername = email.split('@')[0];
+    const emailCharacters = emailUsername.substring(0, 3);
+    const username = `${emailCharacters}_${uniqueEmailId}`;
 
     try {
       const { user, error } = await AuthService.register({ email, password });
