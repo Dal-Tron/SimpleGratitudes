@@ -1,7 +1,5 @@
-import React from 'react'
-
-import MainPage from 'Components/MainPage'
+import MainPage from '@/components/feature/MainPage/MainPage';
 
 export default function Page() {
-  return <MainPage mainPage={false} />
+  return <MainPage mainPage={false} />;
 }

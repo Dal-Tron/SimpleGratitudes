@@ -1,12 +1,12 @@
-import { useState } from 'react'
-import { Input, Tooltip } from 'antd'
+import { Input, Tooltip } from 'antd';
+import { useState } from 'react';
 
-import { validUsername } from 'Helpers/validation'
+import { validUsername } from 'Helpers/validation';
 
-const DeleteAccountInput = ({
-  handleConfirmDeleteAccount = () => { },
+export const DeleteAccountInput = ({
+  handleConfirmDeleteAccount = () => {},
 }) => {
-  const username = "";
+  const username = '';
   const [showDeleteNotice, setShowDeleteNotice] = useState(false);
   const [stateUsername, setStateUsername] = useState('');
   const [tooltipTitle, setTooltipTitle] = useState('Enter username');
@@ -31,23 +31,17 @@ const DeleteAccountInput = ({
       setShowDeleteNotice(true);
       setTooltipTitle('Invalid Username');
     }
-  }
+  };
 
   return (
-    <Tooltip
-      title={tooltipTitle}
-      placement='bottom'
-      visible={showDeleteNotice}
-    >
+    <Tooltip title={tooltipTitle} placement="bottom" visible={showDeleteNotice}>
       <Input
-        className='settings-delete-account'
+        className="settings-delete-account"
         onChange={handleUsernameConfirmationInputChange}
-        placeholder='Enter username to delete'
-        size='large'
+        placeholder="Enter username to delete"
+        size="large"
         value={stateUsername}
       />
     </Tooltip>
-  )
-}
-
-export default DeleteAccountInput;
+  );
+};

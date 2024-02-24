@@ -2,21 +2,22 @@ import Head from 'next/head';
 
 import { Footer } from '@/components/base/Footer/Footer';
 
+import { SignModal } from '@/components/feature/SignModal/SignModal';
 import { useStore } from '@/store/store';
 import { MenuOutlined, SmileTwoTone } from '@ant-design/icons';
 import { CreateGratitudeModal } from 'Components/feature/CreateGratitudeModal/CreateGratitudeModal';
 import { MenuDrawer } from 'Components/feature/MenuDrawer/MenuDrawer';
 import { useUserMenu } from 'Context/menu';
-import { useSignModal } from 'Context/modal';
+import { useAddGratitudeModal, useSignModal } from 'Context/modal';
 import { Header } from 'antd/lib/layout/layout';
-import { useState } from 'react';
 
 export const Layout = ({ children }) => {
   const user = useStore((state) => state.user);
-  const { updateSignModal } = useSignModal();
-  const { showUserMenu, setShowUserMenu } = useUserMenu();
 
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const { updateSignModal, showSignModal } = useSignModal();
+  const { showAddGratitudeModal, updateAddGratitudeModal } =
+    useAddGratitudeModal();
+  const { showUserMenu, setShowUserMenu } = useUserMenu();
 
   const handleOpenMenu = () => {
     if (user) {
@@ -31,7 +32,11 @@ export const Layout = ({ children }) => {
   };
 
   const handleCloseCreateModal = () => {
-    setIsCreateModalOpen(false);
+    updateAddGratitudeModal(false);
+  };
+
+  const handleCloseSignModal = () => {
+    updateSignModal(false);
   };
 
   return (
@@ -58,9 +63,10 @@ export const Layout = ({ children }) => {
         <section className="main">{children}</section>
       </div>
       <CreateGratitudeModal
-        isOpen={isCreateModalOpen}
+        isOpen={showAddGratitudeModal}
         onClose={handleCloseCreateModal}
       />
+      <SignModal visible={showSignModal} onCancel={handleCloseSignModal} />
       <Footer />
     </>
   );

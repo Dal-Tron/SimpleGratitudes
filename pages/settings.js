@@ -1,31 +1,31 @@
-import { useRef, useState, useEffect } from "react";
-import { notification, Modal } from "antd";
 import {
   CheckOutlined,
   DeleteOutlined,
   LoadingOutlined,
-} from "@ant-design/icons";
-import { useRouter } from "next/router";
+} from '@ant-design/icons';
+import { Modal, notification } from 'antd';
+import { useRouter } from 'next/router';
+import { useEffect, useRef, useState } from 'react';
 
-import { useLoaderState, loaderKey } from "Context/loader";
+import { loaderKey, useLoaderState } from 'Context/loader';
 
-import { validPassword, validJWT, validUsername } from "Helpers/validation";
+import { validJWT, validPassword, validUsername } from 'Helpers/validation';
 
-import DeleteAccountInput from "Components/DeleteAccountInput";
-import FormInput from "Components/FormInput";
-import PasswordInput from "Components/PasswordInput";
-import UsernameNotice from "Components/UsernameNotice";
-import Loading from "Components/Loading";
+import { DeleteAccountInput } from '@/components/feature/DeleteAccountInput/DeleteAccountInput';
+import FormInput from 'Components/FormInput';
+import Loading from 'Components/Loading';
+import PasswordInput from 'Components/PasswordInput';
+import UsernameNotice from 'Components/UsernameNotice';
 
-import { AuthService } from "Services/auth";
-import ProfileService from "Services/profile";
-import GratitudesService from "Services/gratitudes";
+import { AuthService } from 'Services/auth';
+import GratitudesService from 'Services/gratitudes';
+import ProfileService from 'Services/profile';
 
 const SettingsPage = () => {
   const updatePasswordInputRef = useRef();
   const router = useRouter();
 
-  const username = "";
+  const username = '';
   const updated_username = true;
   const user = {};
 
@@ -34,8 +34,8 @@ const SettingsPage = () => {
   const {
     query: { access_token },
   } = router;
-  const [password, setPassword] = useState("");
-  const [stateUsername, setUsername] = useState("");
+  const [password, setPassword] = useState('');
+  const [stateUsername, setUsername] = useState('');
   const [confirmDeleteAccount, setConfirmDeleteAccount] = useState(false);
   const [showConfirmUsername, setShowConfirmUsername] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -60,16 +60,16 @@ const SettingsPage = () => {
         await ProfileService.updateProfileUsername(user.id, stateUsername);
 
       if (updateUsernameError) {
-        if (updateUsernameError.message?.indexOf("duplicate") >= 0) {
-          return handleError({ message: "Username taken." });
+        if (updateUsernameError.message?.indexOf('duplicate') >= 0) {
+          return handleError({ message: 'Username taken.' });
         }
 
         return handleError(updateUsernameError);
       }
 
       notification.open({
-        type: "success",
-        message: "Successfully updated username!",
+        type: 'success',
+        message: 'Successfully updated username!',
         duration: 2,
       });
 
@@ -79,7 +79,7 @@ const SettingsPage = () => {
 
   const handleCancelUpdateUsername = () => {
     // clear username
-    setUsername("");
+    setUsername('');
     return setShowConfirmUsername(false);
   };
 
@@ -94,23 +94,23 @@ const SettingsPage = () => {
       if (session.access_token) {
         const { error } = await AuthService.updateUser({ password });
         if (!error) {
-          setPassword("");
+          setPassword('');
           return notification.open({
-            type: "success",
-            message: "Successfully updated password!",
+            type: 'success',
+            message: 'Successfully updated password!',
             duration: 2,
           });
         } else {
           return notification.open({
-            type: "error",
+            type: 'error',
             message: error.message,
             duration: 2,
           });
         }
       } else {
         return notification.open({
-          type: "error",
-          message: "You must sign in again to change passwords.",
+          type: 'error',
+          message: 'You must sign in again to change passwords.',
           duration: 2,
         });
       }
@@ -125,8 +125,8 @@ const SettingsPage = () => {
 
   const handleError = (err) => {
     notification.open({
-      type: "error",
-      message: err.message ? err.message : "Error deleting account.",
+      type: 'error',
+      message: err.message ? err.message : 'Error deleting account.',
       duration: 2,
     });
   };
@@ -149,18 +149,18 @@ const SettingsPage = () => {
 
         const { error: signOutError } = await AuthService.signOut();
         if (signOutError) {
-          if (signOutError.message !== "Invalid user") {
+          if (signOutError.message !== 'Invalid user') {
             handleError(signOutError);
           }
         }
 
         if (!deleteUserError && !deleteGratitudesError) {
           notification.open({
-            type: "success",
-            message: "Successfully deleted user!",
+            type: 'success',
+            message: 'Successfully deleted user!',
             duration: 2,
           });
-          return (window.location.href = "/");
+          return (window.location.href = '/');
         }
       } catch (err) {
         handleError(err);
@@ -191,7 +191,7 @@ const SettingsPage = () => {
               ) : (
                 <>
                   <div className="settings-header">
-                    {updated_username ? "Username" : "Change Username"}
+                    {updated_username ? 'Username' : 'Change Username'}
                   </div>
                   <div className="settings-body">
                     <div className="settings-option">
@@ -220,13 +220,13 @@ const SettingsPage = () => {
                             className={`settings-account-button 
                             ${
                               validUsername(username)
-                                ? ""
-                                : "settings-username-not-valid"
+                                ? ''
+                                : 'settings-username-not-valid'
                             }
                             ${
                               updated_username
-                                ? "settings-username-updated"
-                                : ""
+                                ? 'settings-username-updated'
+                                : ''
                             }
                           `}
                           >
@@ -252,8 +252,8 @@ const SettingsPage = () => {
                       onClick={handleUpdatePassword}
                       className={`settings-account-button ${
                         validPassword(password)
-                          ? ""
-                          : "settings-password-not-valid"
+                          ? ''
+                          : 'settings-password-not-valid'
                       }`}
                     >
                       <CheckOutlined />
@@ -272,8 +272,8 @@ const SettingsPage = () => {
                       onClick={handleDeleteAccount}
                       className={`settings-account-button ${
                         confirmDeleteAccount
-                          ? ""
-                          : "settings-password-not-valid"
+                          ? ''
+                          : 'settings-password-not-valid'
                       }`}
                     >
                       <DeleteOutlined />
@@ -291,7 +291,7 @@ const SettingsPage = () => {
         onCancel={handleCancelUpdateUsername}
         onOk={handleConfirmUsername}
         cancelButtonProps={{
-          className: "username-confirm-cancel-button",
+          className: 'username-confirm-cancel-button',
         }}
       >
         <UsernameNotice username={stateUsername} setUsername={setUsername} />

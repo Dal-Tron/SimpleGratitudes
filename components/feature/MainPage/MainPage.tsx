@@ -1,15 +1,10 @@
 'use client';
 
-import { SmileTwoTone } from '@ant-design/icons';
-import { Empty, notification } from 'antd';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-
-import { supabase } from 'Supabase/client';
+import { useEffect, useMemo, useState } from 'react';
 
 import Gratitude from 'Components/Gratitude';
-import { useDataRender } from 'Context/data';
 import { useAddGratitudeModal, useSignModal } from 'Context/modal';
 
 import Loading from 'Components/Loading';
@@ -17,12 +12,12 @@ import Loading from 'Components/Loading';
 import { validJWT } from 'Helpers/validation';
 
 import { useStore } from '@/store/store';
-import { CreateGratitudeModal } from '../CreateGratitudeModal/CreateGratitudeModal';
 
-import { SignModal } from '@/components/feature/SignModal/SignModal';
-import { AddGratitudeButton } from '../GratitudeModal/AddGratitudeButton';
+import { AddGratitudeButton } from '@/components/feature/GratitudeModal/AddGratitudeButton';
 
-const queryString = require('query-string');
+import { GratitudesService } from 'Services/gratitudes';
+import queryString from 'query-string';
+import { EmptyMessage } from './EmptyMessage';
 
 export default function MainPage({ mainPage = true }) {
   const [loading, setLoading] = useState(true);
@@ -33,19 +28,16 @@ export default function MainPage({ mainPage = true }) {
   const { asPath, route } = router;
 
   const user = useStore((state) => state.user);
+  const profile = useStore((state) => state.profile);
 
-  const username = '';
-
-  const { updateSignModal, showSignModal } = useSignModal();
-  const { dataRef } = useDataRender();
-  const { updateAddGratitudeModal, showAddGratitudeModal } =
-    useAddGratitudeModal();
+  const { updateSignModal } = useSignModal();
+  const { updateAddGratitudeModal } = useAddGratitudeModal();
 
   // for password reset
   if (asPath.indexOf('type=recovery') !== -1) {
     const queryStr = asPath.split('#');
     const { access_token } = queryString.parse(queryStr[1]);
-    if (validJWT(access_token)) {
+    if (validJWT(access_token as string)) {
       router.push({
         pathname: '/settings',
         query: { access_token },
@@ -53,90 +45,54 @@ export default function MainPage({ mainPage = true }) {
     }
   }
 
-  // handle error
-  const handleError = (error) => {
-    if (error.message === 'JWT expired') {
-      notification.open({
-        onClick: () => updateSignModal(true),
-        type: 'info',
-        message: 'Your secure session has expired. Click here to sign in.',
-        duration: 0,
-      });
-    }
-  };
-
   useEffect(() => {
-    if (access_restricted) {
-      // clear out the restricted_access query
-      if (window) window.history.replaceState(null, '', '/');
-      return updateSignModal(true);
-    }
-  }, []);
-
-  const fetchPrivateData = async () => {
-    if (user?.id) {
-      const { data: privatePageData, error: privatePageError } = await supabase
-        .from('gratitudes')
-        .select('*')
-        .eq('user_id', user.id);
-
-      if (privatePageError) return handleError(privatePageError);
-
-      setGratitudes(privatePageData || []);
-    }
-    return setLoading(false);
-  };
-
-  const fetchPublicUserData = async () => {
-    // Only public user's gratitudes
-    const { data: publicPageData, error: publicPageError } = await supabase
-      .from('gratitudes')
-      .select('*')
-      .eq('username', page)
-      .filter('public', 'eq', true);
-
-    if (publicPageError) {
-      return handleError(publicPageError);
-    }
-
-    setLoading(false);
-    return setGratitudes(publicPageData || []);
-  };
-
-  const fetchFeaturedGratitudes = async () => {
-    try {
-      // All frontpage gratitudes
-      const { data: frontPageData, error: frontpageError } = await supabase
-        .from('gratitudes')
-        .select('*')
-        .eq('approved', true)
-        .eq('public', true);
-
-      if (frontpageError) {
-        return handleError(frontpageError);
-      }
-
-      setGratitudes(frontPageData || []);
-    } catch (err) {
-      console.log('Error fetching featured gratitudes');
-    } finally {
+    const fetchPrivateData = async () => {
+      setLoading(true);
+      const privateData = await GratitudesService.readPrivateData(user.id);
+      setGratitudes(privateData);
       setLoading(false);
-    }
-  };
+    };
 
-  useEffect(() => {
-    if (username && username === page) {
+    if (user?.id && profile && profile.username === page) {
       fetchPrivateData();
     }
+  }, [user, profile, page]);
 
-    if (page) {
+  useEffect(() => {
+    const fetchPublicUserData = async () => {
+      setLoading(true);
+      const publicUserData = await GratitudesService.readPublicUserData(
+        String(page)
+      );
+      setGratitudes(publicUserData);
+      setLoading(false);
+    };
+
+    if (page && (!user || profile.username !== page)) {
       fetchPublicUserData();
     }
+  }, [page, user, profile]);
+
+  useEffect(() => {
+    const fetchFeaturedGratitudes = async () => {
+      setLoading(true);
+      const featuredGratitudes =
+        await GratitudesService.readFeaturedGratitudes();
+      setGratitudes(featuredGratitudes);
+      setLoading(false);
+    };
 
     if (route === '/') {
       fetchFeaturedGratitudes();
     }
-  }, [username, dataRef, page]);
+  }, [route]);
+
+  useEffect(() => {
+    if (access_restricted) {
+      if (window) window.history.replaceState(null, '', '/');
+      updateSignModal(true);
+    }
+  }, [access_restricted]);
 
   const handleAddGratitude = () => {
     if (!user) {
@@ -146,75 +102,46 @@ export default function MainPage({ mainPage = true }) {
     return updateAddGratitudeModal(true);
   };
 
-  const handleSignCancel = () => {
-    updateSignModal(false);
-  };
+  const memoedGratitudes = useMemo(
+    () =>
+      gratitudes
+        .sort((a, b) => {
+          const aInsertedAt = dayjs(a.inserted_at).valueOf();
+          const bInsertedAt = dayjs(b.inserted_at).valueOf();
 
-  const handleAddClose = () => {
-    updateAddGratitudeModal(false);
-  };
-
-  const renderGratitudes = () => {
-    if (gratitudes && gratitudes.length > 0) {
-      gratitudes.sort((a, b) => {
-        return dayjs(b.inserted_at) - dayjs(a.inserted_at);
-      });
-
-      return gratitudes.map(
-        ({
-          gratitude,
-          id,
-          inserted_at,
-          public: publicGratitude,
-          user_id,
-          username: gratitudeUsername,
-          approved,
-        }) => (
-          <Gratitude
-            date={inserted_at}
-            gratitude={gratitude}
-            id={id}
-            key={id}
-            mainPage={mainPage}
-            publicGratitude={publicGratitude}
-            userId={user_id}
-            username={gratitudeUsername}
-            approved={approved}
-            showPublic={!mainPage}
-          />
-        )
-      );
-    } else {
-      if (loading) {
-        return <Loading />;
-      }
-
-      return (
-        <div className="empty-data">
-          <Empty
-            description={
-              <span className="empty-data-text">More gratitudes needed...</span>
-            }
-            image={
-              <span className="empty-data-image">
-                <SmileTwoTone twoToneColor="#73b8cb" />
-              </span>
-            }
-          />
-        </div>
-      );
-    }
-  };
+          return bInsertedAt - aInsertedAt;
+        })
+        .map(
+          ({
+            gratitude,
+            id,
+            inserted_at,
+            public: publicGratitude,
+            user_id,
+            username: gratitudeUsername,
+            approved,
+          }) => (
+            <Gratitude
+              date={inserted_at}
+              gratitude={gratitude}
+              id={id}
+              key={id}
+              mainPage={mainPage}
+              publicGratitude={publicGratitude}
+              userId={user_id}
+              username={gratitudeUsername}
+            />
+          )
+        ),
+    [gratitudes]
+  );
 
   return (
     <section className="main-container">
       <AddGratitudeButton onClick={handleAddGratitude} />
-      {renderGratitudes()}
-      <SignModal visible={showSignModal} onCancel={handleSignCancel} />
-      <CreateGratitudeModal
-        isOpen={showAddGratitudeModal}
-        onClose={handleAddClose}
-      />
+      {loading && <Loading />}
+      {!loading && gratitudes.length < 1 && <EmptyMessage />}
+      {!loading && gratitudes.length > 0 && memoedGratitudes}
     </section>
   );
 }
