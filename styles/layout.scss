@@ -16,7 +16,7 @@
     flex: 0 1 auto;
     z-index: 10;
     transform: translateY(-100%);
-    transition: 0.2s transform cubic-bezier(.3,.73,.3,.74);
+    transition: 0.2s transform cubic-bezier(0.3, 0.73, 0.3, 0.74);
     width: 100%;
   }
 
@@ -59,7 +59,7 @@
 .time {
   flex: 0 1 auto;
   background-color: $colour3;
-  font-family: "Snippet", Sans-Serif;
+  font-family: 'Snippet', Sans-Serif;
   font-weight: 300;
   text-align: center;
   color: white;
@@ -110,4 +110,3 @@
     flex-wrap: unset !important;
   }
 }
-

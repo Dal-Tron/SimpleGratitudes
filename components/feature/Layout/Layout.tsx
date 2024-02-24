@@ -1,15 +1,15 @@
-import Head from "next/head";
+import Head from 'next/head';
 
-import { Footer } from "@/components/base/Footer/Footer";
+import { Footer } from '@/components/base/Footer/Footer';
 
-import { Header } from "antd/lib/layout/layout";
-import { MenuOutlined, SmileTwoTone } from "@ant-design/icons";
-import { useStore } from "@/store/store";
-import { CreateGratitudeModal } from "Components/feature/CreateGratitudeModal/CreateGratitudeModal";
-import { useState } from "react";
-import { useSignModal } from "Context/modal";
-import { MenuDrawer } from "Components/feature/MenuDrawer/MenuDrawer";
-import { useUserMenu } from "Context/menu";
+import { useStore } from '@/store/store';
+import { MenuOutlined, SmileTwoTone } from '@ant-design/icons';
+import { CreateGratitudeModal } from 'Components/feature/CreateGratitudeModal/CreateGratitudeModal';
+import { MenuDrawer } from 'Components/feature/MenuDrawer/MenuDrawer';
+import { useUserMenu } from 'Context/menu';
+import { useSignModal } from 'Context/modal';
+import { Header } from 'antd/lib/layout/layout';
+import { useState } from 'react';
 
 export const Layout = ({ children }) => {
   const user = useStore((state) => state.user);
@@ -28,7 +28,7 @@ export const Layout = ({ children }) => {
 
   const handleCloseMenu = () => {
     setShowUserMenu(false);
-  }
+  };
 
   const handleCloseCreateModal = () => {
     setIsCreateModalOpen(false);

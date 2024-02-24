@@ -1,12 +1,15 @@
-import { useState } from "react";
-import { SmileTwoTone } from "@ant-design/icons";
+import { SmileTwoTone } from '@ant-design/icons';
+import clsx from 'clsx';
+import { useState } from 'react';
 
-import { useSignModal } from "Context/modal";
-
-const AddGratitudeButton = ({ onClick = () => {} }) => {
+export const AddGratitudeButton = ({
+  onClick = () => {},
+  className,
+}: {
+  onClick: () => void;
+  className?: string;
+}) => {
   const [animateGratitudeButton, setAnimateGratitudeButton] = useState(false);
-
-  const { updateSignModal } = useSignModal();
 
   const animateButton = () => {
     setAnimateGratitudeButton(true);
@@ -19,19 +22,17 @@ const AddGratitudeButton = ({ onClick = () => {} }) => {
   const handleAddGratitude = () => {
     animateButton();
 
-    if (!session.access_token) return updateSignModal(true);
-
     return onClick();
   };
 
   return (
     <div
-      className="hide-on-mobile gratitude gratitude-button"
+      className={clsx('hide-on-mobile gratitude gratitude-button', className)}
       onClick={handleAddGratitude}
     >
       <div
         className={`gratitude-container ${
-          animateGratitudeButton ? "gratitude-button-pressed" : ""
+          animateGratitudeButton ? 'gratitude-button-pressed' : ''
         }`}
       >
         <span className="gratitude-text">
@@ -41,5 +42,3 @@ const AddGratitudeButton = ({ onClick = () => {} }) => {
     </div>
   );
 };
-
-export default AddGratitudeButton;

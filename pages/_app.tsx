@@ -3,7 +3,7 @@ import "../styles/antd-overrides.scss";
 import "../styles/index.scss";
 import "../styles/global.css";
 
-import { Layout } from "@/components/base/Layout/Layout";
+import { Layout } from "@/components/feature/Layout/Layout";
 
 import { AuthProvider } from "Context/auth";
 import LoaderProvider from "Context/loader";

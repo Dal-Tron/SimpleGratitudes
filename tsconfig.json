@@ -5,30 +5,63 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
+    "importHelpers": true,
     "jsx": "preserve",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": false,
-    "target": "es5",
+    "target": "esnext",
     "paths": {
-      "Components/*": ["./components/*"],
-      "Interfaces/*": ["./interfaces/*"],
-      "Instruments": ["./instruments"],
-      "Styles/*": ["./styles/*"],
-      "Lib/*": ["./lib/*"],
-      "Context/*": ["./context/*"],
-      "Helpers/*": ["./helpers/*"],
-      "HOC/*": ["./hoc/*"],
-      "Hooks/*": ["./hooks/*"],
-      "Services/*": ["./services/*"],
-      "Supabase/*": ["./supabase/*"],
-      "Types/*": ["./types/*"],
-      "Utils/*": ["./utils/*"],
-      "@/*": ["./*"]
+      "Components/*": [
+        "./components/*"
+      ],
+      "Interfaces/*": [
+        "./interfaces/*"
+      ],
+      "Instruments": [
+        "./instruments"
+      ],
+      "Styles/*": [
+        "./styles/*"
+      ],
+      "Lib/*": [
+        "./lib/*"
+      ],
+      "Context/*": [
+        "./context/*"
+      ],
+      "Helpers/*": [
+        "./helpers/*"
+      ],
+      "HOC/*": [
+        "./hoc/*"
+      ],
+      "Hooks/*": [
+        "./hooks/*"
+      ],
+      "Services/*": [
+        "./services/*"
+      ],
+      "Supabase/*": [
+        "./supabase/*"
+      ],
+      "Types/*": [
+        "./types/*"
+      ],
+      "Utils/*": [
+        "./utils/*"
+      ],
+      "@/*": [
+        "./*"
+      ]
     },
     "incremental": true
   },
@@ -39,5 +72,7 @@
     "hoc/error.js",
     "store/store.js"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }
