@@ -47,7 +47,11 @@ export const CreateGratitudeModal: FC<{
   const handleSubmit = () => {
     GratitudesService.createGratitude({
       gratitude: text,
+      isPublic,
+      userId: profile.id
     });
+
+    handleClose();
   };
 
   return (

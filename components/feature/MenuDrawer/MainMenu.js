@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 
 import { useAddGratitudeModal } from "Context/modal";
 
-const MainMenu = ({ closeMenu = () => {}, signOut = () => {} }) => {
+export const MainMenu = ({ closeMenu = () => {}, signOut = () => {}, visible = false }) => {
   const router = useRouter();
   const username = "";
   const { updateAddGratitudeModal } = useAddGratitudeModal();
@@ -132,5 +132,3 @@ const MainMenu = ({ closeMenu = () => {}, signOut = () => {} }) => {
     </div>
   );
 };
-
-export default MainMenu;

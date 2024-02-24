@@ -7,17 +7,28 @@ import { MenuOutlined, SmileTwoTone } from "@ant-design/icons";
 import { useStore } from "@/store/store";
 import { CreateGratitudeModal } from "Components/feature/CreateGratitudeModal/CreateGratitudeModal";
 import { useState } from "react";
+import { useSignModal } from "Context/modal";
+import { MenuDrawer } from "Components/feature/MenuDrawer/MenuDrawer";
+import { useUserMenu } from "Context/menu";
 
 export const Layout = ({ children }) => {
   const user = useStore((state) => state.user);
+  const { updateSignModal } = useSignModal();
+  const { showUserMenu, setShowUserMenu } = useUserMenu();
 
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   const handleOpenMenu = () => {
     if (user) {
-      setIsCreateModalOpen(true);
+      setShowUserMenu(true);
+    } else {
+      updateSignModal(true);
     }
   };
+
+  const handleCloseMenu = () => {
+    setShowUserMenu(false);
+  }
 
   const handleCloseCreateModal = () => {
     setIsCreateModalOpen(false);
@@ -43,6 +54,7 @@ export const Layout = ({ children }) => {
             <MenuOutlined />
           </div>
         </Header>
+        <MenuDrawer isOpen={showUserMenu} onClose={handleCloseMenu} />
         <section className="main">{children}</section>
       </div>
       <CreateGratitudeModal

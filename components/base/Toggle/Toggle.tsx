@@ -14,11 +14,17 @@ export const Toggle: FC<ToggleProps> = ({
   value,
   onChange,
 }) => {
+  // Handle change for the range input
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value === "1";
+    onChange(newValue);
+  };
+
   return (
     <div className="flex items-center">
       <div
         onClick={() => onChange(false)}
-        className={clsx("px-2 font-bold text-white", {
+        className={clsx("px-2 font-bold text-white cursor-pointer", {
           "!text-primary-3": value,
         })}
       >
@@ -29,13 +35,12 @@ export const Toggle: FC<ToggleProps> = ({
         min="0"
         max="1"
         value={value ? 1 : 0}
-        onClick={() => onChange(!value)}
+        onChange={handleInputChange} // Use onChange instead of onClick
         className="w-8"
-        defaultValue={0}
       />
       <div
         onClick={() => onChange(true)}
-        className={clsx("px-2 font-bold text-white", {
+        className={clsx("px-2 font-bold text-white cursor-pointer", {
           "!text-primary-3": !value,
         })}
       >

@@ -7,7 +7,7 @@ import FormInput from 'Components/FormInput'
 
 import { validEmail, validPassword } from 'Helpers/validation'
 
-const SignIn = ({
+export const SignInForm = ({
   disabled = false,
   email = '',
   password = '',
@@ -63,5 +63,3 @@ const SignIn = ({
     </Form>
   );
 };
-
-export default SignIn;

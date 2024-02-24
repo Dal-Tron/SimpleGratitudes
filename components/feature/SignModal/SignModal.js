@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Tabs, Modal, notification } from "antd";
 import { useRouter } from "next/router";
 
-import SignIn from "Components/SignIn";
+import { SignInForm } from "./SignIn";
 
 import { validEmail, validPassword } from "Helpers/validation";
 
@@ -11,7 +11,7 @@ import ProfileService from "Services/profile";
 
 const { TabPane } = Tabs;
 
-const SignModal = ({ visible = false, onCancel = () => {} }) => {
+export const SignModal = ({ visible = false, onCancel = () => {} }) => {
   const [activeKey, setActiveKey] = useState("1");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -211,7 +211,7 @@ const SignModal = ({ visible = false, onCancel = () => {} }) => {
     >
       <Tabs animated={true} activeKey={activeKey} onChange={handleTabChange}>
         <TabPane tab="Sign In" key="1">
-          <SignIn
+          <SignInForm
             key="password-signin"
             closeModal={handleCancel}
             disabled={loading}
@@ -234,7 +234,7 @@ const SignModal = ({ visible = false, onCancel = () => {} }) => {
           </div>
         </TabPane>
         <TabPane tab="Register" key="2">
-          <SignIn
+          <SignInForm
             key="register-signin"
             closeModal={handleCancel}
             disabled={loading}
@@ -246,7 +246,7 @@ const SignModal = ({ visible = false, onCancel = () => {} }) => {
           />
         </TabPane>
         <TabPane tab="Forgot Password" key="3">
-          <SignIn
+          <SignInForm
             key="forgot-password-signin"
             closeModal={handleCancel}
             disabled={loading}
@@ -262,5 +262,3 @@ const SignModal = ({ visible = false, onCancel = () => {} }) => {
     </Modal>
   );
 };
-
-export default SignModal;

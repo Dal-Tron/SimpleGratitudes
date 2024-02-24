@@ -1,4 +1,4 @@
-import MainMenu from "Components/MainMenu";
+import {MainMenu} from "./MainMenu"
 import { Drawer } from "antd";
 
 export const MenuDrawer = ({
@@ -17,11 +17,7 @@ export const MenuDrawer = ({
       onClose={onClose}
       open={isOpen}
     >
-      <MainMenu
-        visible={menuVisible}
-        signOut={handleSignOut}
-        closeMenu={handleCloseMenu}
-      />
+      <MainMenu visible={isOpen} />
     </Drawer>
   );
 };

@@ -9,6 +9,7 @@ import { AuthProvider } from "Context/auth";
 import LoaderProvider from "Context/loader";
 import { SignModalProvider, AddGratitudeModalProvider } from "Context/modal";
 import { DataRenderProvider } from "Context/data";
+import { UserMenuProvider } from "Context/menu"
 import ErrorBoundary from "HOC/error";
 
 function SimpleGratitudes({ Component, pageProps }) {
@@ -19,9 +20,11 @@ function SimpleGratitudes({ Component, pageProps }) {
           <DataRenderProvider>
             <SignModalProvider>
               <AddGratitudeModalProvider>
-                <Layout>
-                  <Component {...pageProps} />
-                </Layout>
+                <UserMenuProvider>
+                  <Layout>
+                    <Component {...pageProps} />
+                  </Layout>
+                </UserMenuProvider>
               </AddGratitudeModalProvider>
             </SignModalProvider>
           </DataRenderProvider>

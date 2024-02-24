@@ -19,6 +19,8 @@ import { validJWT } from "Helpers/validation";
 import { CreateGratitudeModal } from "./feature/CreateGratitudeModal/CreateGratitudeModal";
 import { useStore } from "@/store/store";
 
+import { SignModal } from '@/components/feature/SignModal/SignModal'
+
 const queryString = require("query-string");
 
 export default function MainPage({ mainPage = true }) {
@@ -34,7 +36,7 @@ export default function MainPage({ mainPage = true }) {
 
   const username = "";
 
-  const { updateSignModal } = useSignModal();
+  const { updateSignModal, showSignModal } = useSignModal();
   const { dataRef } = useDataRender();
   const { updateAddGratitudeModal } = useAddGratitudeModal();
 
@@ -143,6 +145,10 @@ export default function MainPage({ mainPage = true }) {
     return updateAddGratitudeModal(true);
   };
 
+  const handleSignCancel = () => {
+    updateSignModal(false);
+  }
+
   const renderGratitudes = () => {
     if (gratitudes && gratitudes.length > 0) {
       gratitudes.sort((a, b) => {
@@ -198,6 +204,7 @@ export default function MainPage({ mainPage = true }) {
   return (
     <section className="main-container">
       {renderGratitudes()}
+      <SignModal visible={showSignModal} onCancel={handleSignCancel} />
       <CreateGratitudeModal
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}

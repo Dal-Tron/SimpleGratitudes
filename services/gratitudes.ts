@@ -2,13 +2,13 @@ import { supabase } from "Supabase/client";
 import { notification } from "antd";
 
 export const GratitudesService = {
-  createGratitude: async (userId, data) => {
+  createGratitude: async ({ userId, gratitude, isPublic }) => {
     try {
       const res = await supabase.from("gratitudes").insert([
         {
           user_id: userId,
-          gratitude: data.gratitude,
-          public: data.public,
+          gratitude,
+          public: isPublic,
         },
       ]);
       if (res) {

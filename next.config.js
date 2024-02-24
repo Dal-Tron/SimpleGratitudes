@@ -34,7 +34,7 @@ module.exports = (phase, { defaultConfig }) => {
     images: {
       remotePatterns: [{ 
         protocol: 'https',
-        hostname: process.env.SUPABASE_HOST_NAME,
+        hostname: 'hedciaofaszacfhqwvky.supabase.co',
         port: ''
       }]
     }
