@@ -1,0 +1,62 @@
+@import 'colours.scss';
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px $colour1 inset !important;
+  -webkit-text-fill-color: white;
+}
+
+.input {
+  .ant-input-prefix {
+    color: white;
+    font-size: 18px !important;
+  }
+
+  &-required {
+    .ant-input {
+      &::placeholder {
+        color: red !important;
+        transition: color .3s ease-in;
+      }
+  
+      &:-ms-input-placeholder,
+      &::-moz-placeholder,
+      &:-moz-placeholder,
+      &::-webkit-input-placeholder {
+        color: red !important;
+        transition: color .3s ease-in;
+      }
+    }
+  }
+
+  &-signin {
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid white;
+    color: white;
+    font-size: 18px;
+    border-radius: 12px;
+    outline: none !important;
+
+    .ant-input-affix-wrapper {
+      background-color: inherit !important;
+      border: none !important;
+      border-radius: 12px;
+    }
+    
+    .ant-input {
+      background-color: $colour1;
+      padding: .3rem !important;
+      margin-right: 1rem !important;
+      padding-right: 1rem !important;
+      outline: 0 !important;
+      color: white;
+      font-size: 18px;
+      border-radius: 10px;
+    
+      &::placeholder {
+        color: white !important;
+        font-family: Snippet, Sans-Serif, Arial !important; 
+        opacity: .7;
+      }
+    }
+  }
+}

@@ -1,0 +1,44 @@
+@import "home.scss";
+@import "layout.scss";
+@import "user.scss";
+@import "add-gratitude.scss";
+@import "menu.scss";
+@import "gratitude.scss";
+@import "settings.scss";
+@import "username.scss";
+@import "password.scss";
+@import "input.scss";
+@import "notifications.scss";
+
+html,
+body {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    Segoe UI,
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    Fira Sans,
+    Droid Sans,
+    Helvetica Neue,
+    sans-serif;
+
+  #__next {
+    height: 100%;
+    padding: 0;
+  }
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}

@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+
+  /* New primary color - variations of #73b8cb */
+  --color-primary-1: #5a95a3; /* Darker shade of primary */
+  --color-primary-2: #73b8cb; /* Primary base color */
+  --color-primary-3: #8acbd4; /* Lighter shade of primary */
+  --color-primary-4: #a1dee0; /* Lightest shade of primary */
+
+  /* New secondary color - #5190a5 */
+  --color-secondary-1: #3c6d7e; /* Darker shade of secondary */
+  --color-secondary-2: #5190a5; /* Secondary base color */
+  --color-secondary-3: #66a3bb; /* Lighter shade of secondary */
+  --color-secondary-4: #7bb7d2; /* Lightest shade of secondary */
+
+  /* New accent color - #fafab4 */
+  --color-accent-1: #e7e6a8; /* Darker shade of accent */
+  --color-accent-2: #fafab4; /* Accent base color */
+  --color-accent-3: #fdfdc7; /* Lighter shade of accent */
+  --color-accent-4: #fefedd; /* Lightest shade of accent */
+
+  --color-dark-1: #111111;
+  --color-light-1: #f8f8f8;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  background: var(--color-primary-2);
+  border-radius: 20px;
+}
+
+input[type="range"]::-moz-range-track {
+  background: var(--color-primary-2);
+  border-radius: 20px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+}
+
+input[type="range"]::-moz-range-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+}
+
+textarea {
+  border: none;
+  outline: none;
+  resize: none;
+}
+
+input {
+  border: none;
+  outline: none;
+  resize: none;
+}
+
+/* Gratitude Box Shadow */
+.sg-box-shadow {
+  box-shadow:
+    1px 1px 0px var(--color-primary-2),
+    2px 2px 0px var(--color-primary-2),
+    3px 3px 0px var(--color-primary-2),
+    4px 4px 0px var(--color-primary-2),
+    5px 5px 0px var(--color-primary-2),
+    6px 6px 0px var(--color-primary-2),
+    7px 7px 0px var(--color-primary-2),
+    8px 8px 0px var(--color-primary-2),
+    9px 9px 0px var(--color-primary-2),
+    10px 10px 0px var(--color-primary-2),
+    11px 11px 0px var(--color-primary-2),
+    12px 12px 0px var(--color-primary-2),
+    13px 13px 0px var(--color-primary-2),
+    14px 14px 0px var(--color-primary-2),
+    15px 15px 0px var(--color-primary-2),
+    16px 16px 0px var(--color-primary-2),
+    17px 17px 0px var(--color-primary-2),
+    18px 18px 0px var(--color-primary-2),
+    19px 19px 0px var(--color-primary-2),
+    20px 20px 0px var(--color-primary-2),
+    21px 21px 0px var(--color-primary-2);
+}
+
+.sg-header-shadow {
+  -webkit-box-shadow: 0px 7px 0px 0px rgba(115, 184, 203, 1);
+  -moz-box-shadow: 0px 7px 0px 0px rgba(115, 184, 203, 1);
+  box-shadow: 0px 7px 0px 0px rgba(115, 184, 203, 1);
+}

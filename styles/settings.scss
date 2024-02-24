@@ -1,0 +1,222 @@
+@import './colours.scss';
+
+.settings {
+  width: 100%;
+
+  &-content-username-loading {
+    color: white;
+  }
+
+  &-wrapper {
+    display: flex;
+    justify-content: center;
+    max-width: 300px;
+    margin: auto;
+    margin-top: 1rem;
+    background-color: $colour1;
+    border-radius: 20px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  &-title {
+    color: white;
+    font-size: 26px;
+    margin-top: 1.5rem;
+    text-align: center;
+  }
+
+  &-header {
+    width: 100%;
+    color: white;
+    font-size: 16px;
+    opacity: .9;
+    margin-top: 1rem;
+    margin-bottom: .4rem;
+  }
+
+  &-body {
+    padding-left: 10px;
+  }
+
+  &-label {
+    color: white;
+    font-size: 16px;
+    opacity: .7;
+  }
+
+  &-option {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: .3rem;
+    padding-right: 10px;
+    width: 100%;
+  }
+
+  &-new-cool-username {
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: text;
+  }
+
+  &-new-username {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    input {
+      background-color: rgba(0, 0, 0, 0);
+      color: white;
+      border: none;
+      padding: 0 !important;
+      margin-right: 1rem !important;
+      padding-right: 1rem !important;
+      outline: 0 !important;
+      max-width: 200px;
+    
+      &::placeholder {
+        color: white !important;
+        font-size: 1rem !important;
+        font-family: Snippet, Sans-Serif, Arial !important; 
+        opacity: .7;
+      }
+    }
+
+    .ant-input[disabled] {
+      background-color: inherit !important;
+      color: white;
+    }
+  }
+
+  &-new-password {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    .ant-input-affix-wrapper-lg {
+      background-color: rgba(0, 0, 0, 0);
+      border: none;
+      padding: 0 !important;
+      margin-right: 1rem !important;
+      padding-right: 1rem !important;
+      outline: 0 !important;
+      border-color: rgba(0, 0, 0, 0) !important;
+      max-width: 200px;
+    }
+
+    input {
+      background-color: rgba(0, 0, 0, 0);
+      color: white;
+    
+      &::placeholder {
+        color: white !important;
+        font-size: 1rem !important;
+        font-family: Snippet, Sans-Serif, Arial !important; 
+        opacity: .7;
+      }
+    }
+  }
+
+  &-delete-input {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    .ant-input-lg {
+      background-color: rgba(0, 0, 0, 0);
+      border: none;
+      padding: 0 !important;
+      margin-right: 1rem !important;
+      padding-right: 1rem !important;
+      outline: 0 !important;
+      border-color: rgba(0, 0, 0, 0) !important;
+      max-width: 200px;
+    }
+
+    input {
+      background-color: rgba(0, 0, 0, 0);
+      color: white;
+    
+      &::placeholder {
+        color: white !important;
+        font-size: 1rem !important;
+        font-family: Snippet, Sans-Serif, Arial !important; 
+        opacity: .7;
+      }
+    }
+  }
+
+  &-password-not-valid {
+    opacity: .5;
+  }
+
+  &-username-not-valid {
+    opacity: .5;
+  }
+
+  &-username-updated {
+    opacity: .5;
+  }
+
+  &-password-submit {
+    color: white;
+    text-align: center;
+  }
+
+  &-account-button {
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: .5rem;
+
+    .anticon {
+      color: $colour1;
+    }
+  }
+
+  &-box-shadow {
+    border-radius: 20px;
+    min-height: 200px;
+    background-color: lightblue;
+  
+    box-shadow: 1px 1px 0px $colour3,
+    2px 2px 0px $colour3,
+    3px 3px 0px $colour3,
+    4px 4px 0px $colour3,
+    5px 5px 0px $colour3,
+    6px 6px 0px $colour3,
+    7px 7px 0px $colour3,
+    8px 8px 0px $colour3,
+    9px 9px 0px $colour3,
+    10px 10px 0px $colour3,
+    11px 11px 0px $colour3,
+    12px 12px 0px $colour3,
+    13px 13px 0px $colour3,
+    14px 14px 0px $colour3,
+    15px 15px 0px $colour3,
+    16px 16px 0px $colour3,
+    17px 17px 0px $colour3,
+    18px 18px 0px $colour3,
+    19px 19px 0px $colour3,
+    20px 20px 0px $colour3,
+    21px 21px 0px $colour3;
+  }
+}
+
+.username-confirm {
+  &-domain {
+    margin-bottom: -3px;
+  }
+
+  &-input {
+    input {
+      font-weight: 600;
+    }
+  }
+}

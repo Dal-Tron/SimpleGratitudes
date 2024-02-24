@@ -1,0 +1,99 @@
+@import './colours.scss';
+
+html {
+  --antd-wave-shadow-color: $colour2;
+}
+
+.ant-modal {
+  width: 400px;
+  padding-bottom: 0px !important;
+}
+
+.ant-modal-content {
+  background-color: $colour1;
+  border-radius: 20px;
+  box-shadow: none !important;
+}
+
+.ant-tabs-tab {
+  color: white;
+
+  &.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: $colour2;
+  }
+}
+
+.ant-tabs-ink-bar {
+  background: $colour2;
+}
+
+.ant-btn-primary {
+  &:focus {
+    background: $colour2;
+  }
+  background: $colour2;
+  border-color: $colour2;
+}
+
+.ant-btn {
+  border-radius: 7px;
+
+  &:hover, 
+  &:focus {
+    color: white;
+    border-color: $colour3;
+  }
+}
+
+.ant-modal-footer {
+  border-top: none;
+}
+
+.ant-form-item-explain {
+  &.ant-form-item-explain-error {
+    color: $colour2;
+  }
+}
+
+.ant-notification-notice {
+  background-color: $colour3;
+  border-radius: 20px;
+
+  &-message {
+    color: white;
+  }
+}
+
+.ant-switch-checked {
+  background-color: $colour2;
+}
+
+.ant-tooltip {
+  .ant-tooltip-arrow {
+    .ant-tooltip-arrow-content {
+      background: $colour2 !important;
+    }
+  }
+
+  .ant-tooltip-inner {
+    background-color: $colour2;
+  }
+}
+
+.ant-message {
+  top: 0px !important;
+}
+
+.anticon {
+  &-info-circle {
+    color: $colour1 !important;
+  }
+}
+
+.ant-tabs-nav-wrap {
+  &::before,
+  &::after {
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+  }
+}
