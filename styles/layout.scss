@@ -19,13 +19,9 @@
     transition: 0.2s transform cubic-bezier(0.3, 0.73, 0.3, 0.74);
     width: 100%;
   }
-
-  &-content {
-    position: relative !important;
-  }
 }
 
-.stickyHeader {
+.sticky-header {
   position: fixed;
   top: 0;
   left: 0;
@@ -49,7 +45,6 @@
   text-align: center;
   font-family: Snippet, Sans-Serif, Arial;
   line-height: 0.9;
-  padding: 1.5rem 0;
   cursor: pointer;
   max-width: 200px;
   margin-left: auto;

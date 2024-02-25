@@ -1,15 +1,13 @@
 import Head from 'next/head';
 
-import { Footer } from '@/components/base/Footer/Footer';
-
+import { Footer } from '@/components/feature/Footer/Footer';
+import { Header } from '@/components/feature/Header/Header';
 import { SignModal } from '@/components/feature/SignModal/SignModal';
 import { useStore } from '@/store/store';
-import { MenuOutlined, SmileTwoTone } from '@ant-design/icons';
 import { CreateGratitudeModal } from 'Components/feature/CreateGratitudeModal/CreateGratitudeModal';
 import { MenuDrawer } from 'Components/feature/MenuDrawer/MenuDrawer';
 import { useUserMenu } from 'Context/menu';
 import { useAddGratitudeModal, useSignModal } from 'Context/modal';
-import { Header } from 'antd/lib/layout/layout';
 
 export const Layout = ({ children }) => {
   const user = useStore((state) => state.user);
@@ -41,7 +39,7 @@ export const Layout = ({ children }) => {
 
   return (
     <>
-      <div className="wrapper">
+      <div className="flex flex-col bg-[#5190a5]">
         <Head>
           <title>Simple Gratitudes</title>
           <link rel="icon" href="/favicon.ico" />
@@ -49,16 +47,16 @@ export const Layout = ({ children }) => {
             name="viewport"
             content="initial-scale=1.0, width=device-width"
           />
+          <meta
+            name="description"
+            content="Simple Gratitudes helps you record and save your daily gratitudes, fostering a positive mindset and emotional well-being."
+          />
+          <meta
+            name="keywords"
+            content="gratitudes, gratitude journal, well-being, positivity, mental health, self-care, feeling better"
+          />
         </Head>
-        <Header className="flex flex-row items-center justify-between bg-primary-3 sg-header-shadow">
-          <div className="text-3xl flex flex-row items-center h-full">
-            <SmileTwoTone twoToneColor="#73b8cb" />
-            <div className="text-lg text-white mx-2">Simple Gratitudes</div>
-          </div>
-          <div onClick={handleOpenMenu} className="text-3xl text-white">
-            <MenuOutlined />
-          </div>
-        </Header>
+        <Header />
         <MenuDrawer isOpen={showUserMenu} onClose={handleCloseMenu} />
         <section className="main">{children}</section>
       </div>

@@ -1,4 +1,4 @@
-import { PlusCircleOutlined } from "@ant-design/icons";
+import { PlusCircleOutlined } from '@ant-design/icons';
 
 const AddGratitudeButtonMobile = ({ onClick = () => {} }) => {
   const handleClick = () => {
@@ -6,13 +6,8 @@ const AddGratitudeButtonMobile = ({ onClick = () => {} }) => {
   };
 
   return (
-    <div
-      className="hide-on-desktop gratitude-button-mobile"
-      onClick={handleClick}
-    >
-      <div className="gratitude-container-mobile">
-        <PlusCircleOutlined style={{ fontSize: 40 }} />
-      </div>
+    <div onClick={handleClick}>
+      <PlusCircleOutlined style={{ fontSize: 40 }} />
     </div>
   );
 };
