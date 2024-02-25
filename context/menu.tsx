@@ -1,7 +1,7 @@
-import React, { useState, useContext } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 // Context
-export const UserMenuContext = React.createContext({
+export const UserMenuContext = createContext({
   showUserMenu: false,
   setShowUserMenu: (_show: boolean) => {},
 });

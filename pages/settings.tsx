@@ -3,25 +3,21 @@ import { Modal, notification } from 'antd';
 import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
 
-import { useLoaderState } from 'Context/loader';
-
-import { validJWT, validPassword, validUsername } from 'Helpers/validation';
-
+import { Input } from '@/components/base/Input/Input';
+import { Validator } from '@/components/base/Validator/Validator';
 import { DeleteAccountInput } from '@/components/feature/DeleteAccountInput/DeleteAccountInput';
-import FormInput from 'Components/FormInput';
+import { useStore } from '@/store/store';
 import Loading from 'Components/Loading';
 import PasswordInput from 'Components/PasswordInput';
 import UsernameNotice from 'Components/UsernameNotice';
-
-import { useStore } from '@/store/store';
+import { validJWT, validPassword, validUsername } from 'Helpers/validation';
 import { AuthService } from 'Services/auth';
-import GratitudesService from 'Services/gratitudes';
-import ProfileService from 'Services/profile';
+import { GratitudesService } from 'Services/gratitudes';
+import { ProfileService } from 'Services/profile';
 
 const SettingsPage = () => {
   const updatePasswordInputRef = useRef();
   const router = useRouter();
-  const { loaders } = useLoaderState();
   const profile = useStore((state) => state.profile);
   const user = useStore((state) => state.user);
 
@@ -38,12 +34,14 @@ const SettingsPage = () => {
     updatePasswordInputRef?.current?.focus();
   }
 
-  const handleUsernameChange = (usernameValue) => {
-    setUsername(usernameValue);
+  const handleUsernameChange = (e) => {
+    const { value } = e.target;
+
+    setUsername(value);
   };
 
   const handleConfirmUsername = async () => {
-    if (user.id && validUsername(username) && !updated_username) {
+    if (user.id && validUsername(username) && !profile?.username_updated) {
       const { error: updateUsernameError } =
         await ProfileService.updateProfileUsername(user.id, username);
 
@@ -72,7 +70,7 @@ const SettingsPage = () => {
   };
 
   const handleUpdateUsername = () => {
-    if (!profile?.updated_username) {
+    if (!profile?.username_updated) {
       setShowConfirmUsername(true);
     }
   };
@@ -168,30 +166,41 @@ const SettingsPage = () => {
             <div className="settings-title">Settings</div>
             <div className="settings-content">
               <div className="settings-header">
-                {profile?.updated_username ? 'Username' : 'Change Username'}
+                {profile?.username_updated ? 'Username' : 'Change Username'}
               </div>
               <div className="settings-body">
                 <div className="settings-option">
                   <div className="settings-new-username">
-                    {profile?.updated_username ? (
+                    {profile?.username_updated ? (
                       <div className="settings-new-cool-username">
                         {username}
                       </div>
                     ) : (
-                      <FormInput
-                        disabled={profile?.updated_username}
-                        inputValue={username}
-                        onChange={handleUsernameChange}
-                        placeholder="Enter new username"
-                        prefix={null}
-                        required={false}
-                        title="Username"
-                        tooltipVisible={false}
-                        triggerValidation={false}
-                        validator={validUsername}
+                      <Validator
+                        input={
+                          <Input
+                            disabled={profile?.username_updated}
+                            placeholder="Enter a new username"
+                            onChange={handleUsernameChange}
+                            value={username}
+                          />
+                        }
                       />
+
+                      // <FormInput
+                      //   disabled={profile?.username_updated}
+                      //   inputValue={username}
+                      //   onChange={handleUsernameChange}
+                      //   placeholder="Enter new username"
+                      //   prefix={null}
+                      //   required={false}
+                      //   title="Username"
+                      //   tooltipVisible={false}
+                      //   triggerValidation={false}
+                      //   validator={validUsername}
+                      // />
                     )}
-                    {profile?.updated_username ? null : (
+                    {profile?.username_updated ? null : (
                       <div
                         onClick={handleUpdateUsername}
                         className={`settings-account-button 
@@ -201,7 +210,7 @@ const SettingsPage = () => {
                                 : 'settings-username-not-valid'
                             }
                             ${
-                              profile?.updated_username
+                              profile?.username_updated
                                 ? 'settings-username-updated'
                                 : ''
                             }

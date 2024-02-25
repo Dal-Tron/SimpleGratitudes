@@ -53,6 +53,6 @@ export const useStore = create<StoreState>()(
     {
       name: 'user-profile-store',
       storage: sessionStorageWrapper,
-    } as PersistOptions<StoreState>
-  )
+    } as PersistOptions<StoreState>,
+  ),
 );

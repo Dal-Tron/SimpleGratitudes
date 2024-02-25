@@ -1,10 +1,10 @@
 import {
-  EyeTwoTone,
   EyeInvisibleOutlined,
+  EyeTwoTone,
   LockOutlined,
 } from '@ant-design/icons';
 import { Input, Tooltip } from 'antd';
-import { createRef, useState, useEffect } from 'react';
+import { createRef, useEffect, useState } from 'react';
 
 import { validPassword } from 'Helpers/validation';
 
@@ -20,8 +20,7 @@ const PasswordInput = ({
   triggerValidation = false,
 }) => {
   const [showPasswordNotice, setShowPasswordNotice] = useState(false);
-  const [tooltipPasswordTitle, setTooltipPasswordTitle] =
-    useState('Invalid Password');
+  const [tooltipPasswordTitle] = useState('Invalid Password');
   const [inputRequired, setInputRequired] = useState(false);
 
   useEffect(() => {

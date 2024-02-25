@@ -58,7 +58,7 @@ export default function MainPage({ mainPage = true }) {
     const fetchPublicUserData = async () => {
       setLoading(true);
       const publicUserData = await GratitudesService.readPublicUserData(
-        String(page)
+        String(page),
       );
       setGratitudes(publicUserData);
       setLoading(false);
@@ -115,7 +115,6 @@ export default function MainPage({ mainPage = true }) {
             public: publicGratitude,
             user_id,
             username: gratitudeUsername,
-            approved,
           }) => (
             <Gratitude
               date={inserted_at}
@@ -127,9 +126,9 @@ export default function MainPage({ mainPage = true }) {
               userId={user_id}
               username={gratitudeUsername}
             />
-          )
+          ),
         ),
-    [gratitudes]
+    [gratitudes],
   );
 
   return (

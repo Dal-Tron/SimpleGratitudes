@@ -1,6 +1,6 @@
-import { EyeTwoTone, EyeInvisibleOutlined } from '@ant-design/icons';
-import { Tooltip, Input } from 'antd';
-import { useState, useEffect, createRef } from 'react';
+import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+import { Input, Tooltip } from 'antd';
+import { createRef, useEffect, useState } from 'react';
 
 const { Password } = Input;
 const defaultRef = createRef();
@@ -23,7 +23,7 @@ const FormInput = ({
   validator = () => {},
 }) => {
   const [showInputTooltip, setShowInputTooltip] = useState(false);
-  const [tooltipTitle, setToolTipTitle] = useState(`Invalid ${title}`);
+  const [tooltipTitle] = useState(`Invalid ${title}`);
   const [inputRequired, setInputRequired] = useState(false);
 
   useEffect(() => {

@@ -1,13 +1,12 @@
-import { useState, useEffect } from "react";
-import { Modal, notification } from "antd";
+import { Modal, notification } from 'antd';
+import { useEffect, useState } from 'react';
 
-import AddGratitudeFooter from "Components/GratitudeModal/AddGratitudeFooter";
-import AddGratitude from "Components/GratitudeModal/AddGratitude";
+import { useDataRender } from 'Context/data';
+import { useAddGratitudeModal, useSignModal } from 'Context/modal';
+import { supabase } from 'Supabase/client';
 
-import { useSignModal, useAddGratitudeModal } from "Context/modal";
-import { useDataRender } from "Context/data";
-
-import { supabase } from "Supabase/client";
+import { AddGratitude } from './AddGratitude';
+import AddGratitudeFooter from './AddGratitudeFooter';
 
 const AddGratitudeModal = ({
   visible = false,
@@ -22,16 +21,16 @@ const AddGratitudeModal = ({
   const { setEditableGratitude } = useAddGratitudeModal();
 
   const user = {};
-  const username = "";
+  const username = '';
 
   useEffect(() => {
     if (editableGratitude.gratitude)
-      handleUpdateGratitude("gratitude", editableGratitude.gratitude);
+      handleUpdateGratitude('gratitude', editableGratitude.gratitude);
     if (editableGratitude.date)
-      handleUpdateGratitude("date", editableGratitude.date);
-    if (editableGratitude.id) handleUpdateGratitude("id", editableGratitude.id);
+      handleUpdateGratitude('date', editableGratitude.date);
+    if (editableGratitude.id) handleUpdateGratitude('id', editableGratitude.id);
     if (editableGratitude.public)
-      handleUpdateGratitude("public", editableGratitude.public);
+      handleUpdateGratitude('public', editableGratitude.public);
   }, [editableGratitude]);
 
   const handleUpdateGratitude = (name, value) => {
@@ -42,16 +41,16 @@ const AddGratitudeModal = ({
   };
 
   const handleGratitudeText = (e) => {
-    return handleUpdateGratitude("gratitude", e.target.value);
+    return handleUpdateGratitude('gratitude', e.target.value);
   };
 
   const handleTagChange = (e) => {
     e.preventDefault();
-    return handleUpdateGratitude("tags", e.target.value);
+    return handleUpdateGratitude('tags', e.target.value);
   };
 
   const handlePublicSwitchChange = (checked) => {
-    return handleUpdateGratitude("public", checked);
+    return handleUpdateGratitude('public', checked);
   };
 
   const resetGratitude = () => {
@@ -62,12 +61,12 @@ const AddGratitudeModal = ({
   };
 
   const handleError = (error) => {
-    if (error.message === "JWT expired") {
+    if (error.message === 'JWT expired') {
       return updateSignModal(true);
     }
     notification.open({
-      type: "error",
-      message: "Error: Failed to save gratitude.",
+      type: 'error',
+      message: 'Error: Failed to save gratitude.',
     });
   };
 
@@ -76,7 +75,7 @@ const AddGratitudeModal = ({
       setLoading(true);
       try {
         const { error: editingGratitudeError } = await supabase
-          .from("gratitudes")
+          .from('gratitudes')
           .update({
             gratitude: gratitude.gratitude,
             public: gratitude.public,
@@ -86,8 +85,8 @@ const AddGratitudeModal = ({
 
         if (!editingGratitudeError) {
           notification.open({
-            type: "success",
-            message: "Successfully edited gratitude!",
+            type: 'success',
+            message: 'Successfully edited gratitude!',
           });
 
           return resetGratitude();
@@ -107,7 +106,7 @@ const AddGratitudeModal = ({
       setLoading(true);
       try {
         const { error: insertGratitudeError } = await supabase
-          .from("gratitudes")
+          .from('gratitudes')
           .insert([
             {
               ...gratitude,
@@ -118,8 +117,8 @@ const AddGratitudeModal = ({
 
         if (!insertGratitudeError) {
           notification.open({
-            type: "success",
-            message: "Successfully saved gratitude!",
+            type: 'success',
+            message: 'Successfully saved gratitude!',
           });
 
           return resetGratitude();

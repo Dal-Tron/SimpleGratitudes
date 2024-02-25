@@ -1,7 +1,7 @@
-import React, { useState, useContext } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 // Context
-export const DataRenderContext = React.createContext();
+export const DataRenderContext = createContext();
 
 // Hooks
 export function useDataRender() {

@@ -45,7 +45,7 @@ export const ExpandingTextarea: React.FC<ExpandingTextareaProps> = ({
       rows={1} // Start with one row
       className={clsx(
         'w-full focus:outline-none outline-none border-none resize-none bg-transparent',
-        className
+        className,
       )}
       placeholder="Type your message here..."
       value={value}

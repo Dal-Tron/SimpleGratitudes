@@ -4,7 +4,10 @@ import { useMemo } from 'react';
 
 const { TextArea } = Input;
 
-const AddGratitude = ({ gratitude = {}, handleGratitudeText = () => {} }) => {
+export const AddGratitude = ({
+  gratitude = {},
+  handleGratitudeText = () => {},
+}) => {
   const username = '';
 
   const gratitudeText = gratitude.gratitude || '';
@@ -34,5 +37,3 @@ const AddGratitude = ({ gratitude = {}, handleGratitudeText = () => {} }) => {
     </div>
   );
 };
-
-export default AddGratitude;

@@ -1,8 +1,8 @@
-import React, { useState, useContext } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 // Context
-export const SignModalContext = React.createContext();
-export const AddGratitudeContext = React.createContext();
+export const SignModalContext = createContext();
+export const AddGratitudeContext = createContext();
 
 // Hooks
 export function useSignModal() {

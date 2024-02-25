@@ -1,20 +1,19 @@
-import { useState, useEffect } from "react";
-import { Tabs, Modal, notification } from "antd";
-import { useRouter } from "next/router";
+import { Tabs, Modal, notification } from 'antd';
+import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
 
-import { SignInForm } from "./SignIn";
+import { validEmail, validPassword } from 'Helpers/validation';
+import { AuthService } from 'Services/auth';
+import ProfileService from 'Services/profile';
 
-import { validEmail, validPassword } from "Helpers/validation";
-
-import { AuthService } from "Services/auth";
-import ProfileService from "Services/profile";
+import { SignInForm } from './SignIn';
 
 const { TabPane } = Tabs;
 
 export const SignModal = ({ visible = false, onCancel = () => {} }) => {
-  const [activeKey, setActiveKey] = useState("1");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [activeKey, setActiveKey] = useState('1');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [triggerValidation, setTriggerValidation] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -39,64 +38,64 @@ export const SignModal = ({ visible = false, onCancel = () => {} }) => {
   };
 
   const resetFields = () => {
-    setEmail("");
-    setPassword("");
+    setEmail('');
+    setPassword('');
     setTriggerValidation(false);
   };
 
   const getOkText = (key) => {
     switch (key) {
-      case "1":
-        return loading ? "Signing In..." : "Sign In";
-      case "2":
-        return loading ? "Registering..." : "Register";
-      case "3":
-        return loading ? "Sending Reset Link..." : "Send Reset Link";
+      case '1':
+        return loading ? 'Signing In...' : 'Sign In';
+      case '2':
+        return loading ? 'Registering...' : 'Register';
+      case '3':
+        return loading ? 'Sending Reset Link...' : 'Send Reset Link';
       default:
-        "Sign In";
+        'Sign In';
     }
   };
 
   const getSuccessMessage = (key) => {
     switch (key) {
-      case "1":
-        return "Signed In!";
-      case "2":
-        return "Registered! Please check email for confirmation link.";
-      case "3":
-        return "Please check email for password reset link.";
+      case '1':
+        return 'Signed In!';
+      case '2':
+        return 'Registered! Please check email for confirmation link.';
+      case '3':
+        return 'Please check email for password reset link.';
       default:
-        "Sign In";
+        'Sign In';
     }
   };
 
   const openSuccessMessage = () => {
     return notification.open({
       message: getSuccessMessage(activeKey),
-      type: "success",
-      duration: activeKey === "1" ? 1 : 5,
+      type: 'success',
+      duration: activeKey === '1' ? 1 : 5,
     });
   };
 
   const handleError = (error) => {
     const finalError = {
       ...error,
-      message: error.message || "Error",
+      message: error.message || 'Error',
     };
 
-    if (finalError.message?.indexOf("For") >= 0) {
-      finalError.message = "Please check for email confirmation.";
+    if (finalError.message?.indexOf('For') >= 0) {
+      finalError.message = 'Please check for email confirmation.';
     }
 
     return notification.open({
       message: finalError.message,
-      type: "error",
+      type: 'error',
       duration: 2,
     });
   };
 
   const handleCancel = () => {
-    setActiveKey("1");
+    setActiveKey('1');
     return onCancel();
   };
 
@@ -110,7 +109,7 @@ export const SignModal = ({ visible = false, onCancel = () => {} }) => {
       handleCancel();
       resetFields();
       openSuccessMessage();
-      router.push("/");
+      router.push('/');
     } catch (err) {
       handleError(err);
     } finally {
@@ -121,7 +120,7 @@ export const SignModal = ({ visible = false, onCancel = () => {} }) => {
   const handleSubmitRegistration = async () => {
     setLoading(true);
 
-    const emailUsername = email.split("@")[0];
+    const emailUsername = email.split('@')[0];
     const emailCharacters = emailUsername.substring(0, 3);
     const username = `${emailCharacters}_${uniqueEmailId}`;
 
@@ -139,10 +138,10 @@ export const SignModal = ({ visible = false, onCancel = () => {} }) => {
         // TODO: Handle this error on the api side
         if (
           profileError &&
-          profileError.message?.indexOf("insert or update") >= 0
+          profileError.message?.indexOf('insert or update') >= 0
         )
-          throw new Error("Already registered.");
-        if (profileError) throw new Error("Unable to register.");
+          throw new Error('Already registered.');
+        if (profileError) throw new Error('Unable to register.');
 
         handleCancel();
         openSuccessMessage();
@@ -177,16 +176,16 @@ export const SignModal = ({ visible = false, onCancel = () => {} }) => {
 
     if (validEmail(email) && !loading) {
       if (validPassword(password)) {
-        if (activeKey === "1") {
+        if (activeKey === '1') {
           return handleSubmitSignIn();
         }
 
-        if (activeKey === "2") {
+        if (activeKey === '2') {
           return handleSubmitRegistration();
         }
       }
 
-      if (activeKey === "3") {
+      if (activeKey === '3') {
         return handleForgotPassword();
       }
     }
@@ -201,11 +200,11 @@ export const SignModal = ({ visible = false, onCancel = () => {} }) => {
       okText={getOkText(activeKey)}
       closable={false}
       cancelButtonProps={{
-        className: "user-modal-cancel-button",
+        className: 'user-modal-cancel-button',
       }}
       okButtonProps={{
         className: `user-modal-submit-button ${
-          loading ? "user-modal-submit-button-disabled" : ""
+          loading ? 'user-modal-submit-button-disabled' : ''
         }`,
       }}
     >
@@ -226,7 +225,7 @@ export const SignModal = ({ visible = false, onCancel = () => {} }) => {
               Don't have an account?
             </div>
             <div
-              onClick={() => setActiveKey("2")}
+              onClick={() => setActiveKey('2')}
               className="user-modal-no-account-register"
             >
               Register
