@@ -3,27 +3,16 @@ import Head from 'next/head';
 import { Footer } from '@/components/feature/Footer/Footer';
 import { Header } from '@/components/feature/Header/Header';
 import { SignModal } from '@/components/feature/SignModal/SignModal';
-import { useStore } from '@/store/store';
 import { CreateGratitudeModal } from 'Components/feature/CreateGratitudeModal/CreateGratitudeModal';
 import { MenuDrawer } from 'Components/feature/MenuDrawer/MenuDrawer';
 import { useUserMenu } from 'Context/menu';
 import { useAddGratitudeModal, useSignModal } from 'Context/modal';
 
 export const Layout = ({ children }) => {
-  const user = useStore((state) => state.user);
-
   const { updateSignModal, showSignModal } = useSignModal();
   const { showAddGratitudeModal, updateAddGratitudeModal } =
     useAddGratitudeModal();
   const { showUserMenu, setShowUserMenu } = useUserMenu();
-
-  const handleOpenMenu = () => {
-    if (user) {
-      setShowUserMenu(true);
-    } else {
-      updateSignModal(true);
-    }
-  };
 
   const handleCloseMenu = () => {
     setShowUserMenu(false);

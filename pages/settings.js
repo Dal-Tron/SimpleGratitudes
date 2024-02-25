@@ -1,13 +1,9 @@
-import {
-  CheckOutlined,
-  DeleteOutlined,
-  LoadingOutlined,
-} from '@ant-design/icons';
+import { CheckOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Modal, notification } from 'antd';
 import { useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
-import { loaderKey, useLoaderState } from 'Context/loader';
+import { useLoaderState } from 'Context/loader';
 
 import { validJWT, validPassword, validUsername } from 'Helpers/validation';
 
@@ -17,6 +13,7 @@ import Loading from 'Components/Loading';
 import PasswordInput from 'Components/PasswordInput';
 import UsernameNotice from 'Components/UsernameNotice';
 
+import { useStore } from '@/store/store';
 import { AuthService } from 'Services/auth';
 import GratitudesService from 'Services/gratitudes';
 import ProfileService from 'Services/profile';
@@ -24,27 +21,18 @@ import ProfileService from 'Services/profile';
 const SettingsPage = () => {
   const updatePasswordInputRef = useRef();
   const router = useRouter();
-
-  const username = '';
-  const updated_username = true;
-  const user = {};
-
   const { loaders } = useLoaderState();
+  const profile = useStore((state) => state.profile);
+  const user = useStore((state) => state.user);
 
   const {
     query: { access_token },
   } = router;
   const [password, setPassword] = useState('');
-  const [stateUsername, setUsername] = useState('');
+  const [username, setUsername] = useState(profile?.username || '');
   const [confirmDeleteAccount, setConfirmDeleteAccount] = useState(false);
   const [showConfirmUsername, setShowConfirmUsername] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (username && !stateUsername) {
-      setUsername(username);
-    }
-  }, [username]);
 
   if (validJWT(access_token)) {
     updatePasswordInputRef?.current?.focus();
@@ -55,9 +43,9 @@ const SettingsPage = () => {
   };
 
   const handleConfirmUsername = async () => {
-    if (user.id && validUsername(stateUsername) && !updated_username) {
+    if (user.id && validUsername(username) && !updated_username) {
       const { error: updateUsernameError } =
-        await ProfileService.updateProfileUsername(user.id, stateUsername);
+        await ProfileService.updateProfileUsername(user.id, username);
 
       if (updateUsernameError) {
         if (updateUsernameError.message?.indexOf('duplicate') >= 0) {
@@ -84,7 +72,7 @@ const SettingsPage = () => {
   };
 
   const handleUpdateUsername = () => {
-    if (!updated_username) {
+    if (!profile?.updated_username) {
       setShowConfirmUsername(true);
     }
   };
@@ -179,65 +167,52 @@ const SettingsPage = () => {
           <div className="settings">
             <div className="settings-title">Settings</div>
             <div className="settings-content">
-              {loaders.includes(loaderKey.profile) ? (
-                <Loading
-                  indicator={
-                    <LoadingOutlined
-                      className="settings-content-username-loading"
-                      spin={true}
-                    />
-                  }
-                />
-              ) : (
-                <>
-                  <div className="settings-header">
-                    {updated_username ? 'Username' : 'Change Username'}
-                  </div>
-                  <div className="settings-body">
-                    <div className="settings-option">
-                      <div className="settings-new-username">
-                        {updated_username ? (
-                          <div className="settings-new-cool-username">
-                            {stateUsername}
-                          </div>
-                        ) : (
-                          <FormInput
-                            disabled={updated_username}
-                            inputValue={stateUsername}
-                            onChange={handleUsernameChange}
-                            placeholder="Enter new username"
-                            prefix={null}
-                            required={false}
-                            title="Username"
-                            tooltipVisible={false}
-                            triggerValidation={false}
-                            validator={validUsername}
-                          />
-                        )}
-                        {updated_username ? null : (
-                          <div
-                            onClick={handleUpdateUsername}
-                            className={`settings-account-button 
+              <div className="settings-header">
+                {profile?.updated_username ? 'Username' : 'Change Username'}
+              </div>
+              <div className="settings-body">
+                <div className="settings-option">
+                  <div className="settings-new-username">
+                    {profile?.updated_username ? (
+                      <div className="settings-new-cool-username">
+                        {username}
+                      </div>
+                    ) : (
+                      <FormInput
+                        disabled={profile?.updated_username}
+                        inputValue={username}
+                        onChange={handleUsernameChange}
+                        placeholder="Enter new username"
+                        prefix={null}
+                        required={false}
+                        title="Username"
+                        tooltipVisible={false}
+                        triggerValidation={false}
+                        validator={validUsername}
+                      />
+                    )}
+                    {profile?.updated_username ? null : (
+                      <div
+                        onClick={handleUpdateUsername}
+                        className={`settings-account-button 
                             ${
                               validUsername(username)
                                 ? ''
                                 : 'settings-username-not-valid'
                             }
                             ${
-                              updated_username
+                              profile?.updated_username
                                 ? 'settings-username-updated'
                                 : ''
                             }
                           `}
-                          >
-                            <CheckOutlined />
-                          </div>
-                        )}
+                      >
+                        <CheckOutlined />
                       </div>
-                    </div>
+                    )}
                   </div>
-                </>
-              )}
+                </div>
+              </div>
               <div className="settings-header">Change Password</div>
               <div className="settings-body">
                 <div className="settings-option">
@@ -294,7 +269,7 @@ const SettingsPage = () => {
           className: 'username-confirm-cancel-button',
         }}
       >
-        <UsernameNotice username={stateUsername} setUsername={setUsername} />
+        <UsernameNotice username={username} setUsername={setUsername} />
       </Modal>
     </>
   );

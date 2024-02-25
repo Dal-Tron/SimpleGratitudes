@@ -7,11 +7,7 @@
     "isolatedModules": true,
     "importHelpers": true,
     "jsx": "preserve",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
@@ -20,59 +16,23 @@
     "strict": false,
     "target": "esnext",
     "paths": {
-      "Components/*": [
-        "./components/*"
-      ],
-      "Interfaces/*": [
-        "./interfaces/*"
-      ],
-      "Instruments": [
-        "./instruments"
-      ],
-      "Styles/*": [
-        "./styles/*"
-      ],
-      "Lib/*": [
-        "./lib/*"
-      ],
-      "Context/*": [
-        "./context/*"
-      ],
-      "Helpers/*": [
-        "./helpers/*"
-      ],
-      "HOC/*": [
-        "./hoc/*"
-      ],
-      "Hooks/*": [
-        "./hooks/*"
-      ],
-      "Services/*": [
-        "./services/*"
-      ],
-      "Supabase/*": [
-        "./supabase/*"
-      ],
-      "Types/*": [
-        "./types/*"
-      ],
-      "Utils/*": [
-        "./utils/*"
-      ],
-      "@/*": [
-        "./*"
-      ]
+      "Components/*": ["./components/*"],
+      "Interfaces/*": ["./interfaces/*"],
+      "Instruments": ["./instruments"],
+      "Styles/*": ["./styles/*"],
+      "Lib/*": ["./lib/*"],
+      "Context/*": ["./context/*"],
+      "Helpers/*": ["./helpers/*"],
+      "HOC/*": ["./hoc/*"],
+      "Hooks/*": ["./hooks/*"],
+      "Services/*": ["./services/*"],
+      "Supabase/*": ["./supabase/*"],
+      "Types/*": ["./types/*"],
+      "Utils/*": ["./utils/*"],
+      "@/*": ["./*"]
     },
     "incremental": true
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "hoc/error.js",
-    "store/store.js"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "hoc/error.js"],
+  "exclude": ["node_modules"]
 }

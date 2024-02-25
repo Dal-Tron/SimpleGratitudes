@@ -1,6 +1,7 @@
 import { Title } from '@/components/feature/Title/Title';
 import { useUserMenu } from '@/context/menu';
-import { useAddGratitudeModal } from '@/context/modal';
+import { useAddGratitudeModal, useSignModal } from '@/context/modal';
+import { useStore } from '@/store/store';
 import {
   MenuOutlined,
   PlusCircleOutlined,
@@ -18,16 +19,26 @@ export const Header = ({
   isScrolling?: boolean;
   className?: string;
 }) => {
+  const user = useStore((state) => state.user);
   const router = useRouter();
   const { updateAddGratitudeModal } = useAddGratitudeModal();
   const { setShowUserMenu } = useUserMenu();
+  const { updateSignModal } = useSignModal();
 
   const handleOpenAddGratitudeModal = () => {
-    updateAddGratitudeModal(true);
+    if (user) {
+      updateAddGratitudeModal(true);
+    } else {
+      updateSignModal(true);
+    }
   };
 
   const handleOpenMenu = () => {
-    setShowUserMenu(true);
+    if (user) {
+      setShowUserMenu(true);
+    } else {
+      updateSignModal(true);
+    }
   };
 
   const handleNavigateHome = () => {
