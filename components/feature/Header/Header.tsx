@@ -1,15 +1,13 @@
+import { Title } from '@/components/feature/Title/Title';
+import { useUserMenu } from '@/context/menu';
+import { useAddGratitudeModal } from '@/context/modal';
 import {
   MenuOutlined,
   PlusCircleOutlined,
   SmileTwoTone,
 } from '@ant-design/icons';
-import { useRouter } from 'next/router';
-
-import { Title } from '@/components/feature/Title/Title';
-
-import { useUserMenu } from 'Context/menu';
-import { useAddGratitudeModal } from 'Context/modal';
 import clsx from 'clsx';
+import { useRouter } from 'next/router';
 
 export const Header = ({
   sticky = false,
