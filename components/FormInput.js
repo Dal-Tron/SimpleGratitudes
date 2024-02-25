@@ -1,6 +1,6 @@
-import { useState, useEffect, createRef } from 'react'
-import { Tooltip, Input } from 'antd'
-import { EyeTwoTone, EyeInvisibleOutlined } from '@ant-design/icons'
+import { EyeTwoTone, EyeInvisibleOutlined } from '@ant-design/icons';
+import { Tooltip, Input } from 'antd';
+import { useState, useEffect, createRef } from 'react';
 
 const { Password } = Input;
 const defaultRef = createRef();
@@ -10,7 +10,7 @@ const FormInput = ({
   disabled = false,
   inputRef = defaultRef,
   inputValue = '',
-  onChange = () => { },
+  onChange = () => {},
   name = '',
   passwordInput = false,
   placeholder = '',
@@ -20,7 +20,7 @@ const FormInput = ({
   title = '',
   tooltipVisible = false,
   triggerValidation = false,
-  validator = () => { },
+  validator = () => {},
 }) => {
   const [showInputTooltip, setShowInputTooltip] = useState(false);
   const [tooltipTitle, setToolTipTitle] = useState(`Invalid ${title}`);
@@ -57,7 +57,7 @@ const FormInput = ({
     setShowInputTooltip(false);
 
     return onChange(inputValue);
-  }
+  };
 
   const renderHidePasswordIcons = (visible) => {
     if (visible) {
@@ -65,7 +65,7 @@ const FormInput = ({
     }
 
     return <EyeInvisibleOutlined />;
-  }
+  };
 
   const renderInput = () => {
     if (passwordInput) {
@@ -74,7 +74,7 @@ const FormInput = ({
           className={`input ${className ? className : ''} ${inputRequired ? 'input-required' : ''}`}
           disabled={disabled}
           iconRender={renderHidePasswordIcons}
-          id='update-password-input'
+          id="update-password-input"
           onChange={handleChange}
           name={name}
           placeholder={placeholder}
@@ -100,18 +100,14 @@ const FormInput = ({
         size={size}
         value={inputValue}
       />
-    )
-  }
+    );
+  };
 
   return (
-    <Tooltip
-      title={tooltipTitle}
-      placement='bottom'
-      visible={showInputTooltip}
-    >
+    <Tooltip title={tooltipTitle} placement="bottom" visible={showInputTooltip}>
       {renderInput()}
     </Tooltip>
-  )
-}
+  );
+};
 
 export default FormInput;

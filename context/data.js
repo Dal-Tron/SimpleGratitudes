@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext } from 'react';
 
 // Context
 export const DataRenderContext = React.createContext();
@@ -20,13 +20,12 @@ export function DataRenderProvider({ children }) {
 
   const value = {
     dataRef,
-    updateDataRef: () => updateDataRef(ref => ref + 1),
-  }
+    updateDataRef: () => updateDataRef((ref) => ref + 1),
+  };
 
   return (
     <DataRenderContext.Provider value={value}>
       {children}
     </DataRenderContext.Provider>
-  )
+  );
 }
-

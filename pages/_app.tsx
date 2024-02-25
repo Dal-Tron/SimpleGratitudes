@@ -1,16 +1,15 @@
-import "antd/dist/antd.css";
-import "../styles/antd-overrides.scss";
-import "../styles/index.scss";
-import "../styles/global.css";
+import 'antd/dist/antd.css';
+import '../styles/antd-overrides.scss';
+import '../styles/index.scss';
+import '../styles/global.css';
 
-import { Layout } from "@/components/feature/Layout/Layout";
-
-import { AuthProvider } from "Context/auth";
-import LoaderProvider from "Context/loader";
-import { SignModalProvider, AddGratitudeModalProvider } from "Context/modal";
-import { DataRenderProvider } from "Context/data";
-import { UserMenuProvider } from "Context/menu"
-import ErrorBoundary from "HOC/error";
+import { Layout } from '@/components/feature/Layout/Layout';
+import { AuthProvider } from 'Context/auth';
+import { DataRenderProvider } from 'Context/data';
+import LoaderProvider from 'Context/loader';
+import { UserMenuProvider } from 'Context/menu';
+import { SignModalProvider, AddGratitudeModalProvider } from 'Context/modal';
+import ErrorBoundary from 'HOC/error';
 
 function SimpleGratitudes({ Component, pageProps }) {
   return (

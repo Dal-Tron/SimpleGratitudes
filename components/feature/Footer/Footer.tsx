@@ -1,11 +1,11 @@
-import { useMemo } from "react";
-import { CopyrightOutlined } from "@ant-design/icons";
-import Image from "next/image";
-import dayjs from "dayjs";
+import { CopyrightOutlined } from '@ant-design/icons';
+import dayjs from 'dayjs';
+import Image from 'next/image';
+import { useMemo } from 'react';
 
 export const Footer = () => {
   const date = useMemo(() => {
-    return dayjs().format("YYYY");
+    return dayjs().format('YYYY');
   }, []);
 
   return (

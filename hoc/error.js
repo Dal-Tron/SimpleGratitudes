@@ -1,5 +1,5 @@
+import { withRouter } from 'next/router';
 import React from 'react';
-import { withRouter } from "next/router";
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -17,11 +17,11 @@ class ErrorBoundary extends React.Component {
   }
 
   render() {
-    const { router } = this.props
+    const { router } = this.props;
 
     if (this.state.hasError) {
       this.setState({
-        hasError: false
+        hasError: false,
       });
 
       router.push('/');

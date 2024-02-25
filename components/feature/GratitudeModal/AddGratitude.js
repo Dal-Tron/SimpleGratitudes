@@ -1,16 +1,16 @@
-import { useMemo } from "react";
-import { Input } from "antd";
-import dayjs from "dayjs";
+import { Input } from 'antd';
+import dayjs from 'dayjs';
+import { useMemo } from 'react';
 
 const { TextArea } = Input;
 
 const AddGratitude = ({ gratitude = {}, handleGratitudeText = () => {} }) => {
-  const username = "";
+  const username = '';
 
-  const gratitudeText = gratitude.gratitude || "";
+  const gratitudeText = gratitude.gratitude || '';
 
   const gratitudeDate = useMemo(() => {
-    const format = "MMMM D, YYYY";
+    const format = 'MMMM D, YYYY';
 
     if (gratitude.date) {
       return dayjs(gratitude.date).format(format);

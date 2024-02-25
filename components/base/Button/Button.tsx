@@ -1,12 +1,13 @@
-import { FC, ReactNode } from "react";
-import clsx from "clsx";
-import { Loading } from "../Loading/Loading";
+import clsx from 'clsx';
+import { FC, ReactNode } from 'react';
+
+import { Loading } from '../Loading/Loading';
 
 interface ButtonProps {
   children: ReactNode;
   loading?: boolean;
   onClick: () => void;
-  type?: "primary" | "secondary";
+  type?: 'primary' | 'secondary';
 }
 
 export const Button: FC<ButtonProps> = ({
@@ -16,11 +17,11 @@ export const Button: FC<ButtonProps> = ({
   onClick,
 }) => {
   const baseStyles =
-    "px-4 py-2 rounded font-bold text-lg transition-colors duration-150";
+    'px-4 py-2 rounded font-bold text-lg transition-colors duration-150';
 
   const styles = clsx(baseStyles, {
-    "bg-primary-2 text-white hover:bg-primary-3": type === "primary",
-    "bg-transparent text-white hover:text-secondary-1": type === "secondary",
+    'bg-primary-2 text-white hover:bg-primary-3': type === 'primary',
+    'bg-transparent text-white hover:text-secondary-1': type === 'secondary',
   });
 
   const handleClick = () => {

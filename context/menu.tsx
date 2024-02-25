@@ -1,9 +1,9 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext } from 'react';
 
 // Context
 export const UserMenuContext = React.createContext({
-    showUserMenu: false,
-    setShowUserMenu: (_show: boolean) => {}
+  showUserMenu: false,
+  setShowUserMenu: (_show: boolean) => {},
 });
 
 // Hooks
@@ -18,12 +18,11 @@ export function UserMenuProvider({ children }) {
   const value = {
     showUserMenu,
     setShowUserMenu: (show: boolean) => setShowUserMenu(show),
-  }
+  };
 
   return (
     <UserMenuContext.Provider value={value}>
       {children}
     </UserMenuContext.Provider>
-  )
+  );
 }
-

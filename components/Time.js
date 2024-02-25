@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import dayjs from 'dayjs'
+import dayjs from 'dayjs';
+import { useState, useEffect } from 'react';
 
 const Time = () => {
   const getTime = () => dayjs().format('h:mm A MMMM D, YYYY');
@@ -13,11 +13,7 @@ const Time = () => {
     return () => clearInterval(timer);
   });
 
-  return (
-    <section className="time">
-      {time}
-    </section>
-  )
-}
+  return <section className="time">{time}</section>;
+};
 
 export default Time;

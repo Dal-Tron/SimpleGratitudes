@@ -1,11 +1,12 @@
-import { Modal } from "antd";
+import { Modal } from 'antd';
+import dayjs from 'dayjs';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 
-import { ModalFooter } from "./ModalFooter";
-import { ChangeEvent, FC, useEffect, useState } from "react";
-import { GratitudesService } from "Services/gratitudes";
-import dayjs from "dayjs";
-import { useStore } from "@/store/store";
-import { ExpandingTextarea } from "Components/base/Textarea/Textarea";
+import { useStore } from '@/store/store';
+import { ExpandingTextarea } from 'Components/base/Textarea/Textarea';
+import { GratitudesService } from 'Services/gratitudes';
+
+import { ModalFooter } from './ModalFooter';
 
 export const CreateGratitudeModal: FC<{
   isOpen: boolean;
@@ -13,12 +14,12 @@ export const CreateGratitudeModal: FC<{
 }> = ({ isOpen = false, onClose }) => {
   const profile = useStore((state) => state.profile);
 
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
   const [isPublic, setIsPublic] = useState(false);
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState('');
 
   useEffect(() => {
-    setDate(dayjs().format("MMMM D, YYYY"));
+    setDate(dayjs().format('MMMM D, YYYY'));
   }, []);
 
   const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -39,16 +40,16 @@ export const CreateGratitudeModal: FC<{
   };
 
   const handleReset = () => {
-    setText("");
+    setText('');
     setIsPublic(false);
-    setDate("");
+    setDate('');
   };
 
   const handleSubmit = () => {
     GratitudesService.createGratitude({
       gratitude: text,
       isPublic,
-      userId: profile.id
+      userId: profile.id,
     });
 
     handleClose();

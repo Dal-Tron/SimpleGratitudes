@@ -1,45 +1,40 @@
-import React, { useContext, useReducer, createContext } from 'react'
+import React, { useContext, useReducer, createContext } from 'react';
 
 const loaderKey = {
-  profile: 'profile'
+  profile: 'profile',
 };
 
 export const initialState = {
   loaders: [],
-}
+};
 
 export const LoaderStateContext = createContext(initialState);
-const LoaderDispatchContext = createContext(() => { });
+const LoaderDispatchContext = createContext(() => {});
 
-export const loaderReducer = (
-  state,
-  action,
-) => {
+export const loaderReducer = (state, action) => {
   switch (action.type) {
     case 'add-loader': {
       return {
         ...state,
-        loaders: [
-          ...state.loaders,
-          action.loader
-        ]
-      }
+        loaders: [...state.loaders, action.loader],
+      };
     }
     case 'remove-loader': {
       return {
         ...state,
-        loaders: state.loaders.filter(loader => loader !== action.loader),
-      }
+        loaders: state.loaders.filter((loader) => loader !== action.loader),
+      };
     }
     case 'set-loaders': {
       return {
         ...state,
         loaders: action.loaders,
-      }
+      };
     }
-    default: return state;
+    default:
+      return state;
   }
-}
+};
 
 const LoaderProvider = ({ children }) => {
   const [state, dispatch] = useReducer(loaderReducer, initialState);
@@ -50,8 +45,8 @@ const LoaderProvider = ({ children }) => {
         {children}
       </LoaderDispatchContext.Provider>
     </LoaderStateContext.Provider>
-  )
-}
+  );
+};
 
 const useLoaderState = () => {
   const context = useContext(LoaderStateContext);
@@ -61,7 +56,7 @@ const useLoaderState = () => {
   }
 
   return context;
-}
+};
 
 const useLoaderDispatch = () => {
   const context = useContext(LoaderDispatchContext);
@@ -71,17 +66,8 @@ const useLoaderDispatch = () => {
   }
 
   return context;
-}
+};
 
 export { useLoaderState, useLoaderDispatch, loaderKey };
 
 export default LoaderProvider;
-
-
-
-
-
-
-
-
-

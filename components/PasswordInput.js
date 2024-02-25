@@ -1,22 +1,27 @@
-import { createRef, useState, useEffect } from 'react'
-import { Input, Tooltip } from 'antd'
-import { EyeTwoTone, EyeInvisibleOutlined, LockOutlined } from '@ant-design/icons'
+import {
+  EyeTwoTone,
+  EyeInvisibleOutlined,
+  LockOutlined,
+} from '@ant-design/icons';
+import { Input, Tooltip } from 'antd';
+import { createRef, useState, useEffect } from 'react';
 
-import { validPassword } from 'Helpers/validation'
+import { validPassword } from 'Helpers/validation';
 
 const defaultRef = createRef();
 const { Password } = Input;
 
 const PasswordInput = ({
   inputValue = '',
-  onChange = () => { },
+  onChange = () => {},
   passwordRef = defaultRef,
   required = true,
   showPrefix = true,
   triggerValidation = false,
 }) => {
   const [showPasswordNotice, setShowPasswordNotice] = useState(false);
-  const [tooltipPasswordTitle, setTooltipPasswordTitle] = useState('Invalid Password');
+  const [tooltipPasswordTitle, setTooltipPasswordTitle] =
+    useState('Invalid Password');
   const [inputRequired, setInputRequired] = useState(false);
 
   useEffect(() => {
@@ -44,7 +49,7 @@ const PasswordInput = ({
     setShowPasswordNotice(false);
 
     return onChange(inputValue);
-  }
+  };
 
   const renderHidePasswordIcons = (visible) => {
     if (visible) {
@@ -52,27 +57,29 @@ const PasswordInput = ({
     }
 
     return <EyeInvisibleOutlined />;
-  }
+  };
 
   return (
     <Tooltip
       title={tooltipPasswordTitle}
-      placement='bottom'
+      placement="bottom"
       visible={showPasswordNotice}
     >
       <Password
         className={`password-input ${inputRequired ? 'input-required' : ''}`}
         iconRender={renderHidePasswordIcons}
-        id='update-password-input'
+        id="update-password-input"
         onChange={handleChange}
-        placeholder='Enter new password'
-        prefix={showPrefix ? <LockOutlined className='password-prefix' /> : null}
+        placeholder="Enter new password"
+        prefix={
+          showPrefix ? <LockOutlined className="password-prefix" /> : null
+        }
         ref={passwordRef}
         size="large"
         value={inputValue}
       />
     </Tooltip>
-  )
-}
+  );
+};
 
 export default PasswordInput;

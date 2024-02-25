@@ -1,5 +1,5 @@
-import { Switch, Button } from "antd";
-import { CheckCircleFilled, CloseCircleOutlined } from "@ant-design/icons";
+import { CheckCircleFilled, CloseCircleOutlined } from '@ant-design/icons';
+import { Switch, Button } from 'antd';
 
 const AddGratitudeFooter = ({
   handleCancel = () => {},
@@ -22,7 +22,7 @@ const AddGratitudeFooter = ({
             Cancel
           </Button>
           <Button onClick={handleSubmitGratitude} type="primary">
-            {submitting ? "Sharing..." : "Share"}
+            {submitting ? 'Sharing...' : 'Share'}
           </Button>
         </span>
       );
@@ -38,7 +38,7 @@ const AddGratitudeFooter = ({
         </span>
         <span
           className={`add-gratitude-button-mobile ${
-            submitting ? "add-gratitude-button-mobile-submitting" : ""
+            submitting ? 'add-gratitude-button-mobile-submitting' : ''
           }`}
           onClick={handleSubmitGratitude}
         >
@@ -53,7 +53,7 @@ const AddGratitudeFooter = ({
       <span className="add-gratitude-switch-container">
         <span
           className={`add-gratitude-switch-option ${
-            !publicGratitude && "add-gratitude-switch-option-active"
+            !publicGratitude && 'add-gratitude-switch-option-active'
           }`}
         >
           Private
@@ -63,7 +63,7 @@ const AddGratitudeFooter = ({
         </span>
         <span
           className={`add-gratitude-switch-option ${
-            publicGratitude && "add-gratitude-switch-option-active"
+            publicGratitude && 'add-gratitude-switch-option-active'
           }`}
         >
           Public

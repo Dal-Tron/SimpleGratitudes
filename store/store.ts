@@ -1,6 +1,7 @@
-import { ProfileService } from 'Services/profile';
 import { create } from 'zustand';
 import { persist, PersistOptions } from 'zustand/middleware';
+
+import { ProfileService } from 'Services/profile';
 
 interface User {
   id: string;
@@ -9,7 +10,7 @@ interface User {
 
 interface Profile {
   username: string;
-  username_udpated: boolean;
+  username_updated: boolean;
 }
 
 const sessionStorageWrapper = {

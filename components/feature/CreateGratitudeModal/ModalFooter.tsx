@@ -1,5 +1,5 @@
-import { Button } from "Components/base/Button/Button";
-import { Toggle } from "Components/base/Toggle/Toggle";
+import { Button } from 'Components/base/Button/Button';
+import { Toggle } from 'Components/base/Toggle/Toggle';
 
 export const ModalFooter = ({
   onCancel,

@@ -1,5 +1,5 @@
-import clsx from "clsx";
-import { TextareaHTMLAttributes, ChangeEvent, useRef, useEffect } from "react";
+import clsx from 'clsx';
+import { TextareaHTMLAttributes, ChangeEvent, useRef, useEffect } from 'react';
 
 interface ExpandingTextareaProps
   extends TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -21,18 +21,18 @@ export const ExpandingTextarea: React.FC<ExpandingTextareaProps> = ({
     if (!textarea) return;
 
     // Reset the height to 'auto' to get the correct scrollHeight
-    textarea.style.height = "auto";
+    textarea.style.height = 'auto';
     // Calculate the required height
     const requiredHeight = textarea.scrollHeight;
 
     if (requiredHeight <= lineHeight * 7) {
       // If we have space for 7 lines or less, adjust the height
       textarea.style.height = `${requiredHeight}px`;
-      textarea.style.overflowY = "hidden"; // Disable scrolling when content is within limits
+      textarea.style.overflowY = 'hidden'; // Disable scrolling when content is within limits
     } else {
       // Content requires more than 7 lines, set fixed height and enable scroll
       textarea.style.height = `${lineHeight * 7}px`;
-      textarea.style.overflowY = "scroll"; // Enable scrolling
+      textarea.style.overflowY = 'scroll'; // Enable scrolling
 
       // Scroll to the bottom
       textarea.scrollTop = textarea.scrollHeight;
@@ -44,8 +44,8 @@ export const ExpandingTextarea: React.FC<ExpandingTextareaProps> = ({
       ref={textareaRef}
       rows={1} // Start with one row
       className={clsx(
-        "w-full focus:outline-none outline-none border-none resize-none bg-transparent",
-        className,
+        'w-full focus:outline-none outline-none border-none resize-none bg-transparent',
+        className
       )}
       placeholder="Type your message here..."
       value={value}

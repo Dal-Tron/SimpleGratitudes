@@ -1,7 +1,3 @@
-import { Title } from '@/components/feature/Title/Title';
-import { useUserMenu } from '@/context/menu';
-import { useAddGratitudeModal, useSignModal } from '@/context/modal';
-import { useStore } from '@/store/store';
 import {
   MenuOutlined,
   PlusCircleOutlined,
@@ -9,6 +5,11 @@ import {
 } from '@ant-design/icons';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
+
+import { Title } from '@/components/feature/Title/Title';
+import { useUserMenu } from '@/context/menu';
+import { useAddGratitudeModal, useSignModal } from '@/context/modal';
+import { useStore } from '@/store/store';
 
 export const Header = ({
   sticky = false,

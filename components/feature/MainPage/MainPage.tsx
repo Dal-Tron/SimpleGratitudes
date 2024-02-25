@@ -2,21 +2,17 @@
 
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
+import queryString from 'query-string';
 import { useEffect, useMemo, useState } from 'react';
 
-import Gratitude from 'Components/Gratitude';
-import { useAddGratitudeModal, useSignModal } from 'Context/modal';
-
-import Loading from 'Components/Loading';
-
-import { validJWT } from 'Helpers/validation';
-
-import { useStore } from '@/store/store';
-
 import { AddGratitudeButton } from '@/components/feature/GratitudeModal/AddGratitudeButton';
-
+import { useStore } from '@/store/store';
+import Gratitude from 'Components/Gratitude';
+import Loading from 'Components/Loading';
+import { useAddGratitudeModal, useSignModal } from 'Context/modal';
+import { validJWT } from 'Helpers/validation';
 import { GratitudesService } from 'Services/gratitudes';
-import queryString from 'query-string';
+
 import { EmptyMessage } from './EmptyMessage';
 
 export default function MainPage({ mainPage = true }) {

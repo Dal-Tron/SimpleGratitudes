@@ -1,13 +1,13 @@
-import { supabase } from "Supabase/client";
+import { supabase } from 'Supabase/client';
 
 export const AuthService = {
   deleteUser: async () => {
     try {
-      const res = await supabase.rpc("delete_user");
+      const res = await supabase.rpc('delete_user');
       if (res) return res;
     } catch (error) {
       // Handle or log the error
-      console.error("Error in deleteUser:", error);
+      console.error('Error in deleteUser:', error);
       throw error; // or handle it as needed
     }
   },
@@ -16,7 +16,7 @@ export const AuthService = {
       const res = await supabase.auth.signUp(data);
       if (res) return res;
     } catch (error) {
-      console.error("Error in register:", error);
+      console.error('Error in register:', error);
       throw error;
     }
   },
@@ -25,7 +25,7 @@ export const AuthService = {
       const res = await supabase.auth.signInWithPassword(data);
       if (res) return res;
     } catch (error) {
-      console.error("Error in signIn:", error);
+      console.error('Error in signIn:', error);
       throw error;
     }
   },
@@ -34,7 +34,7 @@ export const AuthService = {
       const res = await supabase.auth.signOut();
       if (res) return res;
     } catch (error) {
-      console.error("Error in signOut:", error);
+      console.error('Error in signOut:', error);
       throw error;
     }
   },
@@ -43,7 +43,7 @@ export const AuthService = {
       const res = await supabase.auth.getUser();
       if (res) return res;
     } catch (error) {
-      console.error("Error in getUser:", error);
+      console.error('Error in getUser:', error);
       throw error;
     }
   },
@@ -52,7 +52,7 @@ export const AuthService = {
       const res = await supabase.auth.updateUser(data);
       if (res) return res;
     } catch (error) {
-      console.error("Error in updateUser:", error);
+      console.error('Error in updateUser:', error);
       throw error;
     }
   },
@@ -63,7 +63,7 @@ export const AuthService = {
       });
       if (res) return res;
     } catch (error) {
-      console.error("Error in resetEmail:", error);
+      console.error('Error in resetEmail:', error);
       throw error;
     }
   },

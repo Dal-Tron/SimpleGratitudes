@@ -1,5 +1,5 @@
-import clsx from "clsx";
-import { FC } from "react";
+import clsx from 'clsx';
+import { FC } from 'react';
 
 interface ToggleProps {
   leftLabel: string;
@@ -16,7 +16,7 @@ export const Toggle: FC<ToggleProps> = ({
 }) => {
   // Handle change for the range input
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value === "1";
+    const newValue = e.target.value === '1';
     onChange(newValue);
   };
 
@@ -24,8 +24,8 @@ export const Toggle: FC<ToggleProps> = ({
     <div className="flex items-center">
       <div
         onClick={() => onChange(false)}
-        className={clsx("px-2 font-bold text-white cursor-pointer", {
-          "!text-primary-3": value,
+        className={clsx('px-2 font-bold text-white cursor-pointer', {
+          '!text-primary-3': value,
         })}
       >
         {leftLabel}
@@ -40,8 +40,8 @@ export const Toggle: FC<ToggleProps> = ({
       />
       <div
         onClick={() => onChange(true)}
-        className={clsx("px-2 font-bold text-white cursor-pointer", {
-          "!text-primary-3": !value,
+        className={clsx('px-2 font-bold text-white cursor-pointer', {
+          '!text-primary-3': !value,
         })}
       >
         {rightLabel}

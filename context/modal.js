@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext } from 'react';
 
 // Context
 export const SignModalContext = React.createContext();
@@ -20,13 +20,13 @@ export function SignModalProvider({ children }) {
   const value = {
     showSignModal,
     updateSignModal: (show) => setShowSignModal(show),
-  }
+  };
 
   return (
     <SignModalContext.Provider value={value}>
       {children}
     </SignModalContext.Provider>
-  )
+  );
 }
 
 export function AddGratitudeModalProvider({ children }) {
@@ -38,13 +38,11 @@ export function AddGratitudeModalProvider({ children }) {
     updateAddGratitudeModal: (show) => setShowAddGratitudeModal(show),
     editableGratitude,
     setEditableGratitude: (gratitude) => setEditableGratitude(gratitude),
-  }
+  };
 
   return (
     <AddGratitudeContext.Provider value={value}>
       {children}
     </AddGratitudeContext.Provider>
-  )
-
+  );
 }
-

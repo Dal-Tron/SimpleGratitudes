@@ -5,11 +5,12 @@ import {
   StarOutlined,
   UserOutlined,
 } from '@ant-design/icons';
+import clsx from 'clsx';
 import { useRouter } from 'next/router';
 
 import { useStore } from '@/store/store';
 import { useAddGratitudeModal } from 'Context/modal';
-import clsx from 'clsx';
+
 import { MenuItem } from './MenuItem';
 
 export const MainMenu = ({
