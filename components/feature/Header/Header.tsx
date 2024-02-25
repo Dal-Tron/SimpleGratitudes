@@ -45,7 +45,10 @@ export const Header = ({
       })}
     >
       <div className="flex flex-row border-b-8 border-[#73b8cb] p-6 items-center">
-        <div className="text-white text-3xl md:hidden">
+        <div
+          onClick={handleOpenAddGratitudeModal}
+          className="text-white text-3xl md:hidden"
+        >
           <PlusCircleOutlined />
         </div>
         <div className="smiley-header" onClick={handleNavigateHome}>
