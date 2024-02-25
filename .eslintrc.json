@@ -1,53 +1,74 @@
 {
   "root": true,
+
+  // Environment settings
   "env": {
-    "node": true,
-    "browser": true
+    "browser": true, // Indicates the code is running in a browser
+    "node": true // Indicates the code is running in Node.js
   },
+
+  // ESLint plugins
+  "plugins": [
+    "@typescript-eslint", // TypeScript plugin for ESLint
+    "prettier", // Prettier plugin for consistent code style
+    "import" // Plugin to support import/export syntax
+  ],
+
+  // ESLint extends
+  "extends": [
+    "eslint:recommended", // Recommended ESLint rules
+    "plugin:@typescript-eslint/recommended", // Recommended rules from the TypeScript ESLint plugin
+    "plugin:prettier/recommended", // Enables eslint-plugin-prettier and eslint-config-prettier
+    "plugin:import/recommended", // Recommended import plugin rules
+    "plugin:import/typescript" // Import plugin rules for TypeScript
+  ],
+
+  // ESLint settings
   "settings": {
     "import/resolver": {
       "typescript": {
-        "project": "./tsconfig.json"
+        "project": "./tsconfig.json" // Path to your TypeScript config
       }
     }
   },
-  "ignorePatterns": ["node_modules", "build", ".next", ".vscode"],
-  "plugins": ["@typescript-eslint", "prettier", "import"], // Add "import" plugin
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended",
 
-    // Extends two more configuration from "import" plugin
-    "plugin:import/recommended",
-    "plugin:import/typescript"
+  // Patterns to be ignored by ESLint
+  "ignorePatterns": [
+    "node_modules", // Node modules directory
+    "build", // Build directory
+    ".next", // Next.js build directory
+    ".vscode" // VSCode settings directory
   ],
+
+  // ESLint rules
   "rules": {
+    // Import rules
     "import/no-named-as-default": 0,
     "import/no-unresolved": "error",
-    "@typescript-eslint/comma-dangle": ["error", "only-multiline"],
-    "@typescript-eslint/no-unused-vars": [
-      "error",
-      { "argsIgnorePattern": "^_" }
-    ],
     "import/order": [
       "error",
       {
         "groups": [
-          "builtin", // Built-in imports (come from NodeJS native) go first
-          "external", // <- External imports
-          "internal", // <- Absolute imports
-          ["sibling", "parent"], // <- Relative imports, the sibling and parent types they can be mingled together
-          "index", // <- index imports
-          "unknown" // <- unknown
+          "builtin",
+          "external",
+          "internal",
+          ["sibling", "parent"],
+          "index",
+          "unknown"
         ],
         "newlines-between": "always",
         "alphabetize": {
-          /* sort in ascending order. Options: ["ignore", "asc", "desc"] */
           "order": "asc",
           "caseInsensitive": true
         }
       }
+    ],
+
+    // TypeScript ESLint rules
+    "@typescript-eslint/comma-dangle": ["error", "only-multiline"],
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      { "argsIgnorePattern": "^_" }
     ]
   }
 }
