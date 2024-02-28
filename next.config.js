@@ -1,4 +1,6 @@
-import path from 'path';
+/* eslint-disable @typescript-eslint/no-var-requires */
+const path = require('path');
+
 module.exports = (phase, { defaultConfig }) => {
   let SUPABASE_URL, SUPABASE_SERVICE_KEY;
 

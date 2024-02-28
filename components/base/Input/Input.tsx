@@ -21,15 +21,17 @@ export const Input: React.FC<InputProps> = ({
   placeholder,
   type = 'text',
   value,
-}) => (
-  <input
-    type={type}
-    onChange={onChange}
-    className={clsx('input', className)}
-    disabled={disabled}
-    onBlur={onBlur}
-    name={name}
-    placeholder={placeholder}
-    value={value}
-  />
-);
+}) => {
+  return (
+    <input
+      type={type}
+      onChange={onChange}
+      className={clsx('input', className)}
+      disabled={disabled}
+      onBlur={onBlur}
+      name={name}
+      placeholder={placeholder}
+      value={value}
+    />
+  );
+};

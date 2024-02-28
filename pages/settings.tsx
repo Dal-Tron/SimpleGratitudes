@@ -1,12 +1,12 @@
 import { CheckOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Modal, notification } from 'antd';
 import { useRouter } from 'next/router';
-import { useRef, useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 
 import { Input } from '@/components/base/Input/Input';
-import { Validator } from '@/components/base/Validator/Validator';
 import { DeleteAccountInput } from '@/components/feature/DeleteAccountInput/DeleteAccountInput';
 import { useStore } from '@/store/store';
+import { Validator } from 'Components/base/Validator/Validator';
 import Loading from 'Components/Loading';
 import PasswordInput from 'Components/PasswordInput';
 import UsernameNotice from 'Components/UsernameNotice';
@@ -14,6 +14,7 @@ import { validJWT, validPassword, validUsername } from 'Helpers/validation';
 import { AuthService } from 'Services/auth';
 import { GratitudesService } from 'Services/gratitudes';
 import { ProfileService } from 'Services/profile';
+import { isUsernameValid } from 'Utils/username';
 
 const SettingsPage = () => {
   const updatePasswordInputRef = useRef();
@@ -29,13 +30,16 @@ const SettingsPage = () => {
   const [confirmDeleteAccount, setConfirmDeleteAccount] = useState(false);
   const [showConfirmUsername, setShowConfirmUsername] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [usernameIsDirty, setUsernameIsDirty] = useState(false);
 
   if (validJWT(access_token)) {
     updatePasswordInputRef?.current?.focus();
   }
 
-  const handleUsernameChange = (e) => {
+  const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
+
+    if (!usernameIsDirty) setUsernameIsDirty(true);
 
     setUsername(value);
   };
@@ -177,15 +181,17 @@ const SettingsPage = () => {
                       </div>
                     ) : (
                       <Validator
-                        input={
-                          <Input
-                            disabled={profile?.username_updated}
-                            placeholder="Enter a new username"
-                            onChange={handleUsernameChange}
-                            value={username}
-                          />
-                        }
-                      />
+                        isDirty={usernameIsDirty}
+                        validator={isUsernameValid}
+                        validationMsg="Invalid Username"
+                      >
+                        <Input
+                          disabled={profile?.username_updated}
+                          placeholder="Enter a new username"
+                          onChange={handleUsernameChange}
+                          value={username}
+                        />
+                      </Validator>
 
                       // <FormInput
                       //   disabled={profile?.username_updated}
