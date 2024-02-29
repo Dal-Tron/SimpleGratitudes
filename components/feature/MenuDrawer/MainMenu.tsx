@@ -10,14 +10,11 @@ import { useRouter } from 'next/router';
 
 import { useStore } from '@/store/store';
 import { useAddGratitudeModal } from 'Context/modal';
+import { AuthService } from 'Services/auth';
 
 import { MenuItem } from './MenuItem';
 
-export const MainMenu = ({
-  onClose = () => {},
-  signOut = () => {},
-  visible = false,
-}) => {
+export const MainMenu = ({ onClose = () => {}, visible = false }) => {
   const { updateAddGratitudeModal } = useAddGratitudeModal();
   const profile = useStore((state) => state.profile);
   const router = useRouter();
@@ -42,8 +39,9 @@ export const MainMenu = ({
     onClose();
   };
 
-  const handleSignOut = () => {
-    signOut();
+  const handleSignOut = async () => {
+    await AuthService.signOut();
+
     onClose();
   };
 

@@ -10,6 +10,7 @@ import { validJWT, validPassword, validUsername } from '@/helpers/validation';
 import { CheckIcon } from '@/icons/Check';
 import { TrashIcon } from '@/icons/Trash';
 import { useStore } from '@/store/store';
+import { Button } from 'Components/base/Button/Button';
 import { IconButton } from 'Components/base/Button/IconButton';
 import { Validator } from 'Components/base/Validator/Validator';
 import Loading from 'Components/Loading';
@@ -64,47 +65,10 @@ const SettingsPage = () => {
     setDeleteUsername(value);
   };
 
-  const handleShowUsernameConfirm = () => {
-    setShowConfirmUsername(true);
-  };
-
-  const handleCloseUsernameConfirm = () => {
-    setShowConfirmUsername(false);
-  };
-
-  const handleConfirmUsername = async () => {
-    if (user.id && validUsername(username) && !profile?.username_updated) {
-      const { error: updateUsernameError } =
-        await ProfileService.updateProfileUsername(user.id, username);
-
-      if (updateUsernameError) {
-        if (updateUsernameError.message?.indexOf('duplicate') >= 0) {
-          return handleError({ message: 'Username taken.' });
-        }
-
-        return handleError(updateUsernameError);
-      }
-
-      notification.open({
-        type: 'success',
-        message: 'Successfully updated username!',
-        duration: 2,
-      });
-
-      setShowConfirmUsername(false);
-    }
-  };
-
   const handleCancelUpdateUsername = () => {
     // clear username
     setUsername('');
     return setShowConfirmUsername(false);
-  };
-
-  const handleUpdateUsername = () => {
-    if (!profile?.username_updated) {
-      setShowConfirmUsername(true);
-    }
   };
 
   const handleUpdatePassword = async () => {
@@ -195,6 +159,43 @@ const SettingsPage = () => {
   const checkMatchingUsername = (username: string) =>
     username === profile?.username;
 
+  const handleCloseUsernameConfirm = () => {
+    setShowConfirmUsername(false);
+  };
+
+  const handleOpenUsernameConfirm = () => {
+    if (!profile?.username_updated) {
+      setShowConfirmUsername(true);
+    }
+  };
+
+  const handleConfirmUsername = async () => {
+    if (user.id && validUsername(username) && !profile?.username_updated) {
+      try {
+        const { error } = await ProfileService.updateProfileUsername(
+          user.id,
+          username,
+        );
+
+        if (error) throw error;
+
+        notification.open({
+          type: 'success',
+          message: 'Successfully updated username!',
+          duration: 2,
+        });
+      } catch (err) {
+        if (err.message?.indexOf('duplicate') >= 0) {
+          return handleError(new Error('Username is unavailable'));
+        }
+
+        return handleError(new Error('Unable to register username'));
+      } finally {
+        setShowConfirmUsername(false);
+      }
+    }
+  };
+
   return (
     <>
       {loading ? (
@@ -235,7 +236,7 @@ const SettingsPage = () => {
                         'bg-primary-3': !isValidUsername,
                       })}
                       disabled={!isValidUsername}
-                      onClick={handleUpdateUsername}
+                      onClick={handleOpenUsernameConfirm}
                     >
                       <CheckIcon
                         className={clsx('w-6 h-6 text-white', {
@@ -316,7 +317,14 @@ const SettingsPage = () => {
         className="bg-primary-0 sg-box-shadow w-132 py-8"
         isOpen={showConfirmUsername}
       >
-        <UsernameNotice username={username} setUsername={setUsername} />
+        <>
+          <UsernameNotice username={username} setUsername={setUsername} />
+          <div className="flex justify-center mt-4">
+            <Button onClick={handleConfirmUsername} type="primary">
+              I understand
+            </Button>
+          </div>
+        </>
       </Modal>
     </>
   );
