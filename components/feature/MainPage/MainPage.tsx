@@ -132,7 +132,7 @@ export default function MainPage({ mainPage = true }) {
   );
 
   return (
-    <section className="main-container">
+    <section className="flex w-full flex-wrap">
       <AddGratitudeButton onClick={handleAddGratitude} />
       {loading && <Loading />}
       {!loading && gratitudes.length < 1 && <EmptyMessage />}

@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { ChangeEventHandler, FocusEventHandler } from 'react';
+import { ChangeEventHandler, FocusEventHandler, ReactNode } from 'react';
 
 interface InputProps {
   className?: string;
@@ -10,6 +10,7 @@ interface InputProps {
   placeholder?: string;
   type?: string;
   value?: string;
+  prefix?: ReactNode;
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -21,22 +22,26 @@ export const Input: React.FC<InputProps> = ({
   placeholder,
   type = 'text',
   value,
+  prefix,
 }) => {
   return (
-    <input
-      type={type}
-      onChange={onChange}
-      className={clsx(
-        'bg-transparent text-white border-none p-0 outline-none max-w-xs',
-        'placeholder-white placeholder-opacity-70 placeholder:text-base',
-        'focus:ring-0 focus:border-none',
-        className,
-      )}
-      disabled={disabled}
-      onBlur={onBlur}
-      name={name}
-      placeholder={placeholder}
-      value={value}
-    />
+    <div className="flex items-center">
+      {prefix && <div className="mr-2">{prefix}</div>}
+      <input
+        type={type}
+        onChange={onChange}
+        className={clsx(
+          'bg-transparent text-white border-none p-0 outline-none max-w-xs',
+          'placeholder-white placeholder-opacity-70 placeholder:text-base',
+          'focus:ring-0 focus:border-none',
+          className,
+        )}
+        disabled={disabled}
+        onBlur={onBlur}
+        name={name}
+        placeholder={placeholder}
+        value={value}
+      />
+    </div>
   );
 };

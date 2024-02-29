@@ -66,7 +66,6 @@ export const Validator: React.FC<ValidatorProps> = ({
   const extendedProps = {
     ...children.props,
     className: inputClassName,
-    value: value,
     onChange: handleChange,
   };
 
