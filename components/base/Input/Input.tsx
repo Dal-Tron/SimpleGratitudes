@@ -26,7 +26,12 @@ export const Input: React.FC<InputProps> = ({
     <input
       type={type}
       onChange={onChange}
-      className={clsx('input', className)}
+      className={clsx(
+        'bg-transparent text-white border-none p-0 outline-none max-w-xs',
+        'placeholder-white placeholder-opacity-70 placeholder:text-base',
+        'focus:ring-0 focus:border-none',
+        className,
+      )}
       disabled={disabled}
       onBlur={onBlur}
       name={name}

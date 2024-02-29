@@ -1,19 +1,19 @@
 import clsx from 'clsx';
 import { FC, ReactNode } from 'react';
 
-import { Loading } from '../Loading/Loading';
+import { Loading } from '@/components/base/Loading/Loading';
 
-interface ButtonProps {
+interface IconButtonProps {
   ariaLabel?: string;
-  children: ReactNode;
+  children: ReactNode; // For the icon and any additional content
   className?: string;
+  disabled?: boolean;
   loading?: boolean;
   onClick: () => void;
   type?: 'primary' | 'secondary';
-  disabled?: boolean;
 }
 
-export const Button: FC<ButtonProps> = ({
+export const IconButton: FC<IconButtonProps> = ({
   ariaLabel,
   children,
   className,
@@ -23,7 +23,7 @@ export const Button: FC<ButtonProps> = ({
   onClick,
 }) => {
   const baseStyles =
-    'px-4 py-2 rounded font-bold text-lg transition-colors duration-150';
+    'rounded p-2 transition-colors duration-150 flex items-center justify-center';
 
   const styles = clsx(baseStyles, {
     'bg-primary-2 text-white hover:bg-primary-3': type === 'primary',

@@ -10,6 +10,7 @@ import React, {
 import { Tooltip } from '@/components/base/Tooltip/Tooltip';
 
 interface ValidatorProps {
+  className?: string;
   isDirty: boolean;
   validator: (value: string) => boolean;
   children: ReactElement;
@@ -17,6 +18,7 @@ interface ValidatorProps {
 }
 
 export const Validator: React.FC<ValidatorProps> = ({
+  className,
   isDirty,
   validator,
   children,
@@ -74,7 +76,7 @@ export const Validator: React.FC<ValidatorProps> = ({
 
   return (
     <div
-      className={clsx('p-2 rounded-lg border-2', {
+      className={clsx('p-2 rounded-lg border-2 w-full', className, {
         'border-primary-3': showWarning,
         'border-primary-4': !showWarning,
       })}

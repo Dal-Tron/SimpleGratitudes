@@ -6,7 +6,7 @@ import { validUsername } from 'Helpers/validation';
 const UsernameNotice = ({ username = '', setUsername = () => {} }) => {
   return (
     <div className="username-confirm">
-      <div className="username-confirm-title">
+      <div className="flex flex-col justify-center items-center text-white text-lg">
         <UserOutlined className="username-confirm-title-icon" />
         Confirm Username
       </div>

@@ -47,7 +47,9 @@ export const Layout = ({ children }) => {
         </Head>
         <Header />
         <MenuDrawer isOpen={showUserMenu} onClose={handleCloseMenu} />
-        <section className="main">{children}</section>
+        <section className="flex justify-center pt-8 h-screen">
+          {children}
+        </section>
       </div>
       <CreateGratitudeModal
         isOpen={showAddGratitudeModal}
