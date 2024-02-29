@@ -77,7 +77,7 @@ export const Validator: React.FC<ValidatorProps> = ({
     <div
       className={clsx('p-2 rounded-lg border-2 w-full', className, {
         'border-primary-3': showWarning,
-        'border-primary-4': !showWarning,
+        'border-transparent': !showWarning,
       })}
       onFocus={handleFocus}
       onBlur={handleBlur}

@@ -1,16 +1,18 @@
-import { CheckOutlined, DeleteOutlined } from '@ant-design/icons';
-import { Modal, notification } from 'antd';
+import { notification } from 'antd';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useRef, useState } from 'react';
 
 import { Input } from '@/components/base/Input/Input';
-import { DeleteAccountInput } from '@/components/feature/DeleteAccountInput/DeleteAccountInput';
+import { Modal } from '@/components/base/Modal/Modal';
+import { UsernameNotice } from '@/components/feature/UsernameNotice/UsernameNotice';
+import { validJWT, validPassword, validUsername } from '@/helpers/validation';
+import { CheckIcon } from '@/icons/Check';
+import { TrashIcon } from '@/icons/Trash';
 import { useStore } from '@/store/store';
+import { IconButton } from 'Components/base/Button/IconButton';
 import { Validator } from 'Components/base/Validator/Validator';
 import Loading from 'Components/Loading';
-import UsernameNotice from 'Components/UsernameNotice';
-import { validJWT, validPassword, validUsername } from 'Helpers/validation';
 import { AuthService } from 'Services/auth';
 import { GratitudesService } from 'Services/gratitudes';
 import { ProfileService } from 'Services/profile';
@@ -26,11 +28,13 @@ const SettingsPage = () => {
   } = router;
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState(profile?.username || '');
+  const [deleteUsername, setDeleteUsername] = useState('');
   const [confirmDeleteAccount, setConfirmDeleteAccount] = useState(false);
   const [showConfirmUsername, setShowConfirmUsername] = useState(false);
   const [loading, setLoading] = useState(false);
   const [usernameIsDirty, setUsernameIsDirty] = useState(false);
   const [passwordIsDirty, setPasswordIsDirty] = useState(false);
+  const [deleteUsernameIsDirty, setDeleteUsernameIsDirty] = useState(false);
 
   if (validJWT(access_token)) {
     updatePasswordInputRef?.current?.focus();
@@ -50,6 +54,22 @@ const SettingsPage = () => {
     if (!passwordIsDirty) setPasswordIsDirty(true);
 
     setPassword(value);
+  };
+
+  const handleDeleteUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+
+    if (!deleteUsernameIsDirty) setDeleteUsernameIsDirty(true);
+
+    setDeleteUsername(value);
+  };
+
+  const handleShowUsernameConfirm = () => {
+    setShowConfirmUsername(true);
+  };
+
+  const handleCloseUsernameConfirm = () => {
+    setShowConfirmUsername(false);
   };
 
   const handleConfirmUsername = async () => {
@@ -168,112 +188,133 @@ const SettingsPage = () => {
     }
   };
 
+  const isValidUsername = validUsername(username) && username;
+  const isValidPassword = validPassword(password);
+  const isValidDeleteUsername = deleteUsername === profile?.username;
+
+  const checkMatchingUsername = (username: string) =>
+    username === profile?.username;
+
   return (
     <>
       {loading ? (
         <Loading />
       ) : (
-        <div className="settings-wrapper settings-box-shadow">
-          <div className="settings">
-            <div className="settings-title">Settings</div>
-            <div className="settings-content">
-              <div className="settings-header">
+        <div className="sg-box-shadow h-96 bg-primary-0 rounded-lg w-96 p-4">
+          <div className="p-4">
+            <div className="flex justify-center text-2xl text-white mb-4">
+              Settings
+            </div>
+            <div>
+              <div className="text-lg text-white mb-2">
                 {profile?.username_updated ? 'Username' : 'Change Username'}
               </div>
-              <div className="settings-body">
-                <div className="settings-option">
-                  <div className="settings-new-username">
-                    {profile?.username_updated ? (
-                      <div className="settings-new-cool-username">
-                        {username}
-                      </div>
-                    ) : (
-                      <Validator
-                        isDirty={usernameIsDirty}
-                        validator={validUsername}
-                        validationMsg="Invalid Username"
-                      >
-                        <Input
-                          disabled={profile?.username_updated}
-                          placeholder="Enter a new username"
-                          onChange={handleUsernameChange}
-                          value={username}
-                        />
-                      </Validator>
-                    )}
-                    {profile?.username_updated ? null : (
-                      <div
-                        onClick={handleUpdateUsername}
-                        className={clsx('settings-account-button', {
-                          'settings-username-not-valid':
-                            !validUsername(username),
-                          'settings-username-updated':
-                            profile?.username_updated,
-                        })}
-                      >
-                        <CheckOutlined />
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-              <div className="settings-header">Change Password</div>
-              <div className="settings-body">
-                <div className="settings-option">
-                  <div className="settings-new-password">
-                    <Validator
-                      isDirty={passwordIsDirty}
-                      validator={validPassword}
-                      validationMsg="Invalid Password"
-                    >
-                      <Input
-                        placeholder="Enter a new password"
-                        onChange={handlePasswordChange}
-                        value={password}
-                        type="password"
-                      />
-                    </Validator>
-                    <div
-                      onClick={handleUpdatePassword}
-                      className={clsx('settings-account-button', {
-                        'settings-password-not-valid': !validPassword(password),
-                      })}
-                    >
-                      <CheckOutlined />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="settings-header">Delete Account</div>
-              <div className="settings-body">
-                <div className="settings-option">
-                  <div className="settings-delete-input">
-                    <DeleteAccountInput
-                      handleConfirmDeleteAccount={handleConfirmDeleteAccount}
+
+              {profile?.username_updated ? (
+                <div className="settings-new-cool-username">{username}</div>
+              ) : (
+                <div className="flex flex-row justify-between w-full items-center">
+                  <Validator
+                    className="mr-2"
+                    isDirty={usernameIsDirty}
+                    validator={validUsername}
+                    validationMsg="Invalid Username"
+                  >
+                    <Input
+                      className="text-lg w-full"
+                      disabled={profile?.username_updated}
+                      placeholder="Enter a new username"
+                      onChange={handleUsernameChange}
+                      value={username}
                     />
-                    <div
-                      onClick={handleDeleteAccount}
-                      className={clsx('settings-account-button', {
-                        'settings-password-not-valid': !confirmDeleteAccount,
+                  </Validator>
+                  {profile?.username_updated ? null : (
+                    <IconButton
+                      className={clsx('rounded-full h-10 w-10', {
+                        'bg-white': isValidUsername,
+                        'bg-primary-3': !isValidUsername,
                       })}
+                      disabled={!isValidUsername}
+                      onClick={handleUpdateUsername}
                     >
-                      <DeleteOutlined />
-                    </div>
-                  </div>
+                      <CheckIcon
+                        className={clsx('w-6 h-6 text-white', {
+                          'text-primary-3': isValidUsername,
+                        })}
+                      />
+                    </IconButton>
+                  )}
                 </div>
+              )}
+              <div className="text-lg text-white my-2">Change Password</div>
+              <div className="flex flex-row justify-between w-full items-center">
+                <Validator
+                  isDirty={passwordIsDirty}
+                  validator={validPassword}
+                  validationMsg="Invalid Password"
+                  className="mr-2"
+                >
+                  <Input
+                    className="w-full text-lg"
+                    placeholder="Enter a new password"
+                    onChange={handlePasswordChange}
+                    value={password}
+                    type="password"
+                  />
+                </Validator>
+                <IconButton
+                  className={clsx('rounded-full h-10 w-10', {
+                    'bg-white': isValidPassword,
+                    'bg-primary-3': !isValidPassword,
+                  })}
+                  disabled={!isValidPassword}
+                  onClick={handleUpdatePassword}
+                >
+                  <CheckIcon
+                    className={clsx('w-6 h-6 text-white', {
+                      'text-primary-2': isValidPassword,
+                    })}
+                  />
+                </IconButton>
+              </div>
+              <div className="text-lg text-white my-2">Delete Account</div>
+              <div className="flex flex-row justify-between w-full items-center">
+                <Validator
+                  isDirty={deleteUsernameIsDirty}
+                  validator={checkMatchingUsername}
+                  validationMsg="Invalid Username"
+                  className="mr-2"
+                >
+                  <Input
+                    className="w-full text-lg"
+                    placeholder="Enter your username"
+                    onChange={handleDeleteUsernameChange}
+                    value={deleteUsername}
+                  />
+                </Validator>
+                <IconButton
+                  className={clsx('rounded-full h-10 w-10', {
+                    'bg-white': isValidDeleteUsername,
+                    'bg-primary-3': !isValidDeleteUsername,
+                  })}
+                  disabled={!isValidDeleteUsername}
+                  onClick={handleUpdatePassword}
+                >
+                  <TrashIcon
+                    className={clsx('w-6 h-6 text-white', {
+                      'text-primary-2': isValidDeleteUsername,
+                    })}
+                  />
+                </IconButton>
               </div>
             </div>
           </div>
         </div>
       )}
       <Modal
-        className="username-confirm-modal"
-        visible={showConfirmUsername}
-        onCancel={handleCancelUpdateUsername}
-        onOk={handleConfirmUsername}
-        cancelButtonProps={{
-          className: 'username-confirm-cancel-button',
-        }}
+        onClose={handleCloseUsernameConfirm}
+        className="bg-primary-0 sg-box-shadow w-132 py-8"
+        isOpen={showConfirmUsername}
       >
         <UsernameNotice username={username} setUsername={setUsername} />
       </Modal>
