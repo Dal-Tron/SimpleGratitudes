@@ -1,17 +1,19 @@
 import clsx from 'clsx';
-import { TextareaHTMLAttributes, ChangeEvent, useRef, useEffect } from 'react';
+import { ChangeEvent, TextareaHTMLAttributes, useEffect, useRef } from 'react';
 
 interface ExpandingTextareaProps
   extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   className?: string;
   value: string;
   onChange: (event: ChangeEvent<HTMLTextAreaElement>) => void;
+  placeholder?: string;
 }
 
 export const ExpandingTextarea: React.FC<ExpandingTextareaProps> = ({
   className,
   onChange,
   value,
+  placeholder,
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const lineHeight = 24; // Define the line-height of your textarea here
@@ -47,7 +49,7 @@ export const ExpandingTextarea: React.FC<ExpandingTextareaProps> = ({
         'w-full focus:outline-none outline-none border-none resize-none bg-transparent',
         className,
       )}
-      placeholder="Type your message here..."
+      placeholder={placeholder}
       value={value}
       onChange={onChange}
       style={{ lineHeight: `${lineHeight}px` }}
