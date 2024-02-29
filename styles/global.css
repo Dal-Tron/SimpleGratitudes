@@ -29,22 +29,22 @@
   --color-light-1: #f8f8f8;
 }
 
-input[type="range"]::-webkit-slider-runnable-track {
+input[type='range']::-webkit-slider-runnable-track {
   background: var(--color-primary-2);
   border-radius: 20px;
 }
 
-input[type="range"]::-moz-range-track {
+input[type='range']::-moz-range-track {
   background: var(--color-primary-2);
   border-radius: 20px;
 }
 
-input[type="range"]::-webkit-slider-thumb {
+input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none; /* Override default look */
   appearance: none;
 }
 
-input[type="range"]::-moz-range-thumb {
+input[type='range']::-moz-range-thumb {
   -webkit-appearance: none; /* Override default look */
   appearance: none;
 }

@@ -1,11 +1,13 @@
 import clsx from 'clsx';
-import {
+import React, {
   ChangeEvent,
   ReactElement,
   cloneElement,
   useEffect,
   useState,
 } from 'react';
+
+import { Tooltip } from '@/components/base/Tooltip/Tooltip';
 
 interface ValidatorProps {
   isDirty: boolean;
@@ -22,15 +24,29 @@ export const Validator: React.FC<ValidatorProps> = ({
 }) => {
   const [value, setValue] = useState('');
   const [isValid, setIsValid] = useState(true);
+  const [isFocused, setIsFocused] = useState(false); // New state to track focus
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setValue(newValue);
     setIsValid(validator(newValue));
 
-    // Call the original onChange handler if it exists
     if (children.props.onChange) {
       children.props.onChange(e);
+    }
+  };
+
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    setIsFocused(true);
+    if (children.props.onFocus) {
+      children.props.onFocus(e);
+    }
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    setIsFocused(false);
+    if (children.props.onBlur) {
+      children.props.onBlur(e);
     }
   };
 
@@ -45,18 +61,29 @@ export const Validator: React.FC<ValidatorProps> = ({
     'border-red-500': isDirty && !isValid,
   });
 
-  const clonedChildren = cloneElement(children, {
+  const extendedProps = {
+    ...children.props,
     className: inputClassName,
-    value,
+    value: value,
     onChange: handleChange,
-  });
+  };
+
+  const clonedChildren = cloneElement(children, extendedProps);
+
+  const showWarning = validationMsg && isDirty && !isValid && isFocused;
 
   return (
-    <div>
-      {clonedChildren}
-      {isDirty && !isValid && validationMsg && (
-        <p className="text-red-500">{validationMsg}</p>
-      )}
+    <div
+      className={clsx('p-2 rounded-lg border-2', {
+        'border-primary-3': showWarning,
+        'border-primary-4': !showWarning,
+      })}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
+    >
+      <Tooltip title={validationMsg} show={showWarning}>
+        {clonedChildren}
+      </Tooltip>
     </div>
   );
 };

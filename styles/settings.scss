@@ -31,25 +31,21 @@
     width: 100%;
     color: white;
     font-size: 16px;
-    opacity: .9;
+    opacity: 0.9;
     margin-top: 1rem;
-    margin-bottom: .4rem;
-  }
-
-  &-body {
-    padding-left: 10px;
+    margin-bottom: 0.4rem;
   }
 
   &-label {
     color: white;
     font-size: 16px;
-    opacity: .7;
+    opacity: 0.7;
   }
 
   &-option {
     display: flex;
     justify-content: space-between;
-    margin-bottom: .3rem;
+    margin-bottom: 0.3rem;
     padding-right: 10px;
     width: 100%;
   }
@@ -75,12 +71,12 @@
       padding-right: 1rem !important;
       outline: 0 !important;
       max-width: 200px;
-    
+
       &::placeholder {
         color: white !important;
         font-size: 1rem !important;
-        font-family: Snippet, Sans-Serif, Arial !important; 
-        opacity: .7;
+        font-family: Snippet, Sans-Serif, Arial !important;
+        opacity: 0.7;
       }
     }
 
@@ -109,12 +105,12 @@
     input {
       background-color: rgba(0, 0, 0, 0);
       color: white;
-    
+
       &::placeholder {
         color: white !important;
         font-size: 1rem !important;
-        font-family: Snippet, Sans-Serif, Arial !important; 
-        opacity: .7;
+        font-family: Snippet, Sans-Serif, Arial !important;
+        opacity: 0.7;
       }
     }
   }
@@ -138,26 +134,26 @@
     input {
       background-color: rgba(0, 0, 0, 0);
       color: white;
-    
+
       &::placeholder {
         color: white !important;
         font-size: 1rem !important;
-        font-family: Snippet, Sans-Serif, Arial !important; 
-        opacity: .7;
+        font-family: Snippet, Sans-Serif, Arial !important;
+        opacity: 0.7;
       }
     }
   }
 
   &-password-not-valid {
-    opacity: .5;
+    opacity: 0.5;
   }
 
   &-username-not-valid {
-    opacity: .5;
+    opacity: 0.5;
   }
 
   &-username-updated {
-    opacity: .5;
+    opacity: 0.5;
   }
 
   &-password-submit {
@@ -173,7 +169,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
 
     .anticon {
       color: $colour1;
@@ -184,28 +180,29 @@
     border-radius: 20px;
     min-height: 200px;
     background-color: lightblue;
-  
-    box-shadow: 1px 1px 0px $colour3,
-    2px 2px 0px $colour3,
-    3px 3px 0px $colour3,
-    4px 4px 0px $colour3,
-    5px 5px 0px $colour3,
-    6px 6px 0px $colour3,
-    7px 7px 0px $colour3,
-    8px 8px 0px $colour3,
-    9px 9px 0px $colour3,
-    10px 10px 0px $colour3,
-    11px 11px 0px $colour3,
-    12px 12px 0px $colour3,
-    13px 13px 0px $colour3,
-    14px 14px 0px $colour3,
-    15px 15px 0px $colour3,
-    16px 16px 0px $colour3,
-    17px 17px 0px $colour3,
-    18px 18px 0px $colour3,
-    19px 19px 0px $colour3,
-    20px 20px 0px $colour3,
-    21px 21px 0px $colour3;
+
+    box-shadow:
+      1px 1px 0px $colour3,
+      2px 2px 0px $colour3,
+      3px 3px 0px $colour3,
+      4px 4px 0px $colour3,
+      5px 5px 0px $colour3,
+      6px 6px 0px $colour3,
+      7px 7px 0px $colour3,
+      8px 8px 0px $colour3,
+      9px 9px 0px $colour3,
+      10px 10px 0px $colour3,
+      11px 11px 0px $colour3,
+      12px 12px 0px $colour3,
+      13px 13px 0px $colour3,
+      14px 14px 0px $colour3,
+      15px 15px 0px $colour3,
+      16px 16px 0px $colour3,
+      17px 17px 0px $colour3,
+      18px 18px 0px $colour3,
+      19px 19px 0px $colour3,
+      20px 20px 0px $colour3,
+      21px 21px 0px $colour3;
   }
 }
 

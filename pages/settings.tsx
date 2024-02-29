@@ -1,5 +1,6 @@
 import { CheckOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Modal, notification } from 'antd';
+import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useRef, useState } from 'react';
 
@@ -8,13 +9,11 @@ import { DeleteAccountInput } from '@/components/feature/DeleteAccountInput/Dele
 import { useStore } from '@/store/store';
 import { Validator } from 'Components/base/Validator/Validator';
 import Loading from 'Components/Loading';
-import PasswordInput from 'Components/PasswordInput';
 import UsernameNotice from 'Components/UsernameNotice';
 import { validJWT, validPassword, validUsername } from 'Helpers/validation';
 import { AuthService } from 'Services/auth';
 import { GratitudesService } from 'Services/gratitudes';
 import { ProfileService } from 'Services/profile';
-import { isUsernameValid } from 'Utils/username';
 
 const SettingsPage = () => {
   const updatePasswordInputRef = useRef();
@@ -31,6 +30,7 @@ const SettingsPage = () => {
   const [showConfirmUsername, setShowConfirmUsername] = useState(false);
   const [loading, setLoading] = useState(false);
   const [usernameIsDirty, setUsernameIsDirty] = useState(false);
+  const [passwordIsDirty, setPasswordIsDirty] = useState(false);
 
   if (validJWT(access_token)) {
     updatePasswordInputRef?.current?.focus();
@@ -42,6 +42,14 @@ const SettingsPage = () => {
     if (!usernameIsDirty) setUsernameIsDirty(true);
 
     setUsername(value);
+  };
+
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+
+    if (!passwordIsDirty) setPasswordIsDirty(true);
+
+    setPassword(value);
   };
 
   const handleConfirmUsername = async () => {
@@ -182,7 +190,7 @@ const SettingsPage = () => {
                     ) : (
                       <Validator
                         isDirty={usernameIsDirty}
-                        validator={isUsernameValid}
+                        validator={validUsername}
                         validationMsg="Invalid Username"
                       >
                         <Input
@@ -192,35 +200,16 @@ const SettingsPage = () => {
                           value={username}
                         />
                       </Validator>
-
-                      // <FormInput
-                      //   disabled={profile?.username_updated}
-                      //   inputValue={username}
-                      //   onChange={handleUsernameChange}
-                      //   placeholder="Enter new username"
-                      //   prefix={null}
-                      //   required={false}
-                      //   title="Username"
-                      //   tooltipVisible={false}
-                      //   triggerValidation={false}
-                      //   validator={validUsername}
-                      // />
                     )}
                     {profile?.username_updated ? null : (
                       <div
                         onClick={handleUpdateUsername}
-                        className={`settings-account-button 
-                            ${
-                              validUsername(username)
-                                ? ''
-                                : 'settings-username-not-valid'
-                            }
-                            ${
-                              profile?.username_updated
-                                ? 'settings-username-updated'
-                                : ''
-                            }
-                          `}
+                        className={clsx('settings-account-button', {
+                          'settings-username-not-valid':
+                            !validUsername(username),
+                          'settings-username-updated':
+                            profile?.username_updated,
+                        })}
                       >
                         <CheckOutlined />
                       </div>
@@ -232,19 +221,23 @@ const SettingsPage = () => {
               <div className="settings-body">
                 <div className="settings-option">
                   <div className="settings-new-password">
-                    <PasswordInput
-                      inputValue={password}
-                      onChange={setPassword}
-                      passwordRef={updatePasswordInputRef}
-                      showPrefix={false}
-                    />
+                    <Validator
+                      isDirty={passwordIsDirty}
+                      validator={validPassword}
+                      validationMsg="Invalid Password"
+                    >
+                      <Input
+                        placeholder="Enter a new password"
+                        onChange={handlePasswordChange}
+                        value={password}
+                        type="password"
+                      />
+                    </Validator>
                     <div
                       onClick={handleUpdatePassword}
-                      className={`settings-account-button ${
-                        validPassword(password)
-                          ? ''
-                          : 'settings-password-not-valid'
-                      }`}
+                      className={clsx('settings-account-button', {
+                        'settings-password-not-valid': !validPassword(password),
+                      })}
                     >
                       <CheckOutlined />
                     </div>
@@ -260,11 +253,9 @@ const SettingsPage = () => {
                     />
                     <div
                       onClick={handleDeleteAccount}
-                      className={`settings-account-button ${
-                        confirmDeleteAccount
-                          ? ''
-                          : 'settings-password-not-valid'
-                      }`}
+                      className={clsx('settings-account-button', {
+                        'settings-password-not-valid': !confirmDeleteAccount,
+                      })}
                     >
                       <DeleteOutlined />
                     </div>
