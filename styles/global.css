@@ -7,7 +7,7 @@
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 
-  /* New primary color - variations of #73b8cb */
+  --color-primary-0: #add8e6;
   --color-primary-1: #5a95a3; /* Darker shade of primary */
   --color-primary-2: #73b8cb; /* Primary base color */
   --color-primary-3: #8acbd4; /* Lighter shade of primary */
