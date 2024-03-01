@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { ChangeEventHandler, FocusEventHandler, ReactNode } from 'react';
+import { ChangeEventHandler, FC, FocusEventHandler, ReactNode } from 'react';
 
 interface InputProps {
   className?: string;
@@ -11,9 +11,10 @@ interface InputProps {
   type?: string;
   value?: string;
   prefix?: ReactNode;
+  suffix?: ReactNode;
 }
 
-export const Input: React.FC<InputProps> = ({
+export const Input: FC<InputProps> = ({
   className,
   disabled,
   onChange,
@@ -23,15 +24,16 @@ export const Input: React.FC<InputProps> = ({
   type = 'text',
   value,
   prefix,
+  suffix,
 }) => {
   return (
-    <div className="flex items-center">
-      {prefix && <div className="mr-2">{prefix}</div>}
+    <div className="flex items-center relative w-full">
+      {prefix && <div className="absolute left-2">{prefix}</div>}
       <input
         type={type}
         onChange={onChange}
         className={clsx(
-          'bg-transparent text-white border-none p-0 outline-none max-w-xs',
+          'bg-transparent text-white border-none p-2 pl-10 pr-8 outline-none max-w-xs w-full',
           'placeholder-white placeholder-opacity-70 placeholder:text-base',
           'focus:ring-0 focus:border-none',
           className,
@@ -42,6 +44,7 @@ export const Input: React.FC<InputProps> = ({
         placeholder={placeholder}
         value={value}
       />
+      {suffix && <div className="absolute right-2">{suffix}</div>}
     </div>
   );
 };
