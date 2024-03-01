@@ -19,7 +19,7 @@ interface SignInFormProps {
   showPassword?: boolean;
 }
 
-export const SignInForm: FC<SignInFormProps> = ({
+export const SignIn: FC<SignInFormProps> = ({
   disabled = false,
   email = '',
   password = '',
@@ -50,6 +50,7 @@ export const SignInForm: FC<SignInFormProps> = ({
           isDirty={isEmailInputDirty}
           validator={validEmail}
           validationMsg="Invalid Email"
+          className="p-1"
         >
           <Input
             disabled={disabled}
@@ -62,11 +63,12 @@ export const SignInForm: FC<SignInFormProps> = ({
         </Validator>
       </div>
       {!showForgotPassword && (
-        <div className="bg-transparent border border-white text-white text-lg rounded-xl outline-none mb-3">
+        <div className="bg-transparent border border-white text-white text-lg rounded-xl outline-none mb-5">
           <Validator
             isDirty={isPasswordInputDirty}
             validator={validPassword}
             validationMsg="Invalid Password"
+            className="p-1"
           >
             <Input
               className="w-full"
