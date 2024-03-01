@@ -1,10 +1,10 @@
-import { Tabs, Modal, notification } from 'antd';
+import { Modal, Tabs, notification } from 'antd';
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
+import { ProfileService } from '@/services/profile';
 import { validEmail, validPassword } from 'Helpers/validation';
 import { AuthService } from 'Services/auth';
-import ProfileService from 'Services/profile';
 
 import { SignInForm } from './SignIn';
 
@@ -165,7 +165,7 @@ export const SignModal = ({ visible = false, onCancel = () => {} }) => {
       openSuccessMessage();
       resetFields();
     } catch (err) {
-      handleError(error);
+      handleError(err);
     } finally {
       setLoading(false);
     }

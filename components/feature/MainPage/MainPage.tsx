@@ -16,6 +16,8 @@ import { GratitudesService } from 'Services/gratitudes';
 import { EmptyMessage } from './EmptyMessage';
 
 export default function MainPage({ mainPage = true }) {
+  const user = useStore((state) => state.user);
+
   const [loading, setLoading] = useState(true);
   const [gratitudes, setGratitudes] = useState([]);
 
@@ -23,7 +25,6 @@ export default function MainPage({ mainPage = true }) {
   const { page, access_restricted } = router.query;
   const { asPath, route } = router;
 
-  const user = useStore((state) => state.user);
   const profile = useStore((state) => state.profile);
 
   const { updateSignModal } = useSignModal();

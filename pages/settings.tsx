@@ -7,6 +7,7 @@ import { Input } from '@/components/base/Input/Input';
 import { Modal } from '@/components/base/Modal/Modal';
 import { UsernameNotice } from '@/components/feature/UsernameNotice/UsernameNotice';
 import { validJWT, validPassword, validUsername } from '@/helpers/validation';
+import { withAuth } from '@/hoc/withAuth';
 import { CheckIcon } from '@/icons/Check';
 import { TrashIcon } from '@/icons/Trash';
 import { useStore } from '@/store/store';
@@ -330,4 +331,4 @@ const SettingsPage = () => {
   );
 };
 
-export default SettingsPage;
+export default withAuth(SettingsPage);
