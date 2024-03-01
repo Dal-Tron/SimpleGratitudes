@@ -9,7 +9,9 @@ interface ButtonProps {
   className?: string;
   loading?: boolean;
   onClick: () => void;
-  type?: 'primary' | 'secondary';
+  type?: 'primary' | 'secondary' | 'custom';
+  primaryColor?: string;
+  accentColor?: string;
   disabled?: boolean;
 }
 
@@ -20,10 +22,19 @@ export const Button: FC<ButtonProps> = ({
   disabled,
   loading,
   type,
+  primaryColor,
   onClick,
 }) => {
   const baseStyles =
     'px-4 py-2 rounded font-bold text-lg transition-colors duration-150';
+
+  const customStyles =
+    type === 'custom'
+      ? {
+          backgroundColor: primaryColor,
+          color: 'white',
+        }
+      : {};
 
   const styles = clsx(baseStyles, {
     'bg-primary-2 text-white hover:bg-primary-3': type === 'primary',
@@ -32,7 +43,6 @@ export const Button: FC<ButtonProps> = ({
 
   const handleClick = () => {
     if (loading || disabled) return;
-
     onClick && onClick();
   };
 
@@ -41,6 +51,7 @@ export const Button: FC<ButtonProps> = ({
       aria-label={ariaLabel}
       onClick={handleClick}
       className={clsx(styles, className)}
+      style={type === 'custom' ? customStyles : {}}
       disabled={disabled}
     >
       {loading ? <Loading /> : children}
