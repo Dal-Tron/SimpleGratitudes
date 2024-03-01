@@ -1,14 +1,16 @@
 import { supabase } from 'Supabase/client';
 
+const handleAuthError = (err: Error) => {
+  console.error(err);
+};
+
 export const AuthService = {
   deleteUser: async () => {
     try {
       const res = await supabase.rpc('delete_user');
       if (res) return res;
     } catch (error) {
-      // Handle or log the error
       console.error('Error in deleteUser:', error);
-      throw error; // or handle it as needed
     }
   },
   register: async (data) => {
@@ -17,7 +19,6 @@ export const AuthService = {
       if (res) return res;
     } catch (error) {
       console.error('Error in register:', error);
-      throw error;
     }
   },
   signIn: async (data) => {
@@ -26,7 +27,6 @@ export const AuthService = {
       if (res) return res;
     } catch (error) {
       console.error('Error in signIn:', error);
-      throw error;
     }
   },
   signOut: async () => {
@@ -35,7 +35,6 @@ export const AuthService = {
       if (res) return res;
     } catch (error) {
       console.error('Error in signOut:', error);
-      throw error;
     }
   },
   getUser: async () => {
@@ -44,7 +43,6 @@ export const AuthService = {
       if (res) return res;
     } catch (error) {
       console.error('Error in getUser:', error);
-      throw error;
     }
   },
   updateUser: async (data) => {
@@ -53,18 +51,19 @@ export const AuthService = {
       if (res) return res;
     } catch (error) {
       console.error('Error in updateUser:', error);
-      throw error;
     }
   },
-  resetEmail: async (email) => {
+  resetEmail: async (email: string) => {
     try {
-      const res = await supabase.auth.resetPasswordForEmail(email, {
+      const { error, data } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: `${process.env.BASE_DOMAIN}/settings`,
       });
-      if (res) return res;
-    } catch (error) {
-      console.error('Error in resetEmail:', error);
-      throw error;
+
+      if (error) throw error;
+
+      if (data) return data;
+    } catch (err) {
+      handleAuthError(err);
     }
   },
 };
