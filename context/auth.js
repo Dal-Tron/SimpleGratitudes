@@ -6,6 +6,7 @@ import { supabase } from 'Supabase/client';
 
 export const AuthProvider = ({ children }) => {
   const setUser = useStore((state) => state.setUser);
+  const setProfile = useStore((state) => state.setProfile);
 
   useEffect(() => {
     const init = async () => {
@@ -15,8 +16,13 @@ export const AuthProvider = ({ children }) => {
       setUser(session?.user || null);
 
       const authListener = supabase.auth.onAuthStateChange(
-        (_event, session) => {
-          setUser(session?.user || null);
+        (event, newSession) => {
+          if (event === 'SIGNED_OUT') {
+            setUser(null);
+            setProfile(null);
+          } else {
+            setUser(newSession?.user || null);
+          }
         },
       );
 
@@ -26,7 +32,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     init();
-  }, [setUser]);
+  }, [setUser, setProfile]);
 
   return <>{children}</>;
 };
