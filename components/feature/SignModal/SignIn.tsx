@@ -1,60 +1,97 @@
-import { MailOutlined, LockOutlined } from '@ant-design/icons';
-import { Form } from 'antd';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 
-import FormInput from 'Components/FormInput';
-import { useSignModal } from 'Context/modal';
-import { validEmail, validPassword } from 'Helpers/validation';
+import { IconButton } from '@/components/base/Button/IconButton';
+import { Input } from '@/components/base/Input/Input';
+import { Validator } from '@/components/base/Validator/Validator';
+import { validEmail, validPassword } from '@/helpers/validation';
+import { ClosedEyeIcon } from '@/icons/ClosedEye';
+import { EmailIcon } from '@/icons/Email';
+import { EyeIcon } from '@/icons/Eye';
+import { LockIcon } from '@/icons/Lock';
 
-export const SignInForm = ({
+interface SignInFormProps {
+  disabled?: boolean;
+  email?: string;
+  password?: string;
+  setEmail?: (e: ChangeEvent<HTMLInputElement>) => void;
+  setPassword?: (e: ChangeEvent<HTMLInputElement>) => void;
+  showForgotPassword?: boolean;
+  showPassword?: boolean;
+}
+
+export const SignInForm: FC<SignInFormProps> = ({
   disabled = false,
   email = '',
   password = '',
-  setEmail = () => {},
-  setPassword = () => {},
+  setEmail = (_e: ChangeEvent<HTMLInputElement>) => {},
+  setPassword = (_e: ChangeEvent<HTMLInputElement>) => {},
   showForgotPassword = false,
-  triggerValidation = false,
 }) => {
-  const { showSignModal } = useSignModal();
+  const [isEmailInputDirty, setIsEmailInputDirty] = useState(false);
+  const [isPasswordInputDirty, setIsPasswordInputDirty] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+  useEffect(() => {
+    if (email && !isEmailInputDirty) setIsEmailInputDirty(true);
+  }, [email]);
+
+  useEffect(() => {
+    if (password && !isPasswordInputDirty) setIsPasswordInputDirty(true);
+  }, [password]);
+
+  const handleTogglePasswordVisible = () => {
+    setIsPasswordVisible((prev) => !prev);
+  };
 
   return (
-    <Form name="sign" className="user-signin-form">
-      <Form.Item name="email">
-        <div className="input-signin">
-          <FormInput
+    <div>
+      <div className="bg-transparent border border-white text-white text-lg rounded-xl outline-none mb-3">
+        <Validator
+          isDirty={isEmailInputDirty}
+          validator={validEmail}
+          validationMsg="Invalid Email"
+        >
+          <Input
             disabled={disabled}
-            inputValue={email}
+            value={email}
             onChange={setEmail}
             name="email"
             placeholder="Email"
-            prefix={<MailOutlined className="signin-icon" />}
-            required={true}
-            title="Email"
-            tooltipVisible={showSignModal}
-            triggerValidation={triggerValidation}
-            validator={validEmail}
+            prefix={<EmailIcon className="w-6 h-6 text-white" />}
           />
-        </div>
-      </Form.Item>
+        </Validator>
+      </div>
       {!showForgotPassword && (
-        <Form.Item name="password">
-          <div className="input-signin">
-            <FormInput
+        <div className="bg-transparent border border-white text-white text-lg rounded-xl outline-none mb-3">
+          <Validator
+            isDirty={isPasswordInputDirty}
+            validator={validPassword}
+            validationMsg="Invalid Password"
+          >
+            <Input
+              className="w-full"
               disabled={disabled}
-              inputValue={password}
+              value={password}
               onChange={setPassword}
               name="password"
-              passwordInput={true}
               placeholder="Password"
-              prefix={<LockOutlined />}
-              required={true}
-              title="Password"
-              tooltipVisible={showSignModal}
-              triggerValidation={triggerValidation}
-              validator={validPassword}
+              prefix={<LockIcon className="w-6 h-6 text-white" />}
+              type={isPasswordVisible ? 'text' : 'password'}
+              suffix={
+                isPasswordVisible ? (
+                  <IconButton onClick={handleTogglePasswordVisible}>
+                    <ClosedEyeIcon className="w-6 h-6 text-white" />
+                  </IconButton>
+                ) : (
+                  <IconButton onClick={handleTogglePasswordVisible}>
+                    <EyeIcon className="w-6 h-6 text-white" />
+                  </IconButton>
+                )
+              }
             />
-          </div>
-        </Form.Item>
+          </Validator>
+        </div>
       )}
-    </Form>
+    </div>
   );
 };
