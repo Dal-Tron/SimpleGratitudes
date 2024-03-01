@@ -15,8 +15,9 @@ interface SignInFormProps {
   password?: string;
   setEmail?: (e: ChangeEvent<HTMLInputElement>) => void;
   setPassword?: (e: ChangeEvent<HTMLInputElement>) => void;
-  showForgotPassword?: boolean;
+  showPasswordInput?: boolean;
   showPassword?: boolean;
+  checkValidation?: boolean;
 }
 
 export const SignIn: FC<SignInFormProps> = ({
@@ -25,7 +26,8 @@ export const SignIn: FC<SignInFormProps> = ({
   password = '',
   setEmail = (_e: ChangeEvent<HTMLInputElement>) => {},
   setPassword = (_e: ChangeEvent<HTMLInputElement>) => {},
-  showForgotPassword = false,
+  showPasswordInput = true,
+  checkValidation = false,
 }) => {
   const [isEmailInputDirty, setIsEmailInputDirty] = useState(false);
   const [isPasswordInputDirty, setIsPasswordInputDirty] = useState(false);
@@ -39,6 +41,13 @@ export const SignIn: FC<SignInFormProps> = ({
     if (password && !isPasswordInputDirty) setIsPasswordInputDirty(true);
   }, [password]);
 
+  useEffect(() => {
+    if (checkValidation) {
+      setIsEmailInputDirty(true);
+      setIsPasswordInputDirty(true);
+    }
+  }, [checkValidation]);
+
   const handleTogglePasswordVisible = () => {
     setIsPasswordVisible((prev) => !prev);
   };
@@ -51,6 +60,7 @@ export const SignIn: FC<SignInFormProps> = ({
           validator={validEmail}
           validationMsg="Invalid Email"
           className="p-1"
+          overrideFocus={checkValidation}
         >
           <Input
             disabled={disabled}
@@ -62,13 +72,14 @@ export const SignIn: FC<SignInFormProps> = ({
           />
         </Validator>
       </div>
-      {!showForgotPassword && (
+      {showPasswordInput && (
         <div className="bg-transparent border border-white text-white text-lg rounded-xl outline-none mb-5">
           <Validator
             isDirty={isPasswordInputDirty}
             validator={validPassword}
             validationMsg="Invalid Password"
             className="p-1"
+            overrideFocus={checkValidation}
           >
             <Input
               className="w-full"
