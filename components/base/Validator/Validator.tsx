@@ -15,6 +15,7 @@ interface ValidatorProps {
   validator: (value: string) => boolean;
   children: ReactElement;
   validationMsg?: string;
+  overrideFocus?: boolean;
 }
 
 export const Validator: React.FC<ValidatorProps> = ({
@@ -23,6 +24,7 @@ export const Validator: React.FC<ValidatorProps> = ({
   validator,
   children,
   validationMsg,
+  overrideFocus,
 }) => {
   const [value, setValue] = useState('');
   const [isValid, setIsValid] = useState(true);
@@ -71,7 +73,9 @@ export const Validator: React.FC<ValidatorProps> = ({
 
   const clonedChildren = cloneElement(children, extendedProps);
 
-  const showWarning = validationMsg && isDirty && !isValid && isFocused;
+  const triggerCondition = overrideFocus ? true : isFocused;
+
+  const showWarning = validationMsg && isDirty && !isValid && triggerCondition;
 
   return (
     <div
