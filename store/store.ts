@@ -9,6 +9,7 @@ interface User {
 }
 
 interface Profile {
+  id: string;
   username: string;
   username_updated: boolean;
 }
