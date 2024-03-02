@@ -4,14 +4,14 @@
   // Environment settings
   "env": {
     "browser": true, // Indicates the code is running in a browser
-    "node": true // Indicates the code is running in Node.js
+    "node": true, // Indicates the code is running in Node.js
   },
 
   // ESLint plugins
   "plugins": [
     "@typescript-eslint", // TypeScript plugin for ESLint
     "prettier", // Prettier plugin for consistent code style
-    "import" // Plugin to support import/export syntax
+    "import", // Plugin to support import/export syntax
   ],
 
   // ESLint extends
@@ -20,16 +20,16 @@
     "plugin:@typescript-eslint/recommended", // Recommended rules from the TypeScript ESLint plugin
     "plugin:prettier/recommended", // Enables eslint-plugin-prettier and eslint-config-prettier
     "plugin:import/recommended", // Recommended import plugin rules
-    "plugin:import/typescript" // Import plugin rules for TypeScript
+    "plugin:import/typescript", // Import plugin rules for TypeScript
   ],
 
   // ESLint settings
   "settings": {
     "import/resolver": {
       "typescript": {
-        "project": "./tsconfig.json" // Path to your TypeScript config
-      }
-    }
+        "project": "./tsconfig.json", // Path to your TypeScript config
+      },
+    },
   },
 
   // Patterns to be ignored by ESLint
@@ -37,7 +37,7 @@
     "node_modules", // Node modules directory
     "build", // Build directory
     ".next", // Next.js build directory
-    ".vscode" // VSCode settings directory
+    ".vscode", // VSCode settings directory
   ],
 
   // ESLint rules
@@ -54,21 +54,21 @@
           "internal",
           ["sibling", "parent"],
           "index",
-          "unknown"
+          "unknown",
         ],
         "newlines-between": "always",
         "alphabetize": {
           "order": "asc",
-          "caseInsensitive": true
-        }
-      }
+          "caseInsensitive": true,
+        },
+      },
     ],
 
     // TypeScript ESLint rules
     "@typescript-eslint/comma-dangle": ["error", "only-multiline"],
     "@typescript-eslint/no-unused-vars": [
       "error",
-      { "argsIgnorePattern": "^_" }
-    ]
-  }
+      { "argsIgnorePattern": "^_" },
+    ],
+  },
 }
