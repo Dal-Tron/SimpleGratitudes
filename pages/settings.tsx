@@ -1,12 +1,11 @@
 import { notification } from 'antd';
 import clsx from 'clsx';
-import { useRouter } from 'next/router';
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 import { Input } from '@/components/base/Input/Input';
 import { Modal } from '@/components/base/Modal/Modal';
 import { UsernameNotice } from '@/components/feature/UsernameNotice/UsernameNotice';
-import { validJWT, validPassword, validUsername } from '@/helpers/validation';
+import { validPassword, validUsername } from '@/helpers/validation';
 import { withAuth } from '@/hoc/withAuth';
 import { CheckIcon } from '@/icons/Check';
 import { TrashIcon } from '@/icons/Trash';
@@ -15,32 +14,30 @@ import { Button } from 'Components/base/Button/Button';
 import { IconButton } from 'Components/base/Button/IconButton';
 import { Validator } from 'Components/base/Validator/Validator';
 import Loading from 'Components/Loading';
-import { AuthService } from 'Services/auth';
-import { GratitudesService } from 'Services/gratitudes';
 import { ProfileService } from 'Services/profile';
 
 const SettingsPage = () => {
-  const updatePasswordInputRef = useRef();
-  const router = useRouter();
+  // const updatePasswordInputRef = useRef();
+  // const router = useRouter();
   const profile = useStore((state) => state.profile);
   const user = useStore((state) => state.user);
 
-  const {
-    query: { access_token },
-  } = router;
+  // const {
+  //   query: { access_token },
+  // } = router;
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState(profile?.username || '');
   const [deleteUsername, setDeleteUsername] = useState('');
-  const [confirmDeleteAccount, setConfirmDeleteAccount] = useState(false);
+  // const [confirmDeleteAccount, setConfirmDeleteAccount] = useState(false);
   const [showConfirmUsername, setShowConfirmUsername] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, _setLoading] = useState(false);
   const [usernameIsDirty, setUsernameIsDirty] = useState(false);
   const [passwordIsDirty, setPasswordIsDirty] = useState(false);
   const [deleteUsernameIsDirty, setDeleteUsernameIsDirty] = useState(false);
 
-  if (validJWT(access_token)) {
-    updatePasswordInputRef?.current?.focus();
-  }
+  // if (validJWT(access_token)) {
+  //   updatePasswordInputRef?.current?.focus();
+  // }
 
   const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -66,45 +63,45 @@ const SettingsPage = () => {
     setDeleteUsername(value);
   };
 
-  const handleCancelUpdateUsername = () => {
-    // clear username
-    setUsername('');
-    return setShowConfirmUsername(false);
-  };
+  // const handleCancelUpdateUsername = () => {
+  //   // clear username
+  //   setUsername('');
+  //   return setShowConfirmUsername(false);
+  // };
 
-  const handleUpdatePassword = async () => {
-    if (validPassword(password)) {
-      if (session.access_token) {
-        const { error } = await AuthService.updateUser({ password });
-        if (!error) {
-          setPassword('');
-          return notification.open({
-            type: 'success',
-            message: 'Successfully updated password!',
-            duration: 2,
-          });
-        } else {
-          return notification.open({
-            type: 'error',
-            message: error.message,
-            duration: 2,
-          });
-        }
-      } else {
-        return notification.open({
-          type: 'error',
-          message: 'You must sign in again to change passwords.',
-          duration: 2,
-        });
-      }
-    } else {
-      return null;
-    }
-  };
+  // const handleUpdatePassword = async () => {
+  //   if (validPassword(password)) {
+  //     if (session.access_token) {
+  //       const { error } = await AuthService.updateUser({ password });
+  //       if (!error) {
+  //         setPassword('');
+  //         return notification.open({
+  //           type: 'success',
+  //           message: 'Successfully updated password!',
+  //           duration: 2,
+  //         });
+  //       } else {
+  //         return notification.open({
+  //           type: 'error',
+  //           message: error.message,
+  //           duration: 2,
+  //         });
+  //       }
+  //     } else {
+  //       return notification.open({
+  //         type: 'error',
+  //         message: 'You must sign in again to change passwords.',
+  //         duration: 2,
+  //       });
+  //     }
+  //   } else {
+  //     return null;
+  //   }
+  // };
 
-  const handleConfirmDeleteAccount = (confirm = false) => {
-    return setConfirmDeleteAccount(confirm);
-  };
+  // const handleConfirmDeleteAccount = (confirm = false) => {
+  //   return setConfirmDeleteAccount(confirm);
+  // };
 
   const handleError = (err) => {
     notification.open({
@@ -114,44 +111,44 @@ const SettingsPage = () => {
     });
   };
 
-  const handleDeleteAccount = async () => {
-    if (confirmDeleteAccount && user && user.id) {
-      setLoading(true);
+  // const handleDeleteAccount = async () => {
+  //   if (confirmDeleteAccount && user && user.id) {
+  //     setLoading(true);
 
-      try {
-        const { error: deleteProfileError } =
-          await ProfileService.deleteProfile(user.id);
-        if (deleteProfileError) throw deleteProfileError;
+  //     try {
+  //       const { error: deleteProfileError } =
+  //         await ProfileService.deleteProfile(user.id);
+  //       if (deleteProfileError) throw deleteProfileError;
 
-        const { error: deleteGratitudesError } =
-          await GratitudesService.deleteGratitudes(user.id);
-        if (deleteGratitudesError) throw deleteGratitudesError;
+  //       const { error: deleteGratitudesError } =
+  //         await GratitudesService.deleteGratitudes(user.id);
+  //       if (deleteGratitudesError) throw deleteGratitudesError;
 
-        const { error: deleteUserError } = await AuthService.deleteUser();
-        if (deleteUserError) throw deleteUserError;
+  //       const { error: deleteUserError } = await AuthService.deleteUser();
+  //       if (deleteUserError) throw deleteUserError;
 
-        const { error: signOutError } = await AuthService.signOut();
-        if (signOutError) {
-          if (signOutError.message !== 'Invalid user') {
-            handleError(signOutError);
-          }
-        }
+  //       const { error: signOutError } = await AuthService.signOut();
+  //       if (signOutError) {
+  //         if (signOutError.message !== 'Invalid user') {
+  //           handleError(signOutError);
+  //         }
+  //       }
 
-        if (!deleteUserError && !deleteGratitudesError) {
-          notification.open({
-            type: 'success',
-            message: 'Successfully deleted user!',
-            duration: 2,
-          });
-          return (window.location.href = '/');
-        }
-      } catch (err) {
-        handleError(err);
-      } finally {
-        setLoading(false);
-      }
-    }
-  };
+  //       if (!deleteUserError && !deleteGratitudesError) {
+  //         notification.open({
+  //           type: 'success',
+  //           message: 'Successfully deleted user!',
+  //           duration: 2,
+  //         });
+  //         return (window.location.href = '/');
+  //       }
+  //     } catch (err) {
+  //       handleError(err);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   }
+  // };
 
   const isValidUsername = validUsername(username) && username;
   const isValidPassword = validPassword(password);
@@ -270,7 +267,8 @@ const SettingsPage = () => {
                     'bg-primary-3': !isValidPassword,
                   })}
                   disabled={!isValidPassword}
-                  onClick={handleUpdatePassword}
+                  onClick={() => {}}
+                  // onClick={handleUpdatePassword}
                 >
                   <CheckIcon
                     className={clsx('w-6 h-6 text-white', {
@@ -300,7 +298,8 @@ const SettingsPage = () => {
                     'bg-primary-3': !isValidDeleteUsername,
                   })}
                   disabled={!isValidDeleteUsername}
-                  onClick={handleUpdatePassword}
+                  onClick={() => {}}
+                  // onClick={handleUpdatePassword}
                 >
                   <TrashIcon
                     className={clsx('w-6 h-6 text-white', {

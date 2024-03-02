@@ -1,12 +1,10 @@
-import { Modal } from 'antd';
 import dayjs from 'dayjs';
 import { ChangeEvent, FC, useEffect, useState } from 'react';
 
+import { Modal } from '@/components/base/Modal/Modal';
+import { GratitudesService } from '@/services/gratitudes';
 import { useStore } from '@/store/store';
-import { ExpandingTextarea } from 'Components/base/Textarea/Textarea';
-import { GratitudesService } from 'Services/gratitudes';
-
-import { ModalFooter } from './ModalFooter';
+import { ExpandingTextarea } from 'Components/base/Textarea/ExpandingTextarea';
 
 export const CreateGratitudeModal: FC<{
   isOpen: boolean;
@@ -58,18 +56,8 @@ export const CreateGratitudeModal: FC<{
   return (
     <Modal
       className="sg-box-shadow rounded-[20px]"
-      open={isOpen}
-      destroyOnClose={true}
-      onCancel={handleClose}
-      footer={
-        <ModalFooter
-          onCancel={handleClose}
-          onSubmit={handleSubmit}
-          onPublicChange={handlePublic}
-          isPublic={isPublic}
-          loading={false}
-        />
-      }
+      isOpen={isOpen}
+      onClose={handleClose}
     >
       <div className="flex flex-col">
         <ExpandingTextarea

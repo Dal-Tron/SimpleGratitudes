@@ -1,5 +1,7 @@
 import { CheckCircleFilled, CloseCircleOutlined } from '@ant-design/icons';
-import { Switch, Button } from 'antd';
+import { Switch } from 'antd';
+
+import { Button } from '@/components/base/Button/Button';
 
 const AddGratitudeFooter = ({
   handleCancel = () => {},

@@ -1,39 +1,41 @@
-import { Input } from 'antd';
 import dayjs from 'dayjs';
-import { useMemo } from 'react';
+import { ChangeEvent, useState } from 'react';
 
-const { TextArea } = Input;
+import { useStore } from '@/store/store';
+import { ExpandingTextarea } from 'Components/base/Textarea/ExpandingTextarea';
 
-export const AddGratitude = ({
-  gratitude = {},
-  handleGratitudeText = () => {},
-}) => {
-  const username = '';
+interface Gratitude {
+  gratitude: string;
+  updated_at?: string;
+}
 
-  const gratitudeText = gratitude.gratitude || '';
+interface Props {
+  gratitude: Gratitude;
+}
 
-  const gratitudeDate = useMemo(() => {
-    const format = 'MMMM D, YYYY';
+export const AddGratitude = ({ gratitude }: Props) => {
+  const profile = useStore((state) => state.profile);
+  const [text, setText] = useState(gratitude?.gratitude || '');
 
-    if (gratitude.date) {
-      return dayjs(gratitude.date).format(format);
-    }
+  const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const { value } = e.target;
 
-    return dayjs().format(format);
-  }, [gratitude.date]);
+    setText(value);
+  };
+
+  const currentDate = dayjs().format('MMMM D, YYYY');
 
   return (
     <div className="add-gratitude">
-      <TextArea
+      <ExpandingTextarea
         maxLength={255}
-        onChange={handleGratitudeText}
-        value={gratitudeText}
+        onChange={handleTextChange}
+        value={text}
         className="add-gratitude-textarea"
         placeholder="My simple gratitude is..."
-        autoSize={true}
       />
-      <span className="add-gratitude-from">Shared by {username}</span>
-      <span className="add-gratitude-date">{gratitudeDate}</span>
+      <span className="add-gratitude-from">Shared by {profile?.username}</span>
+      <span className="add-gratitude-date">{currentDate}</span>
     </div>
   );
 };
