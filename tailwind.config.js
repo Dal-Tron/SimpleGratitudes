@@ -6,6 +6,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      lineHeight: {
+        slight: '0.9',
+      },
       colors: {
         'primary-0': 'var(--color-primary-0)',
         'primary-1': 'var(--color-primary-1)',
