@@ -13,20 +13,26 @@ export const AuthService = {
       console.error('Error in deleteUser:', error);
     }
   },
-  register: async (data) => {
+  register: async (cred: { email: string; password: string }) => {
     try {
-      const res = await supabase.auth.signUp(data);
-      if (res) return res;
-    } catch (error) {
-      console.error('Error in register:', error);
+      const { error, data } = await supabase.auth.signUp(cred);
+
+      if (error) throw error;
+
+      if (data) return data;
+    } catch (err) {
+      handleAuthError(err);
     }
   },
-  signIn: async (data) => {
+  signIn: async (cred: { email: string; password: string }) => {
     try {
-      const res = await supabase.auth.signInWithPassword(data);
-      if (res) return res;
-    } catch (error) {
-      console.error('Error in signIn:', error);
+      const { error, data } = await supabase.auth.signInWithPassword(cred);
+
+      if (error) throw error;
+
+      if (data) return data;
+    } catch (err) {
+      handleAuthError(err);
     }
   },
   signOut: async () => {

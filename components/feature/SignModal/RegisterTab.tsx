@@ -1,13 +1,15 @@
-import { ChangeEvent, FC } from 'react';
+import { notification } from 'antd';
+import { useRouter } from 'next/router';
+import { ChangeEvent, FC, useState } from 'react';
 
 import { Button } from '@/components/base/Button/Button';
+import { AuthService } from '@/services/auth';
 
 import { SignIn } from './SignIn';
 
 interface RegisterTabProps {
   email: string;
   password: string;
-  loading: boolean;
   handleEmailChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handlePasswordChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onChangeTab: (key: string) => void;
@@ -17,18 +19,52 @@ interface RegisterTabProps {
 export const RegisterTab: FC<RegisterTabProps> = ({
   email,
   password,
-  loading,
   handleEmailChange,
   handlePasswordChange,
   onChangeTab,
   onCancel,
 }) => {
+  const router = useRouter();
+
+  const [loading, setLoading] = useState(false);
   const handleChangeTab = () => {
     onChangeTab('1');
   };
 
-  const handleSubmit = () => {
-    console.log('registering in');
+  const handleSubmit = async () => {
+    setLoading(true);
+
+    try {
+      const result = await AuthService.register({ email, password });
+
+      if (result) {
+        notification.open({
+          message: 'Successfully registered!',
+          type: 'success',
+          duration: 2,
+        });
+
+        onCancel();
+
+        router.push('/');
+      }
+    } catch (err) {
+      if (err.message?.indexOf('For') >= 0) {
+        notification.open({
+          message: 'Please check for email confirmation.',
+          type: 'error',
+          duration: 2,
+        });
+      }
+
+      notification.open({
+        message: 'Unable to register at this time',
+        type: 'error',
+        duration: 2,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSubmitGmail = () => {
