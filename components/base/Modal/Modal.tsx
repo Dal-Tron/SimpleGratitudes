@@ -23,18 +23,20 @@ export const Modal: FC<ModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center -mt-24"
+      className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto"
       id="modal"
     >
-      <div className={clsx('relative rounded-md w-96 p-5', className)}>
-        <Button
-          className="m-4 text-gray-400 absolute top-0 right-0 z-10"
-          onClick={onClose}
-          ariaLabel="Close Modal"
-        >
-          <CloseIcon className="w-6 h-6 text-white" />
-        </Button>
-        <div>{children}</div>
+      <div className="flex items-center justify-center h-full w-full -mt-20">
+        <div className={clsx('relative rounded-md w-96 p-5', className)}>
+          <Button
+            className="m-4 text-gray-400 absolute top-0 right-0 z-10"
+            onClick={onClose}
+            ariaLabel="Close Modal"
+          >
+            <CloseIcon className="w-6 h-6 text-white" />
+          </Button>
+          <div>{children}</div>
+        </div>
       </div>
     </div>
   );
