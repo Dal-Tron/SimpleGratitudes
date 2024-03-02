@@ -54,18 +54,24 @@ export const Header = ({
         'sticky-header': isScrolling && sticky,
       })}
     >
-      <div className="flex flex-row border-b-8 border-[#73b8cb] p-6 items-center">
-        <div
-          onClick={handleOpenAddGratitudeModal}
-          className="text-white text-3xl md:hidden"
-        >
-          <PlusCircleOutlined />
+      <div className="flex justify-center border-b-8 border-[#73b8cb] p-6">
+        <div className="flex-1 text-left">
+          <div
+            onClick={handleOpenAddGratitudeModal}
+            className="text-white text-3xl md:hidden"
+          >
+            <PlusCircleOutlined />
+          </div>
         </div>
-        <div className="smiley-header" onClick={handleNavigateHome}>
-          {sticky ? <SmileTwoTone twoToneColor="#73b8cb" /> : <Title />}
+        <div className="flex-1">
+          <div onClick={handleNavigateHome}>
+            {sticky ? <SmileTwoTone twoToneColor="#73b8cb" /> : <Title />}
+          </div>
         </div>
-        <div onClick={handleOpenMenu} className="text-3xl text-white">
-          <MenuOutlined />
+        <div className="flex-1 text-right">
+          <div onClick={handleOpenMenu} className="text-3xl text-white">
+            <MenuOutlined />
+          </div>
         </div>
       </div>
     </section>
