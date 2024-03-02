@@ -5,9 +5,9 @@ export const Title = () => {
   const { page } = router.query;
 
   return (
-    <div className="intention">
-      <div>{!page ? 'Simple' : `${page}'s`}</div>
-      <div>Gratitudes</div>
+    <div className="font-snippet text-2xl text-white leading-slight flex flex-col items-center">
+      <div className="ml-2">{!page ? 'Simple' : `${page}'s`}</div>
+      <div className="ml-2">Gratitudes</div>
     </div>
   );
 };
