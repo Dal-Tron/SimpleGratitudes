@@ -39,12 +39,12 @@ export const ExpandingTextarea: React.FC<ExpandingTextareaProps> = ({
       // Scroll to the bottom
       textarea.scrollTop = textarea.scrollHeight;
     }
-  }, [value]); // Only re-run the effect if value changes
+  }, [value]);
 
   return (
     <textarea
       ref={textareaRef}
-      rows={1} // Start with one row
+      rows={1}
       className={clsx(
         'w-full focus:outline-none outline-none border-none resize-none bg-transparent',
         className,
