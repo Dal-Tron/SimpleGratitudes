@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { FC, ReactNode } from 'react';
 
-import { Loading } from '../Loading/Loading';
+import { Loading } from '@/components/base/Loading/BounceLoading';
 
 interface ButtonProps {
   ariaLabel?: string;

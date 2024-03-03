@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { FC, ReactNode } from 'react';
 
-import { Loading } from '@/components/base/Loading/Loading';
+import { BounceLoading } from '@/components/base/Loading/BounceLoading';
 
 interface IconButtonProps {
   ariaLabel?: string;
@@ -43,7 +43,7 @@ export const IconButton: FC<IconButtonProps> = ({
       className={clsx(styles, className)}
       disabled={disabled}
     >
-      {loading ? <Loading /> : children}
+      {loading ? <BounceLoading /> : children}
     </button>
   );
 };

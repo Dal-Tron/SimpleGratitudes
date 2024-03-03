@@ -1,4 +1,4 @@
-export const Loading = () => (
+export const BounceLoading = () => (
   <div className="flex space-x-2">
     {Array.from({ length: 3 }).map((_, index) => (
       <div

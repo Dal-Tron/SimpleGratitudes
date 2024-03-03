@@ -15,7 +15,7 @@ export const AuthService = {
   },
   register: async (cred: { email: string; password: string }) => {
     try {
-      const { error, data } = await supabase.auth.signUp(cred);
+      const { data, error } = await supabase.auth.signUp(cred);
 
       if (error) throw error;
 
