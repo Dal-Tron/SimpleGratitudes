@@ -2,19 +2,19 @@ import { notification } from 'antd';
 import clsx from 'clsx';
 import { ChangeEvent, useState } from 'react';
 
+import { Button } from '@/components/base/Button/Button';
+import { IconButton } from '@/components/base/Button/IconButton';
 import { Input } from '@/components/base/Input/Input';
+import { SpinLoading } from '@/components/base/Loading/SpinLoading';
 import { Modal } from '@/components/base/Modal/Modal';
+import { Validator } from '@/components/base/Validator/Validator';
 import { UsernameNotice } from '@/components/feature/UsernameNotice/UsernameNotice';
 import { validPassword, validUsername } from '@/helpers/validation';
 import { withAuth } from '@/hoc/withAuth';
 import { CheckIcon } from '@/icons/Check';
 import { TrashIcon } from '@/icons/Trash';
+import { ProfileService } from '@/services/profile';
 import { useStore } from '@/store/store';
-import { Button } from 'Components/base/Button/Button';
-import { IconButton } from 'Components/base/Button/IconButton';
-import { Validator } from 'Components/base/Validator/Validator';
-import Loading from 'Components/Loading';
-import { ProfileService } from 'Services/profile';
 
 const SettingsPage = () => {
   // const updatePasswordInputRef = useRef();
@@ -197,7 +197,7 @@ const SettingsPage = () => {
   return (
     <>
       {loading ? (
-        <Loading />
+        <SpinLoading />
       ) : (
         <div className="sg-box-shadow h-96 bg-primary-0 rounded-lg w-96 p-4">
           <div className="p-4">

@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { ComponentType, ReactElement, useEffect, useState } from 'react';
 
-import Loading from '@/components/Loading';
+import { SpinLoading } from '@/components/base/Loading/SpinLoading';
 import { useStore } from '@/store/store';
 
 export function withAuth<T>(WrappedComponent: ComponentType<T>) {
@@ -19,7 +19,7 @@ export function withAuth<T>(WrappedComponent: ComponentType<T>) {
     }, [user, router]);
 
     if (!isAuthenticated) {
-      return <Loading />;
+      return <SpinLoading />;
     }
 
     return <WrappedComponent {...props} />;
