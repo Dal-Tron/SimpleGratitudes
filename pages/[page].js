@@ -1,5 +1,5 @@
-import MainPage from '@/components/feature/MainPage/MainPage';
+import MainContent from '@/components/feature/MainContent/MainContent';
 
 export default function Page() {
-  return <MainPage mainPage={false} />;
+  return <MainContent mainPage={false} />;
 }

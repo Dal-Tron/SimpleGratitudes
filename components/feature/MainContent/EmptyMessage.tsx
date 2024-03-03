@@ -1,9 +1,10 @@
 import { SmileTwoTone } from '@ant-design/icons';
 import { Empty } from 'antd';
+import clsx from 'clsx';
 
-export const EmptyMessage = () => {
+export const EmptyMessage = ({ className }: { className?: string }) => {
   return (
-    <div className="empty-data">
+    <div className={clsx('empty-data', className)}>
       <Empty
         description={
           <span className="empty-data-text">More gratitudes needed...</span>

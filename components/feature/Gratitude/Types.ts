@@ -1,4 +1,5 @@
 export type GratitudeProps = {
+  className?: string;
   date: string;
   gratitude: string;
   id: string;

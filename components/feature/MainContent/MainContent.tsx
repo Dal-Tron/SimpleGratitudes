@@ -5,17 +5,18 @@ import { useRouter } from 'next/router';
 import queryString from 'query-string';
 import { useEffect, useMemo, useState } from 'react';
 
-import { AddGratitudeButton } from '@/components/feature/GratitudeModal/AddGratitudeButton';
+import { AddGratitudeButton } from '@/components/feature/Gratitude/AddGratitudeButton';
+import { Gratitude } from '@/components/feature/Gratitude/Gratitude';
 import { useStore } from '@/store/store';
-import Gratitude from 'Components/Gratitude';
-import Loading from 'Components/Loading';
 import { useAddGratitudeModal, useSignModal } from 'Context/modal';
 import { validJWT } from 'Helpers/validation';
 import { GratitudesService } from 'Services/gratitudes';
 
+import { SpinLoading } from '@/components/base/Loading/SpinLoading';
+import { mockGratitudes } from '@/mocks/gratitudes';
 import { EmptyMessage } from './EmptyMessage';
 
-export default function MainPage({ mainPage = true }) {
+export default function MainContent({ mainPage = true }) {
   const user = useStore((state) => state.user);
 
   const [loading, setLoading] = useState(true);
@@ -101,7 +102,7 @@ export default function MainPage({ mainPage = true }) {
 
   const memoedGratitudes = useMemo(
     () =>
-      gratitudes
+      mockGratitudes
         .sort((a, b) => {
           const aInsertedAt = dayjs(a.inserted_at).valueOf();
           const bInsertedAt = dayjs(b.inserted_at).valueOf();
@@ -133,11 +134,15 @@ export default function MainPage({ mainPage = true }) {
   );
 
   return (
-    <section className="flex w-full flex-wrap">
-      <AddGratitudeButton onClick={handleAddGratitude} />
-      {loading && <Loading />}
-      {!loading && gratitudes.length < 1 && <EmptyMessage />}
-      {!loading && gratitudes.length > 0 && memoedGratitudes}
-    </section>
+    <div className="flex flex-wrap w-full">
+      <AddGratitudeButton onClick={handleAddGratitude} className="mb-1" />
+      {loading ? (
+        <SpinLoading />
+      ) : gratitudes.length < 1 ? (
+        <EmptyMessage />
+      ) : (
+        memoedGratitudes
+      )}
+    </div>
   );
 }

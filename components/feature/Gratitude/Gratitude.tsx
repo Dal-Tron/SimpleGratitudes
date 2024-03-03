@@ -8,6 +8,7 @@ import { FC, useEffect, useState } from 'react';
 import { GratitudeProps } from './Types';
 
 export const Gratitude: FC<GratitudeProps> = ({
+  className,
   date,
   gratitude,
   id,
@@ -70,7 +71,10 @@ export const Gratitude: FC<GratitudeProps> = ({
   return (
     <div
       onClick={handleEditGratitude}
-      className="p-8 max-w-[350px] transition-shadow transition-transform duration-300 ease-in-out"
+      className={clsx(
+        'p-8 max-w-[350px] transition-shadow transition-transform duration-300 ease-in-out',
+        className,
+      )}
     >
       <div
         className={clsx(
