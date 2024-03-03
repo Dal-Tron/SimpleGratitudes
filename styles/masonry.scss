@@ -1,0 +1,54 @@
+.my-masonry-grid {
+  display: -webkit-box; /* Not needed if autoprefixing */
+  display: -ms-flexbox; /* Not needed if autoprefixing */
+  display: flex;
+  width: auto;
+}
+.my-masonry-grid_column {
+  background-clip: padding-box;
+}
+
+@media screen and (min-width: 500px) and (max-width: 630px) {
+  .my-masonry-grid_column:nth-child(2) > div:first-child {
+    margin-left: -120px;
+  }
+}
+
+@media screen and (min-width: 630px) and (max-width: 750px) {
+  .my-masonry-grid_column:nth-child(2) > div:first-child {
+    margin-left: -170px;
+  }
+}
+
+@media screen and (min-width: 750px) and (max-width: 900px) {
+  .my-masonry-grid_column:nth-child(2) > div:first-child {
+    margin-left: -100px;
+  }
+}
+
+@media screen and (min-width: 900px) and (max-width: 1024px) {
+  .my-masonry-grid_column:nth-child(2) > div:first-child,
+  .my-masonry-grid_column:nth-child(3) > div:first-child,
+  .my-masonry-grid_column:nth-child(4) > div:first-child,
+  .my-masonry-grid_column:nth-child(5) > div:first-child {
+    margin-left: -130px;
+  }
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1670px) {
+  .my-masonry-grid_column:nth-child(2) > div:first-child,
+  .my-masonry-grid_column:nth-child(3) > div:first-child,
+  .my-masonry-grid_column:nth-child(4) > div:first-child,
+  .my-masonry-grid_column:nth-child(5) > div:first-child {
+    margin-left: -150px;
+  }
+}
+
+@media screen and (min-width: 1660px) {
+  .my-masonry-grid_column:nth-child(2) > div:first-child,
+  .my-masonry-grid_column:nth-child(3) > div:first-child,
+  .my-masonry-grid_column:nth-child(4) > div:first-child,
+  .my-masonry-grid_column:nth-child(5) > div:first-child {
+    margin-left: -180px;
+  }
+}

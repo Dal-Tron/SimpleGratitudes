@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import queryString from 'query-string';
 import { useEffect, useMemo, useState } from 'react';
+import Masonry from 'react-masonry-css';
 
 import { AddGratitudeButton } from '@/components/feature/Gratitude/AddGratitudeButton';
 import { Gratitude } from '@/components/feature/Gratitude/Gratitude';
@@ -133,16 +134,33 @@ export default function MainContent({ mainPage = true }) {
     [gratitudes],
   );
 
+  const breakpointColumnsObj = {
+    default: 5,
+    1650: 4,
+    1250: 3,
+    750: 2,
+    500: 1,
+  };
+
   return (
-    <div className="flex flex-wrap w-full">
-      <AddGratitudeButton onClick={handleAddGratitude} className="mb-1" />
-      {loading ? (
-        <SpinLoading />
-      ) : gratitudes.length < 1 ? (
-        <EmptyMessage />
-      ) : (
-        memoedGratitudes
-      )}
+    <div className="flex justify-center w-full">
+      <Masonry
+        breakpointCols={breakpointColumnsObj}
+        className="my-masonry-grid"
+        columnClassName="my-masonry-grid_column"
+      >
+        <AddGratitudeButton
+          onClick={handleAddGratitude}
+          className="mb-6 w-24"
+        />
+        {loading ? (
+          <SpinLoading />
+        ) : gratitudes.length < 1 ? (
+          <EmptyMessage />
+        ) : (
+          memoedGratitudes
+        )}
+      </Masonry>
     </div>
   );
 }
