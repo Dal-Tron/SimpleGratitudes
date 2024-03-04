@@ -16,7 +16,6 @@
     "strict": false,
     "target": "esnext",
     "paths": {
-      "Components/*": ["./components/*"],
       "Interfaces/*": ["./interfaces/*"],
       "Instruments": ["./instruments"],
       "Styles/*": ["./styles/*"],

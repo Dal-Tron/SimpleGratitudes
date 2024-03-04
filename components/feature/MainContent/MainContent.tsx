@@ -133,11 +133,7 @@ export default function MainContent({ mainPage = true }) {
 
   return (
     <div className="flex justify-center w-full">
-      <Masonry
-        breakpointCols={breakpointColumnsObj}
-        className="my-masonry-grid"
-        columnClassName="my-masonry-grid_column"
-      >
+      <Masonry breakpointCols={breakpointColumnsObj} className="flex w-full">
         {loading ? (
           <SpinLoading />
         ) : gratitudes.length < 1 ? (

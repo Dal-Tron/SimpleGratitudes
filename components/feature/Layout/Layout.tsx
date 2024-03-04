@@ -1,10 +1,10 @@
 import Head from 'next/head';
 
+import { CreateGratitudeModal } from '@/components/feature/CreateGratitudeModal/CreateGratitudeModal';
 import { Footer } from '@/components/feature/Footer/Footer';
 import { Header } from '@/components/feature/Header/Header';
+import { MenuDrawer } from '@/components/feature/MenuDrawer/MenuDrawer';
 import { SignModal } from '@/components/feature/SignModal/SignModal';
-import { CreateGratitudeModal } from 'Components/feature/CreateGratitudeModal/CreateGratitudeModal';
-import { MenuDrawer } from 'Components/feature/MenuDrawer/MenuDrawer';
 import { useUserMenu } from 'Context/menu';
 import { useAddGratitudeModal, useSignModal } from 'Context/modal';
 
