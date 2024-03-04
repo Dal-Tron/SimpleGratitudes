@@ -1,6 +1,6 @@
+import { useAddGratitudeModal } from '@/context/modal';
 import { useStore } from '@/store/store';
 import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
-import { useAddGratitudeModal } from 'Context/modal';
 import clsx from 'clsx';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';

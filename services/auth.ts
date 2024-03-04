@@ -1,4 +1,4 @@
-import { supabase } from 'Supabase/client';
+import { supabase } from '@/supabase/client';
 
 const handleAuthError = (err: Error) => {
   console.error(err);

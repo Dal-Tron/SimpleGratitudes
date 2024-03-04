@@ -1,6 +1,6 @@
 import { notification } from 'antd';
 
-import { supabase } from 'Supabase/client';
+import { supabase } from '@/supabase/client';
 
 const handleServiceError = (err: Error, message: string) => {
   if (err.message === 'JWT expired') {

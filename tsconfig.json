@@ -16,18 +16,6 @@
     "strict": false,
     "target": "esnext",
     "paths": {
-      "Interfaces/*": ["./interfaces/*"],
-      "Instruments": ["./instruments"],
-      "Styles/*": ["./styles/*"],
-      "Lib/*": ["./lib/*"],
-      "Context/*": ["./context/*"],
-      "Helpers/*": ["./helpers/*"],
-      "HOC/*": ["./hoc/*"],
-      "Hooks/*": ["./hooks/*"],
-      "Services/*": ["./services/*"],
-      "Supabase/*": ["./supabase/*"],
-      "Types/*": ["./types/*"],
-      "Utils/*": ["./utils/*"],
       "@/*": ["./*"]
     },
     "incremental": true

@@ -5,8 +5,8 @@ import { Footer } from '@/components/feature/Footer/Footer';
 import { Header } from '@/components/feature/Header/Header';
 import { MenuDrawer } from '@/components/feature/MenuDrawer/MenuDrawer';
 import { SignModal } from '@/components/feature/SignModal/SignModal';
-import { useUserMenu } from 'Context/menu';
-import { useAddGratitudeModal, useSignModal } from 'Context/modal';
+import { useUserMenu } from '@/context/menu';
+import { useAddGratitudeModal, useSignModal } from '@/context/modal';
 
 export const Layout = ({ children }) => {
   const { updateSignModal, showSignModal } = useSignModal();

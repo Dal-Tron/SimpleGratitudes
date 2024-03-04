@@ -1,7 +1,7 @@
 import { Input, Tooltip } from 'antd';
 import { useState } from 'react';
 
-import { validUsername } from 'Helpers/validation';
+import { validUsername } from '@/helpers/validation';
 
 export const DeleteAccountInput = ({
   handleConfirmDeleteAccount = () => {},

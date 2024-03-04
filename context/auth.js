@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { AuthService } from '@/services/auth';
 import { useStore } from '@/store/store';
-import { supabase } from 'Supabase/client';
+import { supabase } from '@/supabase/client';
 
 export const AuthProvider = ({ children }) => {
   const setUser = useStore((state) => state.setUser);

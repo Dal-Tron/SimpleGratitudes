@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist, PersistOptions } from 'zustand/middleware';
 
-import { ProfileService } from 'Services/profile';
+import { ProfileService } from '@/services/profile';
 
 interface User {
   id: string;

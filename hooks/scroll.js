@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { off, on } from 'Utils/base';
+import { off, on } from '@/utils/base';
 /**
  * useScrollingUp
  * @returns {boolean}

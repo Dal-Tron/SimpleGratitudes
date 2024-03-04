@@ -1,7 +1,7 @@
 import { notification } from 'antd';
 
-import { validUsername } from 'Helpers/validation';
-import { supabase } from 'Supabase/client';
+import { validUsername } from '@/helpers/validation';
+import { supabase } from '@/supabase/client';
 
 const handleProfileError = (err: Error, msg: string) => {
   notification.open({

@@ -8,9 +8,9 @@ import {
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 
+import { useAddGratitudeModal } from '@/context/modal';
+import { AuthService } from '@/services/auth';
 import { useStore } from '@/store/store';
-import { useAddGratitudeModal } from 'Context/modal';
-import { AuthService } from 'Services/auth';
 
 import { MenuItem } from './MenuItem';
 

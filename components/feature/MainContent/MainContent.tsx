@@ -8,9 +8,9 @@ import Masonry from 'react-masonry-css';
 
 import { Gratitude } from '@/components/feature/Gratitude/Gratitude';
 import { useSignModal } from '@/context/modal';
+import { validJWT } from '@/helpers/validation';
+import { GratitudesService } from '@/services/gratitudes';
 import { useStore } from '@/store/store';
-import { validJWT } from 'Helpers/validation';
-import { GratitudesService } from 'Services/gratitudes';
 
 import { SpinLoading } from '@/components/base/Loading/SpinLoading';
 import { EmptyMessage } from './EmptyMessage';
