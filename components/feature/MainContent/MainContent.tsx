@@ -6,10 +6,9 @@ import queryString from 'query-string';
 import { useEffect, useMemo, useState } from 'react';
 import Masonry from 'react-masonry-css';
 
-import { AddGratitudeButton } from '@/components/feature/Gratitude/AddGratitudeButton';
 import { Gratitude } from '@/components/feature/Gratitude/Gratitude';
+import { useSignModal } from '@/context/modal';
 import { useStore } from '@/store/store';
-import { useAddGratitudeModal, useSignModal } from 'Context/modal';
 import { validJWT } from 'Helpers/validation';
 import { GratitudesService } from 'Services/gratitudes';
 
@@ -30,7 +29,6 @@ export default function MainContent({ mainPage = true }) {
   const profile = useStore((state) => state.profile);
 
   const { updateSignModal } = useSignModal();
-  const { updateAddGratitudeModal } = useAddGratitudeModal();
 
   // for password reset
   if (asPath.indexOf('type=recovery') !== -1) {
@@ -93,14 +91,6 @@ export default function MainContent({ mainPage = true }) {
     }
   }, [access_restricted]);
 
-  const handleAddGratitude = () => {
-    if (!user) {
-      return updateSignModal(true);
-    }
-
-    return updateAddGratitudeModal(true);
-  };
-
   const memoedGratitudes = useMemo(
     () =>
       mockGratitudes
@@ -149,10 +139,6 @@ export default function MainContent({ mainPage = true }) {
         className="my-masonry-grid"
         columnClassName="my-masonry-grid_column"
       >
-        <AddGratitudeButton
-          onClick={handleAddGratitude}
-          className="mb-6 w-24"
-        />
         {loading ? (
           <SpinLoading />
         ) : gratitudes.length < 1 ? (

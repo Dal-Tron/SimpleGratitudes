@@ -28,7 +28,7 @@ export const Layout = ({ children }) => {
 
   return (
     <>
-      <div className="flex flex-col bg-[#5190a5]">
+      <div className="flex flex-col bg-[#5190a5] min-h-screen">
         <Head>
           <title>Simple Gratitudes</title>
           <link rel="icon" href="/favicon.ico" />
@@ -47,9 +47,7 @@ export const Layout = ({ children }) => {
         </Head>
         <Header />
         <MenuDrawer isOpen={showUserMenu} onClose={handleCloseMenu} />
-        <section className="flex justify-center pt-8 h-screen">
-          {children}
-        </section>
+        <section className="flex-1 justify-center pt-8">{children}</section>
       </div>
       <CreateGratitudeModal
         isOpen={showAddGratitudeModal}

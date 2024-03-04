@@ -58,7 +58,7 @@ export const Header = ({
         <div className="flex-1 text-left">
           <div
             onClick={handleOpenAddGratitudeModal}
-            className="text-white text-3xl md:hidden"
+            className="text-white text-4xl"
           >
             <PlusCircleOutlined />
           </div>
