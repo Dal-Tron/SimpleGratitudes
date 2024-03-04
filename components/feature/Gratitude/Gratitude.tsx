@@ -72,7 +72,7 @@ export const Gratitude: FC<GratitudeProps> = ({
     <div
       onClick={handleEditGratitude}
       className={clsx(
-        'p-8 max-w-[350px] transition-shadow transition-transform duration-300 ease-in-out',
+        'p-8 max-w-[350px] min-w-[250px] transition-shadow transition-transform duration-300 ease-in-out',
         className,
       )}
     >

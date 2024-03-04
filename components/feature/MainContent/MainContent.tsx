@@ -13,7 +13,6 @@ import { validJWT } from 'Helpers/validation';
 import { GratitudesService } from 'Services/gratitudes';
 
 import { SpinLoading } from '@/components/base/Loading/SpinLoading';
-import { mockGratitudes } from '@/mocks/gratitudes';
 import { EmptyMessage } from './EmptyMessage';
 
 export default function MainContent({ mainPage = true }) {
@@ -93,7 +92,7 @@ export default function MainContent({ mainPage = true }) {
 
   const memoedGratitudes = useMemo(
     () =>
-      mockGratitudes
+      gratitudes
         .sort((a, b) => {
           const aInsertedAt = dayjs(a.inserted_at).valueOf();
           const bInsertedAt = dayjs(b.inserted_at).valueOf();

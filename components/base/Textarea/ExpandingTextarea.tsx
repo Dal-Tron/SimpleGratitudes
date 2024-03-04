@@ -16,7 +16,7 @@ export const ExpandingTextarea: React.FC<ExpandingTextareaProps> = ({
   placeholder,
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const lineHeight = 24; // Define the line-height of your textarea here
+  const lineHeight = 28; // Define the line-height of your textarea here
 
   useEffect(() => {
     const textarea = textareaRef.current;

@@ -2,8 +2,8 @@ import clsx from 'clsx';
 import { FC } from 'react';
 
 interface ToggleProps {
-  leftLabel: string;
-  rightLabel: string;
+  leftLabel?: string;
+  rightLabel?: string;
   value: boolean;
   onChange: (value: boolean) => void;
 }
@@ -14,16 +14,19 @@ export const Toggle: FC<ToggleProps> = ({
   value,
   onChange,
 }) => {
-  // Handle change for the range input
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value === '1';
     onChange(newValue);
   };
 
+  const handleLabelClick = () => {
+    onChange(!value); // Toggles the value
+  };
+
   return (
     <div className="flex items-center">
       <div
-        onClick={() => onChange(false)}
+        onClick={handleLabelClick}
         className={clsx('px-2 font-bold text-white cursor-pointer', {
           '!text-primary-3': value,
         })}
@@ -39,7 +42,7 @@ export const Toggle: FC<ToggleProps> = ({
         className="w-8"
       />
       <div
-        onClick={() => onChange(true)}
+        onClick={handleLabelClick}
         className={clsx('px-2 font-bold text-white cursor-pointer', {
           '!text-primary-3': !value,
         })}
