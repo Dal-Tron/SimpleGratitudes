@@ -66,10 +66,10 @@ export const CreateGratitudeModal: FC<{
           placeholder="My simple gratitude is.."
           value={text}
         />
-        <span className="create-gratitude-from">
+        <span className="text-right text-primary-2 text-lg">
           Shared by {profile?.username}
         </span>
-        <span className="create-gratitude-date">{date}</span>
+        <span className="text-right text-primary-3 text-md">{date}</span>
       </div>
       <div className="flex flex-row justify-between align-center mt-2">
         <Toggle onChange={handlePublic} value={isPublic} rightLabel="Public" />
