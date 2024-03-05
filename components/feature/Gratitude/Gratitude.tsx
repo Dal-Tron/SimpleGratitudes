@@ -1,5 +1,4 @@
 import { useAddGratitudeModal } from '@/context/modal';
-import { useStore } from '@/store/store';
 import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
 import clsx from 'clsx';
 import dayjs from 'dayjs';
@@ -14,10 +13,9 @@ export const Gratitude: FC<GratitudeProps> = ({
   id,
   mainPage = false,
   publicGratitude,
-  userId = '',
+  isOwner = false,
   username,
 }) => {
-  const user = useStore((state) => state.user);
   const [pressed, setPressed] = useState<boolean>(false);
   const router = useRouter();
   const { updateAddGratitudeModal, setEditableGratitude } =
@@ -32,7 +30,7 @@ export const Gratitude: FC<GratitudeProps> = ({
   }, [pressed]);
 
   const handleEditGratitude = () => {
-    if (user?.id === userId) {
+    if (isOwner) {
       setPressed(true);
       updateAddGratitudeModal(true);
       setEditableGratitude({ gratitude, date, id, public: publicGratitude });
@@ -49,7 +47,7 @@ export const Gratitude: FC<GratitudeProps> = ({
           Shared by {username}
         </span>
       );
-    } else if (userId === user?.id) {
+    } else if (isOwner) {
       return (
         <span className="text-right cursor-pointer text-primary-2">
           {publicGratitude ? 'Public' : 'Private'}{' '}

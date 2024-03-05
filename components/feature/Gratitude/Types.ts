@@ -5,6 +5,6 @@ export type GratitudeProps = {
   id: string;
   mainPage?: boolean;
   publicGratitude: boolean;
-  userId?: string;
+  isOwner: boolean;
   username: string;
 };

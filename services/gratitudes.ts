@@ -15,7 +15,6 @@ const handleServiceError = (err: Error, message: string) => {
     type: 'error',
     message,
   });
-  console.log(err);
 };
 
 export const GratitudesService = {

@@ -1,4 +1,4 @@
-import MainContent from '@/components/feature/MainContent/MainContent';
+import { MainContent } from '@/components/feature/MainContent/MainContent';
 import { GratitudesService } from '@/services/gratitudes';
 
 export default function Home({ gratitudes }) {
