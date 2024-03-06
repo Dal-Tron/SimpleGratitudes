@@ -8,5 +8,7 @@
     "source.sortMembers": "always"
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSaveMode": "file"
+  "editor.formatOnSaveMode": "file",
+  "workbench.editor.enablePreviewFromQuickOpen": false,
+  "workbench.editor.enablePreview": false
 }
