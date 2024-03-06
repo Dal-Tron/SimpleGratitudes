@@ -51,7 +51,7 @@ export const Button: FC<ButtonProps> = ({
       aria-label={ariaLabel}
       onClick={handleClick}
       className={clsx(styles, className, {
-        'cursor-not-allowed': disabled,
+        'cursor-not-allowed opacity-50': disabled,
       })}
       style={type === 'custom' ? customStyles : {}}
       disabled={disabled}
