@@ -33,7 +33,7 @@ export const Modal: FC<ModalProps> = ({
     >
       <div className="flex items-center justify-center h-full w-full -mt-20">
         <div
-          className={clsx('relative rounded-md w-96 p-5', className)}
+          className={clsx('relative rounded-md w-min-96 p-5', className)}
           onClick={handleModalContentClick}
         >
           <Button
