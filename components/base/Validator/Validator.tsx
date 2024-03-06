@@ -79,7 +79,7 @@ export const Validator: React.FC<ValidatorProps> = ({
 
   return (
     <div
-      className={clsx('rounded-lg border-2 w-full', className, {
+      className={clsx('rounded-lg border-2', className, {
         'border-primary-3': showWarning,
         'border-transparent': !showWarning,
       })}
