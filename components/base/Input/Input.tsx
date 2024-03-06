@@ -28,14 +28,15 @@ export const Input: FC<InputProps> = ({
 }) => {
   return (
     <div className="flex items-center relative w-full">
-      {prefix && <div className="absolute left-2">{prefix}</div>}
+      {prefix && <div className="flex-shrink-0">{prefix}</div>}
       <input
         type={type}
         onChange={onChange}
         className={clsx(
-          'bg-transparent text-white border-none p-2 pl-10 pr-8 outline-none max-w-xs w-full',
+          'bg-transparent text-white border-none p-2 outline-none w-full',
           'placeholder-white placeholder-opacity-70 placeholder:text-base',
           'focus:ring-0 focus:border-none',
+          { 'pl-2': prefix, 'pr-8': suffix },
           className,
         )}
         disabled={disabled}
@@ -44,7 +45,7 @@ export const Input: FC<InputProps> = ({
         placeholder={placeholder}
         value={value}
       />
-      {suffix && <div className="absolute right-2">{suffix}</div>}
+      {suffix && <div className="ml-2 flex-shrink-0">{suffix}</div>}
     </div>
   );
 };
