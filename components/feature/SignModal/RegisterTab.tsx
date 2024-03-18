@@ -74,14 +74,6 @@ export const RegisterTab: FC<RegisterTabProps> = ({
     }
   };
 
-  const handleSubmitGmail = () => {
-    console.log('registering in gmail');
-  };
-
-  const handleSubmitFacebook = () => {
-    console.log('registering in facebook');
-  };
-
   return (
     <>
       <SignIn
@@ -99,40 +91,19 @@ export const RegisterTab: FC<RegisterTabProps> = ({
         </div>
       ) : (
         <>
-          <div className="user-modal-no-account-wrapper">
-            <div className="user-modal-no-account-question">
-              Already have an account?
-            </div>
-            <div
-              onClick={handleChangeTab}
-              className="user-modal-no-account-register"
-            >
-              Sign In
-            </div>
-          </div>
           <div className="flex flex-row justify-end gap-2">
-            <Button onClick={onCancel} type="secondary">
-              Cancel
-            </Button>
             <Button onClick={handleSubmit} type="primary">
               Register
             </Button>
           </div>
-          <div className="flex flex-col justify-end gap-2 mt-6">
-            <Button
-              onClick={handleSubmitGmail}
-              type="custom"
-              primaryColor="#df4936"
+          <div className="flex flex-row justify-end my-4">
+            <div className="text-primary-1">Already have an account?</div>
+            <div
+              className="text-white mx-2 cursor-pointer"
+              onClick={handleChangeTab}
             >
-              Register with Gmail
-            </Button>
-            <Button
-              onClick={handleSubmitFacebook}
-              type="custom"
-              primaryColor="#3a5a8d"
-            >
-              Register with Facebook
-            </Button>
+              Sign In
+            </div>
           </div>
         </>
       )}

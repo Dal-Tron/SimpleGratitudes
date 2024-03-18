@@ -2,21 +2,20 @@ import { notification } from 'antd';
 import { ChangeEvent, FC, useState } from 'react';
 
 import { Button } from '@/components/base/Button/Button';
+import { SignIn } from '@/components/feature/SignModal/SignIn';
 import { validEmail } from '@/helpers/validation';
 import { AuthService } from '@/services/auth';
-
-import { SignIn } from './SignIn';
 
 interface ForgotPasswordTabProps {
   email: string;
   handleEmailChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  onCancel: () => void;
+  onChangeTab: (key: string) => void;
 }
 
 export const ForgotPasswordTab: FC<ForgotPasswordTabProps> = ({
   email,
   handleEmailChange,
-  onCancel,
+  onChangeTab,
 }) => {
   const [loading, setLoading] = useState(false);
   const [checkValidation, setCheckValidation] = useState(false);
@@ -46,6 +45,10 @@ export const ForgotPasswordTab: FC<ForgotPasswordTabProps> = ({
     }
   };
 
+  const handleChangeTab = () => {
+    onChangeTab('2');
+  };
+
   return (
     <>
       <SignIn
@@ -57,12 +60,18 @@ export const ForgotPasswordTab: FC<ForgotPasswordTabProps> = ({
         checkValidation={checkValidation}
       />
       <div className="flex flex-row justify-end gap-2">
-        <Button onClick={onCancel} type="secondary">
-          Cancel
-        </Button>
         <Button onClick={handleSubmit} type="primary">
           {loading ? 'Sending' : 'Send Reset Link'}
         </Button>
+      </div>
+      <div className="flex flex-row justify-end my-4">
+        <div className="text-primary-1">Don't have an account?</div>
+        <div
+          className="text-white mx-2 cursor-pointer"
+          onClick={handleChangeTab}
+        >
+          Register
+        </div>
       </div>
     </>
   );

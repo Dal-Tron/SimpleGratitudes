@@ -73,14 +73,6 @@ export const SignInTab: FC<SignInTabProps> = ({
     }
   };
 
-  const handleSubmitGmail = () => {
-    console.log('signing in gmail');
-  };
-
-  const handleSubmitFacebook = () => {
-    console.log('signing in facebook');
-  };
-
   return (
     <>
       <SignIn
@@ -98,40 +90,19 @@ export const SignInTab: FC<SignInTabProps> = ({
         </div>
       ) : (
         <>
-          <div className="user-modal-no-account-wrapper">
-            <div className="user-modal-no-account-question">
-              Don't have an account?
-            </div>
-            <div
-              onClick={handleChangeTab}
-              className="user-modal-no-account-register"
-            >
-              Register
-            </div>
-          </div>
           <div className="flex flex-row justify-end gap-2">
-            <Button onClick={onCancel} type="secondary">
-              Cancel
-            </Button>
             <Button onClick={handleSubmit} type="primary">
               Sign In
             </Button>
           </div>
-          <div className="flex flex-col justify-end gap-2 mt-6">
-            <Button
-              onClick={handleSubmitGmail}
-              type="custom"
-              primaryColor="#df4936"
+          <div className="flex flex-row justify-end my-4">
+            <div className="text-primary-1">Don't have an account?</div>
+            <div
+              className="text-white mx-2 cursor-pointer"
+              onClick={handleChangeTab}
             >
-              Sign In with Gmail
-            </Button>
-            <Button
-              onClick={handleSubmitFacebook}
-              type="custom"
-              primaryColor="#3a5a8d"
-            >
-              Sign In with Facebook
-            </Button>
+              Register
+            </div>
           </div>
         </>
       )}
