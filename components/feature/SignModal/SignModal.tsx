@@ -55,14 +55,6 @@ export const SignModal = ({ visible = false, onCancel = () => {} }) => {
     setActiveKey(tab);
   };
 
-  const handleSubmitGmail = () => {
-    console.log('signing in gmail');
-  };
-
-  const handleSubmitFacebook = () => {
-    console.log('signing in facebook');
-  };
-
   return (
     <Modal
       className="sg-box-shadow bg-primary-0 py-12 px-8 w-96"
@@ -104,10 +96,7 @@ export const SignModal = ({ visible = false, onCancel = () => {} }) => {
           />
         </TabPane>
       </Tabs>
-      <SocialSignIn
-        handleSubmitGmail={handleSubmitGmail}
-        handleSubmitFacebook={handleSubmitFacebook}
-      />
+      <SocialSignIn disabled={false} />
     </Modal>
   );
 };

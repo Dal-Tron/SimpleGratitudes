@@ -7,6 +7,7 @@ import { AuthService } from '@/services/auth';
 
 import { SpinLoading } from '@/components/base/Loading/SpinLoading';
 import { validEmail, validPassword } from '@/helpers/validation';
+import { ChangeTabPrompt } from './ChangeToPrompt';
 import { SignIn } from './SignIn';
 
 interface RegisterTabProps {
@@ -96,15 +97,11 @@ export const RegisterTab: FC<RegisterTabProps> = ({
               Register
             </Button>
           </div>
-          <div className="flex flex-row justify-end my-4">
-            <div className="text-primary-1">Already have an account?</div>
-            <div
-              className="text-white mx-2 cursor-pointer"
-              onClick={handleChangeTab}
-            >
-              Sign In
-            </div>
-          </div>
+          <ChangeTabPrompt
+            mainMessage="Already have an account?"
+            actionMessage="Sign In"
+            onClick={handleChangeTab}
+          />
         </>
       )}
     </>

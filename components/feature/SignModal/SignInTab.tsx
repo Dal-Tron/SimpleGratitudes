@@ -7,6 +7,7 @@ import { validEmail, validPassword } from '@/helpers/validation';
 import { AuthService } from '@/services/auth';
 
 import { SpinLoading } from '@/components/base/Loading/SpinLoading';
+import { ChangeTabPrompt } from './ChangeToPrompt';
 import { SignIn } from './SignIn';
 
 interface SignInTabProps {
@@ -95,15 +96,11 @@ export const SignInTab: FC<SignInTabProps> = ({
               Sign In
             </Button>
           </div>
-          <div className="flex flex-row justify-end my-4">
-            <div className="text-primary-1">Don't have an account?</div>
-            <div
-              className="text-white mx-2 cursor-pointer"
-              onClick={handleChangeTab}
-            >
-              Register
-            </div>
-          </div>
+          <ChangeTabPrompt
+            mainMessage="Don't have an account?"
+            actionMessage="Register"
+            onClick={handleChangeTab}
+          />
         </>
       )}
     </>

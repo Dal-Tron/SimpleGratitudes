@@ -2,9 +2,11 @@ import { notification } from 'antd';
 import { ChangeEvent, FC, useState } from 'react';
 
 import { Button } from '@/components/base/Button/Button';
+import { SpinLoading } from '@/components/base/Loading/SpinLoading';
 import { SignIn } from '@/components/feature/SignModal/SignIn';
 import { validEmail } from '@/helpers/validation';
 import { AuthService } from '@/services/auth';
+import { ChangeTabPrompt } from './ChangeToPrompt';
 
 interface ForgotPasswordTabProps {
   email: string;
@@ -46,7 +48,7 @@ export const ForgotPasswordTab: FC<ForgotPasswordTabProps> = ({
   };
 
   const handleChangeTab = () => {
-    onChangeTab('2');
+    onChangeTab('1');
   };
 
   return (
@@ -59,20 +61,24 @@ export const ForgotPasswordTab: FC<ForgotPasswordTabProps> = ({
         showPasswordInput={false}
         checkValidation={checkValidation}
       />
-      <div className="flex flex-row justify-end gap-2">
-        <Button onClick={handleSubmit} type="primary">
-          {loading ? 'Sending' : 'Send Reset Link'}
-        </Button>
-      </div>
-      <div className="flex flex-row justify-end my-4">
-        <div className="text-primary-1">Don't have an account?</div>
-        <div
-          className="text-white mx-2 cursor-pointer"
-          onClick={handleChangeTab}
-        >
-          Register
+      {loading ? (
+        <div className="flex justify-center p-6">
+          <SpinLoading className="text-5xl" />
         </div>
-      </div>
+      ) : (
+        <>
+          <div className="flex flex-row justify-end gap-2">
+            <Button onClick={handleSubmit} type="primary">
+              Send Reset Link
+            </Button>
+          </div>
+          <ChangeTabPrompt
+            mainMessage="Remember your password?"
+            actionMessage="Sign In"
+            onClick={handleChangeTab}
+          />
+        </>
+      )}
     </>
   );
 };

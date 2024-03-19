@@ -4,16 +4,15 @@ import { GmailIcon } from '@/icons/Gmail';
 import { FC } from 'react';
 
 interface SocialLoginButtonsProps {
-  handleSubmitGmail: () => void;
-  handleSubmitFacebook: () => void;
+  disabled: boolean;
 }
 
-export const SocialSignIn: FC<SocialLoginButtonsProps> = ({
-  handleSubmitGmail,
-  handleSubmitFacebook,
-}) => {
+export const SocialSignIn: FC<SocialLoginButtonsProps> = ({ disabled }) => {
+  const handleSubmitGmail = () => {};
+  const handleSubmitFacebook = () => {};
+
   return (
-    <div className="flex flex-col justify-end gap-2 mt-6 border-white border-[1px] p-2 rounded-lg">
+    <div className="flex flex-col justify-end gap-2 mt-2 border-white border-[1px] p-2 rounded-lg">
       <Button
         className="flex justify-center"
         onClick={handleSubmitGmail}
