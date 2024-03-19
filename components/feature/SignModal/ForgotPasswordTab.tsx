@@ -4,23 +4,23 @@ import { ChangeEvent, FC, useState } from 'react';
 import { Button } from '@/components/base/Button/Button';
 import { SpinLoading } from '@/components/base/Loading/SpinLoading';
 import { SignIn } from '@/components/feature/SignModal/SignIn';
-import { SocialSignIn } from '@/components/feature/SocialSignIn/SocialSignIn';
 import { validEmail } from '@/helpers/validation';
 import { AuthService } from '@/services/auth';
 import { ChangeTabPrompt } from './ChangeToPrompt';
+import { useLoading } from './LoadingContext';
 
 interface ForgotPasswordTabProps {
   email: string;
-  handleEmailChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onEmailChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onChangeTab: (key: string) => void;
 }
 
 export const ForgotPasswordTab: FC<ForgotPasswordTabProps> = ({
   email,
-  handleEmailChange,
+  onEmailChange,
   onChangeTab,
 }) => {
-  const [loading, setLoading] = useState(false);
+  const { isLoading, setLoading } = useLoading();
   const [checkValidation, setCheckValidation] = useState(false);
 
   const handleSubmit = async () => {
@@ -56,13 +56,13 @@ export const ForgotPasswordTab: FC<ForgotPasswordTabProps> = ({
     <>
       <SignIn
         key="forgot-password-signin"
-        disabled={loading}
+        disabled={isLoading}
         email={email}
-        setEmail={handleEmailChange}
+        setEmail={onEmailChange}
         showPasswordInput={false}
         checkValidation={checkValidation}
       />
-      {loading ? (
+      {isLoading ? (
         <div className="flex justify-center p-6">
           <SpinLoading className="text-5xl" />
         </div>
@@ -78,7 +78,6 @@ export const ForgotPasswordTab: FC<ForgotPasswordTabProps> = ({
             actionMessage="Sign In"
             onClick={handleChangeTab}
           />
-          <SocialSignIn />
         </>
       )}
     </>

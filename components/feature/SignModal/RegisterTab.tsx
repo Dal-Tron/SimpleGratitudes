@@ -4,17 +4,17 @@ import { ChangeEvent, FC, useState } from 'react';
 
 import { Button } from '@/components/base/Button/Button';
 import { SpinLoading } from '@/components/base/Loading/SpinLoading';
-import { SocialSignIn } from '@/components/feature/SocialSignIn/SocialSignIn';
 import { validEmail, validPassword } from '@/helpers/validation';
 import { AuthService } from '@/services/auth';
 import { ChangeTabPrompt } from './ChangeToPrompt';
+import { useLoading } from './LoadingContext';
 import { SignIn } from './SignIn';
 
 interface RegisterTabProps {
   email: string;
   password: string;
-  handleEmailChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  handlePasswordChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onEmailChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onPasswordChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onChangeTab: (key: string) => void;
   onCancel: () => void;
 }
@@ -22,14 +22,14 @@ interface RegisterTabProps {
 export const RegisterTab: FC<RegisterTabProps> = ({
   email,
   password,
-  handleEmailChange,
-  handlePasswordChange,
+  onEmailChange,
+  onPasswordChange,
   onChangeTab,
   onCancel,
 }) => {
   const router = useRouter();
+  const { isLoading, setLoading } = useLoading();
 
-  const [loading, setLoading] = useState(false);
   const [checkValidation, setCheckValidation] = useState(false);
 
   const handleChangeTab = () => {
@@ -79,14 +79,14 @@ export const RegisterTab: FC<RegisterTabProps> = ({
     <>
       <SignIn
         checkValidation={checkValidation}
-        disabled={loading}
+        disabled={isLoading}
         email={email}
         key="register"
         password={password}
-        setEmail={handleEmailChange}
-        setPassword={handlePasswordChange}
+        setEmail={onEmailChange}
+        setPassword={onPasswordChange}
       />
-      {loading ? (
+      {isLoading ? (
         <div className="flex justify-center p-6">
           <SpinLoading className="text-5xl" />
         </div>
@@ -102,7 +102,6 @@ export const RegisterTab: FC<RegisterTabProps> = ({
             actionMessage="Sign In"
             onClick={handleChangeTab}
           />
-          <SocialSignIn />
         </>
       )}
     </>

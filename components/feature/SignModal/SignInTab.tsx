@@ -4,17 +4,17 @@ import { ChangeEvent, FC, useState } from 'react';
 
 import { Button } from '@/components/base/Button/Button';
 import { SpinLoading } from '@/components/base/Loading/SpinLoading';
-import { SocialSignIn } from '@/components/feature/SocialSignIn/SocialSignIn';
 import { validEmail, validPassword } from '@/helpers/validation';
 import { AuthService } from '@/services/auth';
 import { ChangeTabPrompt } from './ChangeToPrompt';
+import { useLoading } from './LoadingContext';
 import { SignIn } from './SignIn';
 
 interface SignInTabProps {
   email: string;
   password: string;
-  handleEmailChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  handlePasswordChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onEmailChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onPasswordChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onChangeTab: (key: string) => void;
   onCancel: () => void;
 }
@@ -22,14 +22,14 @@ interface SignInTabProps {
 export const SignInTab: FC<SignInTabProps> = ({
   email,
   password,
-  handleEmailChange,
-  handlePasswordChange,
+  onEmailChange,
+  onPasswordChange,
   onChangeTab,
   onCancel,
 }) => {
   const router = useRouter();
+  const { isLoading, setLoading } = useLoading();
 
-  const [loading, setLoading] = useState(false);
   const [checkValidation, setCheckValidation] = useState(false);
 
   const handleChangeTab = () => {
@@ -78,14 +78,14 @@ export const SignInTab: FC<SignInTabProps> = ({
     <>
       <SignIn
         checkValidation={checkValidation}
-        disabled={loading}
+        disabled={isLoading}
         email={email}
         key="signin"
         password={password}
-        setEmail={handleEmailChange}
-        setPassword={handlePasswordChange}
+        setEmail={onEmailChange}
+        setPassword={onPasswordChange}
       />
-      {loading ? (
+      {isLoading ? (
         <div className="flex justify-center pb-4 pt-2">
           <SpinLoading className="text-5xl" />
         </div>
@@ -101,7 +101,6 @@ export const SignInTab: FC<SignInTabProps> = ({
             actionMessage="Register"
             onClick={handleChangeTab}
           />
-          <SocialSignIn />
         </>
       )}
     </>

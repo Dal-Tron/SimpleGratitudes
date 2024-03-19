@@ -2,8 +2,9 @@ import { Tabs } from 'antd';
 import { ChangeEvent, useEffect, useState } from 'react';
 
 import { Modal } from '@/components/base/Modal/Modal';
-
+import { SocialSignIn } from '@/components/feature/SocialSignIn/SocialSignIn';
 import { ForgotPasswordTab } from './ForgotPasswordTab';
+import { LoadingProvider } from './LoadingContext';
 import { RegisterTab } from './RegisterTab';
 import { SignInTab } from './SignInTab';
 
@@ -55,46 +56,49 @@ export const SignModal = ({ visible = false, onCancel = () => {} }) => {
   };
 
   return (
-    <Modal
-      className="sg-box-shadow bg-primary-0 py-12 px-8 w-96"
-      isOpen={visible}
-      onClose={handleCancel}
-    >
-      <Tabs animated={true} activeKey={activeKey} onChange={handleTabChange}>
-        <TabPane tab="Sign In" key="1">
-          <SignInTab
-            {...{
-              email,
-              password,
-              handleEmailChange,
-              handlePasswordChange,
-              onChangeTab: setActiveKey,
-              onCancel: handleCancel,
-            }}
-          />
-        </TabPane>
-        <TabPane tab="Register" key="2">
-          <RegisterTab
-            {...{
-              email,
-              password,
-              handleEmailChange,
-              handlePasswordChange,
-              onChangeTab: setActiveKey,
-              onCancel: handleCancel,
-            }}
-          />
-        </TabPane>
-        <TabPane tab="Forgot Password" key="3">
-          <ForgotPasswordTab
-            {...{
-              email,
-              handleEmailChange,
-              onChangeTab: setActiveKey,
-            }}
-          />
-        </TabPane>
-      </Tabs>
-    </Modal>
+    <LoadingProvider>
+      <Modal
+        className="sg-box-shadow bg-primary-0 py-12 px-8 w-96"
+        isOpen={visible}
+        onClose={handleCancel}
+      >
+        <Tabs animated={true} activeKey={activeKey} onChange={handleTabChange}>
+          <TabPane tab="Sign In" key="1">
+            <SignInTab
+              {...{
+                email,
+                password,
+                onEmailChange: handleEmailChange,
+                onPasswordChange: handlePasswordChange,
+                onChangeTab: setActiveKey,
+                onCancel: handleCancel,
+              }}
+            />
+          </TabPane>
+          <TabPane tab="Register" key="2">
+            <RegisterTab
+              {...{
+                email,
+                password,
+                onEmailChange: handleEmailChange,
+                onPasswordChange: handlePasswordChange,
+                onChangeTab: setActiveKey,
+                onCancel: handleCancel,
+              }}
+            />
+          </TabPane>
+          <TabPane tab="Forgot Password" key="3">
+            <ForgotPasswordTab
+              {...{
+                email,
+                onEmailChange: handleEmailChange,
+                onChangeTab: setActiveKey,
+              }}
+            />
+          </TabPane>
+        </Tabs>
+        <SocialSignIn />
+      </Modal>
+    </LoadingProvider>
   );
 };
