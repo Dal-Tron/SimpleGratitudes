@@ -4,6 +4,7 @@ import { ChangeEvent, FC, useState } from 'react';
 import { Button } from '@/components/base/Button/Button';
 import { SpinLoading } from '@/components/base/Loading/SpinLoading';
 import { SignIn } from '@/components/feature/SignModal/SignIn';
+import { SocialSignIn } from '@/components/feature/SocialSignIn/SocialSignIn';
 import { validEmail } from '@/helpers/validation';
 import { AuthService } from '@/services/auth';
 import { ChangeTabPrompt } from './ChangeToPrompt';
@@ -77,6 +78,7 @@ export const ForgotPasswordTab: FC<ForgotPasswordTabProps> = ({
             actionMessage="Sign In"
             onClick={handleChangeTab}
           />
+          <SocialSignIn />
         </>
       )}
     </>

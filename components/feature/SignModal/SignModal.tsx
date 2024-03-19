@@ -3,7 +3,6 @@ import { ChangeEvent, useEffect, useState } from 'react';
 
 import { Modal } from '@/components/base/Modal/Modal';
 
-import { SocialSignIn } from '@/components/feature/SocialSignIn/SocialSignIn';
 import { ForgotPasswordTab } from './ForgotPasswordTab';
 import { RegisterTab } from './RegisterTab';
 import { SignInTab } from './SignInTab';
@@ -96,7 +95,6 @@ export const SignModal = ({ visible = false, onCancel = () => {} }) => {
           />
         </TabPane>
       </Tabs>
-      <SocialSignIn disabled={false} />
     </Modal>
   );
 };

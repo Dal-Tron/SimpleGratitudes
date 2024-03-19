@@ -3,10 +3,10 @@ import { useRouter } from 'next/router';
 import { ChangeEvent, FC, useState } from 'react';
 
 import { Button } from '@/components/base/Button/Button';
+import { SpinLoading } from '@/components/base/Loading/SpinLoading';
+import { SocialSignIn } from '@/components/feature/SocialSignIn/SocialSignIn';
 import { validEmail, validPassword } from '@/helpers/validation';
 import { AuthService } from '@/services/auth';
-
-import { SpinLoading } from '@/components/base/Loading/SpinLoading';
 import { ChangeTabPrompt } from './ChangeToPrompt';
 import { SignIn } from './SignIn';
 
@@ -86,7 +86,7 @@ export const SignInTab: FC<SignInTabProps> = ({
         setPassword={handlePasswordChange}
       />
       {loading ? (
-        <div className="flex justify-center p-6">
+        <div className="flex justify-center pb-4 pt-2">
           <SpinLoading className="text-5xl" />
         </div>
       ) : (
@@ -101,6 +101,7 @@ export const SignInTab: FC<SignInTabProps> = ({
             actionMessage="Register"
             onClick={handleChangeTab}
           />
+          <SocialSignIn />
         </>
       )}
     </>

@@ -3,10 +3,10 @@ import { useRouter } from 'next/router';
 import { ChangeEvent, FC, useState } from 'react';
 
 import { Button } from '@/components/base/Button/Button';
-import { AuthService } from '@/services/auth';
-
 import { SpinLoading } from '@/components/base/Loading/SpinLoading';
+import { SocialSignIn } from '@/components/feature/SocialSignIn/SocialSignIn';
 import { validEmail, validPassword } from '@/helpers/validation';
+import { AuthService } from '@/services/auth';
 import { ChangeTabPrompt } from './ChangeToPrompt';
 import { SignIn } from './SignIn';
 
@@ -102,6 +102,7 @@ export const RegisterTab: FC<RegisterTabProps> = ({
             actionMessage="Sign In"
             onClick={handleChangeTab}
           />
+          <SocialSignIn />
         </>
       )}
     </>

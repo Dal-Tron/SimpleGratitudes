@@ -4,7 +4,7 @@ import { GmailIcon } from '@/icons/Gmail';
 import { FC } from 'react';
 
 interface SocialLoginButtonsProps {
-  disabled: boolean;
+  disabled?: boolean;
 }
 
 export const SocialSignIn: FC<SocialLoginButtonsProps> = ({ disabled }) => {
@@ -14,6 +14,7 @@ export const SocialSignIn: FC<SocialLoginButtonsProps> = ({ disabled }) => {
   return (
     <div className="flex flex-col justify-end gap-2 mt-2 border-white border-[1px] p-2 rounded-lg">
       <Button
+        disabled={disabled}
         className="flex justify-center"
         onClick={handleSubmitGmail}
         type="primary"
@@ -24,6 +25,7 @@ export const SocialSignIn: FC<SocialLoginButtonsProps> = ({ disabled }) => {
         </div>
       </Button>
       <Button
+        disabled={disabled}
         className="flex justify-center"
         onClick={handleSubmitFacebook}
         type="primary"
