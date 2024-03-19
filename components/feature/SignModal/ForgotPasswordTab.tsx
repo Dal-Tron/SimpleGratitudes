@@ -1,13 +1,11 @@
 import { notification } from 'antd';
 import { ChangeEvent, FC, useState } from 'react';
 
-import { Button } from '@/components/base/Button/Button';
-import { SpinLoading } from '@/components/base/Loading/SpinLoading';
 import { SignIn } from '@/components/feature/SignModal/SignIn';
 import { validEmail } from '@/helpers/validation';
 import { AuthService } from '@/services/auth';
-import { ChangeTabPrompt } from './ChangeToPrompt';
 import { useLoading } from './LoadingContext';
+import { SignInSubmit } from './SignInSubmit';
 
 interface ForgotPasswordTabProps {
   email: string;
@@ -62,24 +60,14 @@ export const ForgotPasswordTab: FC<ForgotPasswordTabProps> = ({
         showPasswordInput={false}
         checkValidation={checkValidation}
       />
-      {isLoading ? (
-        <div className="flex justify-center p-6">
-          <SpinLoading className="text-5xl" />
-        </div>
-      ) : (
-        <>
-          <div className="flex flex-row justify-end gap-2">
-            <Button onClick={handleSubmit} type="primary">
-              Send Reset Link
-            </Button>
-          </div>
-          <ChangeTabPrompt
-            mainMessage="Remember your password?"
-            actionMessage="Sign In"
-            onClick={handleChangeTab}
-          />
-        </>
-      )}
+      <SignInSubmit
+        isLoading={isLoading}
+        onSubmit={handleSubmit}
+        submitText="Send Reset Link"
+        mainMessage="Remember your password?"
+        actionMessage="Sign In"
+        onChangeTab={handleChangeTab}
+      />
     </>
   );
 };

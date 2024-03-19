@@ -2,13 +2,11 @@ import { notification } from 'antd';
 import { useRouter } from 'next/router';
 import { ChangeEvent, FC, useState } from 'react';
 
-import { Button } from '@/components/base/Button/Button';
-import { SpinLoading } from '@/components/base/Loading/SpinLoading';
 import { validEmail, validPassword } from '@/helpers/validation';
 import { AuthService } from '@/services/auth';
-import { ChangeTabPrompt } from './ChangeToPrompt';
 import { useLoading } from './LoadingContext';
 import { SignIn } from './SignIn';
+import { SignInSubmit } from './SignInSubmit';
 
 interface SignInTabProps {
   email: string;
@@ -85,24 +83,14 @@ export const SignInTab: FC<SignInTabProps> = ({
         setEmail={onEmailChange}
         setPassword={onPasswordChange}
       />
-      {isLoading ? (
-        <div className="flex justify-center pb-4 pt-2">
-          <SpinLoading className="text-5xl" />
-        </div>
-      ) : (
-        <>
-          <div className="flex flex-row justify-end gap-2">
-            <Button onClick={handleSubmit} type="primary">
-              Sign In
-            </Button>
-          </div>
-          <ChangeTabPrompt
-            mainMessage="Don't have an account?"
-            actionMessage="Register"
-            onClick={handleChangeTab}
-          />
-        </>
-      )}
+      <SignInSubmit
+        isLoading={isLoading}
+        onSubmit={handleSubmit}
+        submitText="Sign In"
+        mainMessage="Don't have an account?"
+        actionMessage="Register"
+        onChangeTab={handleChangeTab}
+      />
     </>
   );
 };

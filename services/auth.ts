@@ -1,7 +1,11 @@
 import { supabase } from '@/supabase/client';
+import { notification } from 'antd';
 
 const handleAuthError = (err: Error) => {
-  console.error(err);
+  notification.open({
+    type: 'error',
+    message: err.message,
+  });
 };
 
 export const AuthService = {
@@ -51,12 +55,15 @@ export const AuthService = {
       console.error('Error in getUser:', error);
     }
   },
-  updateUser: async (data) => {
+  updateUserPassword: async (password: string) => {
     try {
-      const res = await supabase.auth.updateUser(data);
-      if (res) return res;
-    } catch (error) {
-      console.error('Error in updateUser:', error);
+      const { data, error } = await supabase.auth.updateUser({ password });
+
+      if (error) throw error;
+
+      return data;
+    } catch (err) {
+      handleAuthError(err);
     }
   },
   resetEmail: async (email: string) => {

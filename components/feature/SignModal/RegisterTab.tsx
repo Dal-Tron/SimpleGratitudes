@@ -2,13 +2,11 @@ import { notification } from 'antd';
 import { useRouter } from 'next/router';
 import { ChangeEvent, FC, useState } from 'react';
 
-import { Button } from '@/components/base/Button/Button';
-import { SpinLoading } from '@/components/base/Loading/SpinLoading';
 import { validEmail, validPassword } from '@/helpers/validation';
 import { AuthService } from '@/services/auth';
-import { ChangeTabPrompt } from './ChangeToPrompt';
 import { useLoading } from './LoadingContext';
 import { SignIn } from './SignIn';
+import { SignInSubmit } from './SignInSubmit';
 
 interface RegisterTabProps {
   email: string;
@@ -86,24 +84,14 @@ export const RegisterTab: FC<RegisterTabProps> = ({
         setEmail={onEmailChange}
         setPassword={onPasswordChange}
       />
-      {isLoading ? (
-        <div className="flex justify-center p-6">
-          <SpinLoading className="text-5xl" />
-        </div>
-      ) : (
-        <>
-          <div className="flex flex-row justify-end gap-2">
-            <Button onClick={handleSubmit} type="primary">
-              Register
-            </Button>
-          </div>
-          <ChangeTabPrompt
-            mainMessage="Already have an account?"
-            actionMessage="Sign In"
-            onClick={handleChangeTab}
-          />
-        </>
-      )}
+      <SignInSubmit
+        isLoading={isLoading}
+        onSubmit={handleSubmit}
+        submitText="Register"
+        mainMessage="Already have an account?"
+        actionMessage="Sign In"
+        onChangeTab={handleChangeTab}
+      />
     </>
   );
 };

@@ -2,19 +2,26 @@ import { Button } from '@/components/base/Button/Button';
 import { FacebookIcon } from '@/icons/Facebook';
 import { GmailIcon } from '@/icons/Gmail';
 import { FC } from 'react';
+import { useLoading } from '../SignModal/LoadingContext';
 
 interface SocialLoginButtonsProps {
   disabled?: boolean;
 }
 
 export const SocialSignIn: FC<SocialLoginButtonsProps> = ({ disabled }) => {
-  const handleSubmitGmail = () => {};
-  const handleSubmitFacebook = () => {};
+  const { isLoading, setLoading } = useLoading();
+
+  const handleSubmitGmail = () => {
+    setLoading(true);
+  };
+  const handleSubmitFacebook = () => {
+    setLoading(true);
+  };
 
   return (
     <div className="flex flex-col justify-end gap-2 mt-2 border-white border-[1px] p-2 rounded-lg">
       <Button
-        disabled={disabled}
+        disabled={isLoading}
         className="flex justify-center"
         onClick={handleSubmitGmail}
         type="primary"
@@ -25,7 +32,7 @@ export const SocialSignIn: FC<SocialLoginButtonsProps> = ({ disabled }) => {
         </div>
       </Button>
       <Button
-        disabled={disabled}
+        disabled={isLoading}
         className="flex justify-center"
         onClick={handleSubmitFacebook}
         type="primary"
