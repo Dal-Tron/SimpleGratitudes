@@ -28,7 +28,7 @@ export const Input: FC<InputProps> = ({
 }) => {
   return (
     <div className="flex items-center relative w-full">
-      {prefix && <div className="flex-shrink-0">{prefix}</div>}
+      {prefix && <div className="flex-shrink-0 ml-1">{prefix}</div>}
       <input
         type={type}
         onChange={onChange}

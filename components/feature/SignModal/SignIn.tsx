@@ -63,7 +63,7 @@ export const SignIn: FC<SignInFormProps> = ({
           overrideFocus={checkValidation}
         >
           <Input
-            className="w-full"
+            className="w-full text-lg"
             disabled={disabled}
             value={email}
             onChange={setEmail}
@@ -83,7 +83,7 @@ export const SignIn: FC<SignInFormProps> = ({
             overrideFocus={checkValidation}
           >
             <Input
-              className="w-full"
+              className="w-full text-lg"
               disabled={disabled}
               value={password}
               onChange={setPassword}
