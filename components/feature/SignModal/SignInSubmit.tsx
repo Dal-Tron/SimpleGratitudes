@@ -22,7 +22,7 @@ export const SignInSubmit: React.FC<SignInSubmitProps> = ({
   return (
     <div>
       {isLoading ? (
-        <div className="flex justify-center p-6">
+        <div className="flex justify-center pb-6 pt-4">
           <SpinLoading className="text-5xl" />
         </div>
       ) : (

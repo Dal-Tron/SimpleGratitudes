@@ -42,6 +42,8 @@ export const MainMenu = ({ onClose = () => {}, visible = false }) => {
   const handleSignOut = async () => {
     await AuthService.signOut();
 
+    router.push('/');
+
     onClose();
   };
 

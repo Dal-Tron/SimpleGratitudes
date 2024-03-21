@@ -45,11 +45,14 @@ export const AuthService = {
     }
   },
   signOut: async () => {
+    const client = createClient();
+
     try {
-      const res = await supabase.auth.signOut();
-      if (res) return res;
-    } catch (error) {
-      console.error('Error in signOut:', error);
+      const { error } = await client.auth.signOut();
+
+      if (error) throw error;
+    } catch (err) {
+      handleAuthError(err);
     }
   },
   getUser: async () => {

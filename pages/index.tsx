@@ -1,18 +1,26 @@
 import { MainContent } from '@/components/feature/MainContent/MainContent';
-import { GratitudesService } from '@/services/gratitudes';
+import { createClient } from '@/utils/supabase/static-props';
 
 export default function Home({ gratitudes }) {
   return <MainContent gratitudes={gratitudes} />;
 }
 
-export async function getServerSideProps() {
-  // Fetching data server-side before page is rendered
-  const gratitudes = await GratitudesService.readFeaturedGratitudes();
+export async function getStaticProps() {
+  const supabase = createClient();
 
-  // Pass the data as props to the page component
-  return {
-    props: {
-      gratitudes,
-    },
-  };
+  const { data, error } = await supabase
+    .from('gratitudes')
+    .select('*')
+    .eq('approved', true)
+    .eq('public', true);
+
+  if (error || !data) {
+    return {
+      props: {
+        gratitudes: [],
+      },
+    };
+  }
+
+  return { props: { gratitudes: data } };
 }
