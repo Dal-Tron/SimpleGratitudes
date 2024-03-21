@@ -2,9 +2,11 @@ import { useEffect } from 'react';
 
 import { AuthService } from '@/services/auth';
 import { useStore } from '@/store/store';
-import { supabase } from '@/supabase/client';
+import { createClient } from '@/utils/supabase/component';
 
 export const AuthProvider = ({ children }) => {
+  const client = createClient();
+
   const setUser = useStore((state) => state.setUser);
   const setProfile = useStore((state) => state.setProfile);
 
@@ -15,7 +17,7 @@ export const AuthProvider = ({ children }) => {
       } = await AuthService.getUser();
       setUser(session?.user || null);
 
-      const authListener = supabase.auth.onAuthStateChange(
+      const authListener = client.auth.onAuthStateChange(
         (event, newSession) => {
           if (event === 'SIGNED_OUT') {
             setUser(null);

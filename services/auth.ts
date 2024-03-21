@@ -1,4 +1,5 @@
 import { supabase } from '@/supabase/client';
+import { createClient } from '@/utils/supabase/component';
 import { notification } from 'antd';
 
 const handleAuthError = (err: Error) => {
@@ -18,8 +19,10 @@ export const AuthService = {
     }
   },
   register: async (cred: { email: string; password: string }) => {
+    const client = createClient();
+
     try {
-      const { data, error } = await supabase.auth.signUp(cred);
+      const { data, error } = await client.auth.signUp(cred);
 
       if (error) throw error;
 
@@ -29,12 +32,14 @@ export const AuthService = {
     }
   },
   signIn: async (cred: { email: string; password: string }) => {
+    const client = createClient();
+
     try {
-      const { error, data } = await supabase.auth.signInWithPassword(cred);
+      const { error, data } = await client.auth.signInWithPassword(cred);
 
       if (error) throw error;
 
-      if (data) return data;
+      return data;
     } catch (err) {
       handleAuthError(err);
     }
@@ -48,8 +53,10 @@ export const AuthService = {
     }
   },
   getUser: async () => {
+    const client = createClient();
+
     try {
-      const res = await supabase.auth.getUser();
+      const res = await client.auth.getUser();
       if (res) return res;
     } catch (error) {
       console.error('Error in getUser:', error);
