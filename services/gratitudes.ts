@@ -2,7 +2,7 @@ import { notification } from 'antd';
 
 import { supabase } from '@/supabase/client';
 
-const handleServiceError = (err: Error, message: string) => {
+const handleServiceError = (err: Error) => {
   if (err.message === 'JWT expired') {
     return notification.open({
       type: 'info',
@@ -13,7 +13,7 @@ const handleServiceError = (err: Error, message: string) => {
 
   notification.open({
     type: 'error',
-    message,
+    message: err.message,
   });
 };
 
@@ -29,8 +29,7 @@ export const GratitudesService = {
 
       return data;
     } catch (err) {
-      handleServiceError(err, 'Error fetching gratitudes');
-      return [];
+      handleServiceError(err);
     }
   },
   readPublicUserData: async (username: string) => {
@@ -45,8 +44,7 @@ export const GratitudesService = {
 
       return data;
     } catch (err) {
-      handleServiceError(err, 'Error fetching gratitudes');
-      return [];
+      handleServiceError(err);
     }
   },
   readFeaturedGratitudes: async () => {
@@ -61,8 +59,7 @@ export const GratitudesService = {
 
       return data;
     } catch (err) {
-      handleServiceError(err, 'Error fetching gratitudes');
-      return [];
+      handleServiceError(err);
     }
   },
   createGratitude: async ({ userId, gratitude, isPublic }) => {
@@ -77,15 +74,9 @@ export const GratitudesService = {
 
       if (error) throw error;
 
-      notification.open({
-        type: 'success',
-        message: 'Successfully created gratitude!',
-      });
-
       return data;
     } catch (err) {
-      handleServiceError(err, 'Error creating gratitude');
-      return [];
+      handleServiceError(err);
     }
   },
   deleteGratitudes: async (userId: string) => {
@@ -99,8 +90,7 @@ export const GratitudesService = {
 
       return data;
     } catch (err) {
-      handleServiceError(err, 'Error deleting gratitude');
-      return [];
+      handleServiceError(err);
     }
   },
 };

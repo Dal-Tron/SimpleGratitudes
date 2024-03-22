@@ -1,41 +1,54 @@
 import { MainContent } from '@/components/feature/MainContent/MainContent';
-import { GratitudesService } from '@/services/gratitudes';
 import { useStore } from '@/store/store';
+import { createClient } from '@/utils/supabase/component';
+import { notification } from 'antd';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function Page() {
   const user = useStore((state) => state.user);
   const profile = useStore((state) => state.profile);
   const [localGratitudes, setLocalGratitudes] = useState([]);
-
   const router = useRouter();
   const { page } = router.query;
+  const client = createClient();
+  const isInitialFetchDone = useRef(false);
+
+  const fetchData = async () => {
+    if (!page || isInitialFetchDone.current) {
+      return;
+    }
+
+    try {
+      let data, error;
+
+      if (user?.id && profile?.username === page) {
+        ({ data, error } = await client
+          .from('gratitudes')
+          .select('*')
+          .eq('user_id', user.id));
+      } else {
+        ({ data, error } = await client
+          .from('gratitudes')
+          .select('*')
+          .eq('username', page)
+          .filter('public', 'eq', true));
+      }
+
+      if (error) throw error;
+      setLocalGratitudes(data || []);
+      isInitialFetchDone.current = true;
+    } catch (err) {
+      notification.open({
+        type: 'error',
+        message: 'Error fetching gratitudes data',
+      });
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        let data;
+    fetchData();
+  }, [page]);
 
-        if (user?.id && profile && profile.username === page) {
-          // Fetch private data if user is signed in and profile matches the page
-          data = await GratitudesService.readPrivateData(user.id);
-        } else {
-          // Fetch public data otherwise
-          data = await GratitudesService.readPublicUserData(String(page));
-        }
-
-        setLocalGratitudes(data);
-      } catch (error) {
-        console.error('Error fetching gratitudes data:', error);
-        // Handle error appropriately
-      }
-    };
-
-    if (page) {
-      fetchData();
-    }
-  }, [page, user, profile]);
-
-  return <MainContent mainPage={false} gratitudes={localGratitudes} />;
+  return <MainContent gratitudes={localGratitudes} />;
 }

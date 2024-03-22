@@ -2,6 +2,7 @@ import { notification } from 'antd';
 
 import { validUsername } from '@/helpers/validation';
 import { supabase } from '@/supabase/client';
+import { createClient } from '@/utils/supabase/component';
 
 const handleProfileError = (err: Error, msg: string) => {
   notification.open({
@@ -17,8 +18,10 @@ export const ProfileService = {
     if (res) return res;
   },
   getProfile: async (userId: string) => {
+    const client = createClient();
+
     try {
-      const { data, error } = await supabase
+      const { data, error } = await client
         .from('profiles')
         .select('*')
         .eq('id', userId);
