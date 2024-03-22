@@ -55,7 +55,7 @@ export const Input: FC<InputProps> = ({
 
   return (
     <div className="flex items-center justify-center w-full">
-      <div className="flex items-center">
+      <div className="flex items-center w-full">
         {prefix && <div className="flex-shrink-0 ml-1">{prefix}</div>}
         <input
           type={type}
@@ -69,7 +69,7 @@ export const Input: FC<InputProps> = ({
             },
             className,
           )}
-          style={{ width: inputWidth }}
+          style={isExpanding ? { width: inputWidth } : {}}
           disabled={disabled}
           onBlur={onBlur}
           onClick={handleClick}

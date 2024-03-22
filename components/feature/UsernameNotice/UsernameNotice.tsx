@@ -1,59 +1,59 @@
-import { UserOutlined } from '@ant-design/icons';
-import { ChangeEvent, FC, useState } from 'react';
+import { FC, useState } from 'react';
 
-import { Input } from '@/components/base/Input/Input';
-import { validUsername } from '@/helpers/validation';
-
-import { Validator } from '../../base/Validator/Validator';
+import { Button } from '@/components/base/Button/Button';
+import { Checkbox } from '@/components/base/Checkbox/Checkbox';
+import { GearIcon } from '@/icons/Gear';
+import { UsernameIcon } from '@/icons/Username';
 
 interface UsernameNoticeProps {
+  onSubmit: () => void;
   username?: string;
-  setUsername?: (username: string) => void;
 }
 
-export const UsernameNotice: FC<UsernameNoticeProps> = ({ username = '' }) => {
-  const [usernameValue, setUsernameValue] = useState(username);
-  const [usernameInputDirty, setUsernameInputDirty] = useState(false);
+export const UsernameNotice: FC<UsernameNoticeProps> = ({
+  username = '',
+  onSubmit,
+}) => {
+  const [theyUnderstand, setTheyUnderstand] = useState(false);
 
-  const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const {
-      target: { value },
-    } = e;
-
-    if (!usernameInputDirty) setUsernameInputDirty(true);
-
-    setUsernameValue(value);
+  const handleUnderstand = (value: boolean) => {
+    setTheyUnderstand(value);
   };
 
   return (
-    <div className="username-confirm">
+    <div className="flex flex-col">
       <div className="flex flex-col justify-center items-center text-white text-lg">
-        <UserOutlined className="username-confirm-title-icon" />
+        <GearIcon className="w-10 h-10 text-white mt-4 mb-2" />
         Confirm Username
       </div>
-      <div className="username-confirm-subtitle">
-        This update will be applied to all <b>future</b> gratitudes as well as
-        your personal page address.
+      <div className="text-white pt-4 pb-2 text-center text-lg">
+        This update will be applied to <b>all gratitudes</b> as well as your
+        personal page address.
       </div>
-      <Validator
-        validator={validUsername}
-        isDirty={usernameInputDirty}
-        validationMsg="Invalid Username"
-        className="mt-2"
-      >
-        <Input
-          value={usernameValue}
-          className="text-lg text-white mt-4"
-          onChange={handleUsernameChange}
+      <div className="flex flex-row justify-center items-center">
+        <UsernameIcon className="w-10 h-10 text-white ml-2" />
+        <div className="text-xl font-bold text-white ml-2 my-4">{username}</div>
+      </div>
+      <div className="flex justify-center mt-2">
+        <Checkbox
+          checked={theyUnderstand}
+          onClick={handleUnderstand}
           prefix={
-            <div className="text-white text-lg mt-4">SimpleGratitudes.com/</div>
+            <div className="text-white text-md">
+              I understand that my username can only be changed once
+            </div>
           }
         />
-      </Validator>
-      <div className="username-confirm-only-once-container">
-        <span className="username-confirm-only-once">
-          * Username can only be changed once
-        </span>
+      </div>
+      <div className="flex mt-6">
+        <Button
+          className="m-auto"
+          onClick={onSubmit}
+          disabled={!theyUnderstand}
+          type="primary"
+        >
+          Confirm Username
+        </Button>
       </div>
     </div>
   );

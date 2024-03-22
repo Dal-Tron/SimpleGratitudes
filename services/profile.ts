@@ -1,7 +1,5 @@
 import { notification } from 'antd';
 
-import { validUsername } from '@/helpers/validation';
-import { supabase } from '@/supabase/client';
 import { createClient } from '@/utils/supabase/component';
 
 const handleProfileError = (err: Error, msg: string) => {
@@ -14,7 +12,10 @@ const handleProfileError = (err: Error, msg: string) => {
 
 export const ProfileService = {
   deleteProfile: async (id: string) => {
-    const res = await supabase.from('profiles').delete().eq('id', id);
+    const client = createClient();
+
+    const res = await client.from('profiles').delete().eq('id', id);
+
     if (res) return res;
   },
   getProfile: async (userId: string) => {
@@ -34,12 +35,13 @@ export const ProfileService = {
     }
   },
   updateProfileUsername: async (id: string, username: string) => {
-    if (!validUsername(username)) return;
+    const client = createClient();
 
-    const res = await supabase
+    const res = await client
       .from('profiles')
       .update({ username, updated_username: true })
       .eq('id', id);
+
     if (res) return res;
   },
 };

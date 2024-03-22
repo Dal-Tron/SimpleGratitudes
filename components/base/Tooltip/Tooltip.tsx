@@ -15,7 +15,7 @@ export const Tooltip: FC<TooltipProps> = ({
   show,
 }) => {
   return (
-    <div className="relative flex items-center">
+    <div className="relative flex items-center w-full">
       {children}
       {show && (
         <div
