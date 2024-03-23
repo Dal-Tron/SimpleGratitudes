@@ -6,12 +6,16 @@ import Masonry from 'react-masonry-css';
 
 import { SpinLoading } from '@/components/base/Loading/SpinLoading';
 import { Gratitude } from '@/components/feature/Gratitude/Gratitude';
-import { useStore } from '@/store/store';
+import { TGratitude } from '../Gratitude/Types';
 import { EmptyMessage } from './EmptyMessage';
 
-export const MainContent = ({ gratitudes = [], mainPage = true }) => {
-  const user = useStore((state) => state.user);
-
+export const MainContent = ({
+  gratitudes = [],
+  loading,
+}: {
+  gratitudes: TGratitude[];
+  loading: boolean;
+}) => {
   const memoedGratitudes = useMemo(
     () =>
       gratitudes
@@ -20,23 +24,18 @@ export const MainContent = ({ gratitudes = [], mainPage = true }) => {
             dayjs(b.inserted_at).valueOf() - dayjs(a.inserted_at).valueOf(),
         )
         .map((gratitude) => (
-          <Gratitude
-            {...gratitude}
-            key={gratitude.id}
-            mainPage={mainPage}
-            isOwner={user?.id === gratitude?.user_id}
-          />
+          <Gratitude key={gratitude.id} gratitude={gratitude} />
         )),
-    [gratitudes, mainPage],
+    [gratitudes],
   );
 
   const breakpointColumnsObj = { default: 5, 1650: 4, 1250: 3, 750: 2, 500: 1 };
 
   return (
     <div className="flex justify-center w-full">
-      {!gratitudes.length ? (
+      {loading ? (
         <SpinLoading className="text-5xl" />
-      ) : gratitudes.length > 0 ? (
+      ) : gratitudes.length ? (
         <Masonry breakpointCols={breakpointColumnsObj} className="flex w-full">
           {memoedGratitudes}
         </Masonry>

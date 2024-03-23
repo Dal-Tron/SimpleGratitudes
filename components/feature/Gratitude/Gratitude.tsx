@@ -1,91 +1,48 @@
-import { useAddGratitudeModal } from '@/context/modal';
-import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
 import clsx from 'clsx';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import { GratitudeProps } from './Types';
 
-export const Gratitude: FC<GratitudeProps> = ({
-  className,
-  date,
-  gratitude,
-  id,
-  mainPage = false,
-  publicGratitude,
-  isOwner = false,
-  username,
-}) => {
-  const [pressed, setPressed] = useState<boolean>(false);
-  const router = useRouter();
-  const { updateAddGratitudeModal, setEditableGratitude } =
-    useAddGratitudeModal();
-
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (pressed) {
-      timer = setTimeout(() => setPressed(false), 200);
-    }
-    return () => clearTimeout(timer);
-  }, [pressed]);
-
-  const handleEditGratitude = () => {
-    if (isOwner) {
-      setPressed(true);
-      updateAddGratitudeModal(true);
-      setEditableGratitude({ gratitude, date, id, public: publicGratitude });
-    }
-  };
-
-  const ShareInfo: React.FC = () => {
-    if (mainPage) {
-      return (
-        <span
-          onClick={() => router.push(`/${username}`)}
-          className="text-right cursor-pointer text-primary-1"
-        >
-          Shared by {username}
-        </span>
-      );
-    } else if (isOwner) {
-      return (
-        <span className="text-right cursor-pointer text-primary-2">
-          {publicGratitude ? 'Public' : 'Private'}{' '}
-          {publicGratitude ? <EyeOutlined /> : <EyeInvisibleOutlined />}
-        </span>
-      );
-    }
-    return null;
-  };
-
-  const GratitudeDate: React.FC = () => {
-    return !mainPage ? (
-      <span className="text-right text-primary-2">
-        {dayjs(date).format('MMMM D, YYYY')}
-      </span>
-    ) : null;
-  };
-
+export const Gratitude: FC<GratitudeProps> = ({ className, gratitude }) => {
   return (
-    <div
-      onClick={handleEditGratitude}
-      className={clsx(
-        'p-8 max-w-[350px] min-w-[250px] transition-shadow transition-transform duration-300 ease-in-out',
-        className,
-      )}
-    >
+    <div className={clsx('p-8 max-w-[350px] min-w-[250px]', className)}>
       <div
         className={clsx(
-          'bg-primary-0 p-4 rounded-[20px] flex flex-col min-w-[100px]',
-          pressed ? 'gratitude-pressed-shadow' : 'gratitude-container-shadow',
+          'bg-primary-0 p-4 rounded-[20px] flex flex-col min-w-[100px] gratitude-container-shadow',
         )}
       >
         <span className="text-white text-center mt-[-5px] p-2">
-          {gratitude}
+          {gratitude.gratitude}
         </span>
-        <ShareInfo />
-        <GratitudeDate />
+        <ShareInfo username={gratitude?.profiles?.username} />
+        <GratitudeDate date={gratitude.inserted_at} />
       </div>
     </div>
+  );
+};
+
+const ShareInfo = ({ username }: { username: string }) => {
+  const router = useRouter();
+
+  const handleUsernameClick = () => {
+    router.push(`/${username}`);
+  };
+
+  return (
+    <span
+      onClick={handleUsernameClick}
+      className="text-right cursor-pointer text-primary-1"
+    >
+      Shared by {username}
+    </span>
+  );
+};
+
+const GratitudeDate = ({ date }: { date: string }) => {
+  return (
+    <span className="text-right text-primary-2">
+      {dayjs(date).format('MMMM D, YYYY')}
+    </span>
   );
 };

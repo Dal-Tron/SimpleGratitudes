@@ -1,6 +1,7 @@
 import { notification } from 'antd';
 
 import { supabase } from '@/supabase/client';
+import { createClient } from '@/utils/supabase/component';
 
 const handleServiceError = (err: Error) => {
   if (err.message === 'JWT expired') {
@@ -63,8 +64,10 @@ export const GratitudesService = {
     }
   },
   createGratitude: async ({ userId, gratitude, isPublic }) => {
+    const client = createClient();
+
     try {
-      const { data, error } = await supabase.from('gratitudes').insert([
+      const { data, error } = await client.from('gratitudes').insert([
         {
           user_id: userId,
           gratitude,

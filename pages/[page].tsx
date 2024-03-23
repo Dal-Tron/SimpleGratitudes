@@ -6,13 +6,16 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 
 export default function Page() {
-  const user = useStore((state) => state.user);
-  const profile = useStore((state) => state.profile);
-  const [localGratitudes, setLocalGratitudes] = useState([]);
   const router = useRouter();
   const { page } = router.query;
   const client = createClient();
   const isInitialFetchDone = useRef(false);
+
+  const user = useStore((state) => state.user);
+  const profile = useStore((state) => state.profile);
+
+  const [localGratitudes, setLocalGratitudes] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const fetchData = async () => {
     if (!page || isInitialFetchDone.current) {
@@ -21,6 +24,8 @@ export default function Page() {
 
     try {
       let data, error;
+
+      setLoading(true);
 
       if (user?.id && profile?.username === page) {
         ({ data, error } = await client
@@ -37,6 +42,7 @@ export default function Page() {
 
       if (error) throw error;
       setLocalGratitudes(data || []);
+      setLoading(false);
       isInitialFetchDone.current = true;
     } catch (err) {
       notification.open({
@@ -50,5 +56,5 @@ export default function Page() {
     fetchData();
   }, [page]);
 
-  return <MainContent gratitudes={localGratitudes} />;
+  return <MainContent gratitudes={localGratitudes} loading={loading} />;
 }
