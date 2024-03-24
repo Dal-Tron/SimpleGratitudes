@@ -7,7 +7,6 @@ const handleProfileError = (err: Error, msg: string) => {
     type: 'error',
     message: msg,
   });
-  console.log(err);
 };
 
 export const ProfileService = {
@@ -25,7 +24,7 @@ export const ProfileService = {
       const { data, error } = await client
         .from('profiles')
         .select('*')
-        .eq('id', userId);
+        .eq('user_id', userId);
 
       if (error) throw error;
 

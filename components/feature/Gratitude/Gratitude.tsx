@@ -2,7 +2,13 @@ import clsx from 'clsx';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
-import { GratitudeProps } from './Types';
+
+import { TGratitude } from '@/types/gratitude';
+
+export type GratitudeProps = {
+  className?: string;
+  gratitude: TGratitude;
+};
 
 export const Gratitude: FC<GratitudeProps> = ({ className, gratitude }) => {
   return (

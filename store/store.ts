@@ -2,16 +2,23 @@ import { create } from 'zustand';
 import { persist, PersistOptions } from 'zustand/middleware';
 
 import { ProfileService } from '@/services/profile';
+import { TGratitude } from '@/types/gratitude';
+import { TProfile } from '@/types/profile';
 
 interface User {
   id: string;
   // Add other user properties as needed
 }
 
-interface Profile {
-  id: string;
-  username: string;
-  username_updated: boolean;
+interface StoreState {
+  user: User | null;
+  profile: TProfile | null;
+  gratitudes: TGratitude[];
+  setUser: (user: User | null) => void;
+  setProfile: (profile: TProfile | null) => void;
+  setGratitudes: (gratitudes: TGratitude[]) => void;
+  fetchAndSetProfile: () => void;
+  addGratitude: (gratitude: TGratitude) => void;
 }
 
 const sessionStorageWrapper = {
@@ -27,27 +34,24 @@ const sessionStorageWrapper = {
   },
 };
 
-interface StoreState {
-  user: User | null;
-  profile: Profile | null;
-  setUser: (user: User | null) => void;
-  setProfile: (profile: Profile | null) => void;
-  fetchAndSetProfile: () => void;
-}
-
 export const useStore = create<StoreState>()(
   persist(
     (set, get) => ({
       user: null,
       profile: null,
+      gratitudes: [],
+
       setUser: (user: User | null) => {
         set({ user });
         if (user && !get().profile) {
           get().fetchAndSetProfile();
         }
       },
-      setProfile: (profile: Profile | null) => {
+      setProfile: (profile: TProfile | null) => {
         set({ profile });
+      },
+      setGratitudes: (gratitudes: TGratitude[]) => {
+        set({ gratitudes });
       },
       fetchAndSetProfile: async () => {
         const user = get().user;
@@ -57,15 +61,19 @@ export const useStore = create<StoreState>()(
             set({ profile });
           } catch (error) {
             console.error('Failed to fetch profile', error);
-            // Optionally set profile to null or handle the error as needed
             set({ profile: null });
           }
         }
+      },
+      addGratitude: (gratitude: TGratitude) => {
+        const currentGratitudes = get().gratitudes;
+        set({ gratitudes: [...currentGratitudes, gratitude] });
       },
     }),
     {
       name: 'user-profile-store',
       storage: sessionStorageWrapper,
+      skipHydration: true,
     } as PersistOptions<StoreState>,
   ),
 );

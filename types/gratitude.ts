@@ -1,6 +1,4 @@
-export type TProfile = {
-  username: string;
-};
+import { TProfile } from './profile';
 
 export type TGratitude = {
   id: number;
@@ -10,9 +8,4 @@ export type TGratitude = {
   public: boolean;
   user_id: string;
   profiles: TProfile;
-};
-
-export type GratitudeProps = {
-  className?: string;
-  gratitude: TGratitude;
 };
