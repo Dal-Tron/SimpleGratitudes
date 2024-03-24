@@ -31,12 +31,32 @@ export default function Page() {
         if (user?.id && profile?.username === page) {
           ({ data, error } = await client
             .from('gratitudes')
-            .select('*')
+            .select(
+              `
+            id,
+            inserted_at,
+            gratitude,
+            user_id,
+            public,
+            approved,
+            profiles(username)
+          `,
+            )
             .eq('user_id', user.id));
         } else {
           ({ data, error } = await client
             .from('gratitudes')
-            .select('*')
+            .select(
+              `
+            id,
+            inserted_at,
+            gratitude,
+            user_id,
+            public,
+            approved,
+            profiles(username)
+          `,
+            )
             .eq('username', page)
             .filter('public', 'eq', true));
         }

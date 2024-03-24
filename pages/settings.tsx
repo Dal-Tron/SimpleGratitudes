@@ -108,9 +108,9 @@ const SettingsPage = ({ user }) => {
 };
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const supabase = createClient(context);
+  const client = createClient(context);
 
-  const { data, error } = await supabase.auth.getUser();
+  const { data, error } = await client.auth.getUser();
 
   if (error || !data) {
     return {

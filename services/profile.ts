@@ -33,13 +33,13 @@ export const ProfileService = {
       handleProfileError(err, 'Unable to get profile data');
     }
   },
-  updateProfileUsername: async (id: string, username: string) => {
+  updateProfileUsername: async (userId: string, username: string) => {
     const client = createClient();
 
     const res = await client
       .from('profiles')
       .update({ username, updated_username: true })
-      .eq('id', id);
+      .eq('user_id', userId);
 
     if (res) return res;
   },

@@ -6,7 +6,7 @@ import Masonry from 'react-masonry-css';
 
 import { SpinLoading } from '@/components/base/Loading/SpinLoading';
 import { Gratitude } from '@/components/feature/Gratitude/Gratitude';
-import { TGratitude } from '../Gratitude/Types';
+import { TGratitude } from '@/types/gratitude';
 import { EmptyMessage } from './EmptyMessage';
 
 export const MainContent = ({
