@@ -2,23 +2,23 @@ import { create } from 'zustand';
 import { persist, PersistOptions } from 'zustand/middleware';
 
 import { ProfileService } from '@/services/profile';
-import { TGratitude } from '@/types/gratitude';
+import { TGratitudeWithProfile } from '@/types/gratitude';
 import { TProfile } from '@/types/profile';
 
 interface User {
   id: string;
-  // Add other user properties as needed
 }
 
 interface StoreState {
   user: User | null;
   profile: TProfile | null;
-  gratitudes: TGratitude[];
+  gratitudes: TGratitudeWithProfile[];
   setUser: (user: User | null) => void;
   setProfile: (profile: TProfile | null) => void;
-  setGratitudes: (gratitudes: TGratitude[]) => void;
+  setGratitudes: (gratitudes: TGratitudeWithProfile[]) => void;
   fetchAndSetProfile: () => void;
-  addGratitude: (gratitude: TGratitude) => void;
+  addGratitude: (gratitude: TGratitudeWithProfile) => void;
+  resetStore: () => void; // Add resetStore to the interface
 }
 
 const sessionStorageWrapper = {
@@ -47,12 +47,9 @@ export const useStore = create<StoreState>()(
           get().fetchAndSetProfile();
         }
       },
-      setProfile: (profile: TProfile | null) => {
-        set({ profile });
-      },
-      setGratitudes: (gratitudes: TGratitude[]) => {
-        set({ gratitudes });
-      },
+      setProfile: (profile: TProfile | null) => set({ profile }),
+      setGratitudes: (gratitudes: TGratitudeWithProfile[]) =>
+        set({ gratitudes }),
       fetchAndSetProfile: async () => {
         const user = get().user;
         if (user) {
@@ -65,10 +62,11 @@ export const useStore = create<StoreState>()(
           }
         }
       },
-      addGratitude: (gratitude: TGratitude) => {
+      addGratitude: (gratitude: TGratitudeWithProfile) => {
         const currentGratitudes = get().gratitudes;
         set({ gratitudes: [...currentGratitudes, gratitude] });
       },
+      resetStore: () => set({ user: null, profile: null, gratitudes: [] }),
     }),
     {
       name: 'user-profile-store',

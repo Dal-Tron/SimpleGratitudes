@@ -1,7 +1,8 @@
 import { MainContent } from '@/components/feature/MainContent/MainContent';
+import { GratitudesService } from '@/services/gratitudes';
 import { useStore } from '@/store/store';
+import { TGratitudeWithProfile } from '@/types/gratitude';
 import { createClient } from '@/utils/supabase/component';
-import { notification } from 'antd';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -25,52 +26,16 @@ export default function Page() {
       }
 
       setLoading(true);
+      let data: TGratitudeWithProfile[];
 
-      try {
-        let data, error;
-        if (user?.id && profile?.username === page) {
-          ({ data, error } = await client
-            .from('gratitudes')
-            .select(
-              `
-            id,
-            inserted_at,
-            gratitude,
-            user_id,
-            public,
-            approved,
-            profiles(username)
-          `,
-            )
-            .eq('user_id', user.id));
-        } else {
-          ({ data, error } = await client
-            .from('gratitudes')
-            .select(
-              `
-            id,
-            inserted_at,
-            gratitude,
-            user_id,
-            public,
-            approved,
-            profiles(username)
-          `,
-            )
-            .eq('username', page)
-            .filter('public', 'eq', true));
-        }
-
-        if (error) throw error;
-        setGratitudes(data || []);
-      } catch (err) {
-        notification.open({
-          type: 'error',
-          message: 'Error fetching gratitudes data',
-        });
-      } finally {
-        setLoading(false);
+      if (user?.id && profile?.username === page) {
+        data = await GratitudesService.getPrivateUserGratitudes(user.id);
+      } else {
+        data = await GratitudesService.getPublicUserGratitudes(String(page));
       }
+
+      setGratitudes(data || []);
+      setLoading(false);
     };
 
     fetchData();

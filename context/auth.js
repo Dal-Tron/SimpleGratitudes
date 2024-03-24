@@ -20,8 +20,7 @@ export const AuthProvider = ({ children }) => {
       const authListener = client.auth.onAuthStateChange(
         (event, newSession) => {
           if (event === 'SIGNED_OUT') {
-            setUser(null);
-            setProfile(null);
+            useStore.getState().resetStore();
           } else {
             setUser(newSession?.user || null);
           }

@@ -6,14 +6,14 @@ import Masonry from 'react-masonry-css';
 
 import { SpinLoading } from '@/components/base/Loading/SpinLoading';
 import { Gratitude } from '@/components/feature/Gratitude/Gratitude';
-import { TGratitude } from '@/types/gratitude';
+import { TGratitudeWithProfile } from '@/types/gratitude';
 import { EmptyMessage } from './EmptyMessage';
 
 export const MainContent = ({
   gratitudes = [],
   loading,
 }: {
-  gratitudes: TGratitude[];
+  gratitudes: TGratitudeWithProfile[];
   loading: boolean;
 }) => {
   const memoedGratitudes = useMemo(

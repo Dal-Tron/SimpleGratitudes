@@ -1,5 +1,3 @@
-import { TProfile } from './profile';
-
 export type TGratitude = {
   id: number;
   approved: boolean;
@@ -7,5 +5,12 @@ export type TGratitude = {
   inserted_at: string;
   public: boolean;
   user_id: string;
-  profiles: TProfile;
 };
+
+interface GratitudeProfile {
+  username: string;
+}
+
+export interface TGratitudeWithProfile extends TGratitude {
+  profiles: GratitudeProfile;
+}
