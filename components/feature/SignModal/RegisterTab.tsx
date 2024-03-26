@@ -1,4 +1,3 @@
-import { notification } from 'antd';
 import { useRouter } from 'next/router';
 import { ChangeEvent, FC, useState } from 'react';
 
@@ -40,37 +39,13 @@ export const RegisterTab: FC<RegisterTabProps> = ({
 
     setLoading(true);
 
-    try {
-      const result = await AuthService.register({ email, password });
+    await AuthService.register({ email, password });
 
-      if (result) {
-        notification.open({
-          message: 'Successfully registered!',
-          type: 'success',
-          duration: 2,
-        });
+    onCancel();
 
-        onCancel();
+    router.push('/');
 
-        router.push('/');
-      }
-    } catch (err) {
-      if (err.message?.indexOf('For') >= 0) {
-        notification.open({
-          message: 'Please check for email confirmation.',
-          type: 'error',
-          duration: 2,
-        });
-      }
-
-      notification.open({
-        message: 'Unable to register at this time',
-        type: 'error',
-        duration: 2,
-      });
-    } finally {
-      setLoading(false);
-    }
+    setLoading(false);
   };
 
   return (

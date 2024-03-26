@@ -10,12 +10,24 @@ const handleProfileError = (err: Error, msg: string) => {
 };
 
 export const ProfileService = {
-  deleteProfile: async (id: string) => {
+  deleteProfile: async (userId: string) => {
     const client = createClient();
 
-    const res = await client.from('profiles').delete().eq('id', id);
+    try {
+      const { data, error } = await client
+        .from('profiles')
+        .delete()
+        .eq('user_id', userId);
 
-    if (res) return res;
+      if (error) throw error;
+
+      notification.open({
+        type: 'success',
+        message: 'Successfully deleted profile!',
+      });
+    } catch (err) {
+      handleProfileError(err, 'Unable to delete profile.');
+    }
   },
   getProfile: async (userId: string) => {
     const client = createClient();

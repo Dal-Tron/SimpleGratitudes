@@ -26,9 +26,33 @@ export const AuthService = {
 
       if (error) throw error;
 
-      if (data) return data;
+      notification.open({
+        message: 'Successfully registered!',
+        type: 'success',
+        duration: 2,
+      });
     } catch (err) {
-      handleAuthError(err);
+      if (err?.message?.indexOf('rate limit exceeded') >= 0) {
+        return notification.open({
+          message: 'Unable to register email.',
+          type: 'error',
+          duration: 2,
+        });
+      }
+
+      if (err?.message?.indexOf('For') >= 0) {
+        return notification.open({
+          message: 'Please check for email confirmation.',
+          type: 'error',
+          duration: 2,
+        });
+      }
+
+      notification.open({
+        message: 'Unable to register at this time',
+        type: 'error',
+        duration: 2,
+      });
     }
   },
   signIn: async (cred: { email: string; password: string }) => {

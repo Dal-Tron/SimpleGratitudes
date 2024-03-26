@@ -63,6 +63,7 @@ export const SignIn: FC<SignInFormProps> = ({
           overrideFocus={checkValidation}
         >
           <Input
+            autoComplete="current-username"
             className="w-full text-lg"
             disabled={disabled}
             value={email}
@@ -83,6 +84,7 @@ export const SignIn: FC<SignInFormProps> = ({
             overrideFocus={checkValidation}
           >
             <Input
+              autoComplete="current-password"
               className="w-full text-lg"
               disabled={disabled}
               value={password}
