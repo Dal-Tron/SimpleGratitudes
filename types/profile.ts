@@ -1,5 +1,5 @@
 export type TProfile = {
   id: number;
-  username_updated: boolean;
+  updated_username: boolean;
   username: string;
 };

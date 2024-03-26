@@ -41,7 +41,27 @@ export const AuthService = {
 
       return data;
     } catch (err) {
-      handleAuthError(err);
+      if (err?.message?.indexOf('login credentials') >= 0) {
+        return notification.open({
+          message: 'Invalid Sign In credentials.',
+          type: 'error',
+          duration: 2,
+        });
+      }
+
+      if (err.message?.indexOf('For') >= 0) {
+        return notification.open({
+          message: 'Please check for email confirmation.',
+          type: 'error',
+          duration: 2,
+        });
+      }
+
+      notification.open({
+        message: 'Unable to sign in at this time',
+        type: 'error',
+        duration: 2,
+      });
     }
   },
   signOut: async () => {
@@ -66,8 +86,10 @@ export const AuthService = {
     }
   },
   updateUserPassword: async (password: string) => {
+    const client = createClient();
+
     try {
-      const { data, error } = await supabase.auth.updateUser({ password });
+      const { data, error } = await client.auth.updateUser({ password });
 
       if (error) throw error;
 

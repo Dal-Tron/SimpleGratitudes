@@ -36,40 +36,26 @@ export const SignInTab: FC<SignInTabProps> = ({
 
   const handleSubmit = async () => {
     setCheckValidation(true);
+
     if (!validEmail(email) || !validPassword(password)) return;
 
     setLoading(true);
-    try {
-      const result = await AuthService.signIn({ email, password });
 
-      if (result) {
-        notification.open({
-          message: 'Successfully signed in!',
-          type: 'success',
-          duration: 2,
-        });
+    const result = await AuthService.signIn({ email, password });
 
-        onCancel();
-
-        router.push('/');
-      }
-    } catch (err) {
-      if (err.message?.indexOf('For') >= 0) {
-        notification.open({
-          message: 'Please check for email confirmation.',
-          type: 'error',
-          duration: 2,
-        });
-      }
-
+    if (result) {
       notification.open({
-        message: 'Unable to sign in at this time',
-        type: 'error',
+        message: 'Successfully signed in!',
+        type: 'success',
         duration: 2,
       });
-    } finally {
-      setLoading(false);
+
+      onCancel();
+
+      router.push('/');
     }
+
+    setLoading(false);
   };
 
   return (

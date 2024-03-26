@@ -36,7 +36,7 @@ const SettingsPage = ({ user }) => {
   };
 
   const handleOpenUsernameConfirm = () => {
-    if (!profile?.username_updated) {
+    if (!profile?.updated_username) {
       setShowConfirmUsername(true);
     }
   };
@@ -50,7 +50,7 @@ const SettingsPage = ({ user }) => {
   };
 
   const handleSubmitUsername = async () => {
-    if (user.id && validUsername(username) && !profile?.username_updated) {
+    if (user.id && validUsername(username) && !profile?.updated_username) {
       try {
         const { error } = await ProfileService.updateProfileUsername(
           user.id,
@@ -69,7 +69,7 @@ const SettingsPage = ({ user }) => {
           setProfile({
             ...profile,
             username: username,
-            username_updated: true,
+            updated_username: true,
           });
         }
       } catch (err) {

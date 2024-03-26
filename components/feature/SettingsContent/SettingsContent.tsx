@@ -115,10 +115,10 @@ export const SettingsContent = ({
         </div>
         <div>
           <div className="text-lg text-white mb-2">
-            {profile?.username_updated ? 'Username' : 'Change Username'}
+            {profile?.updated_username ? 'Username' : 'Change Username'}
           </div>
 
-          {profile?.username_updated ? (
+          {profile?.updated_username ? (
             <div className="text-white text-lg ml-2 font-bold">{username}</div>
           ) : (
             <div className="flex flex-row justify-between w-full items-center">
@@ -130,13 +130,13 @@ export const SettingsContent = ({
               >
                 <Input
                   className="text-lg w-full"
-                  disabled={profile?.username_updated}
+                  disabled={profile?.updated_username}
                   placeholder="Enter a new username"
                   onChange={handleUsernameChange}
                   value={username}
                 />
               </Validator>
-              {profile?.username_updated ? null : (
+              {profile?.updated_username ? null : (
                 <IconButton
                   className={clsx('rounded-full h-10 w-10', {
                     'bg-white': isValidUsername,
@@ -170,15 +170,13 @@ export const SettingsContent = ({
                 value={password}
                 type={isPasswordVisible ? 'text' : 'password'}
                 suffix={
-                  isPasswordVisible ? (
-                    <IconButton onClick={handleTogglePasswordVisible}>
+                  <IconButton onClick={handleTogglePasswordVisible}>
+                    {isPasswordVisible ? (
                       <ClosedEyeIcon className="w-6 h-6 text-white" />
-                    </IconButton>
-                  ) : (
-                    <IconButton onClick={handleTogglePasswordVisible}>
+                    ) : (
                       <EyeIcon className="w-6 h-6 text-white" />
-                    </IconButton>
-                  )
+                    )}
+                  </IconButton>
                 }
               />
             </Validator>
