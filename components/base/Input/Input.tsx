@@ -10,20 +10,22 @@ import {
 } from 'react';
 
 interface InputProps {
+  autoComplete?: string;
   className?: string;
   disabled?: boolean;
-  onChange?: ChangeEventHandler<HTMLInputElement>;
+  isExpanding?: boolean;
   name?: string;
   onBlur?: FocusEventHandler<HTMLInputElement>;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
   placeholder?: string;
-  type?: string;
-  value?: string;
   prefix?: ReactNode;
   suffix?: ReactNode;
-  isExpanding?: boolean;
+  type?: string;
+  value?: string;
 }
 
 export const Input: FC<InputProps> = ({
+  autoComplete,
   className,
   disabled,
   onChange,
@@ -58,6 +60,7 @@ export const Input: FC<InputProps> = ({
       <div className="flex items-center w-full">
         {prefix && <div className="flex-shrink-0 ml-1">{prefix}</div>}
         <input
+          autoComplete={autoComplete}
           type={type}
           onChange={onChange}
           className={clsx(

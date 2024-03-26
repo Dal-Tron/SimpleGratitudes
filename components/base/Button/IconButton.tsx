@@ -1,16 +1,16 @@
+import { BounceLoading } from '@/components/base/Loading/BounceLoading';
 import clsx from 'clsx';
 import { FC, ReactNode } from 'react';
 
-import { BounceLoading } from '@/components/base/Loading/BounceLoading';
-
 interface IconButtonProps {
   ariaLabel?: string;
-  children: ReactNode; // For the icon and any additional content
+  children: ReactNode;
   className?: string;
   disabled?: boolean;
   loading?: boolean;
-  onClick: () => void;
-  type?: 'primary' | 'secondary';
+  onClick?: () => void;
+  theme?: 'primary' | 'secondary';
+  type?: 'button' | 'submit' | 'reset';
 }
 
 export const IconButton: FC<IconButtonProps> = ({
@@ -19,28 +19,35 @@ export const IconButton: FC<IconButtonProps> = ({
   className,
   disabled,
   loading,
-  type,
   onClick,
+  theme = 'primary',
+  type = 'button',
 }) => {
   const baseStyles =
     'rounded p-2 transition-colors duration-150 flex items-center justify-center';
 
-  const styles = clsx(baseStyles, {
-    'bg-primary-2 text-white hover:bg-primary-3': type === 'primary',
-    'bg-transparent text-white hover:text-secondary-1': type === 'secondary',
-  });
+  const themeStyles = {
+    primary: 'bg-primary-2 text-white hover:bg-primary-3',
+    secondary: 'bg-transparent text-white hover:text-secondary-1',
+  };
+
+  const styles = clsx(
+    baseStyles,
+    themeStyles[theme] || themeStyles['primary'],
+    className,
+  );
 
   const handleClick = () => {
     if (loading || disabled) return;
-
-    onClick && onClick();
+    onClick?.();
   };
 
   return (
     <button
       aria-label={ariaLabel}
+      type={type}
       onClick={handleClick}
-      className={clsx(styles, className)}
+      className={styles}
       disabled={disabled}
     >
       {loading ? <BounceLoading /> : children}

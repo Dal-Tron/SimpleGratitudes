@@ -92,15 +92,16 @@ export const SignIn: FC<SignInFormProps> = ({
               prefix={<LockIcon className="w-6 h-6 text-white" />}
               type={isPasswordVisible ? 'text' : 'password'}
               suffix={
-                isPasswordVisible ? (
-                  <IconButton onClick={handleTogglePasswordVisible}>
+                <IconButton
+                  onClick={handleTogglePasswordVisible}
+                  theme="secondary"
+                >
+                  {isPasswordVisible ? (
                     <ClosedEyeIcon className="w-6 h-6 text-white" />
-                  </IconButton>
-                ) : (
-                  <IconButton onClick={handleTogglePasswordVisible}>
+                  ) : (
                     <EyeIcon className="w-6 h-6 text-white" />
-                  </IconButton>
-                )
+                  )}
+                </IconButton>
               }
             />
           </Validator>
