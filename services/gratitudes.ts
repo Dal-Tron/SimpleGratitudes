@@ -120,7 +120,8 @@ export const GratitudesService = {
 
       const formattedData = data.map((gratitude) => ({
         ...gratitude,
-        profiles: gratitude.profiles[0],
+        //@ts-ignore we need to ignore here because it thinks profiles is any[]
+        profiles: { username: gratitude?.profiles?.username }, // let's just disable ts for this line
       }));
 
       return formattedData;

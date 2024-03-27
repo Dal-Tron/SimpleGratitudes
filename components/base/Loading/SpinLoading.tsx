@@ -8,7 +8,7 @@ type Props = {
 export const SpinLoading = ({ className }: Props) => {
   return (
     <div className={clsx('align-center', className)}>
-      <SmileIcon className="animate-spin text-white w-12 h-12" />
+      <SmileIcon className="animate-spin border-2 border-white rounded-full w-12 h-12" />
     </div>
   );
 };
