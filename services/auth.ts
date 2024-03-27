@@ -22,7 +22,7 @@ export const AuthService = {
     const client = createClient();
 
     try {
-      const { data, error } = await client.auth.signUp(cred);
+      const { error } = await client.auth.signUp(cred);
 
       if (error) throw error;
 

@@ -5,6 +5,7 @@ ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS delete_own_profile ON profiles;
 DROP POLICY IF EXISTS select_profiles ON profiles;
 DROP POLICY IF EXISTS update_own_profile ON profiles;
+DROP POLICY IF EXISTS insert_for_authenticated ON profiles;
 
 -- Policy: Users can delete their own profile
 CREATE POLICY delete_own_profile ON profiles FOR DELETE TO authenticated
@@ -17,3 +18,8 @@ USING (true);
 -- Policy: Users can update their own profile
 CREATE POLICY update_own_profile ON profiles FOR UPDATE TO authenticated
 USING (auth.uid() = user_id);
+
+-- Policy: Allow any authenticated user to insert into profiles table
+CREATE POLICY insert_for_authenticated ON public.profiles
+    FOR INSERT TO authenticated
+    WITH CHECK (true);

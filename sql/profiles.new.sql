@@ -17,8 +17,8 @@ BEGIN
         END IF;
     END LOOP;
 
-    -- Insert a new row into the profiles table with the id and unique username
-    INSERT INTO public.profiles (id, username)
+    -- Insert a new row into the profiles table with the user_id and unique username
+    INSERT INTO public.profiles (user_id, username)
     VALUES (NEW.id, randomUsername);
 
     -- Return the new user
