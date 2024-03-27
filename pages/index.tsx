@@ -2,7 +2,9 @@ import { MainContent } from '@/components/feature/MainContent/MainContent';
 import { createClient } from '@/utils/supabase/static-props';
 
 export default function Home({ gratitudes }) {
-  return <MainContent gratitudes={gratitudes} loading={false} />;
+  return (
+    <MainContent gratitudes={gratitudes} loading={false} isFeatured={true} />
+  );
 }
 
 export async function getStaticProps() {

@@ -48,5 +48,7 @@ export default function Page() {
     client,
   ]);
 
-  return <MainContent gratitudes={gratitudes} loading={loading} />;
+  return (
+    <MainContent gratitudes={gratitudes} loading={loading} isFeatured={false} />
+  );
 }

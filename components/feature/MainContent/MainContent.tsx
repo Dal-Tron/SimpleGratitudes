@@ -10,9 +10,11 @@ import { TGratitudeWithProfile } from '@/types/gratitude';
 import { EmptyMessage } from './EmptyMessage';
 
 export const MainContent = ({
+  isFeatured = false,
   gratitudes = [],
   loading,
 }: {
+  isFeatured: boolean;
   gratitudes: TGratitudeWithProfile[];
   loading: boolean;
 }) => {
@@ -24,7 +26,11 @@ export const MainContent = ({
             dayjs(b.inserted_at).valueOf() - dayjs(a.inserted_at).valueOf(),
         )
         .map((gratitude) => (
-          <Gratitude key={gratitude.id} gratitude={gratitude} />
+          <Gratitude
+            key={gratitude.id}
+            gratitude={gratitude}
+            isFeatured={isFeatured}
+          />
         )),
     [gratitudes],
   );
