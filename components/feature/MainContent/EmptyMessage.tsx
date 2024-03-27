@@ -1,4 +1,4 @@
-import { SmileTwoTone } from '@ant-design/icons';
+import { SmileIcon } from '@/icons/Smile';
 import { Empty } from 'antd';
 import clsx from 'clsx';
 
@@ -11,7 +11,7 @@ export const EmptyMessage = ({ className }: { className?: string }) => {
         }
         image={
           <span className="empty-data-image">
-            <SmileTwoTone twoToneColor="#73b8cb" />
+            <SmileIcon className="w-12 h-12" />
           </span>
         }
       />

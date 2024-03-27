@@ -7,6 +7,7 @@ import { ClosedEyeIcon } from '@/icons/ClosedEye';
 import { EyeIcon } from '@/icons/Eye';
 import { TrashIcon } from '@/icons/Trash';
 import { AuthService } from '@/services/auth';
+import { ProfileService } from '@/services/profile';
 import { useStore } from '@/store/store';
 import { notification } from 'antd';
 import clsx from 'clsx';
@@ -70,44 +71,42 @@ export const SettingsContent = ({
     setIsPasswordVisible((prev) => !prev);
   };
 
-  // const handleDeleteAccount = async () => {
-  //   if (confirmDeleteAccount && user && user.id) {
-  //     setLoading(true);
+  const handleDeleteUser = async () => {
+    if (isValidDeleteUsername && user?.id)
+      await ProfileService.deleteProfile(user.id);
 
-  //     try {
-  //       const { error: deleteProfileError } =
-  //         await ProfileService.deleteProfile(user.id);
-  //       if (deleteProfileError) throw deleteProfileError;
+    // try {
+    // const { error: deleteProfileError } =
+    // if (deleteProfileError) throw deleteProfileError;
 
-  //       const { error: deleteGratitudesError } =
-  //         await GratitudesService.deleteGratitudes(user.id);
-  //       if (deleteGratitudesError) throw deleteGratitudesError;
+    //   const { error: deleteGratitudesError } =
+    //     await GratitudesService.deleteGratitudes(user.id);
+    //   if (deleteGratitudesError) throw deleteGratitudesError;
 
-  //       const { error: deleteUserError } = await AuthService.deleteUser();
-  //       if (deleteUserError) throw deleteUserError;
+    //   const { error: deleteUserError } = await AuthService.deleteUser();
+    //   if (deleteUserError) throw deleteUserError;
 
-  //       const { error: signOutError } = await AuthService.signOut();
-  //       if (signOutError) {
-  //         if (signOutError.message !== 'Invalid user') {
-  //           handleError(signOutError);
-  //         }
-  //       }
+    //   const { error: signOutError } = await AuthService.signOut();
+    //   if (signOutError) {
+    //     if (signOutError.message !== 'Invalid user') {
+    //       handleError(signOutError);
+    //     }
+    //   }
 
-  //       if (!deleteUserError && !deleteGratitudesError) {
-  //         notification.open({
-  //           type: 'success',
-  //           message: 'Successfully deleted user!',
-  //           duration: 2,
-  //         });
-  //         return (window.location.href = '/');
-  //       }
-  //     } catch (err) {
-  //       handleError(err);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   }
-  // };
+    //   if (!deleteUserError && !deleteGratitudesError) {
+    //     notification.open({
+    //       type: 'success',
+    //       message: 'Successfully deleted user!',
+    //       duration: 2,
+    //     });
+    //     return (window.location.href = '/');
+    //   }
+    // } catch (err) {
+    //   handleError(err);
+    // } finally {
+    //   setLoading(false);
+    // }
+  };
 
   return (
     <div className="sg-box-shadow h-96 bg-primary-0 rounded-lg w-96 p-4 m-auto">
@@ -225,8 +224,7 @@ export const SettingsContent = ({
                 'bg-primary-3': !isValidDeleteUsername,
               })}
               disabled={!isValidDeleteUsername}
-              onClick={() => {}}
-              // onClick={handleUpdatePassword}
+              onClick={handleDeleteUser}
             >
               <TrashIcon
                 className={clsx('w-6 h-6', {

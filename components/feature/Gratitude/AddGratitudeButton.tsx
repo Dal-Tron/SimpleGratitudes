@@ -1,4 +1,4 @@
-import { SmileTwoTone } from '@ant-design/icons';
+import { SmileIcon } from '@/icons/Smile';
 import clsx from 'clsx';
 import { FC, useEffect, useState } from 'react';
 
@@ -35,7 +35,7 @@ export const AddGratitudeButton: FC<AddGratitudeButtonProps> = ({
         )}
       >
         <div className="text-5xl flex justify-center">
-          <SmileTwoTone twoToneColor="#73b8cb" />
+          <SmileIcon className="w-12 h-12" />
         </div>
       </div>
     </div>

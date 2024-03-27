@@ -1,14 +1,11 @@
-import {
-  MenuOutlined,
-  PlusCircleOutlined,
-  SmileTwoTone,
-} from '@ant-design/icons';
+import { MenuOutlined } from '@ant-design/icons';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 
 import { Title } from '@/components/feature/Title/Title';
 import { useUserMenu } from '@/context/menu';
 import { useAddGratitudeModal, useSignModal } from '@/context/modal';
+import { SmileIcon } from '@/icons/Smile';
 import { useStore } from '@/store/store';
 
 export const Header = ({
@@ -58,14 +55,14 @@ export const Header = ({
         <div className="flex-1 text-left">
           <div
             onClick={handleOpenAddGratitudeModal}
-            className="text-white text-4xl"
+            className="text-white text-4xl cursor-pointer"
           >
-            <PlusCircleOutlined />
+            <SmileIcon className="w-12 h-12 border-white border-[3px] rounded-full" />
           </div>
         </div>
         <div className="flex-1">
           <div onClick={handleNavigateHome}>
-            {sticky ? <SmileTwoTone twoToneColor="#73b8cb" /> : <Title />}
+            {sticky ? <SmileIcon className="w-8 h-8" /> : <Title />}
           </div>
         </div>
         <div className="flex-1 text-right">
