@@ -24,7 +24,11 @@ export const AuthService = {
         duration: 2,
       });
     } catch (error) {
-      console.error('Error in deleteUser:', error);
+      notification.open({
+        type: 'error',
+        message: 'Unable to delete user',
+        duration: 0,
+      });
     }
   },
   register: async (cred: { email: string; password: string }) => {
@@ -105,7 +109,11 @@ export const AuthService = {
 
       if (error) throw error;
     } catch (err) {
-      handleAuthError(err);
+      notification.open({
+        type: 'error',
+        message: 'There was an error when trying to sign out',
+        duration: 0,
+      });
     }
   },
   getUser: async () => {
@@ -113,22 +121,35 @@ export const AuthService = {
 
     try {
       const res = await client.auth.getUser();
+
       if (res) return res;
     } catch (error) {
-      console.error('Error in getUser:', error);
+      notification.open({
+        type: 'error',
+        message: 'Unable to get user data',
+        duration: 0,
+      });
     }
   },
   updateUserPassword: async (password: string) => {
     const client = createClient();
 
     try {
-      const { data, error } = await client.auth.updateUser({ password });
+      const { error } = await client.auth.updateUser({ password });
 
       if (error) throw error;
 
-      return data;
+      notification.open({
+        type: 'success',
+        message: 'Successfully updated password!',
+        duration: 2,
+      });
     } catch (err) {
-      handleAuthError(err);
+      notification.open({
+        type: 'error',
+        message: 'Unable to update password',
+        duration: 0,
+      });
     }
   },
   resetEmail: async (email: string) => {
@@ -139,9 +160,17 @@ export const AuthService = {
 
       if (error) throw error;
 
-      if (data) return data;
+      notification.open({
+        message: 'Successfully sent reset email',
+        type: 'success',
+        duration: 2,
+      });
     } catch (err) {
-      handleAuthError(err);
+      notification.open({
+        message: 'Unable to send reset email at this time',
+        type: 'error',
+        duration: 2,
+      });
     }
   },
 };

@@ -1,4 +1,3 @@
-import { notification } from 'antd';
 import { ChangeEvent, FC, useState } from 'react';
 
 import { SignIn } from '@/components/feature/SignModal/SignIn';
@@ -26,24 +25,10 @@ export const ForgotPasswordTab: FC<ForgotPasswordTabProps> = ({
     if (!validEmail(email)) return;
 
     setLoading(true);
-    try {
-      const result = await AuthService.resetEmail(email);
-      if (result) {
-        notification.open({
-          message: 'Successfully sent reset email',
-          type: 'success',
-          duration: 2,
-        });
-      }
-    } catch (err) {
-      notification.open({
-        message: 'Unable to send reset email at this time',
-        type: 'error',
-        duration: 2,
-      });
-    } finally {
-      setLoading(false);
-    }
+
+    await AuthService.resetEmail(email);
+
+    setLoading(false);
   };
 
   const handleChangeTab = () => {

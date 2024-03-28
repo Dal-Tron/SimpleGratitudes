@@ -51,36 +51,20 @@ const SettingsPage = ({ user }) => {
 
   const handleSubmitUsername = async () => {
     if (user.id && validUsername(username) && !profile?.updated_username) {
-      try {
-        const { error } = await ProfileService.updateProfileUsername(
-          user.id,
-          username,
-        );
+      const profile = await ProfileService.updateProfileUsername(
+        user.id,
+        username,
+      );
 
-        if (error) throw error;
-
-        notification.open({
-          type: 'success',
-          message: 'Successfully updated username!',
-          duration: 2,
+      if (profile) {
+        setProfile({
+          ...profile,
+          username: username,
+          updated_username: true,
         });
-
-        if (profile) {
-          setProfile({
-            ...profile,
-            username: username,
-            updated_username: true,
-          });
-        }
-      } catch (err) {
-        if (err.message?.indexOf('duplicate') >= 0) {
-          return handleError(new Error('Username is unavailable'));
-        }
-
-        return handleError(new Error('Unable to update username'));
-      } finally {
-        setShowConfirmUsername(false);
       }
+
+      setShowConfirmUsername(false);
     }
   };
 

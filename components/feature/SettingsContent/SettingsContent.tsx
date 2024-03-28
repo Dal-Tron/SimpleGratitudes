@@ -8,7 +8,6 @@ import { EyeIcon } from '@/icons/Eye';
 import { TrashIcon } from '@/icons/Trash';
 import { AuthService } from '@/services/auth';
 import { useStore } from '@/store/store';
-import { notification } from 'antd';
 import clsx from 'clsx';
 import { ChangeEvent, FormEvent, useState } from 'react';
 
@@ -26,7 +25,7 @@ export const SettingsContent = ({
   const [deleteUsernameIsDirty, setDeleteUsernameIsDirty] = useState(false);
   const [password, setPassword] = useState('');
   const [deleteUsername, setDeleteUsername] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   const isValidUsername = validUsername(username);
   const isValidPassword = validPassword(password);
@@ -51,17 +50,8 @@ export const SettingsContent = ({
   const handleUpdatePassword = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (validPassword(password) && user.id) {
-      const data = await AuthService.updateUserPassword(password);
-
-      if (data) {
-        notification.open({
-          type: 'success',
-          message: 'Successfully updated password!',
-          duration: 2,
-        });
-      }
-    }
+    if (validPassword(password) && user.id)
+      await AuthService.updateUserPassword(password);
   };
 
   const checkMatchingUsername = (username: string) =>
@@ -74,7 +64,7 @@ export const SettingsContent = ({
   const handleDeleteUser = async () => {
     if (!isValidDeleteUsername || !user?.id) return;
 
-    setIsLoading(true);
+    setLoading(true);
 
     await AuthService.deleteUser();
 

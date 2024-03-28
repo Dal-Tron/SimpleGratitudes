@@ -1,6 +1,5 @@
 import { notification } from 'antd';
 
-import { supabase } from '@/supabase/client';
 import { TGratitudeWithProfile } from '@/types/gratitude';
 import { createClient } from '@/utils/supabase/component';
 
@@ -20,50 +19,6 @@ const handleServiceError = (err: Error) => {
 };
 
 export const GratitudesService = {
-  readPrivateData: async (userId: string) => {
-    try {
-      const { data, error } = await supabase
-        .from('gratitudes')
-        .select('*')
-        .eq('user_id', userId);
-
-      if (error) throw error;
-
-      return data;
-    } catch (err) {
-      handleServiceError(err);
-    }
-  },
-  readPublicUserData: async (username: string) => {
-    try {
-      const { data, error } = await supabase
-        .from('gratitudes')
-        .select('*')
-        .eq('username', username)
-        .filter('public', 'eq', true);
-
-      if (error) throw error;
-
-      return data;
-    } catch (err) {
-      handleServiceError(err);
-    }
-  },
-  readFeaturedGratitudes: async () => {
-    try {
-      const { data, error } = await supabase
-        .from('gratitudes')
-        .select('*')
-        .eq('approved', true)
-        .eq('public', true);
-
-      if (error) throw error;
-
-      return data;
-    } catch (err) {
-      handleServiceError(err);
-    }
-  },
   createGratitude: async ({ userId, gratitude, isPublic }) => {
     const client = createClient();
 
@@ -88,20 +43,6 @@ export const GratitudesService = {
       });
 
       return data[0];
-    } catch (err) {
-      handleServiceError(err);
-    }
-  },
-  deleteGratitudes: async (userId: string) => {
-    const client = createClient();
-
-    try {
-      const { error } = await client
-        .from('gratitudes')
-        .delete()
-        .eq('user_id', userId);
-
-      if (error) throw error;
     } catch (err) {
       handleServiceError(err);
     }
@@ -145,19 +86,18 @@ export const GratitudesService = {
 
     try {
       // Fetch profile ID based on username
-      const profileResponse = await client
+      const { error, data } = await client
         .from('profiles')
         .select('id')
         .eq('username', username)
         .single();
 
-      if (profileResponse.error) throw profileResponse.error;
-      if (!profileResponse.data) throw new Error('Profile not found');
+      if (error || !data) throw new Error('Profile not found!');
 
-      const profileId = profileResponse.data.id;
+      const profileId = data.id;
 
       // Fetch gratitudes based on profile ID
-      const gratitudeResponse = await client
+      const { error: gratitudesError, data: gratitudesData } = await client
         .from('gratitudes')
         .select(
           `
@@ -172,10 +112,9 @@ export const GratitudesService = {
         .eq('profile_id', profileId)
         .filter('public', 'eq', true);
 
-      if (gratitudeResponse.error) throw gratitudeResponse.error;
+      if (gratitudesError) throw new Error('Unable to access gratitudes!');
 
-      // Transform the response data
-      const formattedData = gratitudeResponse.data.map((gratitude) => ({
+      const formattedData = gratitudesData.map((gratitude) => ({
         ...gratitude,
         profiles: { username }, // Assure this matches the TGratitudeWithProfile type
       }));
