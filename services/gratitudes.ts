@@ -68,17 +68,26 @@ export const GratitudesService = {
     const client = createClient();
 
     try {
-      const { data, error } = await client.from('gratitudes').insert([
-        {
-          user_id: userId,
-          gratitude,
-          public: isPublic,
-        },
-      ]);
+      const { data, error } = await client
+        .from('gratitudes')
+        .insert([
+          {
+            user_id: userId,
+            gratitude,
+            public: isPublic,
+          },
+        ])
+        .select('*');
 
       if (error) throw error;
 
-      return data;
+      notification.open({
+        type: 'success',
+        message: 'Successfully shared gratitude!',
+        duration: 0,
+      });
+
+      return data[0];
     } catch (err) {
       handleServiceError(err);
     }

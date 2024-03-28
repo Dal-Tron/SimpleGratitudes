@@ -13,6 +13,7 @@ export const CreateGratitudeModal: FC<{
   onClose: () => void;
 }> = ({ isOpen = false, onClose }) => {
   const profile = useStore((state) => state.profile);
+  const user = useStore((state) => state.user);
 
   const [text, setText] = useState('');
   const [isPublic, setIsPublic] = useState(false);
@@ -41,14 +42,16 @@ export const CreateGratitudeModal: FC<{
     onClose();
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!text) return;
 
-    GratitudesService.createGratitude({
+    const newGratitude = await GratitudesService.createGratitude({
       gratitude: text,
       isPublic,
-      userId: profile.id,
+      userId: user.id,
     });
+
+    if (newGratitude) useStore.getState().addGratitude(newGratitude);
 
     handleClose();
   };

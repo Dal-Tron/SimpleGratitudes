@@ -19,7 +19,7 @@ export const Gratitude: FC<GratitudeProps> = ({
   isFeatured,
 }) => {
   return (
-    <div className={clsx('p-8 max-w-[350px] min-w-[250px]', className)}>
+    <div className={clsx('p-8 max-w-[350px] min-w-[270px]', className)}>
       <div
         className={clsx(
           'bg-primary-0 p-4 rounded-[20px] flex flex-col min-w-[100px] gratitude-container-shadow',
