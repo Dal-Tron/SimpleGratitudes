@@ -14,12 +14,16 @@ export const ProfileService = {
     const client = createClient();
 
     try {
-      const { data, error } = await client
+      const { error: profileError } = await client
         .from('profiles')
         .delete()
         .eq('user_id', userId);
 
-      if (error) throw error;
+      if (profileError) throw profileError;
+
+      const { error: userError } = await client.auth.admin.deleteUser(userId);
+
+      if (userError) throw userError;
 
       notification.open({
         type: 'success',

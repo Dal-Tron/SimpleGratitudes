@@ -7,7 +7,6 @@ import { ClosedEyeIcon } from '@/icons/ClosedEye';
 import { EyeIcon } from '@/icons/Eye';
 import { TrashIcon } from '@/icons/Trash';
 import { AuthService } from '@/services/auth';
-import { ProfileService } from '@/services/profile';
 import { useStore } from '@/store/store';
 import { notification } from 'antd';
 import clsx from 'clsx';
@@ -27,6 +26,7 @@ export const SettingsContent = ({
   const [deleteUsernameIsDirty, setDeleteUsernameIsDirty] = useState(false);
   const [password, setPassword] = useState('');
   const [deleteUsername, setDeleteUsername] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const isValidUsername = validUsername(username);
   const isValidPassword = validPassword(password);
@@ -72,40 +72,13 @@ export const SettingsContent = ({
   };
 
   const handleDeleteUser = async () => {
-    if (isValidDeleteUsername && user?.id)
-      await ProfileService.deleteProfile(user.id);
+    if (!isValidDeleteUsername || !user?.id) return;
 
-    // try {
-    // const { error: deleteProfileError } =
-    // if (deleteProfileError) throw deleteProfileError;
+    setIsLoading(true);
 
-    //   const { error: deleteGratitudesError } =
-    //     await GratitudesService.deleteGratitudes(user.id);
-    //   if (deleteGratitudesError) throw deleteGratitudesError;
+    await AuthService.deleteUser();
 
-    //   const { error: deleteUserError } = await AuthService.deleteUser();
-    //   if (deleteUserError) throw deleteUserError;
-
-    //   const { error: signOutError } = await AuthService.signOut();
-    //   if (signOutError) {
-    //     if (signOutError.message !== 'Invalid user') {
-    //       handleError(signOutError);
-    //     }
-    //   }
-
-    //   if (!deleteUserError && !deleteGratitudesError) {
-    //     notification.open({
-    //       type: 'success',
-    //       message: 'Successfully deleted user!',
-    //       duration: 2,
-    //     });
-    //     return (window.location.href = '/');
-    //   }
-    // } catch (err) {
-    //   handleError(err);
-    // } finally {
-    //   setLoading(false);
-    // }
+    AuthService.signOut();
   };
 
   return (

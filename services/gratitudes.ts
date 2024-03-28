@@ -84,15 +84,15 @@ export const GratitudesService = {
     }
   },
   deleteGratitudes: async (userId: string) => {
+    const client = createClient();
+
     try {
-      const { data, error } = await supabase
+      const { error } = await client
         .from('gratitudes')
         .delete()
         .eq('user_id', userId);
 
       if (error) throw error;
-
-      return data;
     } catch (err) {
       handleServiceError(err);
     }

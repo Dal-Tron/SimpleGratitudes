@@ -11,9 +11,18 @@ const handleAuthError = (err: Error) => {
 
 export const AuthService = {
   deleteUser: async () => {
+    const client = createClient();
+
     try {
-      const res = await supabase.rpc('delete_user');
-      if (res) return res;
+      const { error } = await client.rpc('delete_user');
+
+      if (error) throw error;
+
+      notification.open({
+        message: 'Successfully deleted user!',
+        type: 'success',
+        duration: 2,
+      });
     } catch (error) {
       console.error('Error in deleteUser:', error);
     }
